@@ -1,0 +1,733 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          METHANOL
+
+*   Problem :
+*   *********
+
+*   Determine the reaction coefficients for the conversion of methanol into
+*   various hydrocarbons. The nonlinear model that describes the process is
+
+*     y_1' = - (2 theta_2 + theta_3 + theta_4 - theta_1 y_2 / d ) y_1
+*     y_2' = theta_3 y_1 + theta_1 y_1 ( theta_1 y_1 - y_2 ) / d
+*     y_3' = theta_4 y_1 + theta_1 y_1 ( theta_5 y_1 + y_2 ) / d
+
+*   where d = (theta_2 + theta_5) y_1 + y_2 and the theta_i are positive,
+*   with given initial conditions. The problem is to minimize
+
+*    sum{i=1,16} || y(tau_i,theta) - z_i||^2
+
+*   where the z_i are concentration measurements for y at times tau_i (i=1,16)
+
+*   This is problem 13 in the COPS (Version 2) collection of 
+*   E. Dolan and J. More'
+*   see "Benchmarking Optimization Software with COPS"
+*   Argonne National Labs Technical Report ANL/MCS-246 (2000)
+
+*   SIF input: Nick Gould, November 2000
+
+*   classification OOR2-AN-V-V
+
+* The number of differential equations
+
+ IE NE                  3
+
+*   The number of subintervals
+
+*IE NH                  50             $-PARAMETER
+*IE NH                  100            $-PARAMETER
+*IE NH                  200            $-PARAMETER
+ IE NH                  400            $-PARAMETER
+
+* The number of ODE parameters
+
+ IE NP                  5
+
+* The number of measurements
+
+ IE NM                  17
+
+*  The number of collocation points 
+
+*IE NC                  1              $-PARAMETER
+*IE NC                  2              $-PARAMETER
+ IE NC                  3              $-PARAMETER
+*IE NC                  4              $-PARAMETER
+
+* roots of NC-th degree Legendre polynomial
+
+*RE RHO1                0.5            $-PARAMETER NC = 1 
+*RE RHO1                0.7886751346   $-PARAMETER NC = 2 
+ RE RHO1                0.5            $-PARAMETER NC = 3 
+*RE RHO1                0.0694318442   $-PARAMETER NC = 4
+
+*RE RHO2                0.2113248654   $-PARAMETER NC = 2
+ RE RHO2                0.8872983346   $-PARAMETER NC = 3
+*RE RHO2                0.3300094782   $-PARAMETER NC = 4
+
+ RE RHO3                0.1127016654   $-PARAMETER NC = 3
+*RE RHO3                0.6699905218   $-PARAMETER NC = 4
+
+*RE RHO4                0.9305681558   $-PARAMETER NC = 4
+
+* times at which observations made
+
+ RE TAU1                0.0    
+ RE TAU2                0.050
+ RE TAU3                0.065
+ RE TAU4                0.080
+ RE TAU5                0.123
+ RE TAU6                0.233
+ RE TAU7                0.273
+ RE TAU8                0.354
+ RE TAU9                0.397
+ RE TAU10               0.418
+ RE TAU11               0.502
+ RE TAU12               0.553
+ RE TAU13               0.681
+ RE TAU14               0.750
+ RE TAU15               0.916
+ RE TAU16               0.937
+ RE TAU17               1.122
+
+*  The ODE is defined in [0,TF]
+
+ A= TF        TAU(NM)
+
+*   The uniform interval length
+
+ RI RNH       NH
+ R/ H         TF                       RNH
+
+*  Concentrations
+
+ RE Z1,1                1.0000
+ RE Z2,1                0.7085
+ RE Z3,1                0.5971
+ RE Z4,1                0.5537
+ RE Z5,1                0.3684
+ RE Z6,1                0.1712
+ RE Z7,1                0.1198
+ RE Z8,1                0.0747
+ RE Z9,1                0.0529
+ RE Z10,1               0.0415 
+ RE Z11,1               0.0261 
+ RE Z12,1               0.0208 
+ RE Z13,1               0.0085 
+ RE Z14,1               0.0053 
+ RE Z15,1               0.0019 
+ RE Z16,1               0.0018 
+ RE Z17,1               0.0006 
+
+ RE Z1,2                0.0
+ RE Z2,2                0.1621
+ RE Z3,2                0.1855
+ RE Z4,2                0.1989
+ RE Z5,2                0.2845
+ RE Z6,2                0.3491
+ RE Z7,2                0.3098
+ RE Z8,2                0.3576
+ RE Z9,2                0.3347
+ RE Z10,2               0.3388
+ RE Z11,2               0.3557
+ RE Z12,2               0.3483
+ RE Z13,2               0.3836
+ RE Z14,2               0.3611
+ RE Z15,2               0.3609
+ RE Z16,2               0.3485
+ RE Z17,2               0.3698
+
+ RE Z1,3                0.0
+ RE Z2,3                0.0811
+ RE Z3,3                0.0965
+ RE Z4,3                0.1198
+ RE Z5,3                0.1535
+ RE Z6,3                0.2097
+ RE Z7,3                0.2628
+ RE Z8,3                0.2467
+ RE Z9,3                0.2884
+ RE Z10,3               0.2757
+ RE Z11,3               0.3167
+ RE Z12,3               0.2954
+ RE Z13,3               0.2950
+ RE Z14,3               0.2937
+ RE Z15,3               0.2831
+ RE Z16,3               0.2846
+ RE Z17,3               0.2899
+
+*  ODE initial conditions
+
+ RE BC1                 1.0   
+ RE BC2                 0.0   
+ RE BC3                 0.0   
+
+*  Other useful values
+
+ IE 1                   1
+ IE 2                   2
+ IE 3                   3
+ IE 4                   4
+ IE 5                   5
+ IA NH-1      NH        -1                
+ 
+*  Factorials
+
+ RE FACT0               1.0
+ DO I         1                        NC
+ RI RI        I
+ IA I-1       I         -1
+ A* FACT(I)   FACT(I-1)                RI
+ ND
+
+* itau[i] is the largest integer k with t[k] <= tau[i]
+* itau {i in 1..nm} := min(nh,floor(tau[i]/h)+1);    
+
+ DO I         1                        NM
+ A/ TAU/H     TAU(I)                   H
+ IR IT/H      TAU/H
+ IA IT/H+1    IT/H      1
+ I= A         IT/H+1
+ I= B         NH
+
+*  this is how we find min(a,b) !!
+
+*  first set a <- - a and b <- - b
+ IM A         A         -1
+ IM B         B         -1
+*  now add |a| + |b| to both
+ RI A         A  
+ R( ABSA      ABS                      A
+ IR ABSA      ABSA
+ RI B         B
+ R( ABSB      ABS                      B
+ IR ABSB      ABSB
+ I+ ABSA+B    ABSA                     ABSB
+ I+ A         A                        ABSA+B
+ I+ B         B                        ABSA+B
+* only one of [a/b] and [b/a] is nonzero (unless a=b)
+ I/ A/B       A                        B
+ I/ B/A       B                        A
+* form max(a,b) = (a.[a/b] + b.[b/a]) / ([a/b] + [b/a])
+ I+ SUM       A/B                      B/A
+ I* A         A                        A/B
+ I* B         B                        B/A
+ I+ MAXA,B    A                        B
+ I/ MAXA,B    MAXA,B                   SUM
+* subtract |a| + |b| and negate to find the required minimum
+ I- MINA,B    ABSA+B                   MAXA,B
+
+ AI ITAU(I)   MINA,B
+ ND
+
+VARIABLES
+
+ DO I         1                        NP
+ X  THETA(I)  $ ODE parameters
+ ND
+
+*  The collocation approximation u is defined by the parameters V and W
+
+ DO I         1                        NH
+ DO J         1                        NE
+ X  V(I,J)
+ OD J
+
+ DO K         1                        NC
+ DO S         1                        NE
+ X  W(I,K,S)
+ OD S
+ OD K
+
+ DO J         1                        NC
+ DO S         1                        NE
+
+* U[i,j,s] is u evaluated  at the collocation points
+
+ X  U(I,J,S)
+
+* DU[i,j,s] is u' evaluated  at the collocation points
+
+ X  DU(I,J,S)
+ ND
+
+GROUPS
+
+* param t {i in 1..nh+1} := (i-1)*h
+*  obj(j,s) =  v[itau[j],s] - z[j,s] + (
+*     sum {k in 1..nc} w[itau[j],k,s]*(tau[j]-t[itau[j]])^k/(fact[k]*h^(k-1)))
+
+ DO J         1                        NM
+ A= RITAU     ITAU(J)
+ IR I         RITAU
+ RA T         RITAU     -1.0
+ R* T         T                        H
+ A- DIFF      TAU(J)                   T
+
+ DO S         1                        NE
+ R= RATIO     DIFF
+ XN OBJ(J,S)  V(I,S)    1.0
+
+ DO K         1                        NC
+ A/ COEF      RATIO                    FACT(K)
+ ZN OBJ(J,S)  W(I,K,S)                 COEF
+ R* RATIO     RATIO                    DIFF
+ R/ RATIO     RATIO                    H
+ ND
+
+* - u {i in 1..nh, j in 1..nc, s in 1..ne} + 
+*  v[i,s] + h*sum {k in 1..nc} w[i,k,s]*(rho[j]^k/fact[k]) = 0
+
+ DO I         1                        NH
+ DO J         1                        NC
+ A= RH        RHO(J)
+
+ XE U(I,J,1)  U(I,J,1)  -1.0           V(I,1)    1.0      
+ XE U(I,J,2)  U(I,J,2)  -1.0           V(I,2)    1.0      
+ XE U(I,J,3)  U(I,J,3)  -1.0           V(I,3)    1.0      
+
+ R* PROD      RH                       H
+ DO K         1                        NC
+ A/ COEF      PROD                     FACT(K)
+ ZE U(I,J,1)  W(I,K,1)                 COEF
+ ZE U(I,J,2)  W(I,K,2)                 COEF
+ ZE U(I,J,3)  W(I,K,3)                 COEF
+ R* PROD      PROD                     RH
+ OD K
+
+* - du {i in 1..nh, j in 1..nc, s in 1..ne} +
+*   sum {k in 1..nc} w[i,k,s]*(rho[j]^(k-1)/fact[k-1]) = 0
+ 
+ XE DU(I,J,1) DU(I,J,1) -1.0
+ XE DU(I,J,2) DU(I,J,2) -1.0
+ XE DU(I,J,3) DU(I,J,3) -1.0
+
+ RE PROD                1.0
+ DO K         1                        NC
+ IA K-1       K         -1
+ A/ COEF      PROD                     FACT(K-1)
+ ZE DU(I,J,1) W(I,K,1)                 COEF
+ ZE DU(I,J,2) W(I,K,2)                 COEF
+ ZE DU(I,J,3) W(I,K,3)                 COEF
+ R* PROD      PROD                     RH
+
+ ND
+
+*  continuity {i in 1..nh-1, s in 1..ne}:  
+*   v[i,s] - v[i+1,s] + (sum {j in 1..nc} w[i,j,s]*h/fact[j]) = 0
+
+ DO I         1                        NH-1
+ IA I+1       I         1
+ DO S         1                        NE
+ XE C(I,S)    V(I,S)    1.0            V(I+1,S)  -1.0
+ DO J         1                        NC
+ A/ COEF      H                        FACT(J)
+ ZE C(I,S)    W(I,J,S)                 COEF
+ ND
+
+* collocation eqns (linear parts)
+
+ DO I         1                        NH
+ DO J         1                        NC
+ DO S         1                        NE
+ XE CO(I,J,S) DU(I,J,S) 1.0
+ ND
+
+CONSTANTS
+
+ DO J         1                        NM
+ DO S         1                        NE
+ Z  METHANOL  OBJ(J,S)                 Z(J,S)
+ ND
+
+BOUNDS
+
+ XR METHANOL  'DEFAULT'
+
+ DO I         1                        NP
+ XL METHANOL  THETA(I)  0.0
+ ND
+
+ DO S         1                        NE
+ ZX METHANOL  V(1,S)                   BC(S)
+ ND
+
+START POINT
+
+ DO I         1                        NP
+ X  METHANOL  THETA(I)  1.0
+ ND
+
+ DO I         1                        NH
+ DO J         1                        NE
+ X  METHANOL  V(I,J)
+ OD J
+ ND
+
+ IE I1                  1
+ A= RITAU     ITAU(1)
+ IR I2        RITAU
+
+ DO I         I1                       I2
+ DO S         1                        NE
+ Z  METHANOL  V(I,S)                   BC(S)
+ DO J         1                        NC
+ X  METHANOL  W(I,J,S)  0.0
+ Z  METHANOL  U(I,J,S)                 BC(S)
+ X  METHANOL  DU(I,J,S) 0.0
+ ND
+
+ DO K         2                        NM
+ IA I1        I2        1
+ A= RITAU     ITAU(K)
+ IR I2        RITAU
+ DO I         I1                       I2
+ IE S                   1
+ Z  METHANOL  V(I,S)                   Z(K,S)
+ DO J         1                        NC
+ X  METHANOL  W(I,J,S)  0.0
+ Z  METHANOL  U(I,J,S)                 Z(K,S)
+ X  METHANOL  DU(I,J,S) 0.0
+ OD J
+ IE S                   2
+ Z  METHANOL  V(I,S)                   Z(K,S)
+ DO J         1                        NC
+ X  METHANOL  W(I,J,S)  0.0
+ Z  METHANOL  U(I,J,S)                 Z(K,S)
+ X  METHANOL  DU(I,J,S) 0.0
+ OD J
+ IE S                   3
+ Z  METHANOL  V(I,S)                   Z(K,S)
+ DO J         1                        NC
+ X  METHANOL  W(I,J,S)  0.0
+ Z  METHANOL  U(I,J,S)                 Z(K,S)
+ X  METHANOL  DU(I,J,S) 0.0
+ OD J
+ ND
+
+ IA I1        I2        1
+ I= I2        NH
+ DO I         I1                       I2
+ DO S         1                        NE
+ Z  METHANOL  V(I,S)                   Z(NM,S)
+ DO J         1                        NC
+ X  METHANOL  W(I,J,S)  0.0
+ Z  METHANOL  U(I,J,S)                 Z(NM,S)
+ X  METHANOL  DU(I,J,S) 0.0
+ ND
+
+ELEMENT TYPE
+
+ EV PROD1     THETA2                   THETA3
+ EV PROD1     THETA4                   U
+ IV PROD1     THETA                    U
+ EV PROD2     THETA                    U
+ EV RATIO1    U1                       U2
+ EV RATIO1    THETAA                   THETAB 
+ EV RATIO1    THETAC
+ EV RATIO2    U1                       U2
+ EV RATIO2    THETAA                   THETAB 
+ EV RATIO2    THETAC
+
+ELEMENT USES
+
+ DO I         1                        NH
+ DO J         1                        NC
+ XT C1(I,J)   PROD1
+ ZV C1(I,J)   THETA2                   THETA(2)
+ ZV C1(I,J)   THETA3                   THETA(3)
+ ZV C1(I,J)   THETA4                   THETA(4)
+ ZV C1(I,J)   U                        U(I,J,1)
+
+ XT C2(I,J)   RATIO1
+ ZV C2(I,J)   THETAA                   THETA(1)
+ ZV C2(I,J)   THETAB                   THETA(2)
+ ZV C2(I,J)   THETAC                   THETA(5)
+ ZV C2(I,J)   U1                       U(I,J,1)
+ ZV C2(I,J)   U2                       U(I,J,2)
+
+ XT C3(I,J)   RATIO2
+ ZV C3(I,J)   THETAA                   THETA(1)
+ ZV C3(I,J)   THETAB                   THETA(2)
+ ZV C3(I,J)   THETAC                   THETA(5)
+ ZV C3(I,J)   U1                       U(I,J,1)
+ ZV C3(I,J)   U2                       U(I,J,2)
+
+ XT C4(I,J)   PROD2
+ ZV C4(I,J)   THETA                    THETA(3)
+ ZV C4(I,J)   U                        U(I,J,1)
+
+ XT C5(I,J)   RATIO2
+ ZV C5(I,J)   THETAA                   THETA(1)
+ ZV C5(I,J)   THETAB                   THETA(5)
+ ZV C5(I,J)   THETAC                   THETA(2)
+ ZV C5(I,J)   U1                       U(I,J,1)
+ ZV C5(I,J)   U2                       U(I,J,2)
+
+ XT C6(I,J)   PROD2
+ ZV C6(I,J)   THETA                    THETA(4)
+ ZV C6(I,J)   U                        U(I,J,1)
+
+ ND
+
+GROUP TYPE
+
+ GV L2        X
+
+GROUP USES
+
+* collocation for equation 1 {i in 1..nh, j in 1..nc}:
+* du[i,j,1] + (2*theta[2] + theta[3] + theta[4] )*u[i,j,1]
+*           - (theta[1]*u[i,j,1]*u[i,j,2])/
+*             ((theta[2]+theta[5])*u[i,j,1]+u[i,j,2]) = 0
+
+
+* collocation for equation 2 {i in 1..nh, j in 1..nc}:
+* du[i,j,2] + (theta[1]*u[i,j,1]*u[i,j,2]) /
+*              ((theta[2]+theta[5])*u[i,j,1]+u[i,j,2]) 
+*           - (theta[1]*theta[2]*u[i,j,1])**2 /
+*              ((theta[2]+theta[5])*u[i,j,1]+u[i,j,2]) 
+*           - theta[3]*u[i,j,1] = 0
+
+* collocation for equation 3 {i in 1..nh, j in 1..nc}:
+* du[i,j,3] - (theta[1]*u[i,j,1]*(u[i,j,2]))/
+*              ((theta[2]+theta[5])*u[i,j,1]+u[i,j,2]) 
+*           - (theta[1]*theta[5]*u[i,j,1]**2)/
+*              ((theta[2]+theta[5])*u[i,j,1]+u[i,j,2]) 
+*           - theta[4]*u[i,j,1] = 0
+
+ DO I         1                        NH
+ DO J         1                        NC
+ XE CO(I,J,1) C1(I,J)   1.0            C2(I,J)   -1.0
+ XE CO(I,J,2) C2(I,J)   1.0            C3(I,J)   -1.0           
+ XE CO(I,J,2) C4(I,J)   -1.0
+ XE CO(I,J,3) C2(I,J)   -1.0           C5(I,J)   -1.0           
+ XE CO(I,J,3) C6(I,J)   -1.0
+ ND
+
+*  objective function sum {j in 1..nm} obj(j)^2
+
+ DO J         1                        NM
+ DO S         1                        NE
+ XT OBJ(J,S)  L2
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLUTION             9.02228D-03   $ (NH=50)
+*LO SOLUTION             9.02228D-03   $ (NH=100)
+*LO SOLUTION             9.02228D-03   $ (NH=200)
+*LO SOLUTION             9.02228D-03   $ (NH=400)
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      METHANOL
+
+TEMPORARIES
+ R  THETAS
+ R  N     
+ R  D     
+ R  D2    
+ R  D3    
+ R  ND2   
+ R  ND3   
+ R  NU1   
+ R  NU2   
+ R  NTA   
+ R  NTB   
+ R  NTC   
+ R  NU1U1 
+ R  NU1U2 
+ R  NU1TA 
+ R  NU1TB 
+ R  NU1TC 
+ R  NU2U2 
+ R  NU2TA 
+ R  NU2TB 
+ R  NU2TC 
+ R  NTATA 
+ R  NTATB 
+ R  NTATC 
+ R  NTBTB 
+ R  NTBTC 
+ R  NTCTC 
+ R  DU1   
+ R  DU2   
+ R  DTA   
+ R  DTB   
+ R  DTC   
+ R  DU1U1 
+ R  DU1U2 
+ R  DU1TA 
+ R  DU1TB 
+ R  DU1TC 
+ R  DU2U2 
+ R  DU2TA 
+ R  DU2TB 
+ R  DU2TC 
+ R  DTATA 
+ R  DTATB 
+ R  DTATC 
+ R  DTBTB 
+ R  DTBTC 
+ R  DTCTC 
+
+INDIVIDUALS
+
+ T  PROD1
+ R  THETA     THETA2    2.0            THETA3    1.0
+ R  THETA     THETA4    1.0
+ R  U         U         1.0
+ F                      THETA * U 
+ G  THETA               U 
+ G  U                   THETA
+ H  THETA     U         1.0
+
+ T  PROD2
+ F                      THETA * U 
+ G  THETA               U 
+ G  U                   THETA
+ H  THETA     U         1.0
+
+
+ T  RATIO1
+ A  THETAS              THETAB + THETAC
+ A  N                   THETAA * U1 * U2
+ A  D                   THETAS * U1 + U2
+ A  D2                  D * D
+ A  D3                  D * D2
+ A  ND2                 N / D2
+ A  ND3                 2.0 * N / D3
+
+ A  NU1                 THETAA * U2
+ A  NU2                 THETAA * U1
+ A  NTA                 U1 * U2
+
+ A  NU1U2               THETAA
+ A  NU1TA               U2
+ A  NU2TA               U1
+
+ A  DU1                 THETAS                 
+ A  DU2                 1.0
+ A  DTB                 U1
+ A  DTC                 U1
+ 
+ A  DU1TB               1.0
+ A  DU1TC               1.0
+
+ F                      N / D
+
+ G  U1                  NU1 / D - N * DU1 / D2
+ G  U2                  NU2 / D - N * DU2 / D2
+ G  THETAA              NTA / D
+ G  THETAB              - N * DTB / D2
+ G  THETAC              - N * DTC / D2
+
+ H  U1        U1        - ( ( NU1 * DU1 + NU1 * DU1 ) / D2 )
+ H+                     + ND3 * DU1 * DU1
+ H  U1        U2        ( NU1U2 / D ) 
+ H+                     - ( ( NU1 * DU2 + NU2 * DU1 ) / D2 ) 
+ H+                     + ND3 * DU1 * DU2
+ H  U1        THETAA    ( NU1TA / D ) 
+ H+                     - ( ( NTA * DU1 ) / D2 ) 
+ H  U1        THETAB    - ( ( NU1 * DTB ) / D2 ) 
+ H+                     + ND3 * DU1 * DTB - ND2 * DU1TB
+ H  U1        THETAC    - ( ( NU1 * DTC ) / D2 ) 
+ H+                     + ND3 * DU1 * DTC - ND2 * DU1TC
+ H  U2        U2        - ( ( NU2 * DU2 + NU2 * DU2 ) / D2 )
+ H+                     + ND3 * DU2 * DU2
+ H  U2        THETAA    ( NU2TA / D ) - ( ( NTA * DU2 ) / D2 ) 
+ H  U2        THETAB    - ( ( NU2 * DTB ) / D2 ) 
+ H+                     + ND3 * DU2 * DTB
+ H  U2        THETAC    - ( ( NU2 * DTC ) / D2 ) 
+ H+                     + ND3 * DU2 * DTC
+ H  THETAA    THETAB    - ( ( NTA * DTB ) / D2 ) 
+ H  THETAA    THETAC    - ( ( NTA * DTC ) / D2 ) 
+ H  THETAB    THETAB    ND3 * DTB * DTB
+ H  THETAB    THETAC    ND3 * DTB * DTC
+ H  THETAC    THETAC    ND3 * DTC * DTC
+
+ T  RATIO2
+ A  THETAS              THETAB + THETAC
+ A  N                   THETAA * THETAB * U1 ** 2
+ A  D                   THETAS * U1 + U2
+ A  D2                  D * D
+ A  D3                  D * D2
+ A  ND2                 N / D2
+ A  ND3                 2.0 * N / D3
+
+ A  NU1                 2.0 * THETAA * THETAB * U1
+ A  NTA                 THETAB * U1 ** 2
+ A  NTB                 THETAA * U1 ** 2
+
+ A  NU1U1               2.0 * THETAA * THETAB
+ A  NU1TA               2.0 * THETAB * U1
+ A  NU1TB               2.0 * THETAA * U1
+ A  NTATB               U1 ** 2
+
+ A  DU1                 THETAS                 
+ A  DU2                 1.0
+ A  DTB                 U1
+ A  DTC                 U1
+ A  DU1TB               1.0
+ A  DU1TC               1.0
+
+ F                      N / D
+
+ G  U1                  NU1 / D - N * DU1 / D2
+ G  U2                  - N * DU2 / D2
+ G  THETAA              NTA / D
+ G  THETAB              NTB / D - N * DTB / D2
+ G  THETAC              - N * DTC / D2
+
+ H  U1        U1        ( NU1U1 / D ) 
+ H+                     - ( ( NU1 * DU1 + NU1 * DU1 ) / D2 )
+ H+                     + ND3 * DU1 * DU1
+ H  U1        U2        - ( ( NU1 * DU2 ) / D2 ) 
+ H+                     + ND3 * DU1 * DU2
+ H  U1        THETAA    ( NU1TA / D ) 
+ H+                     - ( ( NTA * DU1 ) / D2 ) 
+ H  U1        THETAB    ( NU1TB / D ) 
+ H+                     - ( ( NU1 * DTB + NTB * DU1 ) / D2 ) 
+ H+                     + ND3 * DU1 * DTB - ND2 * DU1TB
+ H  U1        THETAC    - ( ( NU1 * DTC ) / D2 ) 
+ H+                     + ND3 * DU1 * DTC - ND2 * DU1TC
+ H  U2        U2        + ND3 * DU2 * DU2
+ H  U2        THETAA    - ( ( NTA * DU2 ) / D2 ) 
+ H  U2        THETAB    - ( ( NTB * DU2 ) / D2 ) 
+ H+                     + ND3 * DU2 * DTB
+ H  U2        THETAC    + ND3 * DU2 * DTC
+ H  THETAA    THETAB    ( NTATB / D ) 
+ H+                     - ( ( NTA * DTB ) / D2 ) 
+ H  THETAA    THETAC    - ( ( NTA * DTC ) / D2 ) 
+ H  THETAB    THETAB    - ( ( NTB * DTB + NTB * DTB ) / D2 )
+ H+                     + ND3 * DTB * DTB
+ H  THETAB    THETAC    - ( ( NTB * DTC ) / D2 ) 
+ H+                     + ND3 * DTB * DTC
+ H  THETAC    THETAC    + ND3 * DTC * DTC
+
+ENDATA
+
+*********************
+* SET UP THE GROUPS *
+* ROUTINE           *
+*********************
+
+GROUPS        METHANOL
+
+INDIVIDUALS
+
+ T  L2
+ F                      X * X
+ G                      X + X 
+ H                      2.0
+
+ENDATA

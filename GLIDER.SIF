@@ -1,0 +1,516 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          GLIDER  
+
+*   Problem :
+*   *********
+
+*   Maximize the final horizontal position of a hang glider in the presence
+*   of a thermal updraft.
+
+*   This is problem 11 in the COPS (Version 2) collection of 
+*   E. Dolan and J. More'
+*   see "Benchmarking Optimization Software with COPS"
+*   Argonne National Labs Technical Report ANL/MCS-246 (2000)
+
+*   SIF input: Nick Gould, December 2000
+
+*   classification OOR2-AN-V-V
+
+* The number of subintervals
+
+*IE NH                  50             $-PARAMETER
+*IE NH                  100            $-PARAMETER
+*IE NH                  200            $-PARAMETER
+ IE NH                  400            $-PARAMETER
+
+* Initial position and velocity of the glider
+
+ RE X0                  0.0
+ RE Y0                  1000.0 
+ RE VX0                 13.23
+ RE VY0                 -1.288
+
+* Final position and velocity of the glider
+
+ RE YF                  900.0
+ RE VXF                 13.23
+ RE VYF                 -1.288
+
+* Parameters for the model
+
+ RE UC                  2.5
+ RE R0                  100.0
+ RE C0                  0.034
+ RE C1                  0.069662
+ RE M                   100.0
+ RE S                   14.0
+ RE RHO                 1.13
+ RE G                   9.81
+ RE CLMIN               0.0
+ RE CLMAX               1.4
+
+*  Other useful values
+
+ IE 0                   0
+ IE 1                   1
+ RE ONE                 1.0
+ RI NH        NH
+ RD 1/NH      NH        1.0
+ RD 1/M       M         1.0
+ RM -1/M      1/M       -1.0
+ RM CLI       CLMAX     0.5
+ RM 2.5R0     R0        2.5
+ R* R02       R0                       R0
+ RD 1/R02     R02       1.0
+ R/ DXI       VX0                      NH
+ R- YF-Y0     YF                       Y0
+ R/ DYI       YF-Y0                    NH
+ R* RHOS      RHO                      S
+ RM RHOS/2    RHOS      0.5
+ R* C0RHOS/2  RHOS/2                   C0
+ R* C1RHOS/2  RHOS/2                   C1
+
+VARIABLES
+
+*  Step size
+
+ X  STEP
+
+ DO I         0                        NH
+
+*  State variables
+
+ X  X(I)
+ X  Y(I)
+ X  VX(I)
+ X  VY(I)
+
+*  Controls
+
+ X  CL(I)
+
+*  Other variables
+
+ X  R(I)
+ X  U(I)
+ X  W(I)
+ X  V(I)
+ X  D(I)
+ X  L(I)
+ X  VX.(I)
+ X  VY.(I)
+
+ ND
+
+GROUPS
+
+*  Objective function: maximize final x
+
+ XN XF        X(NH)     -1.0
+
+* The linear parts of the x, y, vx, vy constraints {j in 1..nh}:
+
+ DO J         1                        NH
+ IA J-1       J         -1
+
+*  - x[j] + x[j-1] + .5*step*(vx[j] + vx[j-1]) = 0
+
+ XE X(J)      X(J-1)    1.0            X(J)      -1.0
+
+*  - y[j] + y[j-1] + .5*step*(vy[j] + vy[j-1]) = 0
+
+ XE Y(J)      Y(J-1)    1.0            Y(J)      -1.0
+
+*  - vx[j] + vx[j-1] + .5*step*(vx_dot[j] + vx_dot[j-1]) = 0
+
+ XE VX(J)     VX(J-1)   1.0            VX(J)     -1.0
+
+*  - vy[j] + vy[j-1] + .5*step*(vy_dot[j] + vy_dot[j-1]) = 0
+
+ XE VY(J)     VY(J-1)   1.0            VY(J)     -1.0
+
+ ND
+
+* The linear parts of the r, u, w, v, d, l, 
+* vx. and vy. constraints {i in 0..nh}:
+
+ DO I         0                        NH
+
+*  - r[i] + (x[i]/r_0 - 2.5)^2 = 0
+
+ XE R(I)      R(I)      -1.0
+
+*  - u[i] + u_c*(1-r[i])*exp(-r[i]) = 0
+
+ XE U(I)      U(I)      -1.0
+
+*  - w[i] + vy[i] - u[i] = 0
+
+ XE W(I)      W(I)      -1.0           U(I)      -1.0 
+ XE W(I)      VY(I)     1.0
+
+*  - v[i] + sqrt(vx[i]^2 + w[i]^2) = 0
+
+ XE V(I)      V(I)      -1.0
+
+*  - d[i] + .5*(c0+c1*cL[i]^2)*rho*S*v[i]^2 = 0
+
+ XE D(I)      D(I)      -1.0
+
+*  - l[i] + .5*cL[i]*rho*S*v[i]^2 = 0
+
+ XE L(I)      L(I)      -1.0
+
+*  - vx.[i] + (-L[i]*(w[i]/v[i]) - D[i]*(vx[i]/v[i]))/m = 0
+
+ XE VX.(I)    VX.(I)    -1.0
+
+*  - vy.[i] + (L[i]*(vx[i]/v[i]) - D[i]*(w[i]/v[i]))/m - g = 0
+
+ XE VY.(I)    VY.(I)    -1.0
+
+ ND
+
+CONSTANTS
+
+ DO I         0                        NH
+ Z  GLIDER    VY.(I)                   G
+ ND
+
+BOUNDS
+
+ XR GLIDER    'DEFAULT'
+ XL GLIDER    STEP      0.0
+
+ DO I         0                        NH
+ ZL GLIDER    CL(I)                    CLMIN
+ ZU GLIDER    CL(I)                    CLMAX
+ XL GLIDER    X(I)      0.0
+ XL GLIDER    VX(I)     0.0
+ ND
+
+ ZX GLIDER    X(0)                     X0
+ ZX GLIDER    Y(0)                     Y0 
+ ZX GLIDER    Y(NH)                    YF
+ ZX GLIDER    VX(0)                    VX0
+ ZX GLIDER    VY(0)                    VY0
+ ZX GLIDER    VX(NH)                   VXF
+ ZX GLIDER    VY(NH)                   VYF 
+
+START POINT
+
+ Z  GLIDER    STEP                     1/NH
+
+ R= XI        X0
+ R= YI        Y0
+ R= VXI       VX0
+ R= VYI       VY0
+
+ DO I         0                        NH
+ RI I         I
+ Z  GLIDER    X(I)                     XI
+ Z  GLIDER    Y(I)                     YI
+ Z  GLIDER    VX(I)                    VXI
+ Z  GLIDER    VY(I)                    VYI
+ Z  GLIDER    CL(I)                    CLI
+
+*  r[i] = (x[i]/r_0 - 2.5)^2
+
+ R/ TEMP      XI                       R0
+ RA TEMP      TEMP      -2.5
+ R* RI        TEMP                     TEMP
+ Z  GLIDER    R(I)                     RI
+
+*  u[i] = u_c*(1-r[i])*exp(-r[i])
+
+ RM UI        RI        -1.0
+ R( UI        EXP                      UI
+ R- TEMP      ONE                      RI
+ R* TEMP      TEMP                     UI
+ R* UI        TEMP                     UC  
+ Z  GLIDER    U(I)                     UI
+
+*  w[i] = vy[i] - u[i]
+
+ R- WI        VYI                      UI
+ Z  GLIDER    W(I)                     WI
+
+*  v[i] = sqrt(vx[i]^2 + w[i]^2)
+
+ R* TEMP      VXI                      VXI
+ R* VI        WI                       WI
+ R+ VI        VI                       TEMP
+ R( VI        SQRT                     VI
+ Z  GLIDER    V(I)                     VI
+
+*  d[i] = .5*(c0+c1*cL[i]^2)*rho*S*v[i]^2
+
+ R* TEMP      CLI                      CLI
+ R* TEMP      TEMP                     C1
+ R+ DI        C0                       TEMP
+ R* DI        DI                       RHOS/2
+ R* DI        DI                       VI
+ R* DI        DI                       VI
+ Z  GLIDER    D(I)                     DI
+
+*  l[i] = .5*cL[i]*rho*S*v[i]^2
+
+ R* LI        CLI                      RHOS/2
+ R* LI        LI                       VI
+ R* LI        LI                       VI
+ Z  GLIDER    L(I)                     LI
+
+*  vx.[i] = (-L[i]*(w[i]/v[i]) - D[i]*(vx[i]/v[i]))/m
+
+ R/ TEMP      WI                       VI
+ R* TEMP      TEMP                     LI
+ AM TEMP(I)   TEMP      -1.0
+ R/ VX.I      VXI                      VI 
+ A* VX.I(I)   VX.I                     DI
+ A- VX.I      TEMP(I)                  VX.I(I)
+ R/ VX.I      VX.I                     M
+ Z  GLIDER    VX.(I)                   VX.I
+
+*  vy.[i] = (L[i]*(vx[i]/v[i]) - D[i]*(w[i]/v[i]))/m - g
+
+ R/ TEMP      WI                       VI
+ R* TEMP      TEMP                     DI
+ RM TEMP      TEMP      -1.0
+ R/ VY.I      VXI                      VI 
+ R* VY.I      VY.I                     LI
+ R+ VY.I      TEMP                     VY.I
+ R/ VY.I      VY.I                     M
+ R- VY.I      VY.I                     G
+ Z  GLIDER    VY.(I)                   VY.I
+
+ R+ XI        XI                       DXI
+ R+ YI        YI                       DYI
+ ND
+
+ Z  GLIDER    X(0)                     X0
+ Z  GLIDER    Y(0)                     Y0 
+ Z  GLIDER    Y(NH)                    YF
+ Z  GLIDER    VX(0)                    VX0
+ Z  GLIDER    VY(0)                    VY0
+ Z  GLIDER    VX(NH)                   VXF
+ Z  GLIDER    VY(NH)                   VYF 
+
+ELEMENT TYPE
+
+ EV PROD      X                        Y
+ EV SHIFTSQR  X
+ EP SHIFTSQR  P
+ EV EXPFUN    R
+ EV ROOT      X                        Y
+ EV SQR       V
+ EV LINSQR    V                        C
+ EV SQRSQR    V                        C
+ EV RATIO     X                        Y 
+ EV RATIO     Z
+
+ELEMENT USES
+
+ DO I         0                        NH
+
+ XT SVX(I)    PROD
+ ZV SVX(I)    X                        STEP
+ ZV SVX(I)    Y                        VX(I)
+ XT SVY(I)    PROD
+ ZV SVY(I)    X                        STEP
+ ZV SVY(I)    Y                        VY(I)
+ XT SVX.(I)   PROD
+ ZV SVX.(I)   X                        STEP
+ ZV SVX.(I)   Y                        VX.(I)
+ XT SVY.(I)   PROD
+ ZV SVY.(I)   X                        STEP
+ ZV SVY.(I)   Y                        VY.(I)
+
+ XT R(I)      SHIFTSQR
+ ZV R(I)      X                        X(I)
+ ZP R(I)      P                        2.5R0
+ XT U(I)      EXPFUN
+ ZV U(I)      R                        R(I)
+ XT V(I)      ROOT
+ ZV V(I)      X                        VX(I)
+ ZV V(I)      Y                        W(I)
+ XT C0(I)     SQR
+ ZV C0(I)     V                        V(I)
+ XT C1(I)     LINSQR
+ ZV C1(I)     V                        V(I)
+ ZV C1(I)     C                        CL(I)
+ XT C2(I)     SQRSQR
+ ZV C2(I)     V                        V(I)
+ ZV C2(I)     C                        CL(I)
+ XT VA.(I)    RATIO
+ ZV VA.(I)    X                        L(I)
+ ZV VA.(I)    Y                        W(I)
+ ZV VA.(I)    Z                        V(I)
+ XT VB.(I)    RATIO
+ ZV VB.(I)    X                        D(I)
+ ZV VB.(I)    Y                        VX(I)
+ ZV VB.(I)    Z                        V(I)
+ XT VC.(I)    RATIO
+ ZV VC.(I)    X                        L(I)
+ ZV VC.(I)    Y                        VX(I)
+ ZV VC.(I)    Z                        V(I)
+ XT VD.(I)    RATIO
+ ZV VD.(I)    X                        D(I)
+ ZV VD.(I)    Y                        W(I)
+ ZV VD.(I)    Z                        V(I)
+ 
+ ND
+
+GROUP USES
+
+ DO J         1                        NH
+ IA J-1       J         -1
+
+* The nonlinear parts of the x, y, vx, vy constraints {j in 1..nh}:
+
+*  - x[j] + x[j-1] + .5*step*(vx[j] + vx[j-1]) = 0
+
+ XE X(J)      SVX(J-1)  0.5            SVX(J)    0.5
+
+*  - y[j] + y[j-1] + .5*step*(vy[j] + vy[j-1]) = 0
+
+ XE Y(J)      SVY(J-1)  0.5            SVY(J)    0.5
+
+*  - vx[j] + vx[j-1] + .5*step*(vx_dot[j] + vx_dot[j-1]) = 0
+
+ XE VX(J)     SVX.(J-1) 0.5            SVX.(J)   0.5
+
+*  - vy[j] + vy[j-1] + .5*step*(vy_dot[j] + vy_dot[j-1]) = 0
+
+ XE VY(J)     SVY.(J-1) 0.5            SVY.(J)   0.5
+
+ ND
+
+* The nonlinear parts of the r, u, w, v, d, l, 
+* vx. and vy. constraints {i in 0..nh}:
+
+ DO I         0                        NH
+
+*  - r[i] + (x[i] - 2.5*r_0)^2 / r_0^2 = 0
+
+ ZE R(I)      R(I)                     1/R02
+
+*  - u[i] + u_c*(1-r[i])*exp(-r[i]) = 0
+
+ ZE U(I)      U(I)                     UC
+
+*  - v[i] + sqrt(vx[i]^2 + w[i]^2) = 0
+
+ XE V(I)      V(I)      1.0
+
+*  - d[i] + .5*c0*rho*S*v[i]^2 + .5*c1*rho*S*cL[i]^2*v[i]^2 = 0
+
+ ZE D(I)      C0(I)                    C0RHOS/2
+ ZE D(I)      C2(I)                    C1RHOS/2
+
+*  - l[i] + .5*rho*S*cL[i]*v[i]^2 = 0
+
+ ZE L(I)      C1(I)                    RHOS/2
+
+*  - vx.[i] - 1/m * L[i]*w[i]/v[i] - 1/m*D[i]*vx[i]/v[i] = 0
+
+ ZE VX.(I)    VA.(I)                   -1/M
+ ZE VX.(I)    VB.(I)                   -1/M
+
+*  - vy.[i] + 1/m*L[i]*vx[i]/v[i] - 1/m*D[i]*w[i]/v[i]) - g = 0
+
+ ZE VY.(I)    VC.(I)                   1/M
+ ZE VY.(I)    VD.(I)                   -1/M
+
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLUTION             -1.1282D+03   $ (NH=50)
+*LO SOLUTION             -1.2546D+03   $ (NH=100)
+*LO SOLUTION             -1.2489D+03   $ (NH=200)
+*LO SOLUTION             -1.2480D+03   $ (NH=400)
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      GLIDER  
+
+TEMPORARIES
+
+ R  EXPMR
+ R  ROOTSQ
+ R  ROOT3
+ M  EXP
+ M  SQRT
+
+INDIVIDUALS
+
+ T  PROD
+ F                      X * Y
+ G  X                   Y
+ G  Y                   X
+ H  X         Y         1.0
+
+ T  SHIFTSQR
+ F                      ( X - P ) ** 2 
+ G  X                   2.0 * ( X - P )
+ H  X         X         2.0
+
+ T  EXPFUN
+ A  EXPMR               EXP( - R )
+ F                      ( 1.0 - R ) * EXPMR
+ G  R                   ( R - 2.0 ) * EXPMR
+ H  R         R         ( 3.0 - R ) * EXPMR
+
+ T  ROOT
+ A  ROOTSQ              SQRT( X * X + Y * Y )
+ A  ROOT3               ROOTSQ ** 3
+ F                      ROOTSQ
+ G  X                   X / ROOTSQ
+ G  Y                   Y / ROOTSQ
+ H  X         X         - X ** 2 / ROOT3 + 1.0 / ROOTSQ
+ H  X         Y         - X * Y / ROOT3
+ H  Y         Y         - Y ** 2 / ROOT3 + 1.0 / ROOTSQ
+
+ T  SQR
+ F                      V * V
+ G  V                   V + V
+ H  V         V         2.0
+
+ T  LINSQR
+ F                      V * V * C
+ G  V                   ( V + V ) * C
+ G  C                   V * V
+ H  V         V         2.0 * C
+ H  V         C         V + V
+
+ T  SQRSQR
+ F                      V * V * C * C
+ G  V                   ( V + V ) * C * C
+ G  C                   ( C + C ) * V * V
+ H  V         V         2.0 * C * C
+ H  C         C         2.0 * V * V
+ H  V         C         ( C + C ) * ( V + V )
+
+ T  RATIO
+ F                      X * Y / Z
+ G  X                   Y / Z
+ G  Y                   X / Z
+ G  Z                   - X * Y / Z ** 2
+ H  X         Y         1.0 / Z
+ H  X         Z         - Y / Z ** 2
+ H  Y         Z         - X / Z ** 2
+ H  Z         Z         2.0 * X * Y / Z ** 3
+
+ENDATA
+
+

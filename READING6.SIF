@@ -1,0 +1,312 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          READING6
+
+*   Problem :
+*   *********
+
+*   A nonlinear optimal control problem from Nancy Nichols and Mandy Crossley
+*   This problem arises in tide modelling.
+*   Course disretization.
+
+*   Source: a variant upon a problem in
+*   S. Lyle and N.K. Nichols,
+*   "Numerical Methods for Optimal Control Problems with State Constraints",
+*   Numerical Analysis Report 8/91, Dept of Mathematics, 
+*   University of Reading, UK.
+
+*   SIF input: Nick Gould, Feb 1995
+
+*   classification OOR2-MN-102-50
+
+*   Constants
+
+ IE 0                   0
+ IE 1                   1
+ IE 2                   2
+
+ RE C                   2.41E+3
+ RE K                   0.95E-3
+
+*    This data for the case N = 50
+
+ IE N                   50
+
+ RE G0                  -2.0627D-03
+ RE G1                  -9.9414D-04 
+ RE G2                  -5.7942D-04
+ RE G3                  -3.6153D-04
+ RE G4                  -2.1980D-04
+ RE G5                  -1.1452D-04
+ RE G6                  -4.4283D-05
+ RE G7                   4.0651D-05
+ RE G8                   1.0438D-04
+ RE G9                   1.1511D-04
+ RE G10                  1.4736D-04
+ RE G11                  1.6264D-04
+ RE G12                  1.9018D-04
+ RE G13                  1.9992D-04
+ RE G14                  2.1341D-04
+ RE G15                  2.3507D-04
+ RE G16                  2.4552D-04
+ RE G17                  2.5497D-04
+ RE G18                  2.6397D-04
+ RE G19                  2.7167D-04
+ RE G20                  2.6796D-04
+ RE G21                  2.6980D-04
+ RE G22                  2.6349D-04
+ RE G23                  2.5023D-04
+ RE G24                  2.3040D-04
+ RE G25                  2.0245D-04
+ RE G26                  1.7031D-04
+ RE G27                  1.2704D-04
+ RE G28                  7.9276D-05
+ RE G29                  2.8594D-05
+ RE G30                 -2.3288D-05
+ RE G31                 -7.2000D-05
+ RE G32                 -1.1627D-04
+ RE G33                 -1.5002D-04
+ RE G34                 -1.7517D-04
+ RE G35                 -1.8623D-04
+ RE G36                 -1.8593D-04
+ RE G37                 -1.7524D-04
+ RE G38                 -1.5399D-04
+ RE G39                 -1.2037D-04
+ RE G40                 -7.5545D-05
+ RE G41                 -2.5328D-05
+ RE G42                  2.8266D-05
+ RE G43                  7.9945D-05
+ RE G44                  1.2594D-04
+ RE G45                  1.6135D-04
+ RE G46                  1.8176D-04
+ RE G47                  1.8627D-04
+ RE G48                  1.7264D-04
+ RE G49                  1.4206D-04
+ RE G50                  9.6944D-05
+   
+ RE Q0                  -1.1134D+01
+ RE Q1                  -1.1046D+01
+ RE Q2                  -1.0784D+01
+ RE Q3                  -1.0352D+01
+ RE Q4                  -9.7564D+00
+ RE Q5                  -9.0073D+00
+ RE Q6                  -8.1160D+00
+ RE Q7                  -7.0968D+00
+ RE Q8                  -5.9657D+00
+ RE Q9                  -4.7404D+00
+ RE Q10                 -3.4405D+00
+ RE Q11                 -2.0862D+00
+ RE Q12                 -6.9907D-01
+ RE Q13                  6.9910D-01
+ RE Q14                  2.0862D+00
+ RE Q15                  3.4405D+00
+ RE Q16                  4.7405D+00
+ RE Q17                  5.9657D+00
+ RE Q18                  7.0968D+00
+ RE Q19                  8.1160D+00
+ RE Q20                  9.0073D+00
+ RE Q21                  9.7564D+00
+ RE Q22                  1.0352D+01
+ RE Q23                  1.0784D+01
+ RE Q24                  1.1046D+01
+ RE Q25                  1.1134D+01
+ RE Q26                  1.1046D+01
+ RE Q27                  1.0784D+01
+ RE Q28                  1.0352D+01
+ RE Q29                  9.7564D+00
+ RE Q30                  9.0073D+00
+ RE Q31                  8.1160D+00
+ RE Q32                  7.0968D+00
+ RE Q33                  5.9657D+00
+ RE Q34                  4.7404D+00
+ RE Q35                  3.4405D+00
+ RE Q36                  2.0862D+00
+ RE Q37                  6.9907D-01
+ RE Q38                 -6.9910D-01
+ RE Q39                 -2.0862D+00
+ RE Q40                 -3.4405D+00
+ RE Q41                 -4.7405D+00
+ RE Q42                 -5.9657D+00
+ RE Q43                 -7.0968D+00
+ RE Q44                 -8.1160D+00
+ RE Q45                 -9.0073D+00
+ RE Q46                 -9.7564D+00
+ RE Q47                 -1.0352D+01
+ RE Q48                 -1.0784D+01
+ RE Q49                 -1.1046D+01
+ RE Q50                 -1.1134D+01
+
+*   Mesh
+
+ IA N-1       N         -1
+
+ RI RN        N
+ RD DELTAT    RN        10.0
+ RM D/2       DELTAT    0.5
+ R* D**2/4    D/2                      D/2
+
+ R* CD/2      C                        D/2
+ R* CD**2/4   C                        D**2/4
+ RM CD**2/2   CD**2/4   2.0
+
+ R* CK        C                        K
+ R* CKD/2     CK                       D/2
+
+ AM 2G1       G(1)      2.0
+ A+ G0+2G1    G(0)                     2G1
+ R* GGCD**2/4 CD**2/4                  G0+2G1
+ A* G0CD**2/4 CD**2/4                  G(0)
+
+ RA L1        G0CD**2/4 -1.0
+ RM L1        L1        -1.0
+ RA L2        GGCD**2/4 1.0
+ RM L2        L2        -1.0
+
+VARIABLES
+
+ DO I         0                        N
+ X  P(I)
+ ND
+ DO I         0                        N
+ X  A(I)
+ ND
+
+GROUPS
+
+ DO J         1                        N
+ ZN OBJ(J)
+ ND
+
+ DO I         0                        N-1
+
+ IA I+1       I         1 
+ IA I-1       I         -1
+
+ ZE C(I+1)    P(I+1)                   L1
+ ZE C(I+1)    P(I)                     L2
+
+ DO J         1                        I-1
+ I- I-J       I                        J
+ IA I+1-J     I-J       1
+ A+ SUMG      G(I-J)                   G(I+1-J)
+ R* L3        SUMG                     CD**2/2
+ RM L3        L3        -1.0 
+ ZE C(I+1)    P(J)                     L3
+ OD J
+
+ OD I
+
+CONSTANTS
+
+ DO I         0                        N-1
+ IA I+1       I         1 
+ A+ L4        Q(I)                     Q(I+1)
+ R* L4        L4                       D/2
+ Z  READING6  C(I+1)                   L4
+ ND
+
+BOUNDS
+
+ XX READING6  P(0)      0.0
+
+ DO I         1                        N
+ XR READING6  P(I)
+ ND
+
+ DO I         0                        N
+ XL READING6  A(I)      0.0
+ XU READING6  A(I)      1.0
+ ND
+
+ELEMENT TYPE
+
+ EV AP        A
+ EV AP        P
+
+ EV AP2       A
+ EV AP2       P
+
+ELEMENT USES
+
+ DO I         0                        N
+
+ RI RI        I
+ IA I-1       I         -1
+
+ XT E(I)      AP
+ ZV E(I)      A                        A(I)
+ ZV E(I)      P                        P(I)
+
+ XT O(I)      AP2
+ ZV O(I)      A                        A(I)
+ ZV O(I)      P                        P(I)
+
+ ND
+
+GROUP TYPE
+
+ GV SQR       Z
+
+GROUP USES
+
+ DO I         0                        N-1
+ IA I+1       I         1 
+ ZE C(I+1)    E(I+1)                   CKD/2
+ ZE C(I+1)    E(I)                     CKD/2
+ ND
+
+ DO J         1                        N-1
+*XT OBJ(J)    SQR
+*XE OBJ(J)    E(J)       1.0
+ XE OBJ(J)    O(J)       1.0
+ ND
+
+*XT OBJ(N)    SQR
+*XE OBJ(N)    E(N)       0.5               
+ XE OBJ(N)    O(N)       0.5               
+
+OBJECT BOUND
+
+*   Solution
+
+*XL SOLUTION            -1.44660D+02
+
+ENDATA
+
+*********************
+* SET UP THE GROUPS *
+* ROUTINE           *
+*********************
+
+ELEMENTS      READING6
+
+INDIVIDUALS
+
+ T  AP
+ F                      A * P
+ G  A                   P
+ G  P                   A
+ H  A         P         1.0
+
+ T  AP2
+ F                      - A * P * P
+ G  A                   - P * P
+ G  P                   - 2.0 * A * P
+ H  A         P         - 2.0 * P
+ H  P         P         - 2.0 * A
+
+ENDATA
+
+GROUPS        READING6
+
+INDIVIDUALS
+
+ T  SQR
+ F                      - Z * Z
+ G                      - Z - Z
+ H                      - 2.0
+
+ENDATA
+

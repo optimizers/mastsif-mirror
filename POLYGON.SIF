@@ -1,0 +1,226 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          POLYGON
+
+*   Problem :
+*   *********
+
+*   Find the polygon of maximal area, among polygons with nv sides and    
+*   diameter d <= 1
+
+*   This is problem 1 in the COPS (Version 2) collection of 
+*   E. Dolan and J. More'
+*   see "Benchmarking Optimization Software with COPS"
+*   Argonne National Labs Technical Report ANL/MCS-246 (2000)
+
+*   SIF input: Nick Gould, December 2000
+
+*   classification OOR2-AN-V-V
+
+*   The number of vertices
+
+*IE NV                  25             $-PARAMETER
+*IE NV                  50             $-PARAMETER
+*IE NV                  75             $-PARAMETER
+ IE NV                  100            $-PARAMETER
+
+* approximation of pi
+
+ RF PI/4      ARCTAN    1.0
+ RM PI        PI/4      4.0
+
+*  Other useful values
+
+ IE 1                   1
+ IA NV-1      NV        -1                
+
+ RI NV        NV
+ RA NV+1      NV        1.0
+ R* (NV+1)^2  NV+1                     NV+1
+ RD RATR      (NV+1)^2  4.0
+ R/ RATT      PI                       NV
+
+VARIABLES
+
+ DO I         1                        NV
+ X  R(I)      $  polar radius (distance to fixed vertex)
+ X  THETA(I)  $  polar angle (measured from fixed direction)
+ ND
+
+GROUPS
+
+*  Objective function: polygon area
+
+ N  AREA
+
+*  Constraints: the thetas are ordered
+
+ DO I         1                        NV-1
+ IA I1        I         1
+ XG O(I)      THETA(I1) 1.0            THETA(I)  -1.0   
+ ND
+
+* The distances are bounded
+
+ DO I         1                        NV-1
+ IA I+1       I         1 
+ DO J         I+1                      NV
+ XL D(I,J)
+ ND
+
+CONSTANTS
+
+ DO I         1                        NV-1
+ IA I+1       I         1 
+ DO J         I+1                      NV
+ X  POLYGON   D(I,J)    1.0
+ ND
+
+BOUNDS
+
+ DO I         1                        NV-1
+ XU POLYGON   R(I)      1.0
+ ZU POLYGON   THETA(I)                 PI
+ ND
+
+ XX POLYGON   R(NV)     0.0
+ ZX POLYGON   THETA(NV)                PI
+
+START POINT
+
+ DO I         1                        NV-1
+ RI I         I
+ R- RATRI     NV+1                     I
+ R* RATRI     RATRI                    I
+ R* RATRI     RATRI                    RATR 
+ R* RATTI     RATT                     I
+ Z  POLYGON   R(I)                     RATRI
+ Z  POLYGON   THETA(I)                 RATTI
+ ND
+
+ELEMENT TYPE
+
+ EV SQR       X
+
+ EV SI        R1                       R2
+ EV SI        T1                       T2
+ IV SI        R1                       R2
+ IV SI        T
+
+ EV CO        R1                       R2
+ EV CO        T1                       T2
+ IV CO        R1                       R2
+ IV CO        T
+
+ELEMENT USES
+
+ DO I         1                        NV
+ XT R(I)      SQR
+ ZV R(I)      X                        R(I)
+ ND
+
+ DO I         1                        NV-1
+ IA I+1       I         1 
+ XT S(I)      SI
+ ZV S(I)      R1                       R(I)
+ ZV S(I)      R2                       R(I+1)
+ ZV S(I)      T1                       THETA(I+1)
+ ZV S(I)      T2                       THETA(I)
+ ND
+
+ DO I         1                        NV-1
+ IA I+1       I         1 
+ DO J         I+1                      NV
+ XT C(I,J)    CO
+ ZV C(I,J)    R1                       R(I)
+ ZV C(I,J)    R2                       R(J)
+ ZV C(I,J)    T1                       THETA(J)
+ ZV C(I,J)    T2                       THETA(I)
+ ND
+
+GROUP USES
+
+* Objective: minimize - polygon_area: 
+*  - 0.5*sum{i in 1..nv-1} r[i+1]*r[i]*sin(theta[i+1] - theta[i])
+
+ DO I         1                        NV-1
+ XE AREA      S(I)      -0.5
+ ND
+
+* Distance constraints {i in 1..nv-1,j in i+1..nv}:
+*  r[i]^2 + r[j]^2 - 2*r[i]*r[j]*cos(theta[j] - theta[i]) <= 1
+
+ DO I         1                        NV-1
+ IA I+1       I         1 
+ DO J         I+1                      NV
+ XE D(I,J)    R(I)      1.0            R(J)      1.0
+ XE D(I,J)    C(I,J)    -2.0
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLUTION             -7.7974D-01   $ (NH=25)
+*LO SOLUTION             -7.7839D-01   $ (NH=50)
+*LO SOLUTION             -7.7847D-01   $ (NH=100)
+*LO SOLUTION             -7.7850D-01   $ (NH=200)
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      POLYGON
+
+TEMPORARIES
+
+ R  SINT
+ R  COST
+ M  SIN
+ M  COS
+
+INDIVIDUALS
+
+ T  SQR
+ F                      X * X
+ G  X                   X + X
+ H  X         X         2.0
+
+ T  SI
+ R  R1        R1        1.0
+ R  R2        R2        1.0
+ R  T         T1        1.0            T2        -1.0
+ A  SINT                SIN( T )
+ A  COST                COS( T )
+ F                      R1 * R2 * SINT
+ G  R1                  R2 * SINT
+ G  R2                  R1 * SINT
+ G  T                   R1 * R2 * COST
+ H  R1        R2        SINT
+ H  R1        T         R2 * COST 
+ H  R2        T         R1 * COST 
+ H  T         T         - R1 * R2 * SINT
+
+ T  CO
+ R  R1        R1        1.0
+ R  R2        R2        1.0
+ R  T         T1        1.0            T2        -1.0
+ A  SINT                SIN( T )
+ A  COST                COS( T )
+ F                      R1 * R2 * COST
+ G  R1                  R2 * COST
+ G  R2                  R1 * COST
+ G  T                   - R1 * R2 * SINT
+ H  R1        R2        COST
+ H  R1        T         - R2 * SINT
+ H  R2        T         - R1 * SINT 
+ H  T         T         - R1 * R2 * COST
+
+ENDATA
+
+

@@ -1,0 +1,4133 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          NET4
+
+*   Problem :
+*   *********
+
+*   A gas network problem for the British NTS system.
+
+*   SIF input: Sybille Schachler, Oxford, August 1992.
+*   Time-dependent version of NET3, Nick Gould, October 2002.
+
+*   classification OOI2-RN-66816-75024
+
+*   ...Problem size parameters
+
+ IE 1                              1
+ IE 2                              2
+ IE NNOD                         196
+ IE NPIP                         199
+ IE NCMP                          17
+ IE NRGL                           4
+ IE NVLV                           1
+ IE NSRC                          11
+ IE CSTART                       200
+ IE CEND                         216
+ IE RSTART                       217
+ IE REND                         220
+ IE VSTART                       221
+ IE VEND                         221
+ IE SSTART                       222
+ IE SEND                         232
+* Hour intervals
+*IE TIME                         24
+* 10 minute intervals
+ IE TIME                         144
+
+ RI t         TIME
+ RE omega                       0.24
+ RE one                         1.0
+ RE -one                        -1.0
+ R/ omega     omega                    t
+ RM -omega    omega             -1.0
+ RA -omega-1  -omega            -1.0
+ RA 1-omega   -omega            1.0
+
+VARIABLES
+
+ DO T         1                        TIME 
+ X  NOP161,(T)
+ X  PFL117,(T)
+ X  NOP74,(T)
+ X  SFL231,(T)
+ X  SBV231,(T)
+ X  NOP98,(T)
+ X  PFL116,(T)
+ X  NOP153,(T)
+ X  PFL146,(T)
+ X  PFL185,(T)
+ X  NOP164,(T)
+ X  PFL190,(T)
+ X  PFL191,(T)
+ X  NOP163,(T)
+ X  NOP44,(T)
+ X  NOP167,(T)
+ X  PFL138,(T)
+ X  NOP89,(T)
+ X  PFL75,(T)
+ X  PFL139,(T)
+ X  PFL83,(T)
+ X  NOP49,(T)
+ X  NOP113,(T)
+ X  CFL205,(T)
+ X  CBV205,(T)
+ X  NOP48,(T)
+ X  PFL82,(T)
+ X  PFL81,(T)
+ X  NOP61,(T)
+ X  CFL207,(T)
+ X  CBV207,(T)
+ X  NOP60,(T)
+ X  PFL100,(T)
+ X  NOP195,(T)
+ X  NOP19,(T)
+ X  PFL38,(T)
+ X  NOP18,(T)
+ X  PFL36,(T)
+ X  SFL222,(T)
+ X  SBV222,(T)
+ X  NOP99,(T)
+ X  PFL37,(T)
+ X  NOP143,(T)
+ X  PFL29,(T)
+ X  NOP15,(T)
+ X  NOP150,(T)
+ X  PFL130,(T)
+ X  NOP84,(T)
+ X  PFL28,(T)
+ X  NOP23,(T)
+ X  PFL25,(T)
+ X  NOP12,(T)
+ X  NOP116,(T)
+ X  PFL71,(T)
+ X  NOP41,(T)
+ X  PFL43,(T)
+ X  NOP97,(T)
+ X  PFL24,(T)
+ X  NOP96,(T)
+ X  NOP36,(T)
+ X  PFL65,(T)
+ X  PFL144,(T)
+ X  NOP63,(T)
+ X  CFL204,(T)
+ X  CBV204,(T)
+ X  NOP42,(T)
+ X  PFL145,(T)
+ X  NOP140,(T)
+ X  PFL143,(T)
+ X  NOP24,(T)
+ X  PFL44,(T)
+ X  PFL103,(T)
+ X  NOP64,(T)
+ X  NOP189,(T)
+ X  PFL72,(T)
+ X  NOP144,(T)
+ X  PFL108,(T)
+ X  NOP68,(T)
+ X  PFL45,(T)
+ X  NOP127,(T)
+ X  PFL101,(T)
+ X  NOP62,(T)
+ X  PFL169,(T)
+ X  NOP132,(T)
+ X  PFL181,(T)
+ X  NOP185,(T)
+ ND
+ DO T         1                        TIME 
+ X  PFL89,(T)
+ X  NOP53,(T)
+ X  PFL27,(T)
+ X  NOP14,(T)
+ X  PFL102,(T)
+ X  NOP81,(T)
+ X  PFL175,(T)
+ X  PFL197,(T)
+ X  NOP187,(T)
+ X  PFL90,(T)
+ X  NOP192,(T)
+ X  CFL201,(T)
+ X  CBV201,(T)
+ X  NOP13,(T)
+ X  PFL127,(T)
+ X  NOP142,(T)
+ X  NOP159,(T)
+ X  RFL220,(T)
+ X  R1B220,(T)
+ X  R2B220,(T)
+ X  NOP186,(T)
+ X  PFL199,(T)
+ X  NOP191,(T)
+ X  PFL26,(T)
+ X  NOP85,(T)
+ X  PFL124,(T)
+ X  NOP78,(T)
+ X  NOP72,(T)
+ X  NOP107,(T)
+ X  PFL113,(T)
+ X  PFL151,(T)
+ X  PFL188,(T)
+ X  NOP158,(T)
+ X  PFL198,(T)
+ X  NOP190,(T)
+ X  PFL131,(T)
+ X  PFL125,(T)
+ X  PFL114,(T)
+ X  NOP145,(T)
+ X  PFL150,(T)
+ X  PFL50,(T)
+ X  NOP27,(T)
+ X  PFL92,(T)
+ X  NOP55,(T)
+ X  PFL91,(T)
+ X  PFL49,(T)
+ X  NOP92,(T)
+ X  CFL206,(T)
+ X  CBV206,(T)
+ X  NOP54,(T)
+ X  CFL209,(T)
+ X  CBV209,(T)
+ X  NOP91,(T)
+ X  PFL85,(T)
+ X  PFL86,(T)
+ X  NOP50,(T)
+ X  NOP124,(T)
+ X  SFL224,(T)
+ X  SBV224,(T)
+ X  NOP26,(T)
+ X  PFL47,(T)
+ X  NOP37,(T)
+ X  PFL140,(T)
+ X  NOP174,(T)
+ X  PFL84,(T)
+ X  PFL87,(T)
+ X  NOP52,(T)
+ X  NOP119,(T)
+ X  PFL167,(T)
+ X  PFL48,(T)
+ X  NOP104,(T)
+ X  PFL66,(T)
+ X  PFL179,(T)
+ X  NOP139,(T)
+ X  NOP172,(T)
+ X  PFL194,(T)
+ X  NOP180,(T)
+ X  PFL88,(T)
+ ND
+ DO T         1                        TIME 
+ X  PFL73,(T)
+ X  NOP51,(T)
+ X  NOP43,(T)
+ X  CFL211,(T)
+ X  CBV211,(T)
+ X  NOP105,(T)
+ X  PFL178,(T)
+ X  PFL60,(T)
+ X  NOP138,(T)
+ X  NOP33,(T)
+ X  PFL148,(T)
+ X  NOP188,(T)
+ X  NOP125,(T)
+ X  NOP154,(T)
+ X  NOP183,(T)
+ X  RFL219,(T)
+ X  R1B219,(T)
+ X  R2B219,(T)
+ X  NOP181,(T)
+ X  NOP182,(T)
+ X  CFL216,(T)
+ X  CBV216,(T)
+ X  NOP179,(T)
+ X  PFL22,(T)
+ X  PFL74,(T)
+ X  NOP11,(T)
+ X  NOP137,(T)
+ X  PFL147,(T)
+ X  NOP123,(T)
+ X  PFL177,(T)
+ X  PFL61,(T)
+ X  NOP173,(T)
+ X  PFL166,(T)
+ X  PFL162,(T)
+ X  PFL23,(T)
+ X  PFL184,(T)
+ X  NOP151,(T)
+ X  PFL196,(T)
+ X  PFL165,(T)
+ X  PFL163,(T)
+ X  NOP131,(T)
+ X  NOP5,(T)
+ X  NOP6,(T)
+ X  PFL189,(T)
+ X  NOP160,(T)
+ X  PFL11,(T)
+ X  CFL213,(T)
+ X  CBV213,(T)
+ X  NOP3,(T)
+ X  NOP136,(T)
+ X  PFL164,(T)
+ X  PFL12,(T)
+ X  PFL160,(T)
+ X  NOP117,(T)
+ X  PFL174,(T)
+ X  PFL9,(T)
+ X  PFL10,(T)
+ X  PFL129,(T)
+ X  NOP83,(T)
+ X  CFL200,(T)
+ X  CBV200,(T)
+ X  PFL176,(T)
+ X  NOP4,(T)
+ X  NOP175,(T)
+ X  PFL106,(T)
+ X  NOP67,(T)
+ X  NOP114,(T)
+ X  CFL214,(T)
+ X  CBV214,(T)
+ X  NOP148,(T)
+ X  NOP149,(T)
+ X  PFL128,(T)
+ X  NOP103,(T)
+ X  PFL13,(T)
+ X  PFL187,(T)
+ X  NOP118,(T)
+ X  NOP156,(T)
+ X  PFL107,(T)
+ X  NOP152,(T)
+ X  PFL158,(T)
+ X  PFL64,(T)
+ X  PFL183,(T)
+ X  NOP170,(T)
+ ND
+ DO T         1                        TIME 
+ X  NOP35,(T)
+ X  SFL232,(T)
+ X  SBV232,(T)
+ X  NOP162,(T)
+ X  PFL132,(T)
+ X  NOP86,(T)
+ X  PFL42,(T)
+ X  PFL134,(T)
+ X  NOP22,(T)
+ X  PFL159,(T)
+ X  NOP115,(T)
+ X  PFL63,(T)
+ X  PFL192,(T)
+ X  PFL193,(T)
+ X  NOP171,(T)
+ X  PFL135,(T)
+ X  PFL133,(T)
+ X  NOP134,(T)
+ X  PFL19,(T)
+ X  NOP10,(T)
+ X  PFL21,(T)
+ X  PFL180,(T)
+ X  NOP141,(T)
+ X  PFL105,(T)
+ X  PFL126,(T)
+ X  RFL218,(T)
+ X  R1B218,(T)
+ X  R2B218,(T)
+ X  NOP66,(T)
+ X  NOP80,(T)
+ X  NOP135,(T)
+ X  PFL20,(T)
+ X  NOP88,(T)
+ X  PFL17,(T)
+ X  NOP9,(T)
+ X  SFL230,(T)
+ X  SBV230,(T)
+ X  NOP90,(T)
+ X  NOP129,(T)
+ X  SFL227,(T)
+ X  SBV227,(T)
+ X  PFL51,(T)
+ X  PFL172,(T)
+ X  NOP28,(T)
+ X  NOP130,(T)
+ X  PFL137,(T)
+ X  NOP178,(T)
+ X  PFL18,(T)
+ X  NOP169,(T)
+ X  PFL52,(T)
+ X  PFL171,(T)
+ X  NOP34,(T)
+ X  NOP94,(T)
+ X  PFL53,(T)
+ X  PFL104,(T)
+ X  PFL173,(T)
+ X  NOP133,(T)
+ X  NOP65,(T)
+ X  NOP155,(T)
+ X  PFL195,(T)
+ X  NOP177,(T)
+ X  PFL40,(T)
+ X  NOP20,(T)
+ X  PFL62,(T)
+ X  NOP147,(T)
+ X  PFL97,(T)
+ X  NOP58,(T)
+ X  PFL112,(T)
+ X  SFL226,(T)
+ X  SBV226,(T)
+ X  PFL186,(T)
+ X  NOP71,(T)
+ X  NOP165,(T)
+ X  CFL215,(T)
+ X  CBV215,(T)
+ X  NOP176,(T)
+ X  PFL39,(T)
+ X  PFL157,(T)
+ X  NOP110,(T)
+ X  PFL96,(T)
+ X  PFL56,(T)
+ X  PFL142,(T)
+ X  NOP30,(T)
+ ND
+ DO T         1                        TIME 
+ X  NOP95,(T)
+ X  PFL168,(T)
+ X  NOP126,(T)
+ X  PFL156,(T)
+ X  NOP112,(T)
+ X  CFL203,(T)
+ X  CBV203,(T)
+ X  NOP29,(T)
+ X  PFL119,(T)
+ X  NOP75,(T)
+ X  PFL118,(T)
+ X  VFL221,(T)
+ X  VBV221,(T)
+ X  NOP111,(T)
+ X  SFL223,(T)
+ X  SBV223,(T)
+ X  NOP25,(T)
+ X  PFL54,(T)
+ X  PFL55,(T)
+ X  NOP32,(T)
+ X  NOP57,(T)
+ X  RFL217,(T)
+ X  R1B217,(T)
+ X  R2B217,(T)
+ X  NOP73,(T)
+ X  PFL77,(T)
+ X  PFL115,(T)
+ X  NOP46,(T)
+ X  PFL46,(T)
+ X  PFL57,(T)
+ X  PFL95,(T)
+ X  NOP31,(T)
+ X  NOP193,(T)
+ X  PFL79,(T)
+ X  NOP47,(T)
+ X  PFL78,(T)
+ X  NOP184,(T)
+ X  PFL58,(T)
+ X  PFL59,(T)
+ X  PFL136,(T)
+ X  NOP106,(T)
+ X  NOP109,(T)
+ X  NOP87,(T)
+ X  PFL80,(T)
+ X  PFL155,(T)
+ X  PFL152,(T)
+ X  NOP108,(T)
+ X  PFL111,(T)
+ X  PFL149,(T)
+ X  PFL154,(T)
+ X  PFL14,(T)
+ X  NOP70,(T)
+ X  NOP166,(T)
+ X  NOP121,(T)
+ X  NOP7,(T)
+ X  PFL153,(T)
+ X  PFL70,(T)
+ X  CFL212,(T)
+ X  CBV212,(T)
+ X  PFL7,(T)
+ X  NOP40,(T)
+ X  NOP120,(T)
+ X  NOP2,(T)
+ X  PFL161,(T)
+ X  NOP122,(T)
+ X  PFL69,(T)
+ X  PFL109,(T)
+ X  PFL8,(T)
+ X  NOP128,(T)
+ X  NOP69,(T)
+ X  NOP76,(T)
+ X  PFL110,(T)
+ X  PFL170,(T)
+ X  PFL34,(T)
+ X  PFL35,(T)
+ X  PFL67,(T)
+ X  PFL120,(T)
+ X  CFL208,(T)
+ X  CBV208,(T)
+ X  PFL2,(T)
+ X  PFL3,(T)
+ X  NOP168,(T)
+ X  NOP17,(T)
+ ND
+ DO T         1                        TIME 
+ X  NOP38,(T)
+ X  NOP102,(T)
+ X  NOP77,(T)
+ X  NOP1,(T)
+ X  PFL15,(T)
+ X  CFL202,(T)
+ X  CBV202,(T)
+ X  SFL225,(T)
+ X  SBV225,(T)
+ X  PFL6,(T)
+ X  PFL121,(T)
+ X  PFL122,(T)
+ X  PFL123,(T)
+ X  PFL1,(T)
+ X  PFL4,(T)
+ X  PFL5,(T)
+ X  NOP8,(T)
+ X  NOP16,(T)
+ X  NOP79,(T)
+ X  NOP45,(T)
+ X  NOP100,(T)
+ X  PFL16,(T)
+ X  PFL30,(T)
+ X  PFL33,(T)
+ X  PFL31,(T)
+ X  PFL32,(T)
+ X  SFL228,(T)
+ X  SBV228,(T)
+ X  PFL76,(T)
+ X  CFL210,(T)
+ X  CBV210,(T)
+ X  NOP39,(T)
+ X  NOP82,(T)
+ X  NOP21,(T)
+ X  NOP59,(T)
+ X  NOP101,(T)
+ X  PFL68,(T)
+ X  PFL41,(T)
+ X  SFL229,(T)
+ X  SBV229,(T)
+ X  PFL98,(T)
+ X  PFL99,(T)
+ X  NOP157,(T)
+ X  PFL141,(T)
+ X  NOP93,(T)
+ X  PFL93,(T)
+ X  NOP56,(T)
+ X  PFL94,(T)
+ X  NOP194,(T)
+ X  PFL182,(T)
+ X  NOP146,(T)
+ ND
+
+GROUPS
+
+*   Linear constraints
+
+*   ...Mass balance equations...
+ DO T         1                        1
+ ZE MBE1,(T)  PFL1,(T)                 -one
+ ZE MBE1,(T)  PFL2,(T)                 -one
+ ZE MBE1,(T)  PFL3,(T)                 -one
+ ZE MBE1,(T)  PFL4,(T)                 -one
+ ZE MBE1,(T)  PFL5,(T)                 -one
+ ZE MBE1,(T)  PFL6,(T)                 -one
+ ZE MBE2,(T)  PFL7,(T)                 -one
+ ZE MBE2,(T)  PFL8,(T)                 -one
+ ZE MBE3,(T)  PFL9,(T)                 -one
+ ZE MBE3,(T)  PFL10,(T)                -one
+ ZE MBE3,(T)  PFL11,(T)                -one
+ ZE MBE3,(T)  PFL12,(T)                -one
+ ZE MBE3,(T)  CFL200,(T)               -one
+ ZE MBE4,(T)  PFL13,(T)                -one
+ ZE MBE4,(T)  CFL200,(T)               one
+ ZE MBE5,(T)  PFL9,(T)                 one
+ ZE MBE6,(T)  PFL10,(T)                one
+ ZE MBE7,(T)  PFL7,(T)                 one
+ ZE MBE7,(T)  PFL14,(T)                -one
+ ZE MBE8,(T)  PFL15,(T)                -one
+ ZE MBE8,(T)  PFL16,(T)                -one
+ ZE MBE9,(T)  PFL17,(T)                -one
+ ZE MBE9,(T)  PFL18,(T)                -one
+ ZE MBE10,(T) PFL19,(T)                -one
+ ZE MBE10,(T) PFL20,(T)                -one
+ ZE MBE10,(T) PFL21,(T)                -one
+ ZE MBE11,(T) PFL11,(T)                one
+ ZE MBE11,(T) PFL22,(T)                -one
+ ZE MBE11,(T) PFL23,(T)                -one
+ ZE MBE12,(T) PFL24,(T)                -one
+ ZE MBE12,(T) PFL25,(T)                -one
+ ZE MBE13,(T) PFL26,(T)                -one
+ ZE MBE13,(T) CFL201,(T)               -one
+ ZE MBE14,(T) PFL27,(T)                -one
+ ZE MBE14,(T) CFL201,(T)               one
+ ZE MBE15,(T) PFL28,(T)                -one
+ ZE MBE15,(T) PFL29,(T)                -one
+ ZE MBE16,(T) PFL30,(T)                -one
+ ZE MBE16,(T) PFL31,(T)                -one
+ ZE MBE16,(T) PFL32,(T)                -one
+ ZE MBE16,(T) PFL33,(T)                -one
+ ZE MBE16,(T) CFL202,(T)               -one
+ ZE MBE17,(T) PFL15,(T)                one
+ ZE MBE17,(T) PFL34,(T)                -one
+ ZE MBE17,(T) PFL35,(T)                -one
+ ZE MBE17,(T) CFL202,(T)               one
+ ZE MBE18,(T) PFL36,(T)                -one
+ ZE MBE18,(T) PFL37,(T)                -one
+ ZE MBE18,(T) PFL38,(T)                -one
+ ZE MBE18,(T) SFL222,(T)               one
+ ZE MBE19,(T) PFL36,(T)                one
+ ZE MBE20,(T) PFL39,(T)                -one
+ ZE MBE20,(T) PFL40,(T)                -one
+ ZE MBE21,(T) PFL30,(T)                one
+ ZE MBE21,(T) PFL41,(T)                -one
+ ZE MBE22,(T) PFL19,(T)                one
+ ZE MBE22,(T) PFL42,(T)                -one
+ ZE MBE23,(T) PFL28,(T)                one
+ ZE MBE23,(T) PFL43,(T)                -one
+ ZE MBE24,(T) PFL44,(T)                -one
+ ZE MBE24,(T) PFL45,(T)                -one
+ ZE MBE25,(T) PFL46,(T)                -one
+ ZE MBE25,(T) SFL223,(T)               one
+ ND
+ ZE MBE26,(T) PFL47,(T)                -one
+ ZE MBE26,(T) PFL48,(T)                -one
+ ZE MBE26,(T) SFL224,(T)               one
+ ZE MBE27,(T) PFL49,(T)                -one
+ ZE MBE27,(T) PFL50,(T)                -one
+ ZE MBE28,(T) PFL51,(T)                -one
+ ZE MBE28,(T) PFL52,(T)                -one
+ ZE MBE28,(T) PFL53,(T)                -one
+ ZE MBE29,(T) PFL54,(T)                -one
+ ZE MBE29,(T) PFL55,(T)                -one
+ ZE MBE29,(T) CFL203,(T)               -one
+ ZE MBE30,(T) PFL56,(T)                -one
+ ZE MBE30,(T) CFL203,(T)               one
+ ZE MBE31,(T) PFL57,(T)                -one
+ ZE MBE31,(T) PFL58,(T)                -one
+ ZE MBE31,(T) PFL59,(T)                -one
+ ZE MBE32,(T) PFL54,(T)                one
+ ZE MBE32,(T) PFL57,(T)                one
+ ZE MBE33,(T) PFL60,(T)                -one
+ ZE MBE33,(T) PFL61,(T)                -one
+ ZE MBE34,(T) PFL62,(T)                -one
+ ZE MBE35,(T) PFL63,(T)                -one
+ ZE MBE35,(T) PFL64,(T)                -one
+ ZE MBE36,(T) PFL44,(T)                one
+ ZE MBE36,(T) PFL65,(T)                -one
+ ZE MBE37,(T) PFL47,(T)                one
+ ZE MBE37,(T) PFL66,(T)                -one
+ ZE MBE38,(T) PFL67,(T)                -one
+ ZE MBE38,(T) SFL225,(T)               one
+ ZE MBE39,(T) PFL16,(T)                one
+ ZE MBE39,(T) PFL68,(T)                -one
+ ZE MBE40,(T) PFL69,(T)                -one
+ ZE MBE40,(T) PFL70,(T)                -one
+ ZE MBE41,(T) PFL71,(T)                -one
+ ZE MBE41,(T) CFL204,(T)               -one
+ ZE MBE42,(T) PFL72,(T)                -one
+ ZE MBE42,(T) CFL204,(T)               one
+ ZE MBE43,(T) PFL73,(T)                -one
+ ZE MBE43,(T) PFL74,(T)                -one
+ ZE MBE44,(T) PFL75,(T)                -one
+ ZE MBE45,(T) PFL1,(T)                 one
+ ZE MBE45,(T) PFL76,(T)                -one
+ ZE MBE46,(T) PFL77,(T)                -one
+ ZE MBE46,(T) PFL78,(T)                -one
+ ZE MBE47,(T) PFL79,(T)                -one
+ ZE MBE47,(T) PFL80,(T)                -one
+ ZE MBE48,(T) PFL81,(T)                -one
+ ZE MBE48,(T) PFL82,(T)                -one
+ ZE MBE48,(T) CFL205,(T)               -one
+ ZE MBE49,(T) PFL83,(T)                -one
+ ZE MBE49,(T) CFL205,(T)               one
+ ZE MBE50,(T) PFL84,(T)                -one
+ ZE MBE50,(T) PFL85,(T)                -one
+ ZE MBE50,(T) PFL86,(T)                -one
+ ZE MBE50,(T) PFL87,(T)                -one
+ ND
+ ZE MBE51,(T) PFL22,(T)                one
+ ZE MBE51,(T) PFL88,(T)                -one
+ ZE MBE52,(T) PFL84,(T)                one
+ ZE MBE52,(T) PFL88,(T)                one
+ ZE MBE53,(T) PFL89,(T)                -one
+ ZE MBE53,(T) PFL90,(T)                -one
+ ZE MBE54,(T) PFL85,(T)                one
+ ZE MBE54,(T) PFL86,(T)                one
+ ZE MBE54,(T) CFL206,(T)               -one
+ ZE MBE55,(T) PFL91,(T)                -one
+ ZE MBE55,(T) PFL92,(T)                -one
+ ZE MBE55,(T) CFL206,(T)               one
+ ZE MBE56,(T) PFL93,(T)                -one
+ ZE MBE56,(T) PFL94,(T)                -one
+ ZE MBE57,(T) PFL55,(T)                one
+ ZE MBE57,(T) PFL95,(T)                -one
+ ZE MBE58,(T) PFL96,(T)                -one
+ ZE MBE58,(T) PFL97,(T)                -one
+ ZE MBE59,(T) PFL31,(T)                one
+ ZE MBE59,(T) PFL32,(T)                one
+ ZE MBE59,(T) PFL98,(T)                -one
+ ZE MBE59,(T) PFL99,(T)                -one
+ ZE MBE60,(T) PFL100,(T)               -one
+ ZE MBE60,(T) CFL207,(T)               -one
+ ZE MBE61,(T) PFL81,(T)                one
+ ZE MBE61,(T) CFL207,(T)               one
+ ZE MBE62,(T) PFL101,(T)               -one
+ ZE MBE62,(T) PFL102,(T)               -one
+ ZE MBE63,(T) PFL103,(T)               -one
+ ZE MBE64,(T) PFL101,(T)               one
+ ZE MBE64,(T) PFL103,(T)               one
+ ZE MBE65,(T) PFL104,(T)               -one
+ ZE MBE65,(T) SFL226,(T)               one
+ ZE MBE66,(T) PFL105,(T)               -one
+ ZE MBE66,(T) SFL227,(T)               one
+ ZE MBE67,(T) PFL106,(T)               -one
+ ZE MBE67,(T) PFL107,(T)               -one
+ ZE MBE68,(T) PFL89,(T)                one
+ ZE MBE68,(T) PFL108,(T)               -one
+ ZE MBE69,(T) PFL34,(T)                one
+ ZE MBE69,(T) PFL35,(T)                one
+ ZE MBE69,(T) PFL109,(T)               -one
+ ZE MBE69,(T) PFL110,(T)               -one
+ ZE MBE70,(T) PFL111,(T)               -one
+ ZE MBE71,(T) PFL39,(T)                one
+ ZE MBE71,(T) PFL56,(T)                one
+ ZE MBE71,(T) PFL96,(T)                one
+ ZE MBE71,(T) PFL112,(T)               -one
+ ZE MBE72,(T) PFL113,(T)               -one
+ ZE MBE72,(T) PFL114,(T)               -one
+ ZE MBE73,(T) PFL46,(T)                one
+ ZE MBE73,(T) PFL79,(T)                one
+ ZE MBE73,(T) PFL115,(T)               -one
+ ZE MBE73,(T) RFL217,(T)               -one
+ ZE MBE74,(T) PFL116,(T)               -one
+ ZE MBE74,(T) PFL117,(T)               -one
+ ZE MBE75,(T) PFL118,(T)               -one
+ ZE MBE75,(T) PFL119,(T)               -one
+ ZE MBE75,(T) RFL217,(T)               one
+ ND
+ ZE MBE76,(T) PFL2,(T)                 one
+ ZE MBE76,(T) PFL3,(T)                 one
+ ZE MBE76,(T) PFL8,(T)                 one
+ ZE MBE76,(T) PFL67,(T)                one
+ ZE MBE76,(T) PFL120,(T)               -one
+ ZE MBE76,(T) CFL208,(T)               one
+ ZE MBE77,(T) PFL121,(T)               -one
+ ZE MBE77,(T) PFL122,(T)               -one
+ ZE MBE77,(T) PFL123,(T)               -one
+ ZE MBE77,(T) CFL208,(T)               -one
+ ZE MBE78,(T) PFL124,(T)               -one
+ ZE MBE78,(T) PFL125,(T)               -one
+ ZE MBE79,(T) PFL121,(T)               one
+ ZE MBE79,(T) PFL122,(T)               one
+ ZE MBE79,(T) PFL123,(T)               one
+ ZE MBE79,(T) SFL228,(T)               one
+ ZE MBE80,(T) PFL51,(T)                one
+ ZE MBE80,(T) PFL126,(T)               -one
+ ZE MBE81,(T) PFL102,(T)               one
+ ZE MBE81,(T) PFL127,(T)               -one
+ ZE MBE82,(T) PFL33,(T)                one
+ ZE MBE82,(T) SFL229,(T)               one
+ ZE MBE83,(T) PFL128,(T)               -one
+ ZE MBE83,(T) PFL129,(T)               -one
+ ZE MBE84,(T) PFL71,(T)                one
+ ZE MBE84,(T) PFL130,(T)               -one
+ ZE MBE85,(T) PFL26,(T)                one
+ ZE MBE85,(T) PFL131,(T)               -one
+ ZE MBE86,(T) PFL63,(T)                one
+ ZE MBE86,(T) PFL132,(T)               -one
+ ZE MBE86,(T) PFL133,(T)               -one
+ ZE MBE86,(T) PFL134,(T)               -one
+ ZE MBE86,(T) PFL135,(T)               -one
+ ZE MBE87,(T) PFL14,(T)                one
+ ZE MBE87,(T) PFL136,(T)               -one
+ ZE MBE88,(T) PFL20,(T)                one
+ ZE MBE88,(T) PFL137,(T)               -one
+ ZE MBE89,(T) PFL75,(T)                one
+ ZE MBE89,(T) PFL83,(T)                one
+ ZE MBE89,(T) PFL138,(T)               -one
+ ZE MBE89,(T) PFL139,(T)               -one
+ ZE MBE90,(T) PFL52,(T)                one
+ ZE MBE90,(T) SFL230,(T)               one
+ ZE MBE91,(T) PFL140,(T)               -one
+ ZE MBE91,(T) CFL209,(T)               -one
+ ZE MBE92,(T) PFL49,(T)                one
+ ZE MBE92,(T) CFL209,(T)               one
+ ZE MBE93,(T) PFL93,(T)                one
+ ZE MBE93,(T) PFL141,(T)               -one
+ ZE MBE94,(T) PFL97,(T)                one
+ ZE MBE95,(T) PFL142,(T)               -one
+ ZE MBE96,(T) PFL24,(T)                one
+ ZE MBE96,(T) PFL143,(T)               -one
+ ZE MBE97,(T) PFL43,(T)                one
+ ZE MBE97,(T) PFL144,(T)               -one
+ ZE MBE97,(T) PFL145,(T)               -one
+ ZE MBE98,(T) PFL146,(T)               -one
+ ZE MBE98,(T) SFL231,(T)               one
+ ZE MBE99,(T) PFL29,(T)                one
+ ND
+ ZE MBE100,(T)PFL4,(T)                 one
+ ZE MBE100,(T)PFL5,(T)                 one
+ ZE MBE100,(T)PFL76,(T)                one
+ ZE MBE100,(T)CFL210,(T)               -one
+ ZE MBE101,(T)PFL41,(T)                one
+ ZE MBE101,(T)PFL98,(T)                one
+ ZE MBE101,(T)PFL99,(T)                one
+ ZE MBE101,(T)CFL210,(T)               one
+ ZE MBE102,(T)PFL6,(T)                 one
+ ZE MBE102,(T)PFL120,(T)               one
+ ZE MBE103,(T)PFL128,(T)               one
+ ZE MBE103,(T)PFL132,(T)               one
+ ZE MBE104,(T)PFL48,(T)                one
+ ZE MBE104,(T)PFL66,(T)                one
+ ZE MBE104,(T)CFL211,(T)               -one
+ ZE MBE105,(T)PFL147,(T)               -one
+ ZE MBE105,(T)PFL148,(T)               -one
+ ZE MBE105,(T)CFL211,(T)               one
+ ZE MBE106,(T)PFL58,(T)                one
+ ZE MBE106,(T)PFL111,(T)               one
+ ZE MBE106,(T)PFL149,(T)               -one
+ ZE MBE107,(T)PFL150,(T)               -one
+ ZE MBE107,(T)PFL151,(T)               -one
+ ZE MBE108,(T)PFL152,(T)               -one
+ ZE MBE108,(T)PFL153,(T)               -one
+ ZE MBE109,(T)PFL59,(T)                one
+ ZE MBE109,(T)PFL80,(T)                one
+ ZE MBE109,(T)PFL152,(T)               one
+ ZE MBE109,(T)PFL154,(T)               -one
+ ZE MBE109,(T)PFL155,(T)               -one
+ ZE MBE110,(T)PFL156,(T)               -one
+ ZE MBE110,(T)PFL157,(T)               -one
+ ZE MBE111,(T)PFL77,(T)                one
+ ZE MBE111,(T)PFL115,(T)               one
+ ZE MBE111,(T)VFL221,(T)               -one
+ ZE MBE112,(T)PFL118,(T)               one
+ ZE MBE112,(T)PFL156,(T)               one
+ ZE MBE112,(T)VFL221,(T)               one
+ ZE MBE113,(T)PFL82,(T)                one
+ ZE MBE114,(T)PFL158,(T)               -one
+ ZE MBE115,(T)PFL21,(T)                one
+ ZE MBE115,(T)PFL159,(T)               -one
+ ZE MBE116,(T)PFL65,(T)                one
+ ZE MBE116,(T)PFL144,(T)               one
+ ZE MBE117,(T)PFL106,(T)               one
+ ZE MBE117,(T)PFL160,(T)               -one
+ ZE MBE118,(T)PFL13,(T)                one
+ ZE MBE118,(T)PFL42,(T)                one
+ ZE MBE119,(T)PFL73,(T)                one
+ ZE MBE119,(T)PFL87,(T)                one
+ ZE MBE120,(T)PFL109,(T)               one
+ ZE MBE120,(T)PFL161,(T)               -one
+ ZE MBE120,(T)CFL212,(T)               -one
+ ZE MBE121,(T)PFL153,(T)               one
+ ZE MBE121,(T)PFL154,(T)               one
+ ZE MBE121,(T)CFL212,(T)               one
+ ZE MBE122,(T)PFL110,(T)               one
+ ZE MBE122,(T)PFL161,(T)               one
+ ZE MBE123,(T)PFL147,(T)               one
+ ZE MBE123,(T)PFL162,(T)               -one
+ ZE MBE123,(T)PFL163,(T)               -one
+ ZE MBE123,(T)PFL164,(T)               -one
+ ZE MBE123,(T)PFL165,(T)               -one
+ ZE MBE123,(T)PFL166,(T)               -one
+ ZE MBE124,(T)PFL167,(T)               -one
+ ZE MBE125,(T)PFL162,(T)               one
+ ND
+ ZE MBE126,(T)PFL119,(T)               one
+ ZE MBE126,(T)PFL168,(T)               -one
+ ZE MBE127,(T)PFL27,(T)                one
+ ZE MBE127,(T)PFL45,(T)                one
+ ZE MBE127,(T)PFL169,(T)               -one
+ ZE MBE128,(T)PFL69,(T)                one
+ ZE MBE128,(T)PFL170,(T)               -one
+ ZE MBE129,(T)PFL171,(T)               -one
+ ZE MBE130,(T)PFL104,(T)               one
+ ZE MBE130,(T)PFL172,(T)               -one
+ ZE MBE130,(T)PFL173,(T)               -one
+ ZE MBE131,(T)PFL163,(T)               one
+ ZE MBE131,(T)PFL174,(T)               -one
+ ZE MBE132,(T)PFL175,(T)               -one
+ ZE MBE133,(T)PFL53,(T)                one
+ ZE MBE133,(T)PFL112,(T)               one
+ ZE MBE134,(T)PFL105,(T)               one
+ ZE MBE134,(T)PFL126,(T)               one
+ ZE MBE134,(T)PFL133,(T)               one
+ ZE MBE134,(T)RFL218,(T)               -one
+ ZE MBE135,(T)PFL172,(T)               one
+ ZE MBE135,(T)RFL218,(T)               one
+ ZE MBE136,(T)PFL164,(T)               one
+ ZE MBE136,(T)PFL174,(T)               one
+ ZE MBE136,(T)PFL176,(T)               -one
+ ZE MBE136,(T)CFL213,(T)               -one
+ ZE MBE137,(T)PFL74,(T)                one
+ ZE MBE137,(T)PFL177,(T)               -one
+ ZE MBE137,(T)CFL213,(T)               one
+ ZE MBE138,(T)PFL177,(T)               one
+ ZE MBE138,(T)PFL178,(T)               -one
+ ZE MBE139,(T)PFL178,(T)               one
+ ZE MBE139,(T)PFL179,(T)               -one
+ ZE MBE140,(T)PFL108,(T)               one
+ ZE MBE140,(T)PFL143,(T)               one
+ ZE MBE140,(T)PFL145,(T)               one
+ ZE MBE141,(T)PFL17,(T)                one
+ ZE MBE141,(T)PFL180,(T)               -one
+ ZE MBE142,(T)PFL124,(T)               one
+ ZE MBE142,(T)PFL127,(T)               one
+ ZE MBE143,(T)PFL37,(T)                one
+ ZE MBE143,(T)PFL130,(T)               one
+ ZE MBE144,(T)PFL72,(T)                one
+ ZE MBE144,(T)PFL181,(T)               -one
+ ZE MBE145,(T)PFL91,(T)                one
+ ZE MBE145,(T)PFL150,(T)               one
+ ZE MBE146,(T)PFL182,(T)               -one
+ ZE MBE147,(T)PFL62,(T)                one
+ ZE MBE147,(T)PFL157,(T)               one
+ ZE MBE148,(T)PFL183,(T)               -one
+ ZE MBE148,(T)CFL214,(T)               -one
+ ZE MBE149,(T)PFL64,(T)                one
+ ZE MBE149,(T)CFL214,(T)               one
+ ZE MBE150,(T)PFL25,(T)                one
+ ND
+ ZE MBE151,(T)PFL160,(T)               one
+ ZE MBE151,(T)PFL184,(T)               -one
+ ZE MBE152,(T)PFL107,(T)               one
+ ZE MBE152,(T)PFL158,(T)               one
+ ZE MBE152,(T)PFL159,(T)               one
+ ZE MBE153,(T)PFL116,(T)               one
+ ZE MBE153,(T)PFL146,(T)               one
+ ZE MBE153,(T)PFL185,(T)               -one
+ ZE MBE154,(T)PFL23,(T)                one
+ ZE MBE155,(T)PFL173,(T)               one
+ ZE MBE155,(T)PFL186,(T)               -one
+ ZE MBE156,(T)PFL134,(T)               one
+ ZE MBE156,(T)PFL187,(T)               -one
+ ZE MBE157,(T)PFL68,(T)                one
+ ZE MBE157,(T)PFL141,(T)               one
+ ZE MBE158,(T)PFL50,(T)                one
+ ZE MBE158,(T)PFL131,(T)               one
+ ZE MBE158,(T)PFL188,(T)               -one
+ ZE MBE159,(T)PFL113,(T)               one
+ ZE MBE159,(T)PFL151,(T)               one
+ ZE MBE160,(T)PFL129,(T)               one
+ ZE MBE160,(T)PFL189,(T)               -one
+ ZE MBE161,(T)PFL117,(T)               one
+ ZE MBE162,(T)PFL135,(T)               one
+ ZE MBE162,(T)SFL232,(T)               one
+ ZE MBE163,(T)PFL138,(T)               one
+ ZE MBE163,(T)PFL190,(T)               -one
+ ZE MBE163,(T)PFL191,(T)               -one
+ ZE MBE164,(T)PFL185,(T)               one
+ ZE MBE164,(T)PFL190,(T)               one
+ ZE MBE164,(T)PFL191,(T)               one
+ ZE MBE165,(T)PFL142,(T)               one
+ ZE MBE165,(T)PFL186,(T)               one
+ ZE MBE166,(T)PFL70,(T)                one
+ ZE MBE166,(T)PFL149,(T)               one
+ ZE MBE167,(T)PFL139,(T)               one
+ ZE MBE168,(T)PFL170,(T)               one
+ ZE MBE169,(T)PFL18,(T)                one
+ ZE MBE169,(T)PFL40,(T)                one
+ ZE MBE170,(T)PFL183,(T)               one
+ ZE MBE170,(T)PFL192,(T)               -one
+ ZE MBE170,(T)PFL193,(T)               -one
+ ZE MBE171,(T)PFL180,(T)               one
+ ZE MBE171,(T)PFL192,(T)               one
+ ZE MBE171,(T)PFL193,(T)               one
+ ZE MBE172,(T)PFL60,(T)                one
+ ZE MBE172,(T)PFL179,(T)               one
+ ZE MBE173,(T)PFL12,(T)                one
+ ZE MBE173,(T)PFL61,(T)                one
+ ZE MBE174,(T)PFL140,(T)               one
+ ZE MBE174,(T)PFL167,(T)               one
+ ZE MBE174,(T)PFL194,(T)               -one
+ ZE MBE175,(T)PFL176,(T)               one
+ ZE MBE175,(T)PFL187,(T)               one
+ ND
+ ZE MBE176,(T)PFL168,(T)               one
+ ZE MBE176,(T)CFL215,(T)               -one
+ ZE MBE177,(T)PFL195,(T)               -one
+ ZE MBE177,(T)CFL215,(T)               one
+ ZE MBE178,(T)PFL137,(T)               one
+ ZE MBE178,(T)PFL171,(T)               one
+ ZE MBE178,(T)PFL195,(T)               one
+ ZE MBE179,(T)PFL189,(T)               one
+ ZE MBE179,(T)PFL196,(T)               -one
+ ZE MBE179,(T)CFL216,(T)               -one
+ ZE MBE180,(T)PFL194,(T)               one
+ ZE MBE180,(T)CFL216,(T)               one
+ ZE MBE181,(T)PFL165,(T)               one
+ ZE MBE181,(T)RFL219,(T)               -one
+ ZE MBE182,(T)PFL196,(T)               one
+ ZE MBE182,(T)RFL219,(T)               one
+ ZE MBE183,(T)PFL184,(T)               one
+ ZE MBE184,(T)PFL78,(T)                one
+ ZE MBE184,(T)PFL155,(T)               one
+ ZE MBE185,(T)PFL175,(T)               one
+ ZE MBE185,(T)PFL181,(T)               one
+ ZE MBE185,(T)PFL197,(T)               -one
+ ZE MBE186,(T)PFL188,(T)               one
+ ZE MBE186,(T)RFL220,(T)               -one
+ ZE MBE187,(T)PFL197,(T)               one
+ ZE MBE187,(T)RFL220,(T)               one
+ ZE MBE188,(T)PFL148,(T)               one
+ ZE MBE188,(T)PFL166,(T)               one
+ ZE MBE189,(T)PFL169,(T)               one
+ ZE MBE190,(T)PFL92,(T)                one
+ ZE MBE190,(T)PFL114,(T)               one
+ ZE MBE190,(T)PFL125,(T)               one
+ ZE MBE190,(T)PFL198,(T)               -one
+ ZE MBE191,(T)PFL198,(T)               one
+ ZE MBE191,(T)PFL199,(T)               -one
+ ZE MBE192,(T)PFL90,(T)                one
+ ZE MBE192,(T)PFL199,(T)               one
+ ZE MBE193,(T)PFL95,(T)                one
+ ZE MBE193,(T)PFL136,(T)               one
+ ZE MBE194,(T)PFL94,(T)                one
+ ZE MBE194,(T)PFL182,(T)               one
+ ZE MBE195,(T)PFL38,(T)                one
+ ZE MBE195,(T)PFL100,(T)               one
+ ND
+*   ...Mass balance equations...
+ DO T         2                        TIME 
+ IA S         T         -1
+ ZE MBE1,(T)  PFL1,(T)                 -omega-1
+ ZE MBE1,(T)  PFL1,(S)                 omega
+ ZE MBE1,(T)  PFL2,(T)                 -omega-1
+ ZE MBE1,(T)  PFL2,(S)                 omega
+ ZE MBE1,(T)  PFL3,(T)                 -omega-1
+ ZE MBE1,(T)  PFL3,(S)                 omega
+ ZE MBE1,(T)  PFL4,(T)                 -omega-1
+ ZE MBE1,(T)  PFL4,(S)                 omega
+ ZE MBE1,(T)  PFL5,(T)                 -omega-1
+ ZE MBE1,(T)  PFL5,(S)                 omega
+ ZE MBE1,(T)  PFL6,(T)                 -omega-1
+ ZE MBE1,(T)  PFL6,(S)                 omega
+ ZE MBE2,(T)  PFL7,(T)                 -omega-1
+ ZE MBE2,(T)  PFL7,(S)                 omega
+ ZE MBE2,(T)  PFL8,(T)                 -omega-1
+ ZE MBE2,(T)  PFL8,(S)                 omega
+ ZE MBE3,(T)  PFL9,(T)                 -omega-1
+ ZE MBE3,(T)  PFL9,(S)                 omega
+ ZE MBE3,(T)  PFL10,(T)                -omega-1
+ ZE MBE3,(T)  PFL10,(S)                omega
+ ZE MBE3,(T)  PFL11,(T)                -omega-1
+ ZE MBE3,(T)  PFL11,(S)                omega
+ ZE MBE3,(T)  PFL12,(T)                -omega-1
+ ZE MBE3,(T)  PFL12,(S)                omega
+ ZE MBE3,(T)  CFL200,(T)               -omega-1
+ ZE MBE3,(T)  CFL200,(S)               omega
+ ZE MBE4,(T)  PFL13,(T)                -omega-1
+ ZE MBE4,(T)  PFL13,(S)                omega
+ ZE MBE4,(T)  CFL200,(T)               1-omega
+ ZE MBE4,(T)  CFL200,(S)               omega
+ ZE MBE5,(T)  PFL9,(T)                 1-omega
+ ZE MBE5,(T)  PFL9,(S)                 omega
+ ZE MBE6,(T)  PFL10,(T)                1-omega
+ ZE MBE6,(T)  PFL10,(S)                omega
+ ZE MBE7,(T)  PFL7,(T)                 1-omega
+ ZE MBE7,(T)  PFL7,(S)                 omega
+ ZE MBE7,(T)  PFL14,(T)                -omega-1
+ ZE MBE7,(T)  PFL14,(S)                omega
+ ZE MBE8,(T)  PFL15,(T)                -omega-1
+ ZE MBE8,(T)  PFL15,(S)                omega
+ ZE MBE8,(T)  PFL16,(T)                -omega-1
+ ZE MBE8,(T)  PFL16,(S)                omega
+ ZE MBE9,(T)  PFL17,(T)                -omega-1
+ ZE MBE9,(T)  PFL17,(S)                omega
+ ZE MBE9,(T)  PFL18,(T)                -omega-1
+ ZE MBE9,(T)  PFL18,(S)                omega
+ ZE MBE10,(T) PFL19,(T)                -omega-1
+ ZE MBE10,(T) PFL19,(S)                omega
+ ZE MBE10,(T) PFL20,(T)                -omega-1
+ ZE MBE10,(T) PFL20,(S)                omega
+ ZE MBE10,(T) PFL21,(T)                -omega-1
+ ZE MBE10,(T) PFL21,(S)                omega
+ ZE MBE11,(T) PFL11,(T)                1-omega
+ ZE MBE11,(T) PFL11,(S)                omega
+ ZE MBE11,(T) PFL22,(T)                -omega-1
+ ZE MBE11,(T) PFL22,(S)                omega
+ ZE MBE11,(T) PFL23,(T)                -omega-1
+ ZE MBE11,(T) PFL23,(S)                omega
+ ZE MBE12,(T) PFL24,(T)                -omega-1
+ ZE MBE12,(T) PFL24,(S)                omega
+ ZE MBE12,(T) PFL25,(T)                -omega-1
+ ZE MBE12,(T) PFL25,(S)                omega
+ ZE MBE13,(T) PFL26,(T)                -omega-1
+ ZE MBE13,(T) PFL26,(S)                omega
+ ZE MBE13,(T) CFL201,(T)               -omega-1
+ ZE MBE13,(T) CFL201,(S)               omega
+ ZE MBE14,(T) PFL27,(T)                -omega-1
+ ZE MBE14,(T) PFL27,(S)                omega
+ ZE MBE14,(T) CFL201,(T)               1-omega
+ ZE MBE14,(T) CFL201,(S)               omega
+ ZE MBE15,(T) PFL28,(T)                -omega-1
+ ZE MBE15,(T) PFL28,(S)                omega
+ ZE MBE15,(T) PFL29,(T)                -omega-1
+ ZE MBE15,(T) PFL29,(S)                omega
+ ZE MBE16,(T) PFL30,(T)                -omega-1
+ ZE MBE16,(T) PFL30,(S)                omega
+ ZE MBE16,(T) PFL31,(T)                -omega-1
+ ZE MBE16,(T) PFL31,(S)                omega
+ ZE MBE16,(T) PFL32,(T)                -omega-1
+ ZE MBE16,(T) PFL32,(S)                omega
+ ZE MBE16,(T) PFL33,(T)                -omega-1
+ ZE MBE16,(T) PFL33,(S)                omega
+ ZE MBE16,(T) CFL202,(T)               -omega-1
+ ZE MBE16,(T) CFL202,(S)               omega
+ ZE MBE17,(T) PFL15,(T)                1-omega
+ ZE MBE17,(T) PFL15,(S)                omega
+ ZE MBE17,(T) PFL34,(T)                -omega-1
+ ZE MBE17,(T) PFL34,(S)                omega
+ ZE MBE17,(T) PFL35,(T)                -omega-1
+ ZE MBE17,(T) PFL35,(S)                omega
+ ZE MBE17,(T) CFL202,(T)               1-omega
+ ZE MBE17,(T) CFL202,(S)               omega
+ ZE MBE18,(T) PFL36,(T)                -omega-1
+ ZE MBE18,(T) PFL36,(S)                omega
+ ZE MBE18,(T) PFL37,(T)                -omega-1
+ ZE MBE18,(T) PFL37,(S)                omega
+ ZE MBE18,(T) PFL38,(T)                -omega-1
+ ZE MBE18,(T) PFL38,(S)                omega
+ ZE MBE18,(T) SFL222,(T)               1-omega
+ ZE MBE18,(T) SFL222,(S)               omega
+ ZE MBE19,(T) PFL36,(T)                1-omega
+ ZE MBE19,(T) PFL36,(S)                omega
+ ZE MBE20,(T) PFL39,(T)                -omega-1
+ ZE MBE20,(T) PFL39,(S)                omega
+ ZE MBE20,(T) PFL40,(T)                -omega-1
+ ZE MBE20,(T) PFL40,(S)                omega
+ ZE MBE21,(T) PFL30,(T)                1-omega
+ ZE MBE21,(T) PFL30,(S)                omega
+ ZE MBE21,(T) PFL41,(T)                -omega-1
+ ZE MBE21,(T) PFL41,(S)                omega
+ ZE MBE22,(T) PFL19,(T)                1-omega
+ ZE MBE22,(T) PFL19,(S)                omega
+ ZE MBE22,(T) PFL42,(T)                -omega-1
+ ZE MBE22,(T) PFL42,(S)                omega
+ ZE MBE23,(T) PFL28,(T)                1-omega
+ ZE MBE23,(T) PFL28,(S)                omega
+ ZE MBE23,(T) PFL43,(T)                -omega-1
+ ZE MBE23,(T) PFL43,(S)                omega
+ ZE MBE24,(T) PFL44,(T)                -omega-1
+ ZE MBE24,(T) PFL44,(S)                omega
+ ZE MBE24,(T) PFL45,(T)                -omega-1
+ ZE MBE24,(T) PFL45,(S)                omega
+ ZE MBE25,(T) PFL46,(T)                -omega-1
+ ZE MBE25,(T) PFL46,(S)                omega
+ ZE MBE25,(T) SFL223,(T)               1-omega
+ ZE MBE25,(T) SFL223,(S)               omega
+ ND
+ DO T         2                        TIME 
+ ZE MBE26,(T) PFL47,(T)                -omega-1
+ ZE MBE26,(T) PFL47,(S)                omega
+ ZE MBE26,(T) PFL48,(T)                -omega-1
+ ZE MBE26,(T) PFL48,(S)                omega
+ ZE MBE26,(T) SFL224,(T)               1-omega
+ ZE MBE26,(T) SFL224,(S)               omega
+ ZE MBE27,(T) PFL49,(T)                -omega-1
+ ZE MBE27,(T) PFL49,(S)                omega
+ ZE MBE27,(T) PFL50,(T)                -omega-1
+ ZE MBE27,(T) PFL50,(S)                omega
+ ZE MBE28,(T) PFL51,(T)                -omega-1
+ ZE MBE28,(T) PFL51,(S)                omega
+ ZE MBE28,(T) PFL52,(T)                -omega-1
+ ZE MBE28,(T) PFL52,(S)                omega
+ ZE MBE28,(T) PFL53,(T)                -omega-1
+ ZE MBE28,(T) PFL53,(S)                omega
+ ZE MBE29,(T) PFL54,(T)                -omega-1
+ ZE MBE29,(T) PFL54,(S)                omega
+ ZE MBE29,(T) PFL55,(T)                -omega-1
+ ZE MBE29,(T) PFL55,(S)                omega
+ ZE MBE29,(T) CFL203,(T)               -omega-1
+ ZE MBE29,(T) CFL203,(S)               omega
+ ZE MBE30,(T) PFL56,(T)                -omega-1
+ ZE MBE30,(T) PFL56,(S)                omega
+ ZE MBE30,(T) CFL203,(T)               1-omega
+ ZE MBE30,(T) CFL203,(S)               omega
+ ZE MBE31,(T) PFL57,(T)                -omega-1
+ ZE MBE31,(T) PFL57,(S)                omega
+ ZE MBE31,(T) PFL58,(T)                -omega-1
+ ZE MBE31,(T) PFL58,(S)                omega
+ ZE MBE31,(T) PFL59,(T)                -omega-1
+ ZE MBE31,(T) PFL59,(S)                omega
+ ZE MBE32,(T) PFL54,(T)                1-omega
+ ZE MBE32,(T) PFL54,(S)                omega
+ ZE MBE32,(T) PFL57,(T)                1-omega
+ ZE MBE32,(T) PFL57,(S)                omega
+ ZE MBE33,(T) PFL60,(T)                -omega-1
+ ZE MBE33,(T) PFL60,(S)                omega
+ ZE MBE33,(T) PFL61,(T)                -omega-1
+ ZE MBE33,(T) PFL61,(S)                omega
+ ZE MBE34,(T) PFL62,(T)                -omega-1
+ ZE MBE34,(T) PFL62,(S)                omega
+ ZE MBE35,(T) PFL63,(T)                -omega-1
+ ZE MBE35,(T) PFL63,(S)                omega
+ ZE MBE35,(T) PFL64,(T)                -omega-1
+ ZE MBE35,(T) PFL64,(S)                omega
+ ZE MBE36,(T) PFL44,(T)                1-omega
+ ZE MBE36,(T) PFL44,(S)                omega
+ ZE MBE36,(T) PFL65,(T)                -omega-1
+ ZE MBE36,(T) PFL65,(S)                omega
+ ZE MBE37,(T) PFL47,(T)                1-omega
+ ZE MBE37,(T) PFL47,(S)                omega
+ ZE MBE37,(T) PFL66,(T)                -omega-1
+ ZE MBE37,(T) PFL66,(S)                omega
+ ZE MBE38,(T) PFL67,(T)                -omega-1
+ ZE MBE38,(T) PFL67,(S)                omega
+ ZE MBE38,(T) SFL225,(T)               1-omega
+ ZE MBE38,(T) SFL225,(S)               omega
+ ZE MBE39,(T) PFL16,(T)                1-omega
+ ZE MBE39,(T) PFL16,(S)                omega
+ ZE MBE39,(T) PFL68,(T)                -omega-1
+ ZE MBE39,(T) PFL68,(S)                omega
+ ZE MBE40,(T) PFL69,(T)                -omega-1
+ ZE MBE40,(T) PFL69,(S)                omega
+ ZE MBE40,(T) PFL70,(T)                -omega-1
+ ZE MBE40,(T) PFL70,(S)                omega
+ ZE MBE41,(T) PFL71,(T)                -omega-1
+ ZE MBE41,(T) PFL71,(S)                omega
+ ZE MBE41,(T) CFL204,(T)               -omega-1
+ ZE MBE41,(T) CFL204,(S)               omega
+ ZE MBE42,(T) PFL72,(T)                -omega-1
+ ZE MBE42,(T) PFL72,(S)                omega
+ ZE MBE42,(T) CFL204,(T)               1-omega
+ ZE MBE42,(T) CFL204,(S)               omega
+ ZE MBE43,(T) PFL73,(T)                -omega-1
+ ZE MBE43,(T) PFL73,(S)                omega
+ ZE MBE43,(T) PFL74,(T)                -omega-1
+ ZE MBE43,(T) PFL74,(S)                omega
+ ZE MBE44,(T) PFL75,(T)                -omega-1
+ ZE MBE44,(T) PFL75,(S)                omega
+ ZE MBE45,(T) PFL1,(T)                 1-omega
+ ZE MBE45,(T) PFL1,(S)                 omega
+ ZE MBE45,(T) PFL76,(T)                -omega-1
+ ZE MBE45,(T) PFL76,(S)                omega
+ ZE MBE46,(T) PFL77,(T)                -omega-1
+ ZE MBE46,(T) PFL77,(S)                omega
+ ZE MBE46,(T) PFL78,(T)                -omega-1
+ ZE MBE46,(T) PFL78,(S)                omega
+ ZE MBE47,(T) PFL79,(T)                -omega-1
+ ZE MBE47,(T) PFL79,(S)                omega
+ ZE MBE47,(T) PFL80,(T)                -omega-1
+ ZE MBE47,(T) PFL80,(S)                omega
+ ZE MBE48,(T) PFL81,(T)                -omega-1
+ ZE MBE48,(T) PFL81,(S)                omega
+ ZE MBE48,(T) PFL82,(T)                -omega-1
+ ZE MBE48,(T) PFL82,(S)                omega
+ ZE MBE48,(T) CFL205,(T)               -omega-1
+ ZE MBE48,(T) CFL205,(S)               omega
+ ZE MBE49,(T) PFL83,(T)                -omega-1
+ ZE MBE49,(T) PFL83,(S)                omega
+ ZE MBE49,(T) CFL205,(T)               1-omega
+ ZE MBE49,(T) CFL205,(S)               omega
+ ZE MBE50,(T) PFL84,(T)                -omega-1
+ ZE MBE50,(T) PFL84,(S)                omega
+ ZE MBE50,(T) PFL85,(T)                -omega-1
+ ZE MBE50,(T) PFL85,(S)                omega
+ ZE MBE50,(T) PFL86,(T)                -omega-1
+ ZE MBE50,(T) PFL86,(S)                omega
+ ZE MBE50,(T) PFL87,(T)                -omega-1
+ ZE MBE50,(T) PFL87,(S)                omega
+ ND
+ DO T         2                        TIME 
+ ZE MBE51,(T) PFL22,(T)                1-omega
+ ZE MBE51,(T) PFL22,(S)                omega
+ ZE MBE51,(T) PFL88,(T)                -omega-1
+ ZE MBE51,(T) PFL88,(S)                omega
+ ZE MBE52,(T) PFL84,(T)                1-omega
+ ZE MBE52,(T) PFL84,(S)                omega
+ ZE MBE52,(T) PFL88,(T)                1-omega
+ ZE MBE52,(T) PFL88,(S)                omega
+ ZE MBE53,(T) PFL89,(T)                -omega-1
+ ZE MBE53,(T) PFL89,(S)                omega
+ ZE MBE53,(T) PFL90,(T)                -omega-1
+ ZE MBE53,(T) PFL90,(S)                omega
+ ZE MBE54,(T) PFL85,(T)                1-omega
+ ZE MBE54,(T) PFL85,(S)                omega
+ ZE MBE54,(T) PFL86,(T)                1-omega
+ ZE MBE54,(T) PFL86,(S)                omega
+ ZE MBE54,(T) CFL206,(T)               -omega-1
+ ZE MBE54,(T) CFL206,(S)               omega
+ ZE MBE55,(T) PFL91,(T)                -omega-1
+ ZE MBE55,(T) PFL91,(S)                omega
+ ZE MBE55,(T) PFL92,(T)                -omega-1
+ ZE MBE55,(T) PFL92,(S)                omega
+ ZE MBE55,(T) CFL206,(T)               1-omega
+ ZE MBE55,(T) CFL206,(S)               omega
+ ZE MBE56,(T) PFL93,(T)                -omega-1
+ ZE MBE56,(T) PFL93,(S)                omega
+ ZE MBE56,(T) PFL94,(T)                -omega-1
+ ZE MBE56,(T) PFL94,(S)                omega
+ ZE MBE57,(T) PFL55,(T)                1-omega
+ ZE MBE57,(T) PFL55,(S)                omega
+ ZE MBE57,(T) PFL95,(T)                -omega-1
+ ZE MBE57,(T) PFL95,(S)                omega
+ ZE MBE58,(T) PFL96,(T)                -omega-1
+ ZE MBE58,(T) PFL96,(S)                omega
+ ZE MBE58,(T) PFL97,(T)                -omega-1
+ ZE MBE58,(T) PFL97,(S)                omega
+ ZE MBE59,(T) PFL31,(T)                1-omega
+ ZE MBE59,(T) PFL31,(S)                omega
+ ZE MBE59,(T) PFL32,(T)                1-omega
+ ZE MBE59,(T) PFL32,(S)                omega
+ ZE MBE59,(T) PFL98,(T)                -omega-1
+ ZE MBE59,(T) PFL98,(S)                omega
+ ZE MBE59,(T) PFL99,(T)                -omega-1
+ ZE MBE59,(T) PFL99,(S)                omega
+ ZE MBE60,(T) PFL100,(T)               -omega-1
+ ZE MBE60,(T) PFL100,(S)               omega
+ ZE MBE60,(T) CFL207,(T)               -omega-1
+ ZE MBE60,(T) CFL207,(S)               omega
+ ZE MBE61,(T) PFL81,(T)                1-omega
+ ZE MBE61,(T) PFL81,(S)                omega
+ ZE MBE61,(T) CFL207,(T)               1-omega
+ ZE MBE61,(T) CFL207,(S)               omega
+ ZE MBE62,(T) PFL101,(T)               -omega-1
+ ZE MBE62,(T) PFL101,(S)               omega
+ ZE MBE62,(T) PFL102,(T)               -omega-1
+ ZE MBE62,(T) PFL102,(S)               omega
+ ZE MBE63,(T) PFL103,(T)               -omega-1
+ ZE MBE63,(T) PFL103,(S)               omega
+ ZE MBE64,(T) PFL101,(T)               1-omega
+ ZE MBE64,(T) PFL101,(S)               omega
+ ZE MBE64,(T) PFL103,(T)               1-omega
+ ZE MBE64,(T) PFL103,(S)               omega
+ ZE MBE65,(T) PFL104,(T)               -omega-1
+ ZE MBE65,(T) PFL104,(S)               omega
+ ZE MBE65,(T) SFL226,(T)               1-omega
+ ZE MBE65,(T) SFL226,(S)               omega
+ ZE MBE66,(T) PFL105,(T)               -omega-1
+ ZE MBE66,(T) PFL105,(S)               omega
+ ZE MBE66,(T) SFL227,(T)               1-omega
+ ZE MBE66,(T) SFL227,(S)               omega
+ ZE MBE67,(T) PFL106,(T)               -omega-1
+ ZE MBE67,(T) PFL106,(S)               omega
+ ZE MBE67,(T) PFL107,(T)               -omega-1
+ ZE MBE67,(T) PFL107,(S)               omega
+ ZE MBE68,(T) PFL89,(T)                1-omega
+ ZE MBE68,(T) PFL89,(S)                omega
+ ZE MBE68,(T) PFL108,(T)               -omega-1
+ ZE MBE68,(T) PFL108,(S)               omega
+ ZE MBE69,(T) PFL34,(T)                1-omega
+ ZE MBE69,(T) PFL34,(S)                omega
+ ZE MBE69,(T) PFL35,(T)                1-omega
+ ZE MBE69,(T) PFL35,(S)                omega
+ ZE MBE69,(T) PFL109,(T)               -omega-1
+ ZE MBE69,(T) PFL109,(S)               omega
+ ZE MBE69,(T) PFL110,(T)               -omega-1
+ ZE MBE69,(T) PFL110,(S)               omega
+ ZE MBE70,(T) PFL111,(T)               -omega-1
+ ZE MBE70,(T) PFL111,(S)               omega
+ ZE MBE71,(T) PFL39,(T)                1-omega
+ ZE MBE71,(T) PFL39,(S)                omega
+ ZE MBE71,(T) PFL56,(T)                1-omega
+ ZE MBE71,(T) PFL56,(S)                omega
+ ZE MBE71,(T) PFL96,(T)                1-omega
+ ZE MBE71,(T) PFL96,(S)                omega
+ ZE MBE71,(T) PFL112,(T)               -omega-1
+ ZE MBE71,(T) PFL112,(S)               omega
+ ZE MBE72,(T) PFL113,(T)               -omega-1
+ ZE MBE72,(T) PFL113,(S)               omega
+ ZE MBE72,(T) PFL114,(T)               -omega-1
+ ZE MBE72,(T) PFL114,(S)               omega
+ ZE MBE73,(T) PFL46,(T)                1-omega
+ ZE MBE73,(T) PFL46,(S)                omega
+ ZE MBE73,(T) PFL79,(T)                1-omega
+ ZE MBE73,(T) PFL79,(S)                omega
+ ZE MBE73,(T) PFL115,(T)               -omega-1
+ ZE MBE73,(T) PFL115,(S)               omega
+ ZE MBE73,(T) RFL217,(T)               -omega-1
+ ZE MBE73,(T) RFL217,(S)               omega
+ ZE MBE74,(T) PFL116,(T)               -omega-1
+ ZE MBE74,(T) PFL116,(S)               omega
+ ZE MBE74,(T) PFL117,(T)               -omega-1
+ ZE MBE74,(T) PFL117,(S)               omega
+ ZE MBE75,(T) PFL118,(T)               -omega-1
+ ZE MBE75,(T) PFL118,(S)               omega
+ ZE MBE75,(T) PFL119,(T)               -omega-1
+ ZE MBE75,(T) PFL119,(S)               omega
+ ZE MBE75,(T) RFL217,(T)               1-omega
+ ZE MBE75,(T) RFL217,(S)               omega
+ ND
+ DO T         2                        TIME 
+ ZE MBE76,(T) PFL2,(T)                 1-omega
+ ZE MBE76,(T) PFL2,(S)                 omega
+ ZE MBE76,(T) PFL3,(T)                 1-omega
+ ZE MBE76,(T) PFL3,(S)                 omega
+ ZE MBE76,(T) PFL8,(T)                 1-omega
+ ZE MBE76,(T) PFL8,(S)                 omega
+ ZE MBE76,(T) PFL67,(T)                1-omega
+ ZE MBE76,(T) PFL67,(S)                omega
+ ZE MBE76,(T) PFL120,(T)               -omega-1
+ ZE MBE76,(T) PFL120,(S)               omega
+ ZE MBE76,(T) CFL208,(T)               1-omega
+ ZE MBE76,(T) CFL208,(S)               omega
+ ZE MBE77,(T) PFL121,(T)               -omega-1
+ ZE MBE77,(T) PFL121,(S)               omega
+ ZE MBE77,(T) PFL122,(T)               -omega-1
+ ZE MBE77,(T) PFL122,(S)               omega
+ ZE MBE77,(T) PFL123,(T)               -omega-1
+ ZE MBE77,(T) PFL123,(S)               omega
+ ZE MBE77,(T) CFL208,(T)               -omega-1
+ ZE MBE77,(T) CFL208,(S)               omega
+ ZE MBE78,(T) PFL124,(T)               -omega-1
+ ZE MBE78,(T) PFL124,(S)               omega
+ ZE MBE78,(T) PFL125,(T)               -omega-1
+ ZE MBE78,(T) PFL125,(S)               omega
+ ZE MBE79,(T) PFL121,(T)               1-omega
+ ZE MBE79,(T) PFL121,(S)               omega
+ ZE MBE79,(T) PFL122,(T)               1-omega
+ ZE MBE79,(T) PFL122,(S)               omega
+ ZE MBE79,(T) PFL123,(T)               1-omega
+ ZE MBE79,(T) PFL123,(S)               omega
+ ZE MBE79,(T) SFL228,(T)               1-omega
+ ZE MBE79,(T) SFL228,(S)               omega
+ ZE MBE80,(T) PFL51,(T)                1-omega
+ ZE MBE80,(T) PFL51,(S)                omega
+ ZE MBE80,(T) PFL126,(T)               -omega-1
+ ZE MBE80,(T) PFL126,(S)               omega
+ ZE MBE81,(T) PFL102,(T)               1-omega
+ ZE MBE81,(T) PFL102,(S)               omega
+ ZE MBE81,(T) PFL127,(T)               -omega-1
+ ZE MBE81,(T) PFL127,(S)               omega
+ ZE MBE82,(T) PFL33,(T)                1-omega
+ ZE MBE82,(T) PFL33,(S)                omega
+ ZE MBE82,(T) SFL229,(T)               1-omega
+ ZE MBE82,(T) SFL229,(S)               omega
+ ZE MBE83,(T) PFL128,(T)               -omega-1
+ ZE MBE83,(T) PFL128,(S)               omega
+ ZE MBE83,(T) PFL129,(T)               -omega-1
+ ZE MBE83,(T) PFL129,(S)               omega
+ ZE MBE84,(T) PFL71,(T)                1-omega
+ ZE MBE84,(T) PFL71,(S)                omega
+ ZE MBE84,(T) PFL130,(T)               -omega-1
+ ZE MBE84,(T) PFL130,(S)               omega
+ ZE MBE85,(T) PFL26,(T)                1-omega
+ ZE MBE85,(T) PFL26,(S)                omega
+ ZE MBE85,(T) PFL131,(T)               -omega-1
+ ZE MBE85,(T) PFL131,(S)               omega
+ ZE MBE86,(T) PFL63,(T)                1-omega
+ ZE MBE86,(T) PFL63,(S)                omega
+ ZE MBE86,(T) PFL132,(T)               -omega-1
+ ZE MBE86,(T) PFL132,(S)               omega
+ ZE MBE86,(T) PFL133,(T)               -omega-1
+ ZE MBE86,(T) PFL133,(S)               omega
+ ZE MBE86,(T) PFL134,(T)               -omega-1
+ ZE MBE86,(T) PFL134,(S)               omega
+ ZE MBE86,(T) PFL135,(T)               -omega-1
+ ZE MBE86,(T) PFL135,(S)               omega
+ ZE MBE87,(T) PFL14,(T)                1-omega
+ ZE MBE87,(T) PFL14,(S)                omega
+ ZE MBE87,(T) PFL136,(T)               -omega-1
+ ZE MBE87,(T) PFL136,(S)               omega
+ ZE MBE88,(T) PFL20,(T)                1-omega
+ ZE MBE88,(T) PFL20,(S)                omega
+ ZE MBE88,(T) PFL137,(T)               -omega-1
+ ZE MBE88,(T) PFL137,(S)               omega
+ ZE MBE89,(T) PFL75,(T)                1-omega
+ ZE MBE89,(T) PFL75,(S)                omega
+ ZE MBE89,(T) PFL83,(T)                1-omega
+ ZE MBE89,(T) PFL83,(S)                omega
+ ZE MBE89,(T) PFL138,(T)               -omega-1
+ ZE MBE89,(T) PFL138,(S)               omega
+ ZE MBE89,(T) PFL139,(T)               -omega-1
+ ZE MBE89,(T) PFL139,(S)               omega
+ ZE MBE90,(T) PFL52,(T)                1-omega
+ ZE MBE90,(T) PFL52,(S)                omega
+ ZE MBE90,(T) SFL230,(T)               1-omega
+ ZE MBE90,(T) SFL230,(S)               omega
+ ZE MBE91,(T) PFL140,(T)               -omega-1
+ ZE MBE91,(T) PFL140,(S)               omega
+ ZE MBE91,(T) CFL209,(T)               -omega-1
+ ZE MBE91,(T) CFL209,(S)               omega
+ ZE MBE92,(T) PFL49,(T)                1-omega
+ ZE MBE92,(T) PFL49,(S)                omega
+ ZE MBE92,(T) CFL209,(T)               1-omega
+ ZE MBE92,(T) CFL209,(S)               omega
+ ZE MBE93,(T) PFL93,(T)                1-omega
+ ZE MBE93,(T) PFL93,(S)                omega
+ ZE MBE93,(T) PFL141,(T)               -omega-1
+ ZE MBE93,(T) PFL141,(S)               omega
+ ZE MBE94,(T) PFL97,(T)                1-omega
+ ZE MBE94,(T) PFL97,(S)                omega
+ ZE MBE95,(T) PFL142,(T)               -omega-1
+ ZE MBE95,(T) PFL142,(S)               omega
+ ZE MBE96,(T) PFL24,(T)                1-omega
+ ZE MBE96,(T) PFL24,(S)                omega
+ ZE MBE96,(T) PFL143,(T)               -omega-1
+ ZE MBE96,(T) PFL143,(S)               omega
+ ZE MBE97,(T) PFL43,(T)                1-omega
+ ZE MBE97,(T) PFL43,(S)                omega
+ ZE MBE97,(T) PFL144,(T)               -omega-1
+ ZE MBE97,(T) PFL144,(S)               omega
+ ZE MBE97,(T) PFL145,(T)               -omega-1
+ ZE MBE97,(T) PFL145,(S)               omega
+ ZE MBE98,(T) PFL146,(T)               -omega-1
+ ZE MBE98,(T) PFL146,(S)               omega
+ ZE MBE98,(T) SFL231,(T)               1-omega
+ ZE MBE98,(T) SFL231,(S)               omega
+ ZE MBE99,(T) PFL29,(T)                1-omega
+ ZE MBE99,(T) PFL29,(S)                omega
+ ND
+ DO T         2                        TIME 
+ ZE MBE100,(T)PFL4,(T)                 1-omega
+ ZE MBE100,(T)PFL4,(S)                 omega
+ ZE MBE100,(T)PFL5,(T)                 1-omega
+ ZE MBE100,(T)PFL5,(S)                 omega
+ ZE MBE100,(T)PFL76,(T)                1-omega
+ ZE MBE100,(T)PFL76,(S)                omega
+ ZE MBE100,(T)CFL210,(T)               -omega-1
+ ZE MBE100,(T)CFL210,(S)               omega
+ ZE MBE101,(T)PFL41,(T)                1-omega
+ ZE MBE101,(T)PFL41,(S)                omega
+ ZE MBE101,(T)PFL98,(T)                1-omega
+ ZE MBE101,(T)PFL98,(S)                omega
+ ZE MBE101,(T)PFL99,(T)                1-omega
+ ZE MBE101,(T)PFL99,(S)                omega
+ ZE MBE101,(T)CFL210,(T)               1-omega
+ ZE MBE101,(T)CFL210,(S)               omega
+ ZE MBE102,(T)PFL6,(T)                 1-omega
+ ZE MBE102,(T)PFL6,(S)                 omega
+ ZE MBE102,(T)PFL120,(T)               1-omega
+ ZE MBE102,(T)PFL120,(S)               omega
+ ZE MBE103,(T)PFL128,(T)               1-omega
+ ZE MBE103,(T)PFL128,(S)               omega
+ ZE MBE103,(T)PFL132,(T)               1-omega
+ ZE MBE103,(T)PFL132,(S)               omega
+ ZE MBE104,(T)PFL48,(T)                1-omega
+ ZE MBE104,(T)PFL48,(S)                omega
+ ZE MBE104,(T)PFL66,(T)                1-omega
+ ZE MBE104,(T)PFL66,(S)                omega
+ ZE MBE104,(T)CFL211,(T)               -omega-1
+ ZE MBE104,(T)CFL211,(S)               omega
+ ZE MBE105,(T)PFL147,(T)               -omega-1
+ ZE MBE105,(T)PFL147,(S)               omega
+ ZE MBE105,(T)PFL148,(T)               -omega-1
+ ZE MBE105,(T)PFL148,(S)               omega
+ ZE MBE105,(T)CFL211,(T)               1-omega
+ ZE MBE105,(T)CFL211,(S)               omega
+ ZE MBE106,(T)PFL58,(T)                1-omega
+ ZE MBE106,(T)PFL58,(S)                omega
+ ZE MBE106,(T)PFL111,(T)               1-omega
+ ZE MBE106,(T)PFL111,(S)               omega
+ ZE MBE106,(T)PFL149,(T)               -omega-1
+ ZE MBE106,(T)PFL149,(S)               omega
+ ZE MBE107,(T)PFL150,(T)               -omega-1
+ ZE MBE107,(T)PFL150,(S)               omega
+ ZE MBE107,(T)PFL151,(T)               -omega-1
+ ZE MBE107,(T)PFL151,(S)               omega
+ ZE MBE108,(T)PFL152,(T)               -omega-1
+ ZE MBE108,(T)PFL152,(S)               omega
+ ZE MBE108,(T)PFL153,(T)               -omega-1
+ ZE MBE108,(T)PFL153,(S)               omega
+ ZE MBE109,(T)PFL59,(T)                1-omega
+ ZE MBE109,(T)PFL59,(S)                omega
+ ZE MBE109,(T)PFL80,(T)                1-omega
+ ZE MBE109,(T)PFL80,(S)                omega
+ ZE MBE109,(T)PFL152,(T)               1-omega
+ ZE MBE109,(T)PFL152,(S)               omega
+ ZE MBE109,(T)PFL154,(T)               -omega-1
+ ZE MBE109,(T)PFL154,(S)               omega
+ ZE MBE109,(T)PFL155,(T)               -omega-1
+ ZE MBE109,(T)PFL155,(S)               omega
+ ZE MBE110,(T)PFL156,(T)               -omega-1
+ ZE MBE110,(T)PFL156,(S)               omega
+ ZE MBE110,(T)PFL157,(T)               -omega-1
+ ZE MBE110,(T)PFL157,(S)               omega
+ ZE MBE111,(T)PFL77,(T)                1-omega
+ ZE MBE111,(T)PFL77,(S)                omega
+ ZE MBE111,(T)PFL115,(T)               1-omega
+ ZE MBE111,(T)PFL115,(S)               omega
+ ZE MBE111,(T)VFL221,(T)               -omega-1
+ ZE MBE111,(T)VFL221,(S)               omega
+ ZE MBE112,(T)PFL118,(T)               1-omega
+ ZE MBE112,(T)PFL118,(S)               omega
+ ZE MBE112,(T)PFL156,(T)               1-omega
+ ZE MBE112,(T)PFL156,(S)               omega
+ ZE MBE112,(T)VFL221,(T)               1-omega
+ ZE MBE112,(T)VFL221,(S)               omega
+ ZE MBE113,(T)PFL82,(T)                1-omega
+ ZE MBE113,(T)PFL82,(S)                omega
+ ZE MBE114,(T)PFL158,(T)               -omega-1
+ ZE MBE114,(T)PFL158,(S)               omega
+ ZE MBE115,(T)PFL21,(T)                1-omega
+ ZE MBE115,(T)PFL21,(S)                omega
+ ZE MBE115,(T)PFL159,(T)               -omega-1
+ ZE MBE115,(T)PFL159,(S)               omega
+ ZE MBE116,(T)PFL65,(T)                1-omega
+ ZE MBE116,(T)PFL65,(S)                omega
+ ZE MBE116,(T)PFL144,(T)               1-omega
+ ZE MBE116,(T)PFL144,(S)               omega
+ ZE MBE117,(T)PFL106,(T)               1-omega
+ ZE MBE117,(T)PFL106,(S)               omega
+ ZE MBE117,(T)PFL160,(T)               -omega-1
+ ZE MBE117,(T)PFL160,(S)               omega
+ ZE MBE118,(T)PFL13,(T)                1-omega
+ ZE MBE118,(T)PFL13,(S)                omega
+ ZE MBE118,(T)PFL42,(T)                1-omega
+ ZE MBE118,(T)PFL42,(S)                omega
+ ZE MBE119,(T)PFL73,(T)                1-omega
+ ZE MBE119,(T)PFL73,(S)                omega
+ ZE MBE119,(T)PFL87,(T)                1-omega
+ ZE MBE119,(T)PFL87,(S)                omega
+ ZE MBE120,(T)PFL109,(T)               1-omega
+ ZE MBE120,(T)PFL109,(S)               omega
+ ZE MBE120,(T)PFL161,(T)               -omega-1
+ ZE MBE120,(T)PFL161,(S)               omega
+ ZE MBE120,(T)CFL212,(T)               -omega-1
+ ZE MBE120,(T)CFL212,(S)               omega
+ ZE MBE121,(T)PFL153,(T)               1-omega
+ ZE MBE121,(T)PFL153,(S)               omega
+ ZE MBE121,(T)PFL154,(T)               1-omega
+ ZE MBE121,(T)PFL154,(S)               omega
+ ZE MBE121,(T)CFL212,(T)               1-omega
+ ZE MBE121,(T)CFL212,(S)               omega
+ ZE MBE122,(T)PFL110,(T)               1-omega
+ ZE MBE122,(T)PFL110,(S)               omega
+ ZE MBE122,(T)PFL161,(T)               1-omega
+ ZE MBE122,(T)PFL161,(S)               omega
+ ZE MBE123,(T)PFL147,(T)               1-omega
+ ZE MBE123,(T)PFL147,(S)               omega
+ ZE MBE123,(T)PFL162,(T)               -omega-1
+ ZE MBE123,(T)PFL162,(S)               omega
+ ZE MBE123,(T)PFL163,(T)               -omega-1
+ ZE MBE123,(T)PFL163,(S)               omega
+ ZE MBE123,(T)PFL164,(T)               -omega-1
+ ZE MBE123,(T)PFL164,(S)               omega
+ ZE MBE123,(T)PFL165,(T)               -omega-1
+ ZE MBE123,(T)PFL165,(S)               omega
+ ZE MBE123,(T)PFL166,(T)               -omega-1
+ ZE MBE123,(T)PFL166,(S)               omega
+ ZE MBE124,(T)PFL167,(T)               -omega-1
+ ZE MBE124,(T)PFL167,(S)               omega
+ ZE MBE125,(T)PFL162,(T)               1-omega
+ ZE MBE125,(T)PFL162,(S)               omega
+ ND
+ DO T         2                        TIME 
+ ZE MBE126,(T)PFL119,(T)               1-omega
+ ZE MBE126,(T)PFL119,(S)               omega
+ ZE MBE126,(T)PFL168,(T)               -omega-1
+ ZE MBE126,(T)PFL168,(S)               omega
+ ZE MBE127,(T)PFL27,(T)                1-omega
+ ZE MBE127,(T)PFL27,(S)                omega
+ ZE MBE127,(T)PFL45,(T)                1-omega
+ ZE MBE127,(T)PFL45,(S)                omega
+ ZE MBE127,(T)PFL169,(T)               -omega-1
+ ZE MBE127,(T)PFL169,(S)               omega
+ ZE MBE128,(T)PFL69,(T)                1-omega
+ ZE MBE128,(T)PFL69,(S)                omega
+ ZE MBE128,(T)PFL170,(T)               -omega-1
+ ZE MBE128,(T)PFL170,(S)               omega
+ ZE MBE129,(T)PFL171,(T)               -omega-1
+ ZE MBE129,(T)PFL171,(S)               omega
+ ZE MBE130,(T)PFL104,(T)               1-omega
+ ZE MBE130,(T)PFL104,(S)               omega
+ ZE MBE130,(T)PFL172,(T)               -omega-1
+ ZE MBE130,(T)PFL172,(S)               omega
+ ZE MBE130,(T)PFL173,(T)               -omega-1
+ ZE MBE130,(T)PFL173,(S)               omega
+ ZE MBE131,(T)PFL163,(T)               1-omega
+ ZE MBE131,(T)PFL163,(S)               omega
+ ZE MBE131,(T)PFL174,(T)               -omega-1
+ ZE MBE131,(T)PFL174,(S)               omega
+ ZE MBE132,(T)PFL175,(T)               -omega-1
+ ZE MBE132,(T)PFL175,(S)               omega
+ ZE MBE133,(T)PFL53,(T)                1-omega
+ ZE MBE133,(T)PFL53,(S)                omega
+ ZE MBE133,(T)PFL112,(T)               1-omega
+ ZE MBE133,(T)PFL112,(S)               omega
+ ZE MBE134,(T)PFL105,(T)               1-omega
+ ZE MBE134,(T)PFL105,(S)               omega
+ ZE MBE134,(T)PFL126,(T)               1-omega
+ ZE MBE134,(T)PFL126,(S)               omega
+ ZE MBE134,(T)PFL133,(T)               1-omega
+ ZE MBE134,(T)PFL133,(S)               omega
+ ZE MBE134,(T)RFL218,(T)               -omega-1
+ ZE MBE134,(T)RFL218,(S)               omega
+ ZE MBE135,(T)PFL172,(T)               1-omega
+ ZE MBE135,(T)PFL172,(S)               omega
+ ZE MBE135,(T)RFL218,(T)               1-omega
+ ZE MBE135,(T)RFL218,(S)               omega
+ ZE MBE136,(T)PFL164,(T)               1-omega
+ ZE MBE136,(T)PFL164,(S)               omega
+ ZE MBE136,(T)PFL174,(T)               1-omega
+ ZE MBE136,(T)PFL174,(S)               omega
+ ZE MBE136,(T)PFL176,(T)               -omega-1
+ ZE MBE136,(T)PFL176,(S)               omega
+ ZE MBE136,(T)CFL213,(T)               -omega-1
+ ZE MBE136,(T)CFL213,(S)               omega
+ ZE MBE137,(T)PFL74,(T)                1-omega
+ ZE MBE137,(T)PFL74,(S)                omega
+ ZE MBE137,(T)PFL177,(T)               -omega-1
+ ZE MBE137,(T)PFL177,(S)               omega
+ ZE MBE137,(T)CFL213,(T)               1-omega
+ ZE MBE137,(T)CFL213,(S)               omega
+ ZE MBE138,(T)PFL177,(T)               1-omega
+ ZE MBE138,(T)PFL177,(S)               omega
+ ZE MBE138,(T)PFL178,(T)               -omega-1
+ ZE MBE138,(T)PFL178,(S)               omega
+ ZE MBE139,(T)PFL178,(T)               1-omega
+ ZE MBE139,(T)PFL178,(S)               omega
+ ZE MBE139,(T)PFL179,(T)               -omega-1
+ ZE MBE139,(T)PFL179,(S)               omega
+ ZE MBE140,(T)PFL108,(T)               1-omega
+ ZE MBE140,(T)PFL108,(S)               omega
+ ZE MBE140,(T)PFL143,(T)               1-omega
+ ZE MBE140,(T)PFL143,(S)               omega
+ ZE MBE140,(T)PFL145,(T)               1-omega
+ ZE MBE140,(T)PFL145,(S)               omega
+ ZE MBE141,(T)PFL17,(T)                1-omega
+ ZE MBE141,(T)PFL17,(S)                omega
+ ZE MBE141,(T)PFL180,(T)               -omega-1
+ ZE MBE141,(T)PFL180,(S)               omega
+ ZE MBE142,(T)PFL124,(T)               1-omega
+ ZE MBE142,(T)PFL124,(S)               omega
+ ZE MBE142,(T)PFL127,(T)               1-omega
+ ZE MBE142,(T)PFL127,(S)               omega
+ ZE MBE143,(T)PFL37,(T)                1-omega
+ ZE MBE143,(T)PFL37,(S)                omega
+ ZE MBE143,(T)PFL130,(T)               1-omega
+ ZE MBE143,(T)PFL130,(S)               omega
+ ZE MBE144,(T)PFL72,(T)                1-omega
+ ZE MBE144,(T)PFL72,(S)                omega
+ ZE MBE144,(T)PFL181,(T)               -omega-1
+ ZE MBE144,(T)PFL181,(S)               omega
+ ZE MBE145,(T)PFL91,(T)                1-omega
+ ZE MBE145,(T)PFL91,(S)                omega
+ ZE MBE145,(T)PFL150,(T)               1-omega
+ ZE MBE145,(T)PFL150,(S)               omega
+ ZE MBE146,(T)PFL182,(T)               -omega-1
+ ZE MBE146,(T)PFL182,(S)               omega
+ ZE MBE147,(T)PFL62,(T)                1-omega
+ ZE MBE147,(T)PFL62,(S)                omega
+ ZE MBE147,(T)PFL157,(T)               1-omega
+ ZE MBE147,(T)PFL157,(S)               omega
+ ZE MBE148,(T)PFL183,(T)               -omega-1
+ ZE MBE148,(T)PFL183,(S)               omega
+ ZE MBE148,(T)CFL214,(T)               -omega-1
+ ZE MBE148,(T)CFL214,(S)               omega
+ ZE MBE149,(T)PFL64,(T)                1-omega
+ ZE MBE149,(T)PFL64,(S)                omega
+ ZE MBE149,(T)CFL214,(T)               1-omega
+ ZE MBE149,(T)CFL214,(S)               omega
+ ZE MBE150,(T)PFL25,(T)                1-omega
+ ZE MBE150,(T)PFL25,(S)                omega
+ ND
+ DO T         2                        TIME 
+ ZE MBE151,(T)PFL160,(T)               1-omega
+ ZE MBE151,(T)PFL160,(S)               omega
+ ZE MBE151,(T)PFL184,(T)               -omega-1
+ ZE MBE151,(T)PFL184,(S)               omega
+ ZE MBE152,(T)PFL107,(T)               1-omega
+ ZE MBE152,(T)PFL107,(S)               omega
+ ZE MBE152,(T)PFL158,(T)               1-omega
+ ZE MBE152,(T)PFL158,(S)               omega
+ ZE MBE152,(T)PFL159,(T)               1-omega
+ ZE MBE152,(T)PFL159,(S)               omega
+ ZE MBE153,(T)PFL116,(T)               1-omega
+ ZE MBE153,(T)PFL116,(S)               omega
+ ZE MBE153,(T)PFL146,(T)               1-omega
+ ZE MBE153,(T)PFL146,(S)               omega
+ ZE MBE153,(T)PFL185,(T)               -omega-1
+ ZE MBE153,(T)PFL185,(S)               omega
+ ZE MBE154,(T)PFL23,(T)                1-omega
+ ZE MBE154,(T)PFL23,(S)                omega
+ ZE MBE155,(T)PFL173,(T)               1-omega
+ ZE MBE155,(T)PFL173,(S)               omega
+ ZE MBE155,(T)PFL186,(T)               -omega-1
+ ZE MBE155,(T)PFL186,(S)               omega
+ ZE MBE156,(T)PFL134,(T)               1-omega
+ ZE MBE156,(T)PFL134,(S)               omega
+ ZE MBE156,(T)PFL187,(T)               -omega-1
+ ZE MBE156,(T)PFL187,(S)               omega
+ ZE MBE157,(T)PFL68,(T)                1-omega
+ ZE MBE157,(T)PFL68,(S)                omega
+ ZE MBE157,(T)PFL141,(T)               1-omega
+ ZE MBE157,(T)PFL141,(S)               omega
+ ZE MBE158,(T)PFL50,(T)                1-omega
+ ZE MBE158,(T)PFL50,(S)                omega
+ ZE MBE158,(T)PFL131,(T)               1-omega
+ ZE MBE158,(T)PFL131,(S)               omega
+ ZE MBE158,(T)PFL188,(T)               -omega-1
+ ZE MBE158,(T)PFL188,(S)               omega
+ ZE MBE159,(T)PFL113,(T)               1-omega
+ ZE MBE159,(T)PFL113,(S)               omega
+ ZE MBE159,(T)PFL151,(T)               1-omega
+ ZE MBE159,(T)PFL151,(S)               omega
+ ZE MBE160,(T)PFL129,(T)               1-omega
+ ZE MBE160,(T)PFL129,(S)               omega
+ ZE MBE160,(T)PFL189,(T)               -omega-1
+ ZE MBE160,(T)PFL189,(S)               omega
+ ZE MBE161,(T)PFL117,(T)               1-omega
+ ZE MBE161,(T)PFL117,(S)               omega
+ ZE MBE162,(T)PFL135,(T)               1-omega
+ ZE MBE162,(T)PFL135,(S)               omega
+ ZE MBE162,(T)SFL232,(T)               1-omega
+ ZE MBE162,(T)SFL232,(S)               omega
+ ZE MBE163,(T)PFL138,(T)               1-omega
+ ZE MBE163,(T)PFL138,(S)               omega
+ ZE MBE163,(T)PFL190,(T)               -omega-1
+ ZE MBE163,(T)PFL190,(S)               omega
+ ZE MBE163,(T)PFL191,(T)               -omega-1
+ ZE MBE163,(T)PFL191,(S)               omega
+ ZE MBE164,(T)PFL185,(T)               1-omega
+ ZE MBE164,(T)PFL185,(S)               omega
+ ZE MBE164,(T)PFL190,(T)               1-omega
+ ZE MBE164,(T)PFL190,(S)               omega
+ ZE MBE164,(T)PFL191,(T)               1-omega
+ ZE MBE164,(T)PFL191,(S)               omega
+ ZE MBE165,(T)PFL142,(T)               1-omega
+ ZE MBE165,(T)PFL142,(S)               omega
+ ZE MBE165,(T)PFL186,(T)               1-omega
+ ZE MBE165,(T)PFL186,(S)               omega
+ ZE MBE166,(T)PFL70,(T)                1-omega
+ ZE MBE166,(T)PFL70,(S)                omega
+ ZE MBE166,(T)PFL149,(T)               1-omega
+ ZE MBE166,(T)PFL149,(S)               omega
+ ZE MBE167,(T)PFL139,(T)               1-omega
+ ZE MBE167,(T)PFL139,(S)               omega
+ ZE MBE168,(T)PFL170,(T)               1-omega
+ ZE MBE168,(T)PFL170,(S)               omega
+ ZE MBE169,(T)PFL18,(T)                1-omega
+ ZE MBE169,(T)PFL18,(S)                omega
+ ZE MBE169,(T)PFL40,(T)                1-omega
+ ZE MBE169,(T)PFL40,(S)                omega
+ ZE MBE170,(T)PFL183,(T)               1-omega
+ ZE MBE170,(T)PFL183,(S)               omega
+ ZE MBE170,(T)PFL192,(T)               -omega-1
+ ZE MBE170,(T)PFL192,(S)               omega
+ ZE MBE170,(T)PFL193,(T)               -omega-1
+ ZE MBE170,(T)PFL193,(S)               omega
+ ZE MBE171,(T)PFL180,(T)               1-omega
+ ZE MBE171,(T)PFL180,(S)               omega
+ ZE MBE171,(T)PFL192,(T)               1-omega
+ ZE MBE171,(T)PFL192,(S)               omega
+ ZE MBE171,(T)PFL193,(T)               1-omega
+ ZE MBE171,(T)PFL193,(S)               omega
+ ZE MBE172,(T)PFL60,(T)                1-omega
+ ZE MBE172,(T)PFL60,(S)                omega
+ ZE MBE172,(T)PFL179,(T)               1-omega
+ ZE MBE172,(T)PFL179,(S)               omega
+ ZE MBE173,(T)PFL12,(T)                1-omega
+ ZE MBE173,(T)PFL12,(S)                omega
+ ZE MBE173,(T)PFL61,(T)                1-omega
+ ZE MBE173,(T)PFL61,(S)                omega
+ ZE MBE174,(T)PFL140,(T)               1-omega
+ ZE MBE174,(T)PFL140,(S)               omega
+ ZE MBE174,(T)PFL167,(T)               1-omega
+ ZE MBE174,(T)PFL167,(S)               omega
+ ZE MBE174,(T)PFL194,(T)               -omega-1
+ ZE MBE174,(T)PFL194,(S)               omega
+ ZE MBE175,(T)PFL176,(T)               1-omega
+ ZE MBE175,(T)PFL176,(S)               omega
+ ZE MBE175,(T)PFL187,(T)               1-omega
+ ZE MBE175,(T)PFL187,(S)               omega
+ ND
+ DO T         2                        TIME 
+ ZE MBE176,(T)PFL168,(T)               1-omega
+ ZE MBE176,(T)PFL168,(S)               omega
+ ZE MBE176,(T)CFL215,(T)               -omega-1
+ ZE MBE176,(T)CFL215,(S)               omega
+ ZE MBE177,(T)PFL195,(T)               -omega-1
+ ZE MBE177,(T)PFL195,(S)               omega
+ ZE MBE177,(T)CFL215,(T)               1-omega
+ ZE MBE177,(T)CFL215,(S)               omega
+ ZE MBE178,(T)PFL137,(T)               1-omega
+ ZE MBE178,(T)PFL137,(S)               omega
+ ZE MBE178,(T)PFL171,(T)               1-omega
+ ZE MBE178,(T)PFL171,(S)               omega
+ ZE MBE178,(T)PFL195,(T)               1-omega
+ ZE MBE178,(T)PFL195,(S)               omega
+ ZE MBE179,(T)PFL189,(T)               1-omega
+ ZE MBE179,(T)PFL189,(S)               omega
+ ZE MBE179,(T)PFL196,(T)               -omega-1
+ ZE MBE179,(T)PFL196,(S)               omega
+ ZE MBE179,(T)CFL216,(T)               -omega-1
+ ZE MBE179,(T)CFL216,(S)               omega
+ ZE MBE180,(T)PFL194,(T)               1-omega
+ ZE MBE180,(T)PFL194,(S)               omega
+ ZE MBE180,(T)CFL216,(T)               1-omega
+ ZE MBE180,(T)CFL216,(S)               omega
+ ZE MBE181,(T)PFL165,(T)               1-omega
+ ZE MBE181,(T)PFL165,(S)               omega
+ ZE MBE181,(T)RFL219,(T)               -omega-1
+ ZE MBE181,(T)RFL219,(S)               omega
+ ZE MBE182,(T)PFL196,(T)               1-omega
+ ZE MBE182,(T)PFL196,(S)               omega
+ ZE MBE182,(T)RFL219,(T)               1-omega
+ ZE MBE182,(T)RFL219,(S)               omega
+ ZE MBE183,(T)PFL184,(T)               1-omega
+ ZE MBE183,(T)PFL184,(S)               omega
+ ZE MBE184,(T)PFL78,(T)                1-omega
+ ZE MBE184,(T)PFL78,(S)                omega
+ ZE MBE184,(T)PFL155,(T)               1-omega
+ ZE MBE184,(T)PFL155,(S)               omega
+ ZE MBE185,(T)PFL175,(T)               1-omega
+ ZE MBE185,(T)PFL175,(S)               omega
+ ZE MBE185,(T)PFL181,(T)               1-omega
+ ZE MBE185,(T)PFL181,(S)               omega
+ ZE MBE185,(T)PFL197,(T)               -omega-1
+ ZE MBE185,(T)PFL197,(S)               omega
+ ZE MBE186,(T)PFL188,(T)               1-omega
+ ZE MBE186,(T)PFL188,(S)               omega
+ ZE MBE186,(T)RFL220,(T)               -omega-1
+ ZE MBE186,(T)RFL220,(S)               omega
+ ZE MBE187,(T)PFL197,(T)               1-omega
+ ZE MBE187,(T)PFL197,(S)               omega
+ ZE MBE187,(T)RFL220,(T)               1-omega
+ ZE MBE187,(T)RFL220,(S)               omega
+ ZE MBE188,(T)PFL148,(T)               1-omega
+ ZE MBE188,(T)PFL148,(S)               omega
+ ZE MBE188,(T)PFL166,(T)               1-omega
+ ZE MBE188,(T)PFL166,(S)               omega
+ ZE MBE189,(T)PFL169,(T)               1-omega
+ ZE MBE189,(T)PFL169,(S)               omega
+ ZE MBE190,(T)PFL92,(T)                1-omega
+ ZE MBE190,(T)PFL92,(S)                omega
+ ZE MBE190,(T)PFL114,(T)               1-omega
+ ZE MBE190,(T)PFL114,(S)               omega
+ ZE MBE190,(T)PFL125,(T)               1-omega
+ ZE MBE190,(T)PFL125,(S)               omega
+ ZE MBE190,(T)PFL198,(T)               -omega-1
+ ZE MBE190,(T)PFL198,(S)               omega
+ ZE MBE191,(T)PFL198,(T)               1-omega
+ ZE MBE191,(T)PFL198,(S)               omega
+ ZE MBE191,(T)PFL199,(T)               -omega-1
+ ZE MBE191,(T)PFL199,(S)               omega
+ ZE MBE192,(T)PFL90,(T)                1-omega
+ ZE MBE192,(T)PFL90,(S)                omega
+ ZE MBE192,(T)PFL199,(T)               1-omega
+ ZE MBE192,(T)PFL199,(S)               omega
+ ZE MBE193,(T)PFL95,(T)                1-omega
+ ZE MBE193,(T)PFL95,(S)                omega
+ ZE MBE193,(T)PFL136,(T)               1-omega
+ ZE MBE193,(T)PFL136,(S)               omega
+ ZE MBE194,(T)PFL94,(T)                1-omega
+ ZE MBE194,(T)PFL94,(S)                omega
+ ZE MBE194,(T)PFL182,(T)               1-omega
+ ZE MBE194,(T)PFL182,(S)               omega
+ ZE MBE195,(T)PFL38,(T)                1-omega
+ ZE MBE195,(T)PFL38,(S)                omega
+ ZE MBE195,(T)PFL100,(T)               1-omega
+ ZE MBE195,(T)PFL100,(S)               omega
+ ND
+
+ DO T         1                        TIME 
+*   ...Max. compression ratio...
+ XL MCR200,(T)NOP4,(T)    1.00000000   NOP3,(T)   -2.00000000
+ XL MCR200,(T)CBV200,(T) 28.00000000
+ XL MCR201,(T)NOP14,(T)   1.00000000   NOP13,(T)  -2.00000000
+ XL MCR201,(T)CBV201,(T) 28.00000000
+ XL MCR202,(T)NOP17,(T)   1.00000000   NOP16,(T)  -2.00000000
+ XL MCR202,(T)CBV202,(T) 28.00000000
+ XL MCR203,(T)NOP30,(T)   1.00000000   NOP29,(T)  -2.00000000
+ XL MCR203,(T)CBV203,(T) 28.00000000
+ XL MCR204,(T)NOP42,(T)   1.00000000   NOP41,(T)  -2.00000000
+ XL MCR204,(T)CBV204,(T) 28.00000000
+ XL MCR205,(T)NOP49,(T)   1.00000000   NOP48,(T)  -2.00000000
+ XL MCR205,(T)CBV205,(T) 28.00000000
+ XL MCR206,(T)NOP55,(T)   1.00000000   NOP54,(T)  -2.00000000
+ XL MCR206,(T)CBV206,(T) 28.00000000
+ XL MCR207,(T)NOP61,(T)   1.00000000   NOP60,(T)  -2.00000000
+ XL MCR207,(T)CBV207,(T) 28.00000000
+ XL MCR208,(T)NOP76,(T)   1.00000000   NOP77,(T)  -2.00000000
+ XL MCR208,(T)CBV208,(T) 28.00000000
+ XL MCR209,(T)NOP92,(T)   1.00000000   NOP91,(T)  -2.00000000
+ XL MCR209,(T)CBV209,(T) 28.00000000
+ XL MCR210,(T)NOP101,(T)  1.00000000   NOP100,(T) -1.45000000
+ XL MCR210,(T)CBV210,(T) 22.50000000
+ XL MCR211,(T)NOP105,(T)  1.00000000   NOP104,(T) -2.00000000
+ XL MCR211,(T)CBV211,(T) 28.00000000
+ XL MCR212,(T)NOP121,(T)  1.00000000   NOP120,(T) -2.00000000
+ XL MCR212,(T)CBV212,(T) 28.00000000
+ XL MCR213,(T)NOP137,(T)  1.00000000   NOP136,(T) -2.00000000
+ XL MCR213,(T)CBV213,(T) 28.00000000
+ XL MCR214,(T)NOP149,(T)  1.00000000   NOP148,(T) -2.00000000
+ XL MCR214,(T)CBV214,(T) 28.00000000
+ XL MCR215,(T)NOP177,(T)  1.00000000   NOP176,(T) -1.53000000
+ XL MCR215,(T)CBV215,(T) 23.30000000
+ XL MCR216,(T)NOP180,(T)  1.00000000   NOP179,(T) -2.00000000
+ XL MCR216,(T)CBV216,(T) 28.00000000
+ ND
+
+ DO T         1                        TIME 
+*   ...Binary flow constraints...
+ XL CLF200,(T)CBV200,(T) 1.00000D+04   CFL200,(T) -1.00000000
+ XL CLF201,(T)CBV201,(T) 1.00000D+04   CFL201,(T) -1.00000000
+ XL CLF202,(T)CBV202,(T) 1.00000D+04   CFL202,(T) -1.00000000
+ XL CLF203,(T)CBV203,(T) 1.00000D+04   CFL203,(T) -1.00000000
+ XL CLF204,(T)CBV204,(T) 1.00000D+04   CFL204,(T) -1.00000000
+ XL CLF205,(T)CBV205,(T) 1.00000D+04   CFL205,(T) -1.00000000
+ XL CLF206,(T)CBV206,(T) 1.00000D+04   CFL206,(T) -1.00000000
+ XL CLF207,(T)CBV207,(T) 1.00000D+04   CFL207,(T) -1.00000000
+ XL CLF208,(T)CBV208,(T) 1.00000D+04   CFL208,(T) -1.00000000
+ XL CLF209,(T)CBV209,(T) 1.00000D+04   CFL209,(T) -1.00000000
+ XL CLF210,(T)CBV210,(T) 1.00000D+04   CFL210,(T) -1.00000000
+ XL CLF211,(T)CBV211,(T) 1.00000D+04   CFL211,(T) -1.00000000
+ XL CLF212,(T)CBV212,(T) 1.00000D+04   CFL212,(T) -1.00000000
+ XL CLF213,(T)CBV213,(T) 1.00000D+04   CFL213,(T) -1.00000000
+ XL CLF214,(T)CBV214,(T) 1.00000D+04   CFL214,(T) -1.00000000
+ XL CLF215,(T)CBV215,(T) 1.00000D+04   CFL215,(T) -1.00000000
+ XL CLF216,(T)CBV216,(T) 1.00000D+04   CFL216,(T) -1.00000000
+ XL RLF217,(T)R2B217,(T)-1.00000D+04   RFL217,(T) -1.00000000
+ XL RUF217,(T)R1B217,(T)-1.00000D+04   RFL217,(T)  1.00000000
+ XL RLF218,(T)R2B218,(T)-1.00000D+04   RFL218,(T) -1.00000000
+ XL RUF218,(T)R1B218,(T)-1.00000D+04   RFL218,(T)  1.00000000
+ XL RLF219,(T)R2B219,(T)-1.00000D+04   RFL219,(T) -1.00000000
+ XL RUF219,(T)R1B219,(T)-1.00000D+04   RFL219,(T)  1.00000000
+ XL RLF220,(T)R2B220,(T)-1.00000D+04   RFL220,(T) -1.00000000
+ XL RUF220,(T)R1B220,(T)-1.00000D+04   RFL220,(T)  1.00000000
+ XL VLF221,(T)VBV221,(T)-1.00000D+04   VFL221,(T) -1.00000000
+ XL VUF221,(T)VBV221,(T)-1.00000D+04   VFL221,(T)  1.00000000
+ XL SLF222,(T)SBV222,(T) 0.00000D+00   SFL222,(T) -1.00000000
+ XL SUF222,(T)SBV222,(T)-3.00000D+03   SFL222,(T)  1.00000000
+ XL SLF223,(T)SBV223,(T) 0.00000D+00   SFL223,(T) -1.00000000
+ XL SUF223,(T)SBV223,(T)-1.00000D+03   SFL223,(T)  1.00000000
+ XL SLF224,(T)SBV224,(T) 0.00000D+00   SFL224,(T) -1.00000000
+ XL SUF224,(T)SBV224,(T)-1.00000D+03   SFL224,(T)  1.00000000
+ XL SLF225,(T)SBV225,(T) 0.00000D+00   SFL225,(T) -1.00000000
+ XL SUF225,(T)SBV225,(T)-6.99000D+02   SFL225,(T)  1.00000000
+ XL SLF226,(T)SBV226,(T) 0.00000D+00   SFL226,(T) -1.00000000
+ XL SUF226,(T)SBV226,(T)-2.19000D+02   SFL226,(T)  1.00000000
+ XL SLF227,(T)SBV227,(T) 0.00000D+00   SFL227,(T) -1.00000000
+ XL SUF227,(T)SBV227,(T)-1.43000D+03   SFL227,(T)  1.00000000
+ XL SLF228,(T)SBV228,(T) 0.00000D+00   SFL228,(T) -1.00000000
+ XL SUF228,(T)SBV228,(T)-1.00000D+03   SFL228,(T)  1.00000000
+ XL SLF229,(T)SBV229,(T) 0.00000D+00   SFL229,(T) -1.00000000
+ XL SUF229,(T)SBV229,(T)-79.00000000   SFL229,(T)  1.00000000
+ XL SLF230,(T)SBV230,(T) 0.00000D+00   SFL230,(T) -1.00000000
+ XL SUF230,(T)SBV230,(T)-2.73000D+02   SFL230,(T)  1.00000000
+ XL SLF231,(T)SBV231,(T) 0.00000D+00   SFL231,(T) -1.00000000
+ XL SUF231,(T)SBV231,(T)-1.00000D+02   SFL231,(T)  1.00000000
+ XL SLF232,(T)SBV232,(T) 0.00000D+00   SFL232,(T) -1.00000000
+ XL SUF232,(T)SBV232,(T)-1.38400D+03   SFL232,(T)  1.00000000
+ ND
+ DO T         1                        TIME 
+*   ...Binary pressure constraints...
+ XL CLP200,(T)NOP4,(T)             1   NOP3,(T)            -1
+ XL CLP200,(T)CBV200,(T)-5.03000D+02
+ XL CUP200,(T)NOP4,(T)            -1   NOP3,(T)             1
+ XL CLP201,(T)NOP14,(T)            1   NOP13,(T)           -1
+ XL CLP201,(T)CBV201,(T)-5.03000D+02
+ XL CUP201,(T)NOP14,(T)           -1   NOP13,(T)            1
+ XL CLP202,(T)NOP17,(T)            1   NOP16,(T)           -1
+ XL CLP202,(T)CBV202,(T)-5.03000D+02
+ XL CUP202,(T)NOP17,(T)           -1   NOP16,(T)            1
+ XL CLP203,(T)NOP30,(T)            1   NOP29,(T)           -1
+ XL CLP203,(T)CBV203,(T)-5.03000D+02
+ XL CUP203,(T)NOP30,(T)           -1   NOP29,(T)            1
+ XL CLP204,(T)NOP42,(T)            1   NOP41,(T)           -1
+ XL CLP204,(T)CBV204,(T)-4.72000D+02
+ XL CUP204,(T)NOP42,(T)           -1   NOP41,(T)            1
+ XL CLP205,(T)NOP49,(T)            1   NOP48,(T)           -1
+ XL CLP205,(T)CBV205,(T)-3.45000D+02
+ XL CUP205,(T)NOP49,(T)           -1   NOP48,(T)            1
+ XL CLP206,(T)NOP55,(T)            1   NOP54,(T)           -1
+ XL CLP206,(T)CBV206,(T)-5.80000D+02
+ XL CUP206,(T)NOP55,(T)           -1   NOP54,(T)            1
+ XL CLP207,(T)NOP61,(T)            1   NOP60,(T)           -1
+ XL CLP207,(T)CBV207,(T)-5.67000D+02
+ XL CUP207,(T)NOP61,(T)           -1   NOP60,(T)            1
+ XL CLP208,(T)NOP76,(T)            1   NOP77,(T)           -1
+ XL CLP208,(T)CBV208,(T)-6.00000D+02
+ XL CUP208,(T)NOP76,(T)           -1   NOP77,(T)            1
+ XL CLP209,(T)NOP92,(T)            1   NOP91,(T)           -1
+ XL CLP209,(T)CBV209,(T)-5.03000D+02
+ XL CUP209,(T)NOP92,(T)           -1   NOP91,(T)            1
+ XL CLP210,(T)NOP101,(T)           1   NOP100,(T)          -1
+ XL CLP210,(T)CBV210,(T)-5.80000D+02
+ XL CUP210,(T)NOP101,(T)          -1   NOP100,(T)           1
+ XL CLP211,(T)NOP105,(T)           1   NOP104,(T)          -1
+ XL CLP211,(T)CBV211,(T)-5.03000D+02
+ XL CUP211,(T)NOP105,(T)          -1   NOP104,(T)           1
+ XL CLP212,(T)NOP121,(T)           1   NOP120,(T)          -1
+ XL CLP212,(T)CBV212,(T)-5.03000D+02
+ XL CUP212,(T)NOP121,(T)          -1   NOP120,(T)           1
+ XL CLP213,(T)NOP137,(T)           1   NOP136,(T)          -1
+ XL CLP213,(T)CBV213,(T)-5.03000D+02
+ XL CUP213,(T)NOP137,(T)          -1   NOP136,(T)           1
+ XL CLP214,(T)NOP149,(T)           1   NOP148,(T)          -1
+ XL CLP214,(T)CBV214,(T)-5.03000D+02
+ XL CUP214,(T)NOP149,(T)          -1   NOP148,(T)           1
+ XL CLP215,(T)NOP177,(T)           1   NOP176,(T)          -1
+ XL CLP215,(T)CBV215,(T)-5.03000D+02
+ XL CUP215,(T)NOP177,(T)          -1   NOP176,(T)           1
+ XL CLP216,(T)NOP180,(T)           1   NOP179,(T)          -1
+ XL CLP216,(T)CBV216,(T)-5.80000D+02
+ XL CUP216,(T)NOP180,(T)          -1   NOP179,(T)           1
+ XL RLP217,(T)NOP75,(T)            1   NOP73,(T)           -1
+ XL RLP217,(T)R1B217,(T) 6.10000D+02   R2B217,(T)-10.00000000
+ XL RUP217,(T)NOP75,(T)           -1   NOP73,(T)            1
+ XL RUP217,(T)R1B217,(T)-10.00000000   R2B217,(T) 6.10000D+02
+ XL RLP218,(T)NOP135,(T)           1   NOP134,(T)          -1
+ XL RLP218,(T)R1B218,(T) 1.65000D+02   R2B218,(T) 0.00000D+00
+ XL RUP218,(T)NOP135,(T)          -1   NOP134,(T)           1
+ XL RUP218,(T)R1B218,(T) 0.00000D+00   R2B218,(T) 6.00000D+02
+ XL RLP219,(T)NOP182,(T)           1   NOP181,(T)          -1
+ XL RLP219,(T)R1B219,(T) 6.99000D+02   R2B219,(T)-99.00000000
+ XL RUP219,(T)NOP182,(T)          -1   NOP181,(T)           1
+ XL RUP219,(T)R1B219,(T)-99.00000000   R2B219,(T) 6.99000D+02
+ XL RLP220,(T)NOP187,(T)           1   NOP186,(T)          -1
+ XL RLP220,(T)R1B220,(T) 6.30000D+02   R2B220,(T)-30.00000000
+ XL RUP220,(T)NOP187,(T)          -1   NOP186,(T)           1
+ XL RUP220,(T)R1B220,(T)-30.00000000   R2B220,(T) 6.30000D+02
+ XL VLP221,(T)NOP112,(T)           1   NOP111,(T)          -1
+ XL VLP221,(T)VBV221,(T) 6.00000D+02
+ XL VUP221,(T)NOP112,(T)          -1   NOP111,(T)           1
+ XL VUP221,(T)VBV221,(T) 6.00000D+02
+
+*   Nonlinear constraints
+ ND
+ DO T         1                        TIME 
+
+*   ...Pressure Drop Equations...
+ DO i         1                        NPIP
+ XE PDE(i,T)  'SCALE'    1.00000D+03
+ OD i
+*   ...Maximum HP constraints...
+ DO i         CSTART                   CEND
+ XL HC(i,T)   'SCALE'    70.00000000
+ OD i
+*   ...Compressor HP objective...
+ DO i         CSTART                   CEND
+ XN HO(i,T)   'SCALE'     0.03500000
+ OD i
+ ND
+
+CONSTANTS
+
+*   Linear constraints
+
+*   ...Mass balance equations...
+ DO T         1                        TIME 
+ X  NET4      MBE1,(T)   45.17000000
+ X  NET4      MBE5,(T)   3.50490D+02
+ X  NET4      MBE6,(T)   3.98600D+02
+ X  NET4      MBE8,(T)    4.99250000
+ X  NET4      MBE9,(T)    2.04820000
+ X  NET4      MBE10,(T)  70.88600000
+ X  NET4      MBE11,(T)  1.30050D+02
+ X  NET4      MBE15,(T)  31.90200000
+ X  NET4      MBE19,(T)   6.27850000
+ X  NET4      MBE20,(T)   3.40080000
+ X  NET4      MBE21,(T)  28.55100000
+ X  NET4      MBE22,(T)  1.30050D+02
+ X  NET4      MBE29,(T)   2.52000000
+ X  NET4      MBE33,(T)  29.61500000
+ X  NET4      MBE34,(T)  6.75170D+02
+ X  NET4      MBE36,(T)  2.82570D+02
+ X  NET4      MBE37,(T)   3.03850000
+ X  NET4      MBE39,(T)  1.01300D+02
+ X  NET4      MBE40,(T)  39.66800000
+ X  NET4      MBE43,(T)  16.78000000
+ X  NET4      MBE44,(T)   1.84800000
+ X  NET4      MBE45,(T)   6.67020000
+ X  NET4      MBE53,(T)  12.93500000
+ X  NET4      MBE56,(T)   4.28600000
+ X  NET4      MBE58,(T)  55.49400000
+ X  NET4      MBE62,(T)  66.83800000
+ X  NET4      MBE63,(T)  1.24570D+02
+ X  NET4      MBE67,(T)  38.91600000
+ X  NET4      MBE68,(T)  55.26800000
+ X  NET4      MBE70,(T)  64.05300000
+ X  NET4      MBE72,(T)  10.03700000
+ X  NET4      MBE74,(T)  3.51091D+02
+ X  NET4      MBE78,(T)  54.09100000
+ X  NET4      MBE80,(T)  64.43800000
+ X  NET4      MBE81,(T)  1.43730D+02
+ X  NET4      MBE82,(T)  4.42111D+02
+ X  NET4      MBE83,(T)  26.64900000
+ X  NET4      MBE84,(T)  44.53600000
+ X  NET4      MBE85,(T)  1.72780D+02
+ X  NET4      MBE88,(T)  40.80700000
+ X  NET4      MBE89,(T)  1.50970D+02
+ X  NET4      MBE93,(T)   1.44500000
+ X  NET4      MBE94,(T)  15.00000000
+ X  NET4      MBE95,(T)  22.00100000
+ X  NET4      MBE96,(T)  37.99200000
+ X  NET4      MBE97,(T)  93.20000000
+ X  NET4      MBE99,(T)  1.10540D+02
+ X  NET4      MBE102,(T)  5.94340000
+ X  NET4      MBE103,(T)  0.59250000
+ X  NET4      MBE106,(T) 13.76800000
+ X  NET4      MBE107,(T)  3.34190000
+ X  NET4      MBE108,(T)  7.62340000
+ X  NET4      MBE110,(T) 40.30200000
+ X  NET4      MBE113,(T) 4.01131D+02
+ X  NET4      MBE114,(T) 78.38500000
+ X  NET4      MBE115,(T)  1.89980000
+ X  NET4      MBE116,(T) 81.62300000
+ X  NET4      MBE117,(T) 50.64900000
+ X  NET4      MBE118,(T) 59.16200000
+ X  NET4      MBE119,(T) 29.61500000
+ X  NET4      MBE122,(T)  0.33600000
+ X  NET4      MBE128,(T) 2.08930D+02
+ X  NET4      MBE130,(T) 51.48400000
+ X  NET4      MBE131,(T) 30.13600000
+ X  NET4      MBE132,(T) 5.00150D+02
+ X  NET4      MBE133,(T) 15.43500000
+ X  NET4      MBE141,(T)  3.83090000
+ X  NET4      MBE142,(T) 20.96160000
+ X  NET4      MBE143,(T) 22.75500000
+ X  NET4      MBE144,(T)  2.40230000
+ X  NET4      MBE145,(T) 1.30050D+02
+ X  NET4      MBE146,(T) 2.75565D+02
+ X  NET4      MBE147,(T) 3.43570D+02
+ X  NET4      MBE150,(T) 1.19750D+02
+ X  NET4      MBE153,(T) 84.09100000
+ X  NET4      MBE154,(T) 80.24200000
+ X  NET4      MBE156,(T)  3.05890000
+ X  NET4      MBE157,(T) 11.86400000
+ X  NET4      MBE159,(T)  6.35550000
+ X  NET4      MBE160,(T)  0.69130000
+ X  NET4      MBE161,(T) 4.64600D+02
+ X  NET4      MBE162,(T)  1.57970000
+ X  NET4      MBE165,(T) 3.55470D+02
+ X  NET4      MBE166,(T)  7.55090000
+ X  NET4      MBE168,(T) 2.04790D+02
+ X  NET4      MBE172,(T) 1.81630D+02
+ X  NET4      MBE178,(T) 92.60400000
+ X  NET4      MBE183,(T) 11.21660000
+ X  NET4      MBE184,(T) 50.78500000
+ X  NET4      MBE185,(T) 4.38110D+02
+ X  NET4      MBE188,(T) 17.76000000
+ X  NET4      MBE189,(T) 3.50180D+02
+ X  NET4      MBE195,(T) 1.40060D+02
+ ND
+ DO T         1                        TIME 
+*   ...Binary flow constraints...
+ X  NET4      CLF200,(T) 1.00000D+04
+ X  NET4      CLF201,(T) 1.00000D+04
+ X  NET4      CLF202,(T) 1.00000D+04
+ X  NET4      CLF203,(T) 1.00000D+04
+ X  NET4      CLF204,(T) 1.00000D+04
+ X  NET4      CLF205,(T) 1.00000D+04
+ X  NET4      CLF206,(T) 1.00000D+04
+ X  NET4      CLF207,(T) 1.00000D+04
+ X  NET4      CLF208,(T) 1.00000D+04
+ X  NET4      CLF209,(T) 1.00000D+04
+ X  NET4      CLF210,(T) 1.00000D+04
+ X  NET4      CLF211,(T) 1.00000D+04
+ X  NET4      CLF212,(T) 1.00000D+04
+ X  NET4      CLF213,(T) 1.00000D+04
+ X  NET4      CLF214,(T) 1.00000D+04
+ X  NET4      CLF215,(T) 1.00000D+04
+ X  NET4      CLF216,(T) 1.00000D+04
+ ND
+ DO T         1                        TIME 
+*   ...Binary pressure constraints...
+ X  NET4      RLP217,(T) 6.00000D+02
+ X  NET4      RUP217,(T) 6.00000D+02
+ X  NET4      RLP218,(T) 1.65000D+02
+ X  NET4      RUP218,(T) 6.00000D+02
+ X  NET4      RLP219,(T) 6.00000D+02
+ X  NET4      RUP219,(T) 6.00000D+02
+ X  NET4      RLP220,(T) 6.00000D+02
+ X  NET4      RUP220,(T) 6.00000D+02
+ X  NET4      VLP221,(T) 6.00000D+02
+ X  NET4      VUP221,(T) 6.00000D+02
+
+*   Nonlinear constraints
+
+ ND
+ DO T         1                        TIME 
+*   ...Maximum HP values...
+ X  NET4      HC200,(T)   .07000D+04
+ X  NET4      HC201,(T)   .07000D+04
+ X  NET4      HC202,(T)   .38000D+04
+ X  NET4      HC203,(T)   .50000D+03
+ X  NET4      HC204,(T)   .07000D+04
+ X  NET4      HC205,(T)   .07000D+04
+ X  NET4      HC206,(T)   .70000D+04
+ X  NET4      HC207,(T)   .14000D+04
+ X  NET4      HC208,(T)   .20000D+04
+ X  NET4      HC209,(T)   .19000D+04
+ X  NET4      HC210,(T)   .88000D+04
+ X  NET4      HC211,(T)   .14000D+04
+ X  NET4      HC212,(T)   .65000D+04
+ X  NET4      HC213,(T)   .38000D+04
+ X  NET4      HC214,(T)   .07000D+04
+ X  NET4      HC215,(T)   .19000D+04
+ X  NET4      HC216,(T)   .16000D+04
+ ND
+
+BOUNDS
+
+*   ...Default all variables to be free
+
+ FR NET4      'DEFAULT'
+
+*   ...Non-default bounds
+
+ DO T         1                        TIME 
+ XU NET4      CFL208,(T) 2.07000D+03
+ XL NET4      SFL222,(T) 0.00000D+00
+ XU NET4      SFL222,(T) 3.00000D+03
+ XL NET4      SFL223,(T) 0.00000D+00
+ XU NET4      SFL223,(T) 1.00000D+03
+ XL NET4      SFL224,(T) 0.00000D+00
+ XU NET4      SFL224,(T) 1.00000D+03
+ XL NET4      SFL225,(T) 0.00000D+00
+ XU NET4      SFL225,(T) 6.99000D+02
+ XL NET4      SFL226,(T) 0.00000D+00
+ XU NET4      SFL226,(T) 2.19000D+02
+ XL NET4      SFL227,(T) 0.00000D+00
+ XU NET4      SFL227,(T) 1.43000D+03
+ XL NET4      SFL228,(T) 0.00000D+00
+ XU NET4      SFL228,(T) 1.00000D+03
+ XL NET4      SFL229,(T) 0.00000D+00
+ XU NET4      SFL229,(T) 79.00000000
+ XL NET4      SFL230,(T) 0.00000D+00
+ XU NET4      SFL230,(T) 2.73000D+02
+ XL NET4      SFL231,(T) 0.00000D+00
+ XU NET4      SFL231,(T) 1.00000D+02
+ XL NET4      SFL232,(T) 0.00000D+00
+ XU NET4      SFL232,(T) 1.38400D+03
+ ND
+ DO T         1                        TIME 
+ XL NET4      NOP1,(T)   5.00000D+02
+ XU NET4      NOP1,(T)   1.10000D+03
+ XL NET4      NOP2,(T)   5.00000D+02
+ XU NET4      NOP2,(T)   1.10000D+03
+ XL NET4      NOP3,(T)   5.00000D+02
+ XU NET4      NOP3,(T)   1.10000D+03
+ XL NET4      NOP4,(T)   5.00000D+02
+ XU NET4      NOP4,(T)   1.00300D+03
+ XL NET4      NOP5,(T)   5.00000D+02
+ XU NET4      NOP5,(T)   1.10000D+03
+ XL NET4      NOP6,(T)   5.00000D+02
+ XU NET4      NOP6,(T)   1.10000D+03
+ XL NET4      NOP7,(T)   5.00000D+02
+ XU NET4      NOP7,(T)   1.10000D+03
+ XL NET4      NOP8,(T)   5.00000D+02
+ XU NET4      NOP8,(T)   1.10000D+03
+ XL NET4      NOP9,(T)   5.00000D+02
+ XU NET4      NOP9,(T)   1.10000D+03
+ XL NET4      NOP10,(T)  5.00000D+02
+ XU NET4      NOP10,(T)  1.10000D+03
+ XL NET4      NOP11,(T)  5.00000D+02
+ XU NET4      NOP11,(T)  1.10000D+03
+ XL NET4      NOP12,(T)  5.00000D+02
+ XU NET4      NOP12,(T)  1.10000D+03
+ XL NET4      NOP13,(T)  5.00000D+02
+ XU NET4      NOP13,(T)  1.10000D+03
+ XL NET4      NOP14,(T)  5.00000D+02
+ XU NET4      NOP14,(T)  1.00300D+03
+ XL NET4      NOP15,(T)  5.00000D+02
+ XU NET4      NOP15,(T)  1.10000D+03
+ XL NET4      NOP16,(T)  5.00000D+02
+ XU NET4      NOP16,(T)  1.10000D+03
+ XL NET4      NOP17,(T)  5.00000D+02
+ XU NET4      NOP17,(T)  1.00300D+03
+ XL NET4      NOP18,(T)  5.00000D+02
+ XU NET4      NOP18,(T)  9.75000D+02
+ XL NET4      NOP19,(T)  5.00000D+02
+ XU NET4      NOP19,(T)  1.10000D+03
+ XL NET4      NOP20,(T)  5.00000D+02
+ XU NET4      NOP20,(T)  1.10000D+03
+ XL NET4      NOP21,(T)  5.00000D+02
+ XU NET4      NOP21,(T)  1.10000D+03
+ XL NET4      NOP22,(T)  5.00000D+02
+ XU NET4      NOP22,(T)  1.10000D+03
+ XL NET4      NOP23,(T)  5.00000D+02
+ XU NET4      NOP23,(T)  1.10000D+03
+ XL NET4      NOP24,(T)  5.00000D+02
+ XU NET4      NOP24,(T)  1.10000D+03
+ XL NET4      NOP25,(T)  5.00000D+02
+ XU NET4      NOP25,(T)  9.00000D+02
+ XL NET4      NOP26,(T)  5.00000D+02
+ XU NET4      NOP26,(T)  9.50000D+02
+ XL NET4      NOP27,(T)  5.00000D+02
+ XU NET4      NOP27,(T)  1.10000D+03
+ XL NET4      NOP28,(T)  5.00000D+02
+ XU NET4      NOP28,(T)  1.10000D+03
+ XL NET4      NOP29,(T)  5.00000D+02
+ XU NET4      NOP29,(T)  1.10000D+03
+ XL NET4      NOP30,(T)  5.00000D+02
+ XU NET4      NOP30,(T)  1.00300D+03
+ XL NET4      NOP31,(T)  5.00000D+02
+ XU NET4      NOP31,(T)  1.10000D+03
+ XL NET4      NOP32,(T)  5.00000D+02
+ XU NET4      NOP32,(T)  1.10000D+03
+ XL NET4      NOP33,(T)  5.00000D+02
+ XU NET4      NOP33,(T)  1.10000D+03
+ XL NET4      NOP34,(T)  5.00000D+02
+ XU NET4      NOP34,(T)  1.10000D+03
+ XL NET4      NOP35,(T)  5.00000D+02
+ XU NET4      NOP35,(T)  1.10000D+03
+ XL NET4      NOP36,(T)  5.00000D+02
+ XU NET4      NOP36,(T)  1.10000D+03
+ XL NET4      NOP37,(T)  5.00000D+02
+ XU NET4      NOP37,(T)  1.10000D+03
+ XL NET4      NOP38,(T)  5.00000D+02
+ XU NET4      NOP38,(T)  9.95000D+02
+ XL NET4      NOP39,(T)  5.00000D+02
+ XU NET4      NOP39,(T)  1.10000D+03
+ XL NET4      NOP40,(T)  5.00000D+02
+ XU NET4      NOP40,(T)  1.10000D+03
+ XL NET4      NOP41,(T)  5.00000D+02
+ XU NET4      NOP41,(T)  1.10000D+03
+ XL NET4      NOP42,(T)  5.00000D+02
+ XU NET4      NOP42,(T)  9.72000D+02
+ XL NET4      NOP43,(T)  5.00000D+02
+ XU NET4      NOP43,(T)  1.10000D+03
+ XL NET4      NOP44,(T)  5.00000D+02
+ XU NET4      NOP44,(T)  1.10000D+03
+ XL NET4      NOP45,(T)  5.00000D+02
+ XU NET4      NOP45,(T)  1.10000D+03
+ XL NET4      NOP46,(T)  5.00000D+02
+ XU NET4      NOP46,(T)  1.10000D+03
+ XL NET4      NOP47,(T)  5.00000D+02
+ XU NET4      NOP47,(T)  1.10000D+03
+ XL NET4      NOP48,(T)  5.00000D+02
+ XU NET4      NOP48,(T)  1.10000D+03
+ XL NET4      NOP49,(T)  5.00000D+02
+ XU NET4      NOP49,(T)  8.45000D+02
+ XL NET4      NOP50,(T)  5.00000D+02
+ XU NET4      NOP50,(T)  1.10000D+03
+ ND
+ DO T         1                        TIME 
+ XL NET4      NOP51,(T)  5.00000D+02
+ XU NET4      NOP51,(T)  1.10000D+03
+ XL NET4      NOP52,(T)  5.00000D+02
+ XU NET4      NOP52,(T)  1.10000D+03
+ XL NET4      NOP53,(T)  5.00000D+02
+ XU NET4      NOP53,(T)  1.10000D+03
+ XL NET4      NOP54,(T)  5.00000D+02
+ XU NET4      NOP54,(T)  1.10000D+03
+ XL NET4      NOP55,(T)  5.00000D+02
+ XU NET4      NOP55,(T)  1.08000D+03
+ XL NET4      NOP56,(T)  5.00000D+02
+ XU NET4      NOP56,(T)  1.10000D+03
+ XL NET4      NOP57,(T)  5.00000D+02
+ XU NET4      NOP57,(T)  1.10000D+03
+ XL NET4      NOP58,(T)  5.00000D+02
+ XU NET4      NOP58,(T)  1.10000D+03
+ XL NET4      NOP59,(T)  5.00000D+02
+ XU NET4      NOP59,(T)  1.10000D+03
+ XL NET4      NOP60,(T)  5.00000D+02
+ XU NET4      NOP60,(T)  1.10000D+03
+ XL NET4      NOP61,(T)  5.00000D+02
+ XU NET4      NOP61,(T)  1.06700D+03
+ XL NET4      NOP62,(T)  5.00000D+02
+ XU NET4      NOP62,(T)  1.10000D+03
+ XL NET4      NOP63,(T)  5.00000D+02
+ XU NET4      NOP63,(T)  1.10000D+03
+ XL NET4      NOP64,(T)  5.00000D+02
+ XU NET4      NOP64,(T)  1.10000D+03
+ XL NET4      NOP65,(T)  5.00000D+02
+ XU NET4      NOP65,(T)  7.00000D+02
+ XL NET4      NOP66,(T)  5.00000D+02
+ XU NET4      NOP66,(T)  9.95000D+02
+ XL NET4      NOP67,(T)  5.00000D+02
+ XU NET4      NOP67,(T)  1.10000D+03
+ XL NET4      NOP68,(T)  5.00000D+02
+ XU NET4      NOP68,(T)  1.10000D+03
+ XL NET4      NOP69,(T)  5.00000D+02
+ XU NET4      NOP69,(T)  1.10000D+03
+ XL NET4      NOP70,(T)  5.00000D+02
+ XU NET4      NOP70,(T)  1.10000D+03
+ XL NET4      NOP71,(T)  5.00000D+02
+ XU NET4      NOP71,(T)  1.10000D+03
+ XL NET4      NOP72,(T)  5.00000D+02
+ XU NET4      NOP72,(T)  1.10000D+03
+ XL NET4      NOP73,(T)  5.00000D+02
+ XU NET4      NOP73,(T)  1.10000D+03
+ XL NET4      NOP74,(T)  5.00000D+02
+ XU NET4      NOP74,(T)  1.10000D+03
+ XL NET4      NOP75,(T)  5.00000D+02
+ XU NET4      NOP75,(T)  1.10000D+03
+ XL NET4      NOP76,(T)  5.00000D+02
+ XU NET4      NOP76,(T)  1.10000D+03
+ XL NET4      NOP77,(T)  5.00000D+02
+ XU NET4      NOP77,(T)  1.10000D+03
+ XL NET4      NOP78,(T)  5.00000D+02
+ XU NET4      NOP78,(T)  1.10000D+03
+ XL NET4      NOP79,(T)  5.00000D+02
+ XU NET4      NOP79,(T)  6.00000D+02
+ XL NET4      NOP80,(T)  5.00000D+02
+ XU NET4      NOP80,(T)  1.10000D+03
+ XL NET4      NOP81,(T)  5.00000D+02
+ XU NET4      NOP81,(T)  1.10000D+03
+ XL NET4      NOP82,(T)  5.00000D+02
+ XU NET4      NOP82,(T)  9.95000D+02
+ XL NET4      NOP83,(T)  5.00000D+02
+ XU NET4      NOP83,(T)  1.10000D+03
+ XL NET4      NOP84,(T)  5.00000D+02
+ XU NET4      NOP84,(T)  1.10000D+03
+ XL NET4      NOP85,(T)  5.00000D+02
+ XU NET4      NOP85,(T)  1.10000D+03
+ XL NET4      NOP86,(T)  5.00000D+02
+ XU NET4      NOP86,(T)  1.10000D+03
+ XL NET4      NOP87,(T)  5.00000D+02
+ XU NET4      NOP87,(T)  1.10000D+03
+ XL NET4      NOP88,(T)  5.00000D+02
+ XU NET4      NOP88,(T)  1.10000D+03
+ XL NET4      NOP89,(T)  5.00000D+02
+ XU NET4      NOP89,(T)  1.10000D+03
+ XL NET4      NOP90,(T)  5.00000D+02
+ XU NET4      NOP90,(T)  9.95000D+02
+ XL NET4      NOP91,(T)  5.00000D+02
+ XU NET4      NOP91,(T)  1.10000D+03
+ XL NET4      NOP92,(T)  5.00000D+02
+ XU NET4      NOP92,(T)  1.00300D+03
+ XL NET4      NOP93,(T)  5.00000D+02
+ XU NET4      NOP93,(T)  1.10000D+03
+ XL NET4      NOP94,(T)  5.00000D+02
+ XU NET4      NOP94,(T)  1.10000D+03
+ XL NET4      NOP95,(T)  5.00000D+02
+ XU NET4      NOP95,(T)  1.10000D+03
+ XL NET4      NOP96,(T)  5.00000D+02
+ XU NET4      NOP96,(T)  1.10000D+03
+ XL NET4      NOP97,(T)  5.00000D+02
+ XU NET4      NOP97,(T)  1.10000D+03
+ XL NET4      NOP98,(T)  5.00000D+02
+ XU NET4      NOP98,(T)  1.10000D+03
+ XL NET4      NOP99,(T)  5.00000D+02
+ XU NET4      NOP99,(T)  1.10000D+03
+ ND
+ DO T         1                        TIME 
+ XL NET4      NOP100,(T) 5.00000D+02
+ XU NET4      NOP100,(T) 1.10000D+03
+ XL NET4      NOP101,(T) 5.00000D+02
+ XU NET4      NOP101,(T) 1.08000D+03
+ XL NET4      NOP102,(T) 5.00000D+02
+ XU NET4      NOP102,(T) 1.10000D+03
+ XL NET4      NOP103,(T) 5.00000D+02
+ XU NET4      NOP103,(T) 1.10000D+03
+ XL NET4      NOP104,(T) 5.00000D+02
+ XU NET4      NOP104,(T) 1.10000D+03
+ XL NET4      NOP105,(T) 5.00000D+02
+ XU NET4      NOP105,(T) 1.00300D+03
+ XL NET4      NOP106,(T) 5.00000D+02
+ XU NET4      NOP106,(T) 1.10000D+03
+ XL NET4      NOP107,(T) 5.00000D+02
+ XU NET4      NOP107,(T) 1.10000D+03
+ XL NET4      NOP108,(T) 5.00000D+02
+ XU NET4      NOP108,(T) 1.10000D+03
+ XL NET4      NOP109,(T) 5.00000D+02
+ XU NET4      NOP109,(T) 1.10000D+03
+ XL NET4      NOP110,(T) 5.00000D+02
+ XU NET4      NOP110,(T) 1.10000D+03
+ XL NET4      NOP111,(T) 5.00000D+02
+ XU NET4      NOP111,(T) 1.10000D+03
+ XL NET4      NOP112,(T) 5.00000D+02
+ XU NET4      NOP112,(T) 1.10000D+03
+ XL NET4      NOP113,(T) 5.00000D+02
+ XU NET4      NOP113,(T) 1.10000D+03
+ XL NET4      NOP114,(T) 5.00000D+02
+ XU NET4      NOP114,(T) 1.10000D+03
+ XL NET4      NOP115,(T) 5.00000D+02
+ XU NET4      NOP115,(T) 1.10000D+03
+ XL NET4      NOP116,(T) 5.00000D+02
+ XU NET4      NOP116,(T) 1.10000D+03
+ XL NET4      NOP117,(T) 5.00000D+02
+ XU NET4      NOP117,(T) 1.10000D+03
+ XL NET4      NOP118,(T) 5.00000D+02
+ XU NET4      NOP118,(T) 1.10000D+03
+ XL NET4      NOP119,(T) 5.00000D+02
+ XU NET4      NOP119,(T) 1.10000D+03
+ XL NET4      NOP120,(T) 5.00000D+02
+ XU NET4      NOP120,(T) 1.10000D+03
+ XL NET4      NOP121,(T) 5.00000D+02
+ XU NET4      NOP121,(T) 1.00300D+03
+ XL NET4      NOP122,(T) 5.00000D+02
+ XU NET4      NOP122,(T) 1.10000D+03
+ XL NET4      NOP123,(T) 5.00000D+02
+ XU NET4      NOP123,(T) 1.10000D+03
+ XL NET4      NOP124,(T) 5.00000D+02
+ XU NET4      NOP124,(T) 1.10000D+03
+ XL NET4      NOP125,(T) 5.00000D+02
+ XU NET4      NOP125,(T) 1.10000D+03
+ XL NET4      NOP126,(T) 5.00000D+02
+ XU NET4      NOP126,(T) 1.10000D+03
+ XL NET4      NOP127,(T) 5.00000D+02
+ XU NET4      NOP127,(T) 1.10000D+03
+ XL NET4      NOP128,(T) 5.00000D+02
+ XU NET4      NOP128,(T) 1.10000D+03
+ XL NET4      NOP129,(T) 5.00000D+02
+ XU NET4      NOP129,(T) 1.10000D+03
+ XL NET4      NOP130,(T) 5.00000D+02
+ XU NET4      NOP130,(T) 1.10000D+03
+ XL NET4      NOP131,(T) 5.00000D+02
+ XU NET4      NOP131,(T) 1.10000D+03
+ XL NET4      NOP132,(T) 5.00000D+02
+ XU NET4      NOP132,(T) 1.10000D+03
+ XL NET4      NOP133,(T) 5.00000D+02
+ XU NET4      NOP133,(T) 1.10000D+03
+ XL NET4      NOP134,(T) 5.00000D+02
+ XU NET4      NOP134,(T) 1.10000D+03
+ XL NET4      NOP135,(T) 5.00000D+02
+ XU NET4      NOP135,(T) 6.65000D+02
+ XL NET4      NOP136,(T) 5.00000D+02
+ XU NET4      NOP136,(T) 1.10000D+03
+ XL NET4      NOP137,(T) 5.00000D+02
+ XU NET4      NOP137,(T) 1.00300D+03
+ XL NET4      NOP138,(T) 5.00000D+02
+ XU NET4      NOP138,(T) 1.10000D+03
+ XL NET4      NOP139,(T) 5.00000D+02
+ XU NET4      NOP139,(T) 1.10000D+03
+ XL NET4      NOP140,(T) 5.00000D+02
+ XU NET4      NOP140,(T) 1.10000D+03
+ XL NET4      NOP141,(T) 5.00000D+02
+ XU NET4      NOP141,(T) 1.10000D+03
+ XL NET4      NOP142,(T) 5.00000D+02
+ XU NET4      NOP142,(T) 1.10000D+03
+ XL NET4      NOP143,(T) 5.00000D+02
+ XU NET4      NOP143,(T) 1.10000D+03
+ XL NET4      NOP144,(T) 5.00000D+02
+ XU NET4      NOP144,(T) 1.10000D+03
+ XL NET4      NOP145,(T) 5.00000D+02
+ XU NET4      NOP145,(T) 1.10000D+03
+ XL NET4      NOP146,(T) 5.00000D+02
+ XU NET4      NOP146,(T) 1.10000D+03
+ XL NET4      NOP147,(T) 5.00000D+02
+ XU NET4      NOP147,(T) 1.10000D+03
+ XL NET4      NOP148,(T) 5.00000D+02
+ XU NET4      NOP148,(T) 1.10000D+03
+ XL NET4      NOP149,(T) 5.00000D+02
+ XU NET4      NOP149,(T) 1.00300D+03
+ ND
+ DO T         1                        TIME 
+ XL NET4      NOP150,(T) 5.00000D+02
+ XU NET4      NOP150,(T) 1.10000D+03
+ XL NET4      NOP151,(T) 5.00000D+02
+ XU NET4      NOP151,(T) 1.10000D+03
+ XL NET4      NOP152,(T) 5.00000D+02
+ XU NET4      NOP152,(T) 1.10000D+03
+ XL NET4      NOP153,(T) 5.00000D+02
+ XU NET4      NOP153,(T) 1.10000D+03
+ XL NET4      NOP154,(T) 5.00000D+02
+ XU NET4      NOP154,(T) 1.10000D+03
+ XL NET4      NOP155,(T) 5.00000D+02
+ XU NET4      NOP155,(T) 1.10000D+03
+ XL NET4      NOP156,(T) 5.00000D+02
+ XU NET4      NOP156,(T) 1.10000D+03
+ XL NET4      NOP157,(T) 5.00000D+02
+ XU NET4      NOP157,(T) 1.10000D+03
+ XL NET4      NOP158,(T) 5.00000D+02
+ XU NET4      NOP158,(T) 1.10000D+03
+ XL NET4      NOP159,(T) 5.00000D+02
+ XU NET4      NOP159,(T) 1.10000D+03
+ XL NET4      NOP160,(T) 5.00000D+02
+ XU NET4      NOP160,(T) 1.10000D+03
+ XL NET4      NOP161,(T) 5.00000D+02
+ XU NET4      NOP161,(T) 1.10000D+03
+ XL NET4      NOP162,(T) 5.00000D+02
+ XU NET4      NOP162,(T) 9.80000D+02
+ XL NET4      NOP163,(T) 5.00000D+02
+ XU NET4      NOP163,(T) 1.10000D+03
+ XL NET4      NOP164,(T) 5.00000D+02
+ XU NET4      NOP164,(T) 1.10000D+03
+ XL NET4      NOP165,(T) 5.00000D+02
+ XU NET4      NOP165,(T) 1.10000D+03
+ XL NET4      NOP166,(T) 5.00000D+02
+ XU NET4      NOP166,(T) 1.10000D+03
+ XL NET4      NOP167,(T) 5.00000D+02
+ XU NET4      NOP167,(T) 1.10000D+03
+ XL NET4      NOP168,(T) 5.00000D+02
+ XU NET4      NOP168,(T) 1.10000D+03
+ XL NET4      NOP169,(T) 5.00000D+02
+ XU NET4      NOP169,(T) 1.10000D+03
+ XL NET4      NOP170,(T) 5.00000D+02
+ XU NET4      NOP170,(T) 1.10000D+03
+ XL NET4      NOP171,(T) 5.00000D+02
+ XU NET4      NOP171,(T) 1.10000D+03
+ XL NET4      NOP172,(T) 5.00000D+02
+ XU NET4      NOP172,(T) 1.10000D+03
+ XL NET4      NOP173,(T) 5.00000D+02
+ XU NET4      NOP173,(T) 1.10000D+03
+ XL NET4      NOP174,(T) 5.00000D+02
+ XU NET4      NOP174,(T) 1.10000D+03
+ XL NET4      NOP175,(T) 5.00000D+02
+ XU NET4      NOP175,(T) 1.10000D+03
+ XL NET4      NOP176,(T) 5.00000D+02
+ XU NET4      NOP176,(T) 1.10000D+03
+ XL NET4      NOP177,(T) 5.00000D+02
+ XU NET4      NOP177,(T) 1.00300D+03
+ XL NET4      NOP178,(T) 5.00000D+02
+ XU NET4      NOP178,(T) 1.10000D+03
+ XL NET4      NOP179,(T) 5.00000D+02
+ XU NET4      NOP179,(T) 1.10000D+03
+ XL NET4      NOP180,(T) 5.00000D+02
+ XU NET4      NOP180,(T) 1.08000D+03
+ XL NET4      NOP181,(T) 5.00000D+02
+ XU NET4      NOP181,(T) 1.10000D+03
+ XL NET4      NOP182,(T) 5.00000D+02
+ XU NET4      NOP182,(T) 1.10000D+03
+ XL NET4      NOP183,(T) 5.00000D+02
+ XU NET4      NOP183,(T) 1.10000D+03
+ XL NET4      NOP184,(T) 5.00000D+02
+ XU NET4      NOP184,(T) 1.10000D+03
+ XL NET4      NOP185,(T) 5.00000D+02
+ XU NET4      NOP185,(T) 1.10000D+03
+ XL NET4      NOP186,(T) 5.00000D+02
+ XU NET4      NOP186,(T) 1.10000D+03
+ XL NET4      NOP187,(T) 5.00000D+02
+ XU NET4      NOP187,(T) 1.10000D+03
+ XL NET4      NOP188,(T) 5.00000D+02
+ XU NET4      NOP188,(T) 1.10000D+03
+ XL NET4      NOP189,(T) 5.00000D+02
+ XU NET4      NOP189,(T) 1.10000D+03
+ XL NET4      NOP190,(T) 5.00000D+02
+ XU NET4      NOP190,(T) 1.10000D+03
+ XL NET4      NOP191,(T) 5.00000D+02
+ XU NET4      NOP191,(T) 1.10000D+03
+ XL NET4      NOP192,(T) 5.00000D+02
+ XU NET4      NOP192,(T) 1.10000D+03
+ XL NET4      NOP193,(T) 5.00000D+02
+ XU NET4      NOP193,(T) 1.10000D+03
+ XL NET4      NOP194,(T) 5.00000D+02
+ XU NET4      NOP194,(T) 1.10000D+03
+ XL NET4      NOP195,(T) 5.00000D+02
+ XU NET4      NOP195,(T) 1.10000D+03
+ ND
+ DO T         1                        TIME 
+ XX NET4      CBV200,(T)           0
+ XX NET4      CBV201,(T)           1
+ XX NET4      CBV202,(T)           1
+ XX NET4      CBV203,(T)           0
+ XX NET4      CBV204,(T)           1
+ XX NET4      CBV205,(T)           0
+ XX NET4      CBV206,(T)           1
+ XX NET4      CBV207,(T)           1
+ XX NET4      CBV208,(T)           1
+ XX NET4      CBV209,(T)           0
+ XX NET4      CBV210,(T)           1
+ XX NET4      CBV211,(T)           0
+ XX NET4      CBV212,(T)           0
+ XX NET4      CBV213,(T)           1
+ XX NET4      CBV214,(T)           0
+ XX NET4      CBV215,(T)           0
+ XX NET4      CBV216,(T)           1
+ XX NET4      R1B217,(T)           1
+ XX NET4      R2B217,(T)           1
+ XX NET4      R1B218,(T)           1
+ XX NET4      R2B218,(T)           0
+ XX NET4      R1B219,(T)           1
+ XX NET4      R2B219,(T)           1
+ XX NET4      R1B220,(T)           1
+ XX NET4      R2B220,(T)           1
+ XX NET4      VBV221,(T)           1
+ XX NET4      SBV222,(T)           1
+ XX NET4      SBV223,(T)           1
+ XX NET4      SBV224,(T)           1
+ XX NET4      SBV225,(T)           1
+ XX NET4      SBV226,(T)           1
+ XX NET4      SBV227,(T)           1
+ XX NET4      SBV228,(T)           1
+ XX NET4      SBV229,(T)           1
+ XX NET4      SBV230,(T)           1
+ XX NET4      SBV231,(T)           1
+ XX NET4      SBV232,(T)           1
+ ND
+
+START POINT
+
+*   ...Default all variables to start at 500
+
+ XV NET4      'DEFAULT'  5.00000D+02
+
+ELEMENT TYPE
+*   ...Panhandle 'A' equation
+ EV A0PANHAN  PIN
+ EV A0PANHAN  POUT
+ EV A0PANHAN  FLOW
+ EP A0PANHAN  PIPRES
+*   ...Compressor horsepower constraint equn.
+ EV A1MAXHP   PIN
+ EV A1MAXHP   POUT
+ EV A1MAXHP   FLOW
+ EV A1MAXHP   CBV
+ EP A1MAXHP   IPL
+ EP A1MAXHP   OPL
+*   ...Compressor horsepower objective function.
+ EV A2HPFUN   PIN
+ EV A2HPFUN   POUT
+ EV A2HPFUN   FLOW
+ EV A2HPFUN   CBV
+ EP A2HPFUN   IPL
+ EP A2HPFUN   OPL
+
+ELEMENT USES
+
+ DO T         1                        TIME 
+*   ...Panhandle Elements
+ XT PH1,(T)   A0PANHAN
+ ZV PH1,(T)   PIN                      NOP1,(T)
+ ZV PH1,(T)   POUT                     NOP45,(T)
+ ZV PH1,(T)   FLOW                     PFL1,(T)
+ XP PH1,(T)   PIPRES      0.57767963
+ XT PH2,(T)   A0PANHAN
+ ZV PH2,(T)   PIN                      NOP1,(T)
+ ZV PH2,(T)   POUT                     NOP76,(T)
+ ZV PH2,(T)   FLOW                     PFL2,(T)
+ XP PH2,(T)   PIPRES      0.61426196
+ XT PH3,(T)   A0PANHAN
+ ZV PH3,(T)   PIN                      NOP1,(T)
+ ZV PH3,(T)   POUT                     NOP76,(T)
+ ZV PH3,(T)   FLOW                     PFL3,(T)
+ XP PH3,(T)   PIPRES      0.62950431
+ XT PH4,(T)   A0PANHAN
+ ZV PH4,(T)   PIN                      NOP1,(T)
+ ZV PH4,(T)   POUT                     NOP100,(T)
+ ZV PH4,(T)   FLOW                     PFL4,(T)
+ XP PH4,(T)   PIPRES      0.72400896
+ XT PH5,(T)   A0PANHAN
+ ZV PH5,(T)   PIN                      NOP1,(T)
+ ZV PH5,(T)   POUT                     NOP100,(T)
+ ZV PH5,(T)   FLOW                     PFL5,(T)
+ XP PH5,(T)   PIPRES      0.69199898
+ XT PH6,(T)   A0PANHAN
+ ZV PH6,(T)   PIN                      NOP1,(T)
+ ZV PH6,(T)   POUT                     NOP102,(T)
+ ZV PH6,(T)   FLOW                     PFL6,(T)
+ XP PH6,(T)   PIPRES      0.45726351
+ XT PH7,(T)   A0PANHAN
+ ZV PH7,(T)   PIN                      NOP2,(T)
+ ZV PH7,(T)   POUT                     NOP7,(T)
+ ZV PH7,(T)   FLOW                     PFL7,(T)
+ XP PH7,(T)   PIPRES      0.33464991
+ XT PH8,(T)   A0PANHAN
+ ZV PH8,(T)   PIN                      NOP2,(T)
+ ZV PH8,(T)   POUT                     NOP76,(T)
+ ZV PH8,(T)   FLOW                     PFL8,(T)
+ XP PH8,(T)   PIPRES      0.34398593
+ XT PH9,(T)   A0PANHAN
+ ZV PH9,(T)   PIN                      NOP3,(T)
+ ZV PH9,(T)   POUT                     NOP5,(T)
+ ZV PH9,(T)   FLOW                     PFL9,(T)
+ XP PH9,(T)   PIPRES     1.52180D-04
+ XT PH10,(T)  A0PANHAN
+ ZV PH10,(T)  PIN                      NOP3,(T)
+ ZV PH10,(T)  POUT                     NOP6,(T)
+ ZV PH10,(T)  FLOW                     PFL10,(T)
+ XP PH10,(T)  PIPRES     1.52180D-04
+ XT PH11,(T)  A0PANHAN
+ ZV PH11,(T)  PIN                      NOP3,(T)
+ ZV PH11,(T)  POUT                     NOP11,(T)
+ ZV PH11,(T)  FLOW                     PFL11,(T)
+ XP PH11,(T)  PIPRES      0.17044943
+ XT PH12,(T)  A0PANHAN
+ ZV PH12,(T)  PIN                      NOP3,(T)
+ ZV PH12,(T)  POUT                     NOP173,(T)
+ ZV PH12,(T)  FLOW                     PFL12,(T)
+ XP PH12,(T)  PIPRES      0.22095232
+ XT PH13,(T)  A0PANHAN
+ ZV PH13,(T)  PIN                      NOP4,(T)
+ ZV PH13,(T)  POUT                     NOP118,(T)
+ ZV PH13,(T)  FLOW                     PFL13,(T)
+ XP PH13,(T)  PIPRES      0.25093873
+ XT PH14,(T)  A0PANHAN
+ ZV PH14,(T)  PIN                      NOP7,(T)
+ ZV PH14,(T)  POUT                     NOP87,(T)
+ ZV PH14,(T)  FLOW                     PFL14,(T)
+ XP PH14,(T)  PIPRES      0.37630288
+ XT PH15,(T)  A0PANHAN
+ ZV PH15,(T)  PIN                      NOP8,(T)
+ ZV PH15,(T)  POUT                     NOP17,(T)
+ ZV PH15,(T)  FLOW                     PFL15,(T)
+ XP PH15,(T)  PIPRES      0.45621999
+ XT PH16,(T)  A0PANHAN
+ ZV PH16,(T)  PIN                      NOP8,(T)
+ ZV PH16,(T)  POUT                     NOP39,(T)
+ ZV PH16,(T)  FLOW                     PFL16,(T)
+ XP PH16,(T)  PIPRES      1.18152204
+ XT PH17,(T)  A0PANHAN
+ ZV PH17,(T)  PIN                      NOP9,(T)
+ ZV PH17,(T)  POUT                     NOP141,(T)
+ ZV PH17,(T)  FLOW                     PFL17,(T)
+ XP PH17,(T)  PIPRES      0.02743675
+ XT PH18,(T)  A0PANHAN
+ ZV PH18,(T)  PIN                      NOP9,(T)
+ ZV PH18,(T)  POUT                     NOP169,(T)
+ ZV PH18,(T)  FLOW                     PFL18,(T)
+ XP PH18,(T)  PIPRES      0.29875543
+ XT PH19,(T)  A0PANHAN
+ ZV PH19,(T)  PIN                      NOP10,(T)
+ ZV PH19,(T)  POUT                     NOP22,(T)
+ ZV PH19,(T)  FLOW                     PFL19,(T)
+ XP PH19,(T)  PIPRES      0.19885752
+ XT PH20,(T)  A0PANHAN
+ ZV PH20,(T)  PIN                      NOP10,(T)
+ ZV PH20,(T)  POUT                     NOP88,(T)
+ ZV PH20,(T)  FLOW                     PFL20,(T)
+ XP PH20,(T)  PIPRES      0.18465347
+ XT PH21,(T)  A0PANHAN
+ ZV PH21,(T)  PIN                      NOP10,(T)
+ ZV PH21,(T)  POUT                     NOP115,(T)
+ ZV PH21,(T)  FLOW                     PFL21,(T)
+ XP PH21,(T)  PIPRES      2.03549359
+ XT PH22,(T)  A0PANHAN
+ ZV PH22,(T)  PIN                      NOP11,(T)
+ ZV PH22,(T)  POUT                     NOP51,(T)
+ ZV PH22,(T)  FLOW                     PFL22,(T)
+ XP PH22,(T)  PIPRES      0.33142891
+ XT PH23,(T)  A0PANHAN
+ ZV PH23,(T)  PIN                      NOP11,(T)
+ ZV PH23,(T)  POUT                     NOP154,(T)
+ ZV PH23,(T)  FLOW                     PFL23,(T)
+ XP PH23,(T)  PIPRES     18.60539288
+ XT PH24,(T)  A0PANHAN
+ ZV PH24,(T)  PIN                      NOP12,(T)
+ ZV PH24,(T)  POUT                     NOP96,(T)
+ ZV PH24,(T)  FLOW                     PFL24,(T)
+ XP PH24,(T)  PIPRES      0.38457799
+ XT PH25,(T)  A0PANHAN
+ ZV PH25,(T)  PIN                      NOP12,(T)
+ ZV PH25,(T)  POUT                     NOP150,(T)
+ ZV PH25,(T)  FLOW                     PFL25,(T)
+ XP PH25,(T)  PIPRES      0.24036266
+ ND
+ DO T         1                        TIME 
+ XT PH26,(T)  A0PANHAN
+ ZV PH26,(T)  PIN                      NOP13,(T)
+ ZV PH26,(T)  POUT                     NOP85,(T)
+ ZV PH26,(T)  FLOW                     PFL26,(T)
+ XP PH26,(T)  PIPRES      0.08078410
+ XT PH27,(T)  A0PANHAN
+ ZV PH27,(T)  PIN                      NOP14,(T)
+ ZV PH27,(T)  POUT                     NOP127,(T)
+ ZV PH27,(T)  FLOW                     PFL27,(T)
+ XP PH27,(T)  PIPRES      0.33076453
+ XT PH28,(T)  A0PANHAN
+ ZV PH28,(T)  PIN                      NOP15,(T)
+ ZV PH28,(T)  POUT                     NOP23,(T)
+ ZV PH28,(T)  FLOW                     PFL28,(T)
+ XP PH28,(T)  PIPRES      8.48664293
+ XT PH29,(T)  A0PANHAN
+ ZV PH29,(T)  PIN                      NOP15,(T)
+ ZV PH29,(T)  POUT                     NOP99,(T)
+ ZV PH29,(T)  FLOW                     PFL29,(T)
+ XP PH29,(T)  PIPRES      2.75006391
+ XT PH30,(T)  A0PANHAN
+ ZV PH30,(T)  PIN                      NOP16,(T)
+ ZV PH30,(T)  POUT                     NOP21,(T)
+ ZV PH30,(T)  FLOW                     PFL30,(T)
+ XP PH30,(T)  PIPRES      1.06087026
+ XT PH31,(T)  A0PANHAN
+ ZV PH31,(T)  PIN                      NOP16,(T)
+ ZV PH31,(T)  POUT                     NOP59,(T)
+ ZV PH31,(T)  FLOW                     PFL31,(T)
+ XP PH31,(T)  PIPRES      0.71333897
+ XT PH32,(T)  A0PANHAN
+ ZV PH32,(T)  PIN                      NOP16,(T)
+ ZV PH32,(T)  POUT                     NOP59,(T)
+ ZV PH32,(T)  FLOW                     PFL32,(T)
+ XP PH32,(T)  PIPRES      0.66913546
+ XT PH33,(T)  A0PANHAN
+ ZV PH33,(T)  PIN                      NOP16,(T)
+ ZV PH33,(T)  POUT                     NOP82,(T)
+ ZV PH33,(T)  FLOW                     PFL33,(T)
+ XP PH33,(T)  PIPRES      1.28680625
+ XT PH34,(T)  A0PANHAN
+ ZV PH34,(T)  PIN                      NOP17,(T)
+ ZV PH34,(T)  POUT                     NOP69,(T)
+ ZV PH34,(T)  FLOW                     PFL34,(T)
+ XP PH34,(T)  PIPRES      0.56853404
+ XT PH35,(T)  A0PANHAN
+ ZV PH35,(T)  PIN                      NOP17,(T)
+ ZV PH35,(T)  POUT                     NOP69,(T)
+ ZV PH35,(T)  FLOW                     PFL35,(T)
+ XP PH35,(T)  PIPRES      0.59444639
+ XT PH36,(T)  A0PANHAN
+ ZV PH36,(T)  PIN                      NOP18,(T)
+ ZV PH36,(T)  POUT                     NOP19,(T)
+ ZV PH36,(T)  FLOW                     PFL36,(T)
+ XP PH36,(T)  PIPRES     1.57398D-04
+ XT PH37,(T)  A0PANHAN
+ ZV PH37,(T)  PIN                      NOP18,(T)
+ ZV PH37,(T)  POUT                     NOP143,(T)
+ ZV PH37,(T)  FLOW                     PFL37,(T)
+ XP PH37,(T)  PIPRES      0.63601153
+ XT PH38,(T)  A0PANHAN
+ ZV PH38,(T)  PIN                      NOP18,(T)
+ ZV PH38,(T)  POUT                     NOP195,(T)
+ ZV PH38,(T)  FLOW                     PFL38,(T)
+ XP PH38,(T)  PIPRES      0.32353729
+ XT PH39,(T)  A0PANHAN
+ ZV PH39,(T)  PIN                      NOP20,(T)
+ ZV PH39,(T)  POUT                     NOP71,(T)
+ ZV PH39,(T)  FLOW                     PFL39,(T)
+ XP PH39,(T)  PIPRES      0.17952979
+ XT PH40,(T)  A0PANHAN
+ ZV PH40,(T)  PIN                      NOP20,(T)
+ ZV PH40,(T)  POUT                     NOP169,(T)
+ ZV PH40,(T)  FLOW                     PFL40,(T)
+ XP PH40,(T)  PIPRES      0.19030239
+ XT PH41,(T)  A0PANHAN
+ ZV PH41,(T)  PIN                      NOP21,(T)
+ ZV PH41,(T)  POUT                     NOP101,(T)
+ ZV PH41,(T)  FLOW                     PFL41,(T)
+ XP PH41,(T)  PIPRES      0.15699932
+ XT PH42,(T)  A0PANHAN
+ ZV PH42,(T)  PIN                      NOP22,(T)
+ ZV PH42,(T)  POUT                     NOP118,(T)
+ ZV PH42,(T)  FLOW                     PFL42,(T)
+ XP PH42,(T)  PIPRES      0.10416156
+ XT PH43,(T)  A0PANHAN
+ ZV PH43,(T)  PIN                      NOP23,(T)
+ ZV PH43,(T)  POUT                     NOP97,(T)
+ ZV PH43,(T)  FLOW                     PFL43,(T)
+ XP PH43,(T)  PIPRES      1.02119650
+ XT PH44,(T)  A0PANHAN
+ ZV PH44,(T)  PIN                      NOP24,(T)
+ ZV PH44,(T)  POUT                     NOP36,(T)
+ ZV PH44,(T)  FLOW                     PFL44,(T)
+ XP PH44,(T)  PIPRES      0.45488950
+ XT PH45,(T)  A0PANHAN
+ ZV PH45,(T)  PIN                      NOP24,(T)
+ ZV PH45,(T)  POUT                     NOP127,(T)
+ ZV PH45,(T)  FLOW                     PFL45,(T)
+ XP PH45,(T)  PIPRES      0.62035873
+ XT PH46,(T)  A0PANHAN
+ ZV PH46,(T)  PIN                      NOP25,(T)
+ ZV PH46,(T)  POUT                     NOP73,(T)
+ ZV PH46,(T)  FLOW                     PFL46,(T)
+ XP PH46,(T)  PIPRES      0.22549163
+ XT PH47,(T)  A0PANHAN
+ ZV PH47,(T)  PIN                      NOP26,(T)
+ ZV PH47,(T)  POUT                     NOP37,(T)
+ ZV PH47,(T)  FLOW                     PFL47,(T)
+ XP PH47,(T)  PIPRES      0.39454187
+ XT PH48,(T)  A0PANHAN
+ ZV PH48,(T)  PIN                      NOP26,(T)
+ ZV PH48,(T)  POUT                     NOP104,(T)
+ ZV PH48,(T)  FLOW                     PFL48,(T)
+ XP PH48,(T)  PIPRES      0.63443320
+ XT PH49,(T)  A0PANHAN
+ ZV PH49,(T)  PIN                      NOP27,(T)
+ ZV PH49,(T)  POUT                     NOP92,(T)
+ ZV PH49,(T)  FLOW                     PFL49,(T)
+ XP PH49,(T)  PIPRES      0.24083311
+ XT PH50,(T)  A0PANHAN
+ ZV PH50,(T)  PIN                      NOP27,(T)
+ ZV PH50,(T)  POUT                     NOP158,(T)
+ ZV PH50,(T)  FLOW                     PFL50,(T)
+ XP PH50,(T)  PIPRES      0.17376608
+ ND
+ DO T         1                        TIME 
+ XT PH51,(T)  A0PANHAN
+ ZV PH51,(T)  PIN                      NOP28,(T)
+ ZV PH51,(T)  POUT                     NOP80,(T)
+ ZV PH51,(T)  FLOW                     PFL51,(T)
+ XP PH51,(T)  PIPRES      0.37593417
+ XT PH52,(T)  A0PANHAN
+ ZV PH52,(T)  PIN                      NOP28,(T)
+ ZV PH52,(T)  POUT                     NOP90,(T)
+ ZV PH52,(T)  FLOW                     PFL52,(T)
+ XP PH52,(T)  PIPRES      1.05761622
+ XT PH53,(T)  A0PANHAN
+ ZV PH53,(T)  PIN                      NOP28,(T)
+ ZV PH53,(T)  POUT                     NOP133,(T)
+ ZV PH53,(T)  FLOW                     PFL53,(T)
+ XP PH53,(T)  PIPRES      1.22553337
+ XT PH54,(T)  A0PANHAN
+ ZV PH54,(T)  PIN                      NOP29,(T)
+ ZV PH54,(T)  POUT                     NOP32,(T)
+ ZV PH54,(T)  FLOW                     PFL54,(T)
+ XP PH54,(T)  PIPRES     1.52180D-04
+ XT PH55,(T)  A0PANHAN
+ ZV PH55,(T)  PIN                      NOP29,(T)
+ ZV PH55,(T)  POUT                     NOP57,(T)
+ ZV PH55,(T)  FLOW                     PFL55,(T)
+ XP PH55,(T)  PIPRES      0.29156123
+ XT PH56,(T)  A0PANHAN
+ ZV PH56,(T)  PIN                      NOP30,(T)
+ ZV PH56,(T)  POUT                     NOP71,(T)
+ ZV PH56,(T)  FLOW                     PFL56,(T)
+ XP PH56,(T)  PIPRES      0.09623168
+ XT PH57,(T)  A0PANHAN
+ ZV PH57,(T)  PIN                      NOP31,(T)
+ ZV PH57,(T)  POUT                     NOP32,(T)
+ ZV PH57,(T)  FLOW                     PFL57,(T)
+ XP PH57,(T)  PIPRES     1.52180D-04
+ XT PH58,(T)  A0PANHAN
+ ZV PH58,(T)  PIN                      NOP31,(T)
+ ZV PH58,(T)  POUT                     NOP106,(T)
+ ZV PH58,(T)  FLOW                     PFL58,(T)
+ XP PH58,(T)  PIPRES      0.39849855
+ XT PH59,(T)  A0PANHAN
+ ZV PH59,(T)  PIN                      NOP31,(T)
+ ZV PH59,(T)  POUT                     NOP109,(T)
+ ZV PH59,(T)  FLOW                     PFL59,(T)
+ XP PH59,(T)  PIPRES      1.01514234
+ XT PH60,(T)  A0PANHAN
+ ZV PH60,(T)  PIN                      NOP33,(T)
+ ZV PH60,(T)  POUT                     NOP172,(T)
+ ZV PH60,(T)  FLOW                     PFL60,(T)
+ XP PH60,(T)  PIPRES      0.17360520
+ XT PH61,(T)  A0PANHAN
+ ZV PH61,(T)  PIN                      NOP33,(T)
+ ZV PH61,(T)  POUT                     NOP173,(T)
+ ZV PH61,(T)  FLOW                     PFL61,(T)
+ XP PH61,(T)  PIPRES      0.27619018
+ XT PH62,(T)  A0PANHAN
+ ZV PH62,(T)  PIN                      NOP34,(T)
+ ZV PH62,(T)  POUT                     NOP147,(T)
+ ZV PH62,(T)  FLOW                     PFL62,(T)
+ XP PH62,(T)  PIPRES      0.19205725
+ XT PH63,(T)  A0PANHAN
+ ZV PH63,(T)  PIN                      NOP35,(T)
+ ZV PH63,(T)  POUT                     NOP86,(T)
+ ZV PH63,(T)  FLOW                     PFL63,(T)
+ XP PH63,(T)  PIPRES      0.30180338
+ XT PH64,(T)  A0PANHAN
+ ZV PH64,(T)  PIN                      NOP35,(T)
+ ZV PH64,(T)  POUT                     NOP149,(T)
+ ZV PH64,(T)  FLOW                     PFL64,(T)
+ XP PH64,(T)  PIPRES      0.17986285
+ XT PH65,(T)  A0PANHAN
+ ZV PH65,(T)  PIN                      NOP36,(T)
+ ZV PH65,(T)  POUT                     NOP116,(T)
+ ZV PH65,(T)  FLOW                     PFL65,(T)
+ XP PH65,(T)  PIPRES      1.71049798
+ XT PH66,(T)  A0PANHAN
+ ZV PH66,(T)  PIN                      NOP37,(T)
+ ZV PH66,(T)  POUT                     NOP104,(T)
+ ZV PH66,(T)  FLOW                     PFL66,(T)
+ XP PH66,(T)  PIPRES      0.23515636
+ XT PH67,(T)  A0PANHAN
+ ZV PH67,(T)  PIN                      NOP38,(T)
+ ZV PH67,(T)  POUT                     NOP76,(T)
+ ZV PH67,(T)  FLOW                     PFL67,(T)
+ XP PH67,(T)  PIPRES     1.52180D-04
+ XT PH68,(T)  A0PANHAN
+ ZV PH68,(T)  PIN                      NOP39,(T)
+ ZV PH68,(T)  POUT                     NOP157,(T)
+ ZV PH68,(T)  FLOW                     PFL68,(T)
+ XP PH68,(T)  PIPRES      3.67313040
+ XT PH69,(T)  A0PANHAN
+ ZV PH69,(T)  PIN                      NOP40,(T)
+ ZV PH69,(T)  POUT                     NOP128,(T)
+ ZV PH69,(T)  FLOW                     PFL69,(T)
+ XP PH69,(T)  PIPRES      0.15037297
+ XT PH70,(T)  A0PANHAN
+ ZV PH70,(T)  PIN                      NOP40,(T)
+ ZV PH70,(T)  POUT                     NOP166,(T)
+ ZV PH70,(T)  FLOW                     PFL70,(T)
+ XP PH70,(T)  PIPRES      0.89474188
+ XT PH71,(T)  A0PANHAN
+ ZV PH71,(T)  PIN                      NOP41,(T)
+ ZV PH71,(T)  POUT                     NOP84,(T)
+ ZV PH71,(T)  FLOW                     PFL71,(T)
+ XP PH71,(T)  PIPRES      0.13414624
+ XT PH72,(T)  A0PANHAN
+ ZV PH72,(T)  PIN                      NOP42,(T)
+ ZV PH72,(T)  POUT                     NOP144,(T)
+ ZV PH72,(T)  FLOW                     PFL72,(T)
+ XP PH72,(T)  PIPRES      0.13099046
+ XT PH73,(T)  A0PANHAN
+ ZV PH73,(T)  PIN                      NOP43,(T)
+ ZV PH73,(T)  POUT                     NOP119,(T)
+ ZV PH73,(T)  FLOW                     PFL73,(T)
+ XP PH73,(T)  PIPRES      0.15782023
+ XT PH74,(T)  A0PANHAN
+ ZV PH74,(T)  PIN                      NOP43,(T)
+ ZV PH74,(T)  POUT                     NOP137,(T)
+ ZV PH74,(T)  FLOW                     PFL74,(T)
+ XP PH74,(T)  PIPRES      0.29197255
+ XT PH75,(T)  A0PANHAN
+ ZV PH75,(T)  PIN                      NOP44,(T)
+ ZV PH75,(T)  POUT                     NOP89,(T)
+ ZV PH75,(T)  FLOW                     PFL75,(T)
+ XP PH75,(T)  PIPRES      3.94192898
+ ND
+ DO T         1                        TIME 
+ XT PH76,(T)  A0PANHAN
+ ZV PH76,(T)  PIN                      NOP45,(T)
+ ZV PH76,(T)  POUT                     NOP100,(T)
+ ZV PH76,(T)  FLOW                     PFL76,(T)
+ XP PH76,(T)  PIPRES      0.13260791
+ XT PH77,(T)  A0PANHAN
+ ZV PH77,(T)  PIN                      NOP46,(T)
+ ZV PH77,(T)  POUT                     NOP111,(T)
+ ZV PH77,(T)  FLOW                     PFL77,(T)
+ XP PH77,(T)  PIPRES      0.71943573
+ XT PH78,(T)  A0PANHAN
+ ZV PH78,(T)  PIN                      NOP46,(T)
+ ZV PH78,(T)  POUT                     NOP184,(T)
+ ZV PH78,(T)  FLOW                     PFL78,(T)
+ XP PH78,(T)  PIPRES      0.07163852
+ XT PH79,(T)  A0PANHAN
+ ZV PH79,(T)  PIN                      NOP47,(T)
+ ZV PH79,(T)  POUT                     NOP73,(T)
+ ZV PH79,(T)  FLOW                     PFL79,(T)
+ XP PH79,(T)  PIPRES      0.74534807
+ XT PH80,(T)  A0PANHAN
+ ZV PH80,(T)  PIN                      NOP47,(T)
+ ZV PH80,(T)  POUT                     NOP109,(T)
+ ZV PH80,(T)  FLOW                     PFL80,(T)
+ XP PH80,(T)  PIPRES      0.25912428
+ XT PH81,(T)  A0PANHAN
+ ZV PH81,(T)  PIN                      NOP48,(T)
+ ZV PH81,(T)  POUT                     NOP61,(T)
+ ZV PH81,(T)  FLOW                     PFL81,(T)
+ XP PH81,(T)  PIPRES      0.86958956
+ XT PH82,(T)  A0PANHAN
+ ZV PH82,(T)  PIN                      NOP48,(T)
+ ZV PH82,(T)  POUT                     NOP113,(T)
+ ZV PH82,(T)  FLOW                     PFL82,(T)
+ XP PH82,(T)  PIPRES      2.18757098
+ XT PH83,(T)  A0PANHAN
+ ZV PH83,(T)  PIN                      NOP49,(T)
+ ZV PH83,(T)  POUT                     NOP89,(T)
+ ZV PH83,(T)  FLOW                     PFL83,(T)
+ XP PH83,(T)  PIPRES      0.26514278
+ XT PH84,(T)  A0PANHAN
+ ZV PH84,(T)  PIN                      NOP50,(T)
+ ZV PH84,(T)  POUT                     NOP52,(T)
+ ZV PH84,(T)  FLOW                     PFL84,(T)
+ XP PH84,(T)  PIPRES     1.57398D-04
+ XT PH85,(T)  A0PANHAN
+ ZV PH85,(T)  PIN                      NOP50,(T)
+ ZV PH85,(T)  POUT                     NOP54,(T)
+ ZV PH85,(T)  FLOW                     PFL85,(T)
+ XP PH85,(T)  PIPRES      0.12868080
+ XT PH86,(T)  A0PANHAN
+ ZV PH86,(T)  PIN                      NOP50,(T)
+ ZV PH86,(T)  POUT                     NOP54,(T)
+ ZV PH86,(T)  FLOW                     PFL86,(T)
+ XP PH86,(T)  PIPRES      0.12868080
+ XT PH87,(T)  A0PANHAN
+ ZV PH87,(T)  PIN                      NOP50,(T)
+ ZV PH87,(T)  POUT                     NOP119,(T)
+ ZV PH87,(T)  FLOW                     PFL87,(T)
+ XP PH87,(T)  PIPRES      0.24146966
+ XT PH88,(T)  A0PANHAN
+ ZV PH88,(T)  PIN                      NOP51,(T)
+ ZV PH88,(T)  POUT                     NOP52,(T)
+ ZV PH88,(T)  FLOW                     PFL88,(T)
+ XP PH88,(T)  PIPRES     1.57398D-04
+ XT PH89,(T)  A0PANHAN
+ ZV PH89,(T)  PIN                      NOP53,(T)
+ ZV PH89,(T)  POUT                     NOP68,(T)
+ ZV PH89,(T)  FLOW                     PFL89,(T)
+ XP PH89,(T)  PIPRES      1.22831522
+ XT PH90,(T)  A0PANHAN
+ ZV PH90,(T)  PIN                      NOP53,(T)
+ ZV PH90,(T)  POUT                     NOP192,(T)
+ ZV PH90,(T)  FLOW                     PFL90,(T)
+ XP PH90,(T)  PIPRES      2.88934774
+ XT PH91,(T)  A0PANHAN
+ ZV PH91,(T)  PIN                      NOP55,(T)
+ ZV PH91,(T)  POUT                     NOP145,(T)
+ ZV PH91,(T)  FLOW                     PFL91,(T)
+ XP PH91,(T)  PIPRES      0.53810761
+ XT PH92,(T)  A0PANHAN
+ ZV PH92,(T)  PIN                      NOP55,(T)
+ ZV PH92,(T)  POUT                     NOP190,(T)
+ ZV PH92,(T)  FLOW                     PFL92,(T)
+ XP PH92,(T)  PIPRES      4.87287665
+ XT PH93,(T)  A0PANHAN
+ ZV PH93,(T)  PIN                      NOP56,(T)
+ ZV PH93,(T)  POUT                     NOP93,(T)
+ ZV PH93,(T)  FLOW                     PFL93,(T)
+ XP PH93,(T)  PIPRES      0.97093014
+ XT PH94,(T)  A0PANHAN
+ ZV PH94,(T)  PIN                      NOP56,(T)
+ ZV PH94,(T)  POUT                     NOP194,(T)
+ ZV PH94,(T)  FLOW                     PFL94,(T)
+ XP PH94,(T)  PIPRES      1.09961094
+ XT PH95,(T)  A0PANHAN
+ ZV PH95,(T)  PIN                      NOP57,(T)
+ ZV PH95,(T)  POUT                     NOP193,(T)
+ ZV PH95,(T)  FLOW                     PFL95,(T)
+ XP PH95,(T)  PIPRES      0.35332196
+ XT PH96,(T)  A0PANHAN
+ ZV PH96,(T)  PIN                      NOP58,(T)
+ ZV PH96,(T)  POUT                     NOP71,(T)
+ ZV PH96,(T)  FLOW                     PFL96,(T)
+ XP PH96,(T)  PIPRES      1.16980070
+ XT PH97,(T)  A0PANHAN
+ ZV PH97,(T)  PIN                      NOP58,(T)
+ ZV PH97,(T)  POUT                     NOP94,(T)
+ ZV PH97,(T)  FLOW                     PFL97,(T)
+ XP PH97,(T)  PIPRES      0.23396501
+ XT PH98,(T)  A0PANHAN
+ ZV PH98,(T)  PIN                      NOP59,(T)
+ ZV PH98,(T)  POUT                     NOP101,(T)
+ ZV PH98,(T)  FLOW                     PFL98,(T)
+ XP PH98,(T)  PIPRES      0.59901961
+ XT PH99,(T)  A0PANHAN
+ ZV PH99,(T)  PIN                      NOP59,(T)
+ ZV PH99,(T)  POUT                     NOP101,(T)
+ ZV PH99,(T)  FLOW                     PFL99,(T)
+ XP PH99,(T)  PIPRES      0.61731078
+ ND
+ DO T         1                        TIME 
+ XT PH100,(T) A0PANHAN
+ ZV PH100,(T) PIN                      NOP60,(T)
+ ZV PH100,(T) POUT                     NOP195,(T)
+ ZV PH100,(T) FLOW                     PFL100,(T)
+ XP PH100,(T) PIPRES      0.33616301
+ XT PH101,(T) A0PANHAN
+ ZV PH101,(T) PIN                      NOP62,(T)
+ ZV PH101,(T) POUT                     NOP64,(T)
+ ZV PH101,(T) FLOW                     PFL101,(T)
+ XP PH101,(T) PIPRES      0.58489992
+ XT PH102,(T) A0PANHAN
+ ZV PH102,(T) PIN                      NOP62,(T)
+ ZV PH102,(T) POUT                     NOP81,(T)
+ ZV PH102,(T) FLOW                     PFL102,(T)
+ XP PH102,(T) PIPRES      1.24001395
+ XT PH103,(T) A0PANHAN
+ ZV PH103,(T) PIN                      NOP63,(T)
+ ZV PH103,(T) POUT                     NOP64,(T)
+ ZV PH103,(T) FLOW                     PFL103,(T)
+ XP PH103,(T) PIPRES      2.44493171
+ XT PH104,(T) A0PANHAN
+ ZV PH104,(T) PIN                      NOP65,(T)
+ ZV PH104,(T) POUT                     NOP130,(T)
+ ZV PH104,(T) FLOW                     PFL104,(T)
+ XP PH104,(T) PIPRES      1.63775333
+ XT PH105,(T) A0PANHAN
+ ZV PH105,(T) PIN                      NOP66,(T)
+ ZV PH105,(T) POUT                     NOP134,(T)
+ ZV PH105,(T) FLOW                     PFL105,(T)
+ XP PH105,(T) PIPRES      0.22711517
+ XT PH106,(T) A0PANHAN
+ ZV PH106,(T) PIN                      NOP67,(T)
+ ZV PH106,(T) POUT                     NOP117,(T)
+ ZV PH106,(T) FLOW                     PFL106,(T)
+ XP PH106,(T) PIPRES      2.83628736
+ XT PH107,(T) A0PANHAN
+ ZV PH107,(T) PIN                      NOP67,(T)
+ ZV PH107,(T) POUT                     NOP152,(T)
+ ZV PH107,(T) FLOW                     PFL107,(T)
+ XP PH107,(T) PIPRES      4.42266386
+ XT PH108,(T) A0PANHAN
+ ZV PH108,(T) PIN                      NOP68,(T)
+ ZV PH108,(T) POUT                     NOP140,(T)
+ ZV PH108,(T) FLOW                     PFL108,(T)
+ XP PH108,(T) PIPRES      1.74303754
+ XT PH109,(T) A0PANHAN
+ ZV PH109,(T) PIN                      NOP69,(T)
+ ZV PH109,(T) POUT                     NOP120,(T)
+ ZV PH109,(T) FLOW                     PFL109,(T)
+ XP PH109,(T) PIPRES      0.25607546
+ XT PH110,(T) A0PANHAN
+ ZV PH110,(T) PIN                      NOP69,(T)
+ ZV PH110,(T) POUT                     NOP122,(T)
+ ZV PH110,(T) FLOW                     PFL110,(T)
+ XP PH110,(T) PIPRES      0.16157168
+ XT PH111,(T) A0PANHAN
+ ZV PH111,(T) PIN                      NOP70,(T)
+ ZV PH111,(T) POUT                     NOP106,(T)
+ ZV PH111,(T) FLOW                     PFL111,(T)
+ XP PH111,(T) PIPRES      0.44452126
+ XT PH112,(T) A0PANHAN
+ ZV PH112,(T) PIN                      NOP71,(T)
+ ZV PH112,(T) POUT                     NOP133,(T)
+ ZV PH112,(T) FLOW                     PFL112,(T)
+ XP PH112,(T) PIPRES      1.50748899
+ XT PH113,(T) A0PANHAN
+ ZV PH113,(T) PIN                      NOP72,(T)
+ ZV PH113,(T) POUT                     NOP159,(T)
+ ZV PH113,(T) FLOW                     PFL113,(T)
+ XP PH113,(T) PIPRES      1.31020284
+ XT PH114,(T) A0PANHAN
+ ZV PH114,(T) PIN                      NOP72,(T)
+ ZV PH114,(T) POUT                     NOP190,(T)
+ ZV PH114,(T) FLOW                     PFL114,(T)
+ XP PH114,(T) PIPRES      0.29244474
+ XT PH115,(T) A0PANHAN
+ ZV PH115,(T) PIN                      NOP73,(T)
+ ZV PH115,(T) POUT                     NOP111,(T)
+ ZV PH115,(T) FLOW                     PFL115,(T)
+ XP PH115,(T) PIPRES     7.21768D-05
+ XT PH116,(T) A0PANHAN
+ ZV PH116,(T) PIN                      NOP74,(T)
+ ZV PH116,(T) POUT                     NOP153,(T)
+ ZV PH116,(T) FLOW                     PFL116,(T)
+ XP PH116,(T) PIPRES      0.34453900
+ XT PH117,(T) A0PANHAN
+ ZV PH117,(T) PIN                      NOP74,(T)
+ ZV PH117,(T) POUT                     NOP161,(T)
+ ZV PH117,(T) FLOW                     PFL117,(T)
+ XP PH117,(T) PIPRES      0.62968866
+ XT PH118,(T) A0PANHAN
+ ZV PH118,(T) PIN                      NOP75,(T)
+ ZV PH118,(T) POUT                     NOP112,(T)
+ ZV PH118,(T) FLOW                     PFL118,(T)
+ XP PH118,(T) PIPRES     7.21768D-05
+ XT PH119,(T) A0PANHAN
+ ZV PH119,(T) PIN                      NOP75,(T)
+ ZV PH119,(T) POUT                     NOP126,(T)
+ ZV PH119,(T) FLOW                     PFL119,(T)
+ XP PH119,(T) PIPRES      0.07181331
+ XT PH120,(T) A0PANHAN
+ ZV PH120,(T) PIN                      NOP76,(T)
+ ZV PH120,(T) POUT                     NOP102,(T)
+ ZV PH120,(T) FLOW                     PFL120,(T)
+ XP PH120,(T) PIPRES      0.14480144
+ XT PH121,(T) A0PANHAN
+ ZV PH121,(T) PIN                      NOP77,(T)
+ ZV PH121,(T) POUT                     NOP79,(T)
+ ZV PH121,(T) FLOW                     PFL121,(T)
+ XP PH121,(T) PIPRES     1.52180D-04
+ XT PH122,(T) A0PANHAN
+ ZV PH122,(T) PIN                      NOP77,(T)
+ ZV PH122,(T) POUT                     NOP79,(T)
+ ZV PH122,(T) FLOW                     PFL122,(T)
+ XP PH122,(T) PIPRES     1.52180D-04
+ XT PH123,(T) A0PANHAN
+ ZV PH123,(T) PIN                      NOP77,(T)
+ ZV PH123,(T) POUT                     NOP79,(T)
+ ZV PH123,(T) FLOW                     PFL123,(T)
+ XP PH123,(T) PIPRES     1.52180D-04
+ XT PH124,(T) A0PANHAN
+ ZV PH124,(T) PIN                      NOP78,(T)
+ ZV PH124,(T) POUT                     NOP142,(T)
+ ZV PH124,(T) FLOW                     PFL124,(T)
+ XP PH124,(T) PIPRES      2.87764988
+ XT PH125,(T) A0PANHAN
+ ZV PH125,(T) PIN                      NOP78,(T)
+ ZV PH125,(T) POUT                     NOP190,(T)
+ ZV PH125,(T) FLOW                     PFL125,(T)
+ XP PH125,(T) PIPRES      1.05281776
+ ND
+ DO T         1                        TIME 
+ XT PH126,(T) A0PANHAN
+ ZV PH126,(T) PIN                      NOP80,(T)
+ ZV PH126,(T) POUT                     NOP134,(T)
+ ZV PH126,(T) FLOW                     PFL126,(T)
+ XP PH126,(T) PIPRES      0.33082106
+ XT PH127,(T) A0PANHAN
+ ZV PH127,(T) PIN                      NOP81,(T)
+ ZV PH127,(T) POUT                     NOP142,(T)
+ ZV PH127,(T) FLOW                     PFL127,(T)
+ XP PH127,(T) PIPRES      3.05312386
+ XT PH128,(T) A0PANHAN
+ ZV PH128,(T) PIN                      NOP83,(T)
+ ZV PH128,(T) POUT                     NOP103,(T)
+ ZV PH128,(T) FLOW                     PFL128,(T)
+ XP PH128,(T) PIPRES      0.26522104
+ XT PH129,(T) A0PANHAN
+ ZV PH129,(T) PIN                      NOP83,(T)
+ ZV PH129,(T) POUT                     NOP160,(T)
+ ZV PH129,(T) FLOW                     PFL129,(T)
+ XP PH129,(T) PIPRES      0.24388193
+ XT PH130,(T) A0PANHAN
+ ZV PH130,(T) PIN                      NOP84,(T)
+ ZV PH130,(T) POUT                     NOP143,(T)
+ ZV PH130,(T) FLOW                     PFL130,(T)
+ XP PH130,(T) PIPRES      0.52553493
+ XT PH131,(T) A0PANHAN
+ ZV PH131,(T) PIN                      NOP85,(T)
+ ZV PH131,(T) POUT                     NOP158,(T)
+ ZV PH131,(T) FLOW                     PFL131,(T)
+ XP PH131,(T) PIPRES      0.32009454
+ XT PH132,(T) A0PANHAN
+ ZV PH132,(T) PIN                      NOP86,(T)
+ ZV PH132,(T) POUT                     NOP103,(T)
+ ZV PH132,(T) FLOW                     PFL132,(T)
+ XP PH132,(T) PIPRES      0.16462050
+ XT PH133,(T) A0PANHAN
+ ZV PH133,(T) PIN                      NOP86,(T)
+ ZV PH133,(T) POUT                     NOP134,(T)
+ ZV PH133,(T) FLOW                     PFL133,(T)
+ XP PH133,(T) PIPRES      0.24559939
+ XT PH134,(T) A0PANHAN
+ ZV PH134,(T) PIN                      NOP86,(T)
+ ZV PH134,(T) POUT                     NOP156,(T)
+ ZV PH134,(T) FLOW                     PFL134,(T)
+ XP PH134,(T) PIPRES      0.17952979
+ XT PH135,(T) A0PANHAN
+ ZV PH135,(T) PIN                      NOP86,(T)
+ ZV PH135,(T) POUT                     NOP162,(T)
+ ZV PH135,(T) FLOW                     PFL135,(T)
+ XP PH135,(T) PIPRES      0.84962877
+ XT PH136,(T) A0PANHAN
+ ZV PH136,(T) PIN                      NOP87,(T)
+ ZV PH136,(T) POUT                     NOP193,(T)
+ ZV PH136,(T) FLOW                     PFL136,(T)
+ XP PH136,(T) PIPRES      0.31166899
+ XT PH137,(T) A0PANHAN
+ ZV PH137,(T) PIN                      NOP88,(T)
+ ZV PH137,(T) POUT                     NOP178,(T)
+ ZV PH137,(T) FLOW                     PFL137,(T)
+ XP PH137,(T) PIPRES      0.21779567
+ XT PH138,(T) A0PANHAN
+ ZV PH138,(T) PIN                      NOP89,(T)
+ ZV PH138,(T) POUT                     NOP163,(T)
+ ZV PH138,(T) FLOW                     PFL138,(T)
+ XP PH138,(T) PIPRES      0.21385290
+ XT PH139,(T) A0PANHAN
+ ZV PH139,(T) PIN                      NOP89,(T)
+ ZV PH139,(T) POUT                     NOP167,(T)
+ ZV PH139,(T) FLOW                     PFL139,(T)
+ XP PH139,(T) PIPRES      0.76037389
+ XT PH140,(T) A0PANHAN
+ ZV PH140,(T) PIN                      NOP91,(T)
+ ZV PH140,(T) POUT                     NOP174,(T)
+ ZV PH140,(T) FLOW                     PFL140,(T)
+ XP PH140,(T) PIPRES      0.60359197
+ XT PH141,(T) A0PANHAN
+ ZV PH141,(T) PIN                      NOP93,(T)
+ ZV PH141,(T) POUT                     NOP157,(T)
+ ZV PH141,(T) FLOW                     PFL141,(T)
+ XP PH141,(T) PIPRES      2.25775987
+ XT PH142,(T) A0PANHAN
+ ZV PH142,(T) PIN                      NOP95,(T)
+ ZV PH142,(T) POUT                     NOP165,(T)
+ ZV PH142,(T) FLOW                     PFL142,(T)
+ XP PH142,(T) PIPRES     12.93189204
+ XT PH143,(T) A0PANHAN
+ ZV PH143,(T) PIN                      NOP96,(T)
+ ZV PH143,(T) POUT                     NOP140,(T)
+ ZV PH143,(T) FLOW                     PFL143,(T)
+ XP PH143,(T) PIPRES      7.30716880
+ XT PH144,(T) A0PANHAN
+ ZV PH144,(T) PIN                      NOP97,(T)
+ ZV PH144,(T) POUT                     NOP116,(T)
+ ZV PH144,(T) FLOW                     PFL144,(T)
+ XP PH144,(T) PIPRES      2.08683738
+ XT PH145,(T) A0PANHAN
+ ZV PH145,(T) PIN                      NOP97,(T)
+ ZV PH145,(T) POUT                     NOP140,(T)
+ ZV PH145,(T) FLOW                     PFL145,(T)
+ XP PH145,(T) PIPRES     17.93092851
+ XT PH146,(T) A0PANHAN
+ ZV PH146,(T) PIN                      NOP98,(T)
+ ZV PH146,(T) POUT                     NOP153,(T)
+ ZV PH146,(T) FLOW                     PFL146,(T)
+ XP PH146,(T) PIPRES      1.36532505
+ XT PH147,(T) A0PANHAN
+ ZV PH147,(T) PIN                      NOP105,(T)
+ ZV PH147,(T) POUT                     NOP123,(T)
+ ZV PH147,(T) FLOW                     PFL147,(T)
+ XP PH147,(T) PIPRES      0.28723845
+ XT PH148,(T) A0PANHAN
+ ZV PH148,(T) PIN                      NOP105,(T)
+ ZV PH148,(T) POUT                     NOP188,(T)
+ ZV PH148,(T) FLOW                     PFL148,(T)
+ XP PH148,(T) PIPRES      0.11836386
+ XT PH149,(T) A0PANHAN
+ ZV PH149,(T) PIN                      NOP106,(T)
+ ZV PH149,(T) POUT                     NOP166,(T)
+ ZV PH149,(T) FLOW                     PFL149,(T)
+ XP PH149,(T) PIPRES      0.56015371
+ XT PH150,(T) A0PANHAN
+ ZV PH150,(T) PIN                      NOP107,(T)
+ ZV PH150,(T) POUT                     NOP145,(T)
+ ZV PH150,(T) FLOW                     PFL150,(T)
+ XP PH150,(T) PIPRES      1.14640412
+ ND
+ DO T         1                        TIME 
+ XT PH151,(T) A0PANHAN
+ ZV PH151,(T) PIN                      NOP107,(T)
+ ZV PH151,(T) POUT                     NOP159,(T)
+ ZV PH151,(T) FLOW                     PFL151,(T)
+ XP PH151,(T) PIPRES      1.42718491
+ XT PH152,(T) A0PANHAN
+ ZV PH152,(T) PIN                      NOP108,(T)
+ ZV PH152,(T) POUT                     NOP109,(T)
+ ZV PH152,(T) FLOW                     PFL152,(T)
+ XP PH152,(T) PIPRES      0.29875543
+ XT PH153,(T) A0PANHAN
+ ZV PH153,(T) PIN                      NOP108,(T)
+ ZV PH153,(T) POUT                     NOP121,(T)
+ ZV PH153,(T) FLOW                     PFL153,(T)
+ XP PH153,(T) PIPRES      0.16157168
+ XT PH154,(T) A0PANHAN
+ ZV PH154,(T) PIN                      NOP109,(T)
+ ZV PH154,(T) POUT                     NOP121,(T)
+ ZV PH154,(T) FLOW                     PFL154,(T)
+ XP PH154,(T) PIPRES      0.44049588
+ XT PH155,(T) A0PANHAN
+ ZV PH155,(T) PIN                      NOP109,(T)
+ ZV PH155,(T) POUT                     NOP184,(T)
+ ZV PH155,(T) FLOW                     PFL155,(T)
+ XP PH155,(T) PIPRES      0.17528962
+ XT PH156,(T) A0PANHAN
+ ZV PH156,(T) PIN                      NOP110,(T)
+ ZV PH156,(T) POUT                     NOP112,(T)
+ ZV PH156,(T) FLOW                     PFL156,(T)
+ XP PH156,(T) PIPRES     1.52180D-04
+ XT PH157,(T) A0PANHAN
+ ZV PH157,(T) PIN                      NOP110,(T)
+ ZV PH157,(T) POUT                     NOP147,(T)
+ ZV PH157,(T) FLOW                     PFL157,(T)
+ XP PH157,(T) PIPRES      0.58530080
+ XT PH158,(T) A0PANHAN
+ ZV PH158,(T) PIN                      NOP114,(T)
+ ZV PH158,(T) POUT                     NOP152,(T)
+ ZV PH158,(T) FLOW                     PFL158,(T)
+ XP PH158,(T) PIPRES      1.82674437
+ XT PH159,(T) A0PANHAN
+ ZV PH159,(T) PIN                      NOP115,(T)
+ ZV PH159,(T) POUT                     NOP152,(T)
+ ZV PH159,(T) FLOW                     PFL159,(T)
+ XP PH159,(T) PIPRES      0.38603022
+ XT PH160,(T) A0PANHAN
+ ZV PH160,(T) PIN                      NOP117,(T)
+ ZV PH160,(T) POUT                     NOP151,(T)
+ ZV PH160,(T) FLOW                     PFL160,(T)
+ XP PH160,(T) PIPRES      2.11518547
+ XT PH161,(T) A0PANHAN
+ ZV PH161,(T) PIN                      NOP120,(T)
+ ZV PH161,(T) POUT                     NOP122,(T)
+ ZV PH161,(T) FLOW                     PFL161,(T)
+ XP PH161,(T) PIPRES      0.09755086
+ XT PH162,(T) A0PANHAN
+ ZV PH162,(T) PIN                      NOP123,(T)
+ ZV PH162,(T) POUT                     NOP125,(T)
+ ZV PH162,(T) FLOW                     PFL162,(T)
+ XP PH162,(T) PIPRES      0.02438793
+ XT PH163,(T) A0PANHAN
+ ZV PH163,(T) PIN                      NOP123,(T)
+ ZV PH163,(T) POUT                     NOP131,(T)
+ ZV PH163,(T) FLOW                     PFL163,(T)
+ XP PH163,(T) PIPRES      0.22884394
+ XT PH164,(T) A0PANHAN
+ ZV PH164,(T) PIN                      NOP123,(T)
+ ZV PH164,(T) POUT                     NOP136,(T)
+ ZV PH164,(T) FLOW                     PFL164,(T)
+ XP PH164,(T) PIPRES      0.36299365
+ XT PH165,(T) A0PANHAN
+ ZV PH165,(T) PIN                      NOP123,(T)
+ ZV PH165,(T) POUT                     NOP181,(T)
+ ZV PH165,(T) FLOW                     PFL165,(T)
+ XP PH165,(T) PIPRES      0.02525144
+ XT PH166,(T) A0PANHAN
+ ZV PH166,(T) PIN                      NOP123,(T)
+ ZV PH166,(T) POUT                     NOP188,(T)
+ ZV PH166,(T) FLOW                     PFL166,(T)
+ XP PH166,(T) PIPRES      0.16571445
+ XT PH167,(T) A0PANHAN
+ ZV PH167,(T) PIN                      NOP124,(T)
+ ZV PH167,(T) POUT                     NOP174,(T)
+ ZV PH167,(T) FLOW                     PFL167,(T)
+ XP PH167,(T) PIPRES     1.57398D-04
+ XT PH168,(T) A0PANHAN
+ ZV PH168,(T) PIN                      NOP126,(T)
+ ZV PH168,(T) POUT                     NOP176,(T)
+ ZV PH168,(T) FLOW                     PFL168,(T)
+ XP PH168,(T) PIPRES      0.46894397
+ XT PH169,(T) A0PANHAN
+ ZV PH169,(T) PIN                      NOP127,(T)
+ ZV PH169,(T) POUT                     NOP189,(T)
+ ZV PH169,(T) FLOW                     PFL169,(T)
+ XP PH169,(T) PIPRES      0.90974161
+ XT PH170,(T) A0PANHAN
+ ZV PH170,(T) PIN                      NOP128,(T)
+ ZV PH170,(T) POUT                     NOP168,(T)
+ ZV PH170,(T) FLOW                     PFL170,(T)
+ XP PH170,(T) PIPRES      0.22101754
+ XT PH171,(T) A0PANHAN
+ ZV PH171,(T) PIN                      NOP129,(T)
+ ZV PH171,(T) POUT                     NOP178,(T)
+ ZV PH171,(T) FLOW                     PFL171,(T)
+ XP PH171,(T) PIPRES      0.08712696
+ XT PH172,(T) A0PANHAN
+ ZV PH172,(T) PIN                      NOP130,(T)
+ ZV PH172,(T) POUT                     NOP135,(T)
+ ZV PH172,(T) FLOW                     PFL172,(T)
+ XP PH172,(T) PIPRES      0.00116961
+ XT PH173,(T) A0PANHAN
+ ZV PH173,(T) PIN                      NOP130,(T)
+ ZV PH173,(T) POUT                     NOP155,(T)
+ ZV PH173,(T) FLOW                     PFL173,(T)
+ XP PH173,(T) PIPRES      0.33923705
+ XT PH174,(T) A0PANHAN
+ ZV PH174,(T) PIN                      NOP131,(T)
+ ZV PH174,(T) POUT                     NOP136,(T)
+ ZV PH174,(T) FLOW                     PFL174,(T)
+ XP PH174,(T) PIPRES      0.09469248
+ ND
+ DO T         1                        TIME 
+ XT PH175,(T) A0PANHAN
+ ZV PH175,(T) PIN                      NOP132,(T)
+ ZV PH175,(T) POUT                     NOP185,(T)
+ ZV PH175,(T) FLOW                     PFL175,(T)
+ XP PH175,(T) PIPRES      0.15840808
+ XT PH176,(T) A0PANHAN
+ ZV PH176,(T) PIN                      NOP136,(T)
+ ZV PH176,(T) POUT                     NOP175,(T)
+ ZV PH176,(T) FLOW                     PFL176,(T)
+ XP PH176,(T) PIPRES      0.05745012
+ XT PH177,(T) A0PANHAN
+ ZV PH177,(T) PIN                      NOP137,(T)
+ ZV PH177,(T) POUT                     NOP138,(T)
+ ZV PH177,(T) FLOW                     PFL177,(T)
+ XP PH177,(T) PIPRES     1.57398D-04
+ XT PH178,(T) A0PANHAN
+ ZV PH178,(T) PIN                      NOP138,(T)
+ ZV PH178,(T) POUT                     NOP139,(T)
+ ZV PH178,(T) FLOW                     PFL178,(T)
+ XP PH178,(T) PIPRES     1.57398D-04
+ XT PH179,(T) A0PANHAN
+ ZV PH179,(T) PIN                      NOP139,(T)
+ ZV PH179,(T) POUT                     NOP172,(T)
+ ZV PH179,(T) FLOW                     PFL179,(T)
+ XP PH179,(T) PIPRES      0.48134447
+ XT PH180,(T) A0PANHAN
+ ZV PH180,(T) PIN                      NOP141,(T)
+ ZV PH180,(T) POUT                     NOP171,(T)
+ ZV PH180,(T) FLOW                     PFL180,(T)
+ XP PH180,(T) PIPRES      0.26674545
+ XT PH181,(T) A0PANHAN
+ ZV PH181,(T) PIN                      NOP144,(T)
+ ZV PH181,(T) POUT                     NOP185,(T)
+ ZV PH181,(T) FLOW                     PFL181,(T)
+ XP PH181,(T) PIPRES      0.27619018
+ XT PH182,(T) A0PANHAN
+ ZV PH182,(T) PIN                      NOP146,(T)
+ ZV PH182,(T) POUT                     NOP194,(T)
+ ZV PH182,(T) FLOW                     PFL182,(T)
+ XP PH182,(T) PIPRES      4.09426724
+ XT PH183,(T) A0PANHAN
+ ZV PH183,(T) PIN                      NOP148,(T)
+ ZV PH183,(T) POUT                     NOP170,(T)
+ ZV PH183,(T) FLOW                     PFL183,(T)
+ XP PH183,(T) PIPRES      0.04572618
+ XT PH184,(T) A0PANHAN
+ ZV PH184,(T) PIN                      NOP151,(T)
+ ZV PH184,(T) POUT                     NOP183,(T)
+ ZV PH184,(T) FLOW                     PFL184,(T)
+ XP PH184,(T) PIPRES      2.11518547
+ XT PH185,(T) A0PANHAN
+ ZV PH185,(T) PIN                      NOP153,(T)
+ ZV PH185,(T) POUT                     NOP164,(T)
+ ZV PH185,(T) FLOW                     PFL185,(T)
+ XP PH185,(T) PIPRES      0.04356348
+ XT PH186,(T) A0PANHAN
+ ZV PH186,(T) PIN                      NOP155,(T)
+ ZV PH186,(T) POUT                     NOP165,(T)
+ ZV PH186,(T) FLOW                     PFL186,(T)
+ XP PH186,(T) PIPRES      0.58489992
+ XT PH187,(T) A0PANHAN
+ ZV PH187,(T) PIN                      NOP156,(T)
+ ZV PH187,(T) POUT                     NOP175,(T)
+ ZV PH187,(T) FLOW                     PFL187,(T)
+ XP PH187,(T) PIPRES      0.12998520
+ XT PH188,(T) A0PANHAN
+ ZV PH188,(T) PIN                      NOP158,(T)
+ ZV PH188,(T) POUT                     NOP186,(T)
+ ZV PH188,(T) FLOW                     PFL188,(T)
+ XP PH188,(T) PIPRES      5.76881770
+ XT PH189,(T) A0PANHAN
+ ZV PH189,(T) PIN                      NOP160,(T)
+ ZV PH189,(T) POUT                     NOP179,(T)
+ ZV PH189,(T) FLOW                     PFL189,(T)
+ XP PH189,(T) PIPRES      0.06096853
+ XT PH190,(T) A0PANHAN
+ ZV PH190,(T) PIN                      NOP163,(T)
+ ZV PH190,(T) POUT                     NOP164,(T)
+ ZV PH190,(T) FLOW                     PFL190,(T)
+ XP PH190,(T) PIPRES      0.12868080
+ XT PH191,(T) A0PANHAN
+ ZV PH191,(T) PIN                      NOP163,(T)
+ ZV PH191,(T) POUT                     NOP164,(T)
+ ZV PH191,(T) FLOW                     PFL191,(T)
+ XP PH191,(T) PIPRES      0.12868080
+ XT PH192,(T) A0PANHAN
+ ZV PH192,(T) PIN                      NOP170,(T)
+ ZV PH192,(T) POUT                     NOP171,(T)
+ ZV PH192,(T) FLOW                     PFL192,(T)
+ XP PH192,(T) PIPRES      0.01980079
+ XT PH193,(T) A0PANHAN
+ ZV PH193,(T) PIN                      NOP170,(T)
+ ZV PH193,(T) POUT                     NOP171,(T)
+ ZV PH193,(T) FLOW                     PFL193,(T)
+ XP PH193,(T) PIPRES      0.01980079
+ XT PH194,(T) A0PANHAN
+ ZV PH194,(T) PIN                      NOP174,(T)
+ ZV PH194,(T) POUT                     NOP180,(T)
+ ZV PH194,(T) FLOW                     PFL194,(T)
+ XP PH194,(T) PIPRES     1.52180D-04
+ XT PH195,(T) A0PANHAN
+ ZV PH195,(T) PIN                      NOP177,(T)
+ ZV PH195,(T) POUT                     NOP178,(T)
+ ZV PH195,(T) FLOW                     PFL195,(T)
+ XP PH195,(T) PIPRES      0.02154347
+ XT PH196,(T) A0PANHAN
+ ZV PH196,(T) PIN                      NOP179,(T)
+ ZV PH196,(T) POUT                     NOP182,(T)
+ ZV PH196,(T) FLOW                     PFL196,(T)
+ XP PH196,(T) PIPRES     1.52180D-04
+ XT PH197,(T) A0PANHAN
+ ZV PH197,(T) PIN                      NOP185,(T)
+ ZV PH197,(T) POUT                     NOP187,(T)
+ ZV PH197,(T) FLOW                     PFL197,(T)
+ XP PH197,(T) PIPRES      0.00480715
+ XT PH198,(T) A0PANHAN
+ ZV PH198,(T) PIN                      NOP190,(T)
+ ZV PH198,(T) POUT                     NOP191,(T)
+ ZV PH198,(T) FLOW                     PFL198,(T)
+ XP PH198,(T) PIPRES      0.00116961
+ XT PH199,(T) A0PANHAN
+ ZV PH199,(T) PIN                      NOP191,(T)
+ ZV PH199,(T) POUT                     NOP192,(T)
+ ZV PH199,(T) FLOW                     PFL199,(T)
+ XP PH199,(T) PIPRES      0.00116961
+ ND
+ DO T         1                        TIME 
+*   ...Horsepower constraint elements
+ XT HP200,(T) A1MAXHP
+ ZV HP200,(T) PIN                      NOP3,(T)
+ ZV HP200,(T) POUT                     NOP4,(T)
+ ZV HP200,(T) FLOW                     CFL200,(T)
+ ZV HP200,(T) CBV                      CBV200,(T)
+ XP HP200,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP201,(T) A1MAXHP
+ ZV HP201,(T) PIN                      NOP13,(T)
+ ZV HP201,(T) POUT                     NOP14,(T)
+ ZV HP201,(T) FLOW                     CFL201,(T)
+ ZV HP201,(T) CBV                      CBV201,(T)
+ XP HP201,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP202,(T) A1MAXHP
+ ZV HP202,(T) PIN                      NOP16,(T)
+ ZV HP202,(T) POUT                     NOP17,(T)
+ ZV HP202,(T) FLOW                     CFL202,(T)
+ ZV HP202,(T) CBV                      CBV202,(T)
+ XP HP202,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP203,(T) A1MAXHP
+ ZV HP203,(T) PIN                      NOP29,(T)
+ ZV HP203,(T) POUT                     NOP30,(T)
+ ZV HP203,(T) FLOW                     CFL203,(T)
+ ZV HP203,(T) CBV                      CBV203,(T)
+ XP HP203,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP204,(T) A1MAXHP
+ ZV HP204,(T) PIN                      NOP41,(T)
+ ZV HP204,(T) POUT                     NOP42,(T)
+ ZV HP204,(T) FLOW                     CFL204,(T)
+ ZV HP204,(T) CBV                      CBV204,(T)
+ XP HP204,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP205,(T) A1MAXHP
+ ZV HP205,(T) PIN                      NOP48,(T)
+ ZV HP205,(T) POUT                     NOP49,(T)
+ ZV HP205,(T) FLOW                     CFL205,(T)
+ ZV HP205,(T) CBV                      CBV205,(T)
+ XP HP205,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP206,(T) A1MAXHP
+ ZV HP206,(T) PIN                      NOP54,(T)
+ ZV HP206,(T) POUT                     NOP55,(T)
+ ZV HP206,(T) FLOW                     CFL206,(T)
+ ZV HP206,(T) CBV                      CBV206,(T)
+ XP HP206,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP207,(T) A1MAXHP
+ ZV HP207,(T) PIN                      NOP60,(T)
+ ZV HP207,(T) POUT                     NOP61,(T)
+ ZV HP207,(T) FLOW                     CFL207,(T)
+ ZV HP207,(T) CBV                      CBV207,(T)
+ XP HP207,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP208,(T) A1MAXHP
+ ZV HP208,(T) PIN                      NOP77,(T)
+ ZV HP208,(T) POUT                     NOP76,(T)
+ ZV HP208,(T) FLOW                     CFL208,(T)
+ ZV HP208,(T) CBV                      CBV208,(T)
+ XP HP208,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP209,(T) A1MAXHP
+ ZV HP209,(T) PIN                      NOP91,(T)
+ ZV HP209,(T) POUT                     NOP92,(T)
+ ZV HP209,(T) FLOW                     CFL209,(T)
+ ZV HP209,(T) CBV                      CBV209,(T)
+ XP HP209,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP210,(T) A1MAXHP
+ ZV HP210,(T) PIN                      NOP100,(T)
+ ZV HP210,(T) POUT                     NOP101,(T)
+ ZV HP210,(T) FLOW                     CFL210,(T)
+ ZV HP210,(T) CBV                      CBV210,(T)
+ XP HP210,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP211,(T) A1MAXHP
+ ZV HP211,(T) PIN                      NOP104,(T)
+ ZV HP211,(T) POUT                     NOP105,(T)
+ ZV HP211,(T) FLOW                     CFL211,(T)
+ ZV HP211,(T) CBV                      CBV211,(T)
+ XP HP211,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP212,(T) A1MAXHP
+ ZV HP212,(T) PIN                      NOP120,(T)
+ ZV HP212,(T) POUT                     NOP121,(T)
+ ZV HP212,(T) FLOW                     CFL212,(T)
+ ZV HP212,(T) CBV                      CBV212,(T)
+ XP HP212,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP213,(T) A1MAXHP
+ ZV HP213,(T) PIN                      NOP136,(T)
+ ZV HP213,(T) POUT                     NOP137,(T)
+ ZV HP213,(T) FLOW                     CFL213,(T)
+ ZV HP213,(T) CBV                      CBV213,(T)
+ XP HP213,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP214,(T) A1MAXHP
+ ZV HP214,(T) PIN                      NOP148,(T)
+ ZV HP214,(T) POUT                     NOP149,(T)
+ ZV HP214,(T) FLOW                     CFL214,(T)
+ ZV HP214,(T) CBV                      CBV214,(T)
+ XP HP214,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP215,(T) A1MAXHP
+ ZV HP215,(T) PIN                      NOP176,(T)
+ ZV HP215,(T) POUT                     NOP177,(T)
+ ZV HP215,(T) FLOW                     CFL215,(T)
+ ZV HP215,(T) CBV                      CBV215,(T)
+ XP HP215,(T) IPL        10.00000000   OPL         8.00000000
+ XT HP216,(T) A1MAXHP
+ ZV HP216,(T) PIN                      NOP179,(T)
+ ZV HP216,(T) POUT                     NOP180,(T)
+ ZV HP216,(T) FLOW                     CFL216,(T)
+ ZV HP216,(T) CBV                      CBV216,(T)
+ XP HP216,(T) IPL        10.00000000   OPL         8.00000000
+ ND
+ DO T         1                        TIME 
+*   ...Horsepower objective elements
+ XT HF200,(T) A2HPFUN
+ ZV HF200,(T) PIN                      NOP3,(T)
+ ZV HF200,(T) POUT                     NOP4,(T)
+ ZV HF200,(T) FLOW                     CFL200,(T)
+ ZV HF200,(T) CBV                      CBV200,(T)
+ XP HF200,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF201,(T) A2HPFUN
+ ZV HF201,(T) PIN                      NOP13,(T)
+ ZV HF201,(T) POUT                     NOP14,(T)
+ ZV HF201,(T) FLOW                     CFL201,(T)
+ ZV HF201,(T) CBV                      CBV201,(T)
+ XP HF201,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF202,(T) A2HPFUN
+ ZV HF202,(T) PIN                      NOP16,(T)
+ ZV HF202,(T) POUT                     NOP17,(T)
+ ZV HF202,(T) FLOW                     CFL202,(T)
+ ZV HF202,(T) CBV                      CBV202,(T)
+ XP HF202,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF203,(T) A2HPFUN
+ ZV HF203,(T) PIN                      NOP29,(T)
+ ZV HF203,(T) POUT                     NOP30,(T)
+ ZV HF203,(T) FLOW                     CFL203,(T)
+ ZV HF203,(T) CBV                      CBV203,(T)
+ XP HF203,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF204,(T) A2HPFUN
+ ZV HF204,(T) PIN                      NOP41,(T)
+ ZV HF204,(T) POUT                     NOP42,(T)
+ ZV HF204,(T) FLOW                     CFL204,(T)
+ ZV HF204,(T) CBV                      CBV204,(T)
+ XP HF204,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF205,(T) A2HPFUN
+ ZV HF205,(T) PIN                      NOP48,(T)
+ ZV HF205,(T) POUT                     NOP49,(T)
+ ZV HF205,(T) FLOW                     CFL205,(T)
+ ZV HF205,(T) CBV                      CBV205,(T)
+ XP HF205,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF206,(T) A2HPFUN
+ ZV HF206,(T) PIN                      NOP54,(T)
+ ZV HF206,(T) POUT                     NOP55,(T)
+ ZV HF206,(T) FLOW                     CFL206,(T)
+ ZV HF206,(T) CBV                      CBV206,(T)
+ XP HF206,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF207,(T) A2HPFUN
+ ZV HF207,(T) PIN                      NOP60,(T)
+ ZV HF207,(T) POUT                     NOP61,(T)
+ ZV HF207,(T) FLOW                     CFL207,(T)
+ ZV HF207,(T) CBV                      CBV207,(T)
+ XP HF207,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF208,(T) A2HPFUN
+ ZV HF208,(T) PIN                      NOP77,(T)
+ ZV HF208,(T) POUT                     NOP76,(T)
+ ZV HF208,(T) FLOW                     CFL208,(T)
+ ZV HF208,(T) CBV                      CBV208,(T)
+ XP HF208,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF209,(T) A2HPFUN
+ ZV HF209,(T) PIN                      NOP91,(T)
+ ZV HF209,(T) POUT                     NOP92,(T)
+ ZV HF209,(T) FLOW                     CFL209,(T)
+ ZV HF209,(T) CBV                      CBV209,(T)
+ XP HF209,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF210,(T) A2HPFUN
+ ZV HF210,(T) PIN                      NOP100,(T)
+ ZV HF210,(T) POUT                     NOP101,(T)
+ ZV HF210,(T) FLOW                     CFL210,(T)
+ ZV HF210,(T) CBV                      CBV210,(T)
+ XP HF210,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF211,(T) A2HPFUN
+ ZV HF211,(T) PIN                      NOP104,(T)
+ ZV HF211,(T) POUT                     NOP105,(T)
+ ZV HF211,(T) FLOW                     CFL211,(T)
+ ZV HF211,(T) CBV                      CBV211,(T)
+ XP HF211,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF212,(T) A2HPFUN
+ ZV HF212,(T) PIN                      NOP120,(T)
+ ZV HF212,(T) POUT                     NOP121,(T)
+ ZV HF212,(T) FLOW                     CFL212,(T)
+ ZV HF212,(T) CBV                      CBV212,(T)
+ XP HF212,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF213,(T) A2HPFUN
+ ZV HF213,(T) PIN                      NOP136,(T)
+ ZV HF213,(T) POUT                     NOP137,(T)
+ ZV HF213,(T) FLOW                     CFL213,(T)
+ ZV HF213,(T) CBV                      CBV213,(T)
+ XP HF213,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF214,(T) A2HPFUN
+ ZV HF214,(T) PIN                      NOP148,(T)
+ ZV HF214,(T) POUT                     NOP149,(T)
+ ZV HF214,(T) FLOW                     CFL214,(T)
+ ZV HF214,(T) CBV                      CBV214,(T)
+ XP HF214,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF215,(T) A2HPFUN
+ ZV HF215,(T) PIN                      NOP176,(T)
+ ZV HF215,(T) POUT                     NOP177,(T)
+ ZV HF215,(T) FLOW                     CFL215,(T)
+ ZV HF215,(T) CBV                      CBV215,(T)
+ XP HF215,(T) IPL        10.00000000   OPL         8.00000000
+ XT HF216,(T) A2HPFUN
+ ZV HF216,(T) PIN                      NOP179,(T)
+ ZV HF216,(T) POUT                     NOP180,(T)
+ ZV HF216,(T) FLOW                     CFL216,(T)
+ ZV HF216,(T) CBV                      CBV216,(T)
+ XP HF216,(T) IPL        10.00000000   OPL         8.00000000
+ ND
+
+GROUP USES
+
+ DO T         1                        TIME 
+*   ...Panhandle Elements
+ DO i         1                        NPIP
+ XE PDE(i,T)  PH(i,T)
+ OD i
+*   ...Horsepower constraint elements
+ DO i         CSTART                   CEND
+ XE HC(i,T)   HP(i,T)
+ OD i
+*   ...Horsepower objective elements
+ DO i         CSTART                   CEND
+ XE HO(i,T)   HP(i,T)
+ OD i
+ ND
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      NET4
+
+TEMPORARIES
+*   ...Temps for PDEs
+ L  A0FGT0
+ R  A0FLEX
+ R  A0HFLO
+*   ...Temps for max. HP constraint
+ R  A1BETA
+ R  A1HFAC
+ R  A1PSUC
+ R  A1PDIS
+ R  A1CRB
+ R  A1PROD
+ R  A1GPIN
+ R  A1GPOU
+ R  A1GFLO
+ R  A1GCBV
+ R  A1HII
+ R  A1HIO
+ R  A1HOO
+ R  A1HIC
+ R  A1HOC
+*   ...Temps for horsewpower objective
+ R  A2BETA
+ R  A2HFAC
+ R  A2PSUC
+ R  A2PDIS
+ R  A2CRB
+ R  A2PROD
+ R  A2GPIN
+ R  A2GPOU
+ R  A2GFLO
+ R  A2GCBV
+ R  A2HII
+ R  A2HIO
+ R  A2HOO
+ R  A2HIC
+ R  A2HOC
+*   ...Intrinsic function references
+ M  ABS
+
+INDIVIDUALS
+
+*   ...Pressure drop equation element
+
+ T  A0PANHAN
+ A  A0FLEX              1.8539D0
+ A  A0FGT0              FLOW.GE.0.0D0
+ I  A0FGT0    A0HFLO    -PIPRES*A0FLEX*(A0FLEX-1.0D0)
+ I+                     *FLOW**(A0FLEX-2.0D0)
+ E  A0FGT0    A0HFLO    A0FLEX*(A0FLEX-1.0D0)*PIPRES
+ E+                     *ABS(FLOW)**(A0FLEX-2.0D0)
+ F                      PIN*PIN - POUT*POUT
+ F+                     - PIPRES*FLOW*ABS(FLOW)**(A0FLEX-1.0D0)
+ G  POUT                -2.0D0*POUT
+ G  PIN                 2.0D0*PIN
+ G  FLOW                -PIPRES*A0FLEX*ABS(FLOW)**(A0FLEX-1.0D0)
+ H  POUT      POUT      -2.0D0
+ H  PIN       PIN       2.0D0
+ H  FLOW      FLOW      A0HFLO
+
+*   ...Horsepower (constraint) element
+
+ T  A1MAXHP
+ A  A1BETA              0.23077D0
+ A  A1HFAC              203.712D0
+ A  A1PSUC              PIN - IPL*CBV
+ A  A1PDIS              POUT + OPL*CBV
+ A  A1CRB               (A1PDIS/A1PSUC)**A1BETA
+ A  A1PROD              A1BETA*A1HFAC*A1CRB *FLOW
+ A  A1GPIN              -A1PROD/A1PSUC
+ A  A1GPOU              A1PROD/A1PDIS
+ A  A1GFLO              A1HFAC*( A1CRB  - 1.0D0)
+ A  A1GCBV              -IPL*A1GPIN + OPL*A1GPOU
+ A  A1HII               A1PROD*(A1BETA+1.0D0)/(A1PSUC**2)
+ A  A1HIO               -A1PROD*A1BETA/(A1PSUC*A1PDIS)
+ A  A1HOO               A1PROD*(A1BETA-1.0D0)/(A1PDIS**2)
+ A  A1HIC               -IPL*A1HII  + OPL*A1HIO
+ A  A1HOC               -IPL*A1HIO  + OPL*A1HOO
+ F                      FLOW*A1GFLO
+ G  PIN                 A1GPIN
+ G  POUT                A1GPOU
+ G  FLOW                A1GFLO
+ G  CBV                 A1GCBV
+ H  PIN       PIN       A1HII
+ H  PIN       POUT      A1HIO
+ H  POUT      POUT      A1HOO
+ H  PIN       FLOW      A1GPIN/FLOW
+ H  POUT      FLOW      A1GPOU/FLOW
+ H  PIN       CBV       A1HIC
+ H  POUT      CBV       A1HOC
+ H  FLOW      CBV       A1GCBV/FLOW
+ H  CBV       CBV       -IPL*A1HIC  +  OPL*A1HOC
+
+*   ...Horsepower objective function element
+
+ T  A2HPFUN
+ A  A2BETA              0.23077D0
+ A  A2HFAC              203.712D0
+ A  A2PSUC              PIN - IPL*CBV
+ A  A2PDIS              POUT + OPL*CBV
+ A  A2CRB               (A2PDIS/A2PSUC)**A2BETA
+ A  A2PROD              A2BETA*A2HFAC*A2CRB *FLOW
+ A  A2GPIN              -A2PROD/A2PSUC
+ A  A2GPOU              A2PROD/A2PDIS
+ A  A2GFLO              A2HFAC*( A2CRB  - 1.0D0)
+ A  A2GCBV              -IPL*A2GPIN + OPL*A2GPOU
+ A  A2HII               A2PROD*(A2BETA+1.0D0)/(A2PSUC**2)
+ A  A2HIO               -A2PROD*A2BETA/(A2PSUC*A2PDIS)
+ A  A2HOO               A2PROD*(A2BETA-1.0D0)/(A2PDIS**2)
+ A  A2HIC               -IPL*A2HII  + OPL*A2HIO
+ A  A2HOC               -IPL*A2HIO  + OPL*A2HOO
+ F                      FLOW*A2GFLO
+ G  PIN                 A2GPIN
+ G  POUT                A2GPOU
+ G  FLOW                A2GFLO
+ G  CBV                 A2GCBV
+ H  PIN       PIN       A2HII
+ H  PIN       POUT      A2HIO
+ H  POUT      POUT      A2HOO
+ H  PIN       FLOW      A2GPIN/FLOW
+ H  POUT      FLOW      A2GPOU/FLOW
+ H  PIN       CBV       A2HIC
+ H  POUT      CBV       A2HOC
+ H  FLOW      CBV       A2GCBV/FLOW
+ H  CBV       CBV       -IPL*A2HIC  +  OPL*A2HOC
+ENDATA

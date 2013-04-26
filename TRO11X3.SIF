@@ -1,0 +1,3252 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          TRO11X3
+
+*   Problem :
+*   *********
+
+*   A mininim-compliance formulation of the truss topology problem:
+
+*     minimize     c^T u
+*     subject to ( sum_i=1:m x_i A_i ) u = c
+*                  sum_i=1:m x_i <= 1
+*     and          x >= 0
+
+*   Source: translation from the AMPL model tro_nlp.mod/tro_11x3.dat
+*   by Michal Kocvara (U. Birmingham)
+
+*   SIF input: Nick Gould, Nov 2009.
+
+*   classification LOR2-RN-150-61
+
+*   number of bars
+
+ IE M                   90
+
+*   number of structure degrees of freedom
+
+ IE N                   60
+
+*   other parameter definitions
+
+ IE 1                   1
+ RE ONE                 1.0
+ RI RM        M
+ R/ 1/M       ONE                      RM
+
+VARIABLES
+
+ DO I         1                        M
+ X  X(I)
+ ND
+
+ DO I         1                        N
+ X  U(I)
+ ND
+
+GROUPS
+
+*  objective function
+
+ N  OBJ       U56       1.0
+
+*  constraints ( sum_i=1:m x_i A_i ) u = c
+
+ DO I         1                        N
+ XE C(I)
+ ND
+
+*  constraint sum_i=1:m x_i <= 1
+
+ DO I         1                        M
+ XL BALANCE   X(I)      1.0
+ ND
+
+CONSTANTS
+
+    TRO11X3   BALANCE   1.0
+    TRO11X3   C56       1.0
+
+BOUNDS
+
+ DO I         1                        N
+ XR TRO11X3   U(I)
+ ND
+
+START POINT
+
+ DO I         1                        M
+ ZV TRO11X3   X(I)                     1/M
+ ND
+
+ELEMENT TYPE
+
+ EV PROD      X                        U
+ EP PROD      P
+
+ELEMENT USES
+
+ XT 'DEFAULT' PROD
+
+ V  E1        X                        X1
+ V  E1        U                        U1
+ P  E1        P         4.000000
+ V  E2        X                        X2
+ V  E2        U                        U3
+ P  E2        P         1.000000
+ V  E3        X                        X2
+ V  E3        U                        U3
+ P  E3        P         1.000000
+ V  E4        X                        X2
+ V  E4        U                        U4
+ P  E4        P         1.000000
+ V  E5        X                        X2
+ V  E5        U                        U4
+ P  E5        P         1.000000
+ V  E6        X                        X3
+ V  E6        U                        U2
+ P  E6        P         4.000000
+ V  E7        X                        X3
+ V  E7        U                        U2
+ P  E7        P         -4.000000
+ V  E8        X                        X3
+ V  E8        U                        U4
+ P  E8        P         -4.000000
+ V  E9        X                        X3
+ V  E9        U                        U4
+ P  E9        P         4.000000
+ V  E10       X                        X4
+ V  E10       U                        U1
+ P  E10       P         1.000000
+ V  E11       X                        X4
+ V  E11       U                        U1
+ P  E11       P         -1.000000
+ V  E12       X                        X4
+ V  E12       U                        U2
+ P  E12       P         -1.000000
+ V  E13       X                        X4
+ V  E13       U                        U2
+ P  E13       P         1.000000
+ V  E14       X                        X5
+ V  E14       U                        U3
+ P  E14       P         4.000000
+ V  E15       X                        X6
+ V  E15       U                        U5
+ P  E15       P         1.000000
+ V  E16       X                        X6
+ V  E16       U                        U5
+ P  E16       P         1.000000
+ V  E17       X                        X6
+ V  E17       U                        U6
+ P  E17       P         1.000000
+ V  E18       X                        X6
+ V  E18       U                        U6
+ P  E18       P         1.000000
+ V  E19       X                        X7
+ V  E19       U                        U4
+ P  E19       P         4.000000
+ V  E20       X                        X7
+ V  E20       U                        U4
+ P  E20       P         -4.000000
+ V  E21       X                        X7
+ V  E21       U                        U6
+ P  E21       P         -4.000000
+ V  E22       X                        X7
+ V  E22       U                        U6
+ P  E22       P         4.000000
+ V  E23       X                        X8
+ V  E23       U                        U3
+ P  E23       P         1.000000
+ V  E24       X                        X8
+ V  E24       U                        U3
+ P  E24       P         -1.000000
+ V  E25       X                        X8
+ V  E25       U                        U4
+ P  E25       P         -1.000000
+ V  E26       X                        X8
+ V  E26       U                        U4
+ P  E26       P         1.000000
+ V  E27       X                        X9
+ V  E27       U                        U1
+ P  E27       P         4.000000
+ V  E28       X                        X9
+ V  E28       U                        U1
+ P  E28       P         -4.000000
+ V  E29       X                        X9
+ V  E29       U                        U7
+ P  E29       P         -4.000000
+ V  E30       X                        X9
+ V  E30       U                        U7
+ P  E30       P         4.000000
+ V  E31       X                        X10
+ V  E31       U                        U1
+ P  E31       P         1.000000
+ V  E32       X                        X10
+ V  E32       U                        U1
+ P  E32       P         1.000000
+ V  E33       X                        X10
+ V  E33       U                        U1
+ P  E33       P         -1.000000
+ V  E34       X                        X10
+ V  E34       U                        U1
+ P  E34       P         -1.000000
+ V  E35       X                        X10
+ V  E35       U                        U2
+ P  E35       P         1.000000
+ V  E36       X                        X10
+ V  E36       U                        U2
+ P  E36       P         1.000000
+ V  E37       X                        X10
+ V  E37       U                        U2
+ P  E37       P         -1.000000
+ V  E38       X                        X10
+ V  E38       U                        U2
+ P  E38       P         -1.000000
+ V  E39       X                        X10
+ V  E39       U                        U9
+ P  E39       P         -1.000000
+ V  E40       X                        X10
+ V  E40       U                        U9
+ P  E40       P         -1.000000
+ V  E41       X                        X10
+ V  E41       U                        U9
+ P  E41       P         1.000000
+ V  E42       X                        X10
+ V  E42       U                        U9
+ P  E42       P         1.000000
+ V  E43       X                        X10
+ V  E43       U                        U10
+ P  E43       P         -1.000000
+ V  E44       X                        X10
+ V  E44       U                        U10
+ P  E44       P         -1.000000
+ V  E45       X                        X10
+ V  E45       U                        U10
+ P  E45       P         1.000000
+ V  E46       X                        X10
+ V  E46       U                        U10
+ P  E46       P         1.000000
+ V  E47       X                        X11
+ V  E47       U                        U8
+ P  E47       P         4.000000
+ V  E48       X                        X11
+ V  E48       U                        U8
+ P  E48       P         -4.000000
+ V  E49       X                        X11
+ V  E49       U                        U10
+ P  E49       P         -4.000000
+ V  E50       X                        X11
+ V  E50       U                        U10
+ P  E50       P         4.000000
+ V  E51       X                        X12
+ V  E51       U                        U3
+ P  E51       P         1.000000
+ V  E52       X                        X12
+ V  E52       U                        U3
+ P  E52       P         -1.000000
+ V  E53       X                        X12
+ V  E53       U                        U3
+ P  E53       P         -1.000000
+ V  E54       X                        X12
+ V  E54       U                        U3
+ P  E54       P         1.000000
+ V  E55       X                        X12
+ V  E55       U                        U4
+ P  E55       P         -1.000000
+ V  E56       X                        X12
+ V  E56       U                        U4
+ P  E56       P         1.000000
+ V  E57       X                        X12
+ V  E57       U                        U4
+ P  E57       P         1.000000
+ V  E58       X                        X12
+ V  E58       U                        U4
+ P  E58       P         -1.000000
+ V  E59       X                        X12
+ V  E59       U                        U7
+ P  E59       P         -1.000000
+ V  E60       X                        X12
+ V  E60       U                        U7
+ P  E60       P         1.000000
+ V  E61       X                        X12
+ V  E61       U                        U7
+ P  E61       P         1.000000
+ V  E62       X                        X12
+ V  E62       U                        U7
+ P  E62       P         -1.000000
+ V  E63       X                        X12
+ V  E63       U                        U8
+ P  E63       P         1.000000
+ V  E64       X                        X12
+ V  E64       U                        U8
+ P  E64       P         -1.000000
+ V  E65       X                        X12
+ V  E65       U                        U8
+ P  E65       P         -1.000000
+ V  E66       X                        X12
+ V  E66       U                        U8
+ P  E66       P         1.000000
+ V  E67       X                        X13
+ V  E67       U                        U3
+ P  E67       P         4.000000
+ V  E68       X                        X13
+ V  E68       U                        U3
+ P  E68       P         -4.000000
+ V  E69       X                        X13
+ V  E69       U                        U9
+ P  E69       P         -4.000000
+ V  E70       X                        X13
+ V  E70       U                        U9
+ P  E70       P         4.000000
+ V  E71       X                        X14
+ V  E71       U                        U3
+ P  E71       P         1.000000
+ V  E72       X                        X14
+ V  E72       U                        U3
+ P  E72       P         1.000000
+ V  E73       X                        X14
+ V  E73       U                        U3
+ P  E73       P         -1.000000
+ V  E74       X                        X14
+ V  E74       U                        U3
+ P  E74       P         -1.000000
+ V  E75       X                        X14
+ V  E75       U                        U4
+ P  E75       P         1.000000
+ V  E76       X                        X14
+ V  E76       U                        U4
+ P  E76       P         1.000000
+ V  E77       X                        X14
+ V  E77       U                        U4
+ P  E77       P         -1.000000
+ V  E78       X                        X14
+ V  E78       U                        U4
+ P  E78       P         -1.000000
+ V  E79       X                        X14
+ V  E79       U                        U11
+ P  E79       P         -1.000000
+ V  E80       X                        X14
+ V  E80       U                        U11
+ P  E80       P         -1.000000
+ V  E81       X                        X14
+ V  E81       U                        U11
+ P  E81       P         1.000000
+ V  E82       X                        X14
+ V  E82       U                        U11
+ P  E82       P         1.000000
+ V  E83       X                        X14
+ V  E83       U                        U12
+ P  E83       P         -1.000000
+ V  E84       X                        X14
+ V  E84       U                        U12
+ P  E84       P         -1.000000
+ V  E85       X                        X14
+ V  E85       U                        U12
+ P  E85       P         1.000000
+ V  E86       X                        X14
+ V  E86       U                        U12
+ P  E86       P         1.000000
+ V  E87       X                        X15
+ V  E87       U                        U10
+ P  E87       P         4.000000
+ V  E88       X                        X15
+ V  E88       U                        U10
+ P  E88       P         -4.000000
+ V  E89       X                        X15
+ V  E89       U                        U12
+ P  E89       P         -4.000000
+ V  E90       X                        X15
+ V  E90       U                        U12
+ P  E90       P         4.000000
+ V  E91       X                        X16
+ V  E91       U                        U5
+ P  E91       P         1.000000
+ V  E92       X                        X16
+ V  E92       U                        U5
+ P  E92       P         -1.000000
+ V  E93       X                        X16
+ V  E93       U                        U5
+ P  E93       P         -1.000000
+ V  E94       X                        X16
+ V  E94       U                        U5
+ P  E94       P         1.000000
+ V  E95       X                        X16
+ V  E95       U                        U6
+ P  E95       P         -1.000000
+ V  E96       X                        X16
+ V  E96       U                        U6
+ P  E96       P         1.000000
+ V  E97       X                        X16
+ V  E97       U                        U6
+ P  E97       P         1.000000
+ V  E98       X                        X16
+ V  E98       U                        U6
+ P  E98       P         -1.000000
+ V  E99       X                        X16
+ V  E99       U                        U9
+ P  E99       P         -1.000000
+ V  E100      X                        X16
+ V  E100      U                        U9
+ P  E100      P         1.000000
+ V  E101      X                        X16
+ V  E101      U                        U9
+ P  E101      P         1.000000
+ V  E102      X                        X16
+ V  E102      U                        U9
+ P  E102      P         -1.000000
+ V  E103      X                        X16
+ V  E103      U                        U10
+ P  E103      P         1.000000
+ V  E104      X                        X16
+ V  E104      U                        U10
+ P  E104      P         -1.000000
+ V  E105      X                        X16
+ V  E105      U                        U10
+ P  E105      P         -1.000000
+ V  E106      X                        X16
+ V  E106      U                        U10
+ P  E106      P         1.000000
+ V  E107      X                        X17
+ V  E107      U                        U7
+ P  E107      P         4.000000
+ V  E108      X                        X17
+ V  E108      U                        U7
+ P  E108      P         -4.000000
+ V  E109      X                        X17
+ V  E109      U                        U13
+ P  E109      P         -4.000000
+ V  E110      X                        X17
+ V  E110      U                        U13
+ P  E110      P         4.000000
+ V  E111      X                        X18
+ V  E111      U                        U7
+ P  E111      P         1.000000
+ V  E112      X                        X18
+ V  E112      U                        U7
+ P  E112      P         1.000000
+ V  E113      X                        X18
+ V  E113      U                        U7
+ P  E113      P         -1.000000
+ V  E114      X                        X18
+ V  E114      U                        U7
+ P  E114      P         -1.000000
+ V  E115      X                        X18
+ V  E115      U                        U8
+ P  E115      P         1.000000
+ V  E116      X                        X18
+ V  E116      U                        U8
+ P  E116      P         1.000000
+ V  E117      X                        X18
+ V  E117      U                        U8
+ P  E117      P         -1.000000
+ V  E118      X                        X18
+ V  E118      U                        U8
+ P  E118      P         -1.000000
+ V  E119      X                        X18
+ V  E119      U                        U15
+ P  E119      P         -1.000000
+ V  E120      X                        X18
+ V  E120      U                        U15
+ P  E120      P         -1.000000
+ V  E121      X                        X18
+ V  E121      U                        U15
+ P  E121      P         1.000000
+ V  E122      X                        X18
+ V  E122      U                        U15
+ P  E122      P         1.000000
+ V  E123      X                        X18
+ V  E123      U                        U16
+ P  E123      P         -1.000000
+ V  E124      X                        X18
+ V  E124      U                        U16
+ P  E124      P         -1.000000
+ V  E125      X                        X18
+ V  E125      U                        U16
+ P  E125      P         1.000000
+ V  E126      X                        X18
+ V  E126      U                        U16
+ P  E126      P         1.000000
+ V  E127      X                        X19
+ V  E127      U                        U14
+ P  E127      P         4.000000
+ V  E128      X                        X19
+ V  E128      U                        U14
+ P  E128      P         -4.000000
+ V  E129      X                        X19
+ V  E129      U                        U16
+ P  E129      P         -4.000000
+ V  E130      X                        X19
+ V  E130      U                        U16
+ P  E130      P         4.000000
+ V  E131      X                        X20
+ V  E131      U                        U9
+ P  E131      P         1.000000
+ V  E132      X                        X20
+ V  E132      U                        U9
+ P  E132      P         -1.000000
+ V  E133      X                        X20
+ V  E133      U                        U9
+ P  E133      P         -1.000000
+ V  E134      X                        X20
+ V  E134      U                        U9
+ P  E134      P         1.000000
+ V  E135      X                        X20
+ V  E135      U                        U10
+ P  E135      P         -1.000000
+ V  E136      X                        X20
+ V  E136      U                        U10
+ P  E136      P         1.000000
+ V  E137      X                        X20
+ V  E137      U                        U10
+ P  E137      P         1.000000
+ V  E138      X                        X20
+ V  E138      U                        U10
+ P  E138      P         -1.000000
+ V  E139      X                        X20
+ V  E139      U                        U13
+ P  E139      P         -1.000000
+ V  E140      X                        X20
+ V  E140      U                        U13
+ P  E140      P         1.000000
+ V  E141      X                        X20
+ V  E141      U                        U13
+ P  E141      P         1.000000
+ V  E142      X                        X20
+ V  E142      U                        U13
+ P  E142      P         -1.000000
+ V  E143      X                        X20
+ V  E143      U                        U14
+ P  E143      P         1.000000
+ V  E144      X                        X20
+ V  E144      U                        U14
+ P  E144      P         -1.000000
+ V  E145      X                        X20
+ V  E145      U                        U14
+ P  E145      P         -1.000000
+ V  E146      X                        X20
+ V  E146      U                        U14
+ P  E146      P         1.000000
+ V  E147      X                        X21
+ V  E147      U                        U9
+ P  E147      P         4.000000
+ V  E148      X                        X21
+ V  E148      U                        U9
+ P  E148      P         -4.000000
+ V  E149      X                        X21
+ V  E149      U                        U15
+ P  E149      P         -4.000000
+ V  E150      X                        X21
+ V  E150      U                        U15
+ P  E150      P         4.000000
+ V  E151      X                        X22
+ V  E151      U                        U9
+ P  E151      P         1.000000
+ V  E152      X                        X22
+ V  E152      U                        U9
+ P  E152      P         1.000000
+ V  E153      X                        X22
+ V  E153      U                        U9
+ P  E153      P         -1.000000
+ V  E154      X                        X22
+ V  E154      U                        U9
+ P  E154      P         -1.000000
+ V  E155      X                        X22
+ V  E155      U                        U10
+ P  E155      P         1.000000
+ V  E156      X                        X22
+ V  E156      U                        U10
+ P  E156      P         1.000000
+ V  E157      X                        X22
+ V  E157      U                        U10
+ P  E157      P         -1.000000
+ V  E158      X                        X22
+ V  E158      U                        U10
+ P  E158      P         -1.000000
+ V  E159      X                        X22
+ V  E159      U                        U17
+ P  E159      P         -1.000000
+ V  E160      X                        X22
+ V  E160      U                        U17
+ P  E160      P         -1.000000
+ V  E161      X                        X22
+ V  E161      U                        U17
+ P  E161      P         1.000000
+ V  E162      X                        X22
+ V  E162      U                        U17
+ P  E162      P         1.000000
+ V  E163      X                        X22
+ V  E163      U                        U18
+ P  E163      P         -1.000000
+ V  E164      X                        X22
+ V  E164      U                        U18
+ P  E164      P         -1.000000
+ V  E165      X                        X22
+ V  E165      U                        U18
+ P  E165      P         1.000000
+ V  E166      X                        X22
+ V  E166      U                        U18
+ P  E166      P         1.000000
+ V  E167      X                        X23
+ V  E167      U                        U16
+ P  E167      P         4.000000
+ V  E168      X                        X23
+ V  E168      U                        U16
+ P  E168      P         -4.000000
+ V  E169      X                        X23
+ V  E169      U                        U18
+ P  E169      P         -4.000000
+ V  E170      X                        X23
+ V  E170      U                        U18
+ P  E170      P         4.000000
+ V  E171      X                        X24
+ V  E171      U                        U11
+ P  E171      P         1.000000
+ V  E172      X                        X24
+ V  E172      U                        U11
+ P  E172      P         -1.000000
+ V  E173      X                        X24
+ V  E173      U                        U11
+ P  E173      P         -1.000000
+ V  E174      X                        X24
+ V  E174      U                        U11
+ P  E174      P         1.000000
+ V  E175      X                        X24
+ V  E175      U                        U12
+ P  E175      P         -1.000000
+ V  E176      X                        X24
+ V  E176      U                        U12
+ P  E176      P         1.000000
+ V  E177      X                        X24
+ V  E177      U                        U12
+ P  E177      P         1.000000
+ V  E178      X                        X24
+ V  E178      U                        U12
+ P  E178      P         -1.000000
+ V  E179      X                        X24
+ V  E179      U                        U15
+ P  E179      P         -1.000000
+ V  E180      X                        X24
+ V  E180      U                        U15
+ P  E180      P         1.000000
+ V  E181      X                        X24
+ V  E181      U                        U15
+ P  E181      P         1.000000
+ V  E182      X                        X24
+ V  E182      U                        U15
+ P  E182      P         -1.000000
+ V  E183      X                        X24
+ V  E183      U                        U16
+ P  E183      P         1.000000
+ V  E184      X                        X24
+ V  E184      U                        U16
+ P  E184      P         -1.000000
+ V  E185      X                        X24
+ V  E185      U                        U16
+ P  E185      P         -1.000000
+ V  E186      X                        X24
+ V  E186      U                        U16
+ P  E186      P         1.000000
+ V  E187      X                        X25
+ V  E187      U                        U13
+ P  E187      P         4.000000
+ V  E188      X                        X25
+ V  E188      U                        U13
+ P  E188      P         -4.000000
+ V  E189      X                        X25
+ V  E189      U                        U19
+ P  E189      P         -4.000000
+ V  E190      X                        X25
+ V  E190      U                        U19
+ P  E190      P         4.000000
+ V  E191      X                        X26
+ V  E191      U                        U13
+ P  E191      P         1.000000
+ V  E192      X                        X26
+ V  E192      U                        U13
+ P  E192      P         1.000000
+ V  E193      X                        X26
+ V  E193      U                        U13
+ P  E193      P         -1.000000
+ V  E194      X                        X26
+ V  E194      U                        U13
+ P  E194      P         -1.000000
+ V  E195      X                        X26
+ V  E195      U                        U14
+ P  E195      P         1.000000
+ V  E196      X                        X26
+ V  E196      U                        U14
+ P  E196      P         1.000000
+ V  E197      X                        X26
+ V  E197      U                        U14
+ P  E197      P         -1.000000
+ V  E198      X                        X26
+ V  E198      U                        U14
+ P  E198      P         -1.000000
+ V  E199      X                        X26
+ V  E199      U                        U21
+ P  E199      P         -1.000000
+ V  E200      X                        X26
+ V  E200      U                        U21
+ P  E200      P         -1.000000
+ V  E201      X                        X26
+ V  E201      U                        U21
+ P  E201      P         1.000000
+ V  E202      X                        X26
+ V  E202      U                        U21
+ P  E202      P         1.000000
+ V  E203      X                        X26
+ V  E203      U                        U22
+ P  E203      P         -1.000000
+ V  E204      X                        X26
+ V  E204      U                        U22
+ P  E204      P         -1.000000
+ V  E205      X                        X26
+ V  E205      U                        U22
+ P  E205      P         1.000000
+ V  E206      X                        X26
+ V  E206      U                        U22
+ P  E206      P         1.000000
+ V  E207      X                        X27
+ V  E207      U                        U20
+ P  E207      P         4.000000
+ V  E208      X                        X27
+ V  E208      U                        U20
+ P  E208      P         -4.000000
+ V  E209      X                        X27
+ V  E209      U                        U22
+ P  E209      P         -4.000000
+ V  E210      X                        X27
+ V  E210      U                        U22
+ P  E210      P         4.000000
+ V  E211      X                        X28
+ V  E211      U                        U15
+ P  E211      P         1.000000
+ V  E212      X                        X28
+ V  E212      U                        U15
+ P  E212      P         -1.000000
+ V  E213      X                        X28
+ V  E213      U                        U15
+ P  E213      P         -1.000000
+ V  E214      X                        X28
+ V  E214      U                        U15
+ P  E214      P         1.000000
+ V  E215      X                        X28
+ V  E215      U                        U16
+ P  E215      P         -1.000000
+ V  E216      X                        X28
+ V  E216      U                        U16
+ P  E216      P         1.000000
+ V  E217      X                        X28
+ V  E217      U                        U16
+ P  E217      P         1.000000
+ V  E218      X                        X28
+ V  E218      U                        U16
+ P  E218      P         -1.000000
+ V  E219      X                        X28
+ V  E219      U                        U19
+ P  E219      P         -1.000000
+ V  E220      X                        X28
+ V  E220      U                        U19
+ P  E220      P         1.000000
+ V  E221      X                        X28
+ V  E221      U                        U19
+ P  E221      P         1.000000
+ V  E222      X                        X28
+ V  E222      U                        U19
+ P  E222      P         -1.000000
+ V  E223      X                        X28
+ V  E223      U                        U20
+ P  E223      P         1.000000
+ V  E224      X                        X28
+ V  E224      U                        U20
+ P  E224      P         -1.000000
+ V  E225      X                        X28
+ V  E225      U                        U20
+ P  E225      P         -1.000000
+ V  E226      X                        X28
+ V  E226      U                        U20
+ P  E226      P         1.000000
+ V  E227      X                        X29
+ V  E227      U                        U15
+ P  E227      P         4.000000
+ V  E228      X                        X29
+ V  E228      U                        U15
+ P  E228      P         -4.000000
+ V  E229      X                        X29
+ V  E229      U                        U21
+ P  E229      P         -4.000000
+ V  E230      X                        X29
+ V  E230      U                        U21
+ P  E230      P         4.000000
+ V  E231      X                        X30
+ V  E231      U                        U15
+ P  E231      P         1.000000
+ V  E232      X                        X30
+ V  E232      U                        U15
+ P  E232      P         1.000000
+ V  E233      X                        X30
+ V  E233      U                        U15
+ P  E233      P         -1.000000
+ V  E234      X                        X30
+ V  E234      U                        U15
+ P  E234      P         -1.000000
+ V  E235      X                        X30
+ V  E235      U                        U16
+ P  E235      P         1.000000
+ V  E236      X                        X30
+ V  E236      U                        U16
+ P  E236      P         1.000000
+ V  E237      X                        X30
+ V  E237      U                        U16
+ P  E237      P         -1.000000
+ V  E238      X                        X30
+ V  E238      U                        U16
+ P  E238      P         -1.000000
+ V  E239      X                        X30
+ V  E239      U                        U23
+ P  E239      P         -1.000000
+ V  E240      X                        X30
+ V  E240      U                        U23
+ P  E240      P         -1.000000
+ V  E241      X                        X30
+ V  E241      U                        U23
+ P  E241      P         1.000000
+ V  E242      X                        X30
+ V  E242      U                        U23
+ P  E242      P         1.000000
+ V  E243      X                        X30
+ V  E243      U                        U24
+ P  E243      P         -1.000000
+ V  E244      X                        X30
+ V  E244      U                        U24
+ P  E244      P         -1.000000
+ V  E245      X                        X30
+ V  E245      U                        U24
+ P  E245      P         1.000000
+ V  E246      X                        X30
+ V  E246      U                        U24
+ P  E246      P         1.000000
+ V  E247      X                        X31
+ V  E247      U                        U22
+ P  E247      P         4.000000
+ V  E248      X                        X31
+ V  E248      U                        U22
+ P  E248      P         -4.000000
+ V  E249      X                        X31
+ V  E249      U                        U24
+ P  E249      P         -4.000000
+ V  E250      X                        X31
+ V  E250      U                        U24
+ P  E250      P         4.000000
+ V  E251      X                        X32
+ V  E251      U                        U17
+ P  E251      P         1.000000
+ V  E252      X                        X32
+ V  E252      U                        U17
+ P  E252      P         -1.000000
+ V  E253      X                        X32
+ V  E253      U                        U17
+ P  E253      P         -1.000000
+ V  E254      X                        X32
+ V  E254      U                        U17
+ P  E254      P         1.000000
+ V  E255      X                        X32
+ V  E255      U                        U18
+ P  E255      P         -1.000000
+ V  E256      X                        X32
+ V  E256      U                        U18
+ P  E256      P         1.000000
+ V  E257      X                        X32
+ V  E257      U                        U18
+ P  E257      P         1.000000
+ V  E258      X                        X32
+ V  E258      U                        U18
+ P  E258      P         -1.000000
+ V  E259      X                        X32
+ V  E259      U                        U21
+ P  E259      P         -1.000000
+ V  E260      X                        X32
+ V  E260      U                        U21
+ P  E260      P         1.000000
+ V  E261      X                        X32
+ V  E261      U                        U21
+ P  E261      P         1.000000
+ V  E262      X                        X32
+ V  E262      U                        U21
+ P  E262      P         -1.000000
+ V  E263      X                        X32
+ V  E263      U                        U22
+ P  E263      P         1.000000
+ V  E264      X                        X32
+ V  E264      U                        U22
+ P  E264      P         -1.000000
+ V  E265      X                        X32
+ V  E265      U                        U22
+ P  E265      P         -1.000000
+ V  E266      X                        X32
+ V  E266      U                        U22
+ P  E266      P         1.000000
+ V  E267      X                        X33
+ V  E267      U                        U19
+ P  E267      P         4.000000
+ V  E268      X                        X33
+ V  E268      U                        U19
+ P  E268      P         -4.000000
+ V  E269      X                        X33
+ V  E269      U                        U25
+ P  E269      P         -4.000000
+ V  E270      X                        X33
+ V  E270      U                        U25
+ P  E270      P         4.000000
+ V  E271      X                        X34
+ V  E271      U                        U19
+ P  E271      P         1.000000
+ V  E272      X                        X34
+ V  E272      U                        U19
+ P  E272      P         1.000000
+ V  E273      X                        X34
+ V  E273      U                        U19
+ P  E273      P         -1.000000
+ V  E274      X                        X34
+ V  E274      U                        U19
+ P  E274      P         -1.000000
+ V  E275      X                        X34
+ V  E275      U                        U20
+ P  E275      P         1.000000
+ V  E276      X                        X34
+ V  E276      U                        U20
+ P  E276      P         1.000000
+ V  E277      X                        X34
+ V  E277      U                        U20
+ P  E277      P         -1.000000
+ V  E278      X                        X34
+ V  E278      U                        U20
+ P  E278      P         -1.000000
+ V  E279      X                        X34
+ V  E279      U                        U27
+ P  E279      P         -1.000000
+ V  E280      X                        X34
+ V  E280      U                        U27
+ P  E280      P         -1.000000
+ V  E281      X                        X34
+ V  E281      U                        U27
+ P  E281      P         1.000000
+ V  E282      X                        X34
+ V  E282      U                        U27
+ P  E282      P         1.000000
+ V  E283      X                        X34
+ V  E283      U                        U28
+ P  E283      P         -1.000000
+ V  E284      X                        X34
+ V  E284      U                        U28
+ P  E284      P         -1.000000
+ V  E285      X                        X34
+ V  E285      U                        U28
+ P  E285      P         1.000000
+ V  E286      X                        X34
+ V  E286      U                        U28
+ P  E286      P         1.000000
+ V  E287      X                        X35
+ V  E287      U                        U26
+ P  E287      P         4.000000
+ V  E288      X                        X35
+ V  E288      U                        U26
+ P  E288      P         -4.000000
+ V  E289      X                        X35
+ V  E289      U                        U28
+ P  E289      P         -4.000000
+ V  E290      X                        X35
+ V  E290      U                        U28
+ P  E290      P         4.000000
+ V  E291      X                        X36
+ V  E291      U                        U21
+ P  E291      P         1.000000
+ V  E292      X                        X36
+ V  E292      U                        U21
+ P  E292      P         -1.000000
+ V  E293      X                        X36
+ V  E293      U                        U21
+ P  E293      P         -1.000000
+ V  E294      X                        X36
+ V  E294      U                        U21
+ P  E294      P         1.000000
+ V  E295      X                        X36
+ V  E295      U                        U22
+ P  E295      P         -1.000000
+ V  E296      X                        X36
+ V  E296      U                        U22
+ P  E296      P         1.000000
+ V  E297      X                        X36
+ V  E297      U                        U22
+ P  E297      P         1.000000
+ V  E298      X                        X36
+ V  E298      U                        U22
+ P  E298      P         -1.000000
+ V  E299      X                        X36
+ V  E299      U                        U25
+ P  E299      P         -1.000000
+ V  E300      X                        X36
+ V  E300      U                        U25
+ P  E300      P         1.000000
+ V  E301      X                        X36
+ V  E301      U                        U25
+ P  E301      P         1.000000
+ V  E302      X                        X36
+ V  E302      U                        U25
+ P  E302      P         -1.000000
+ V  E303      X                        X36
+ V  E303      U                        U26
+ P  E303      P         1.000000
+ V  E304      X                        X36
+ V  E304      U                        U26
+ P  E304      P         -1.000000
+ V  E305      X                        X36
+ V  E305      U                        U26
+ P  E305      P         -1.000000
+ V  E306      X                        X36
+ V  E306      U                        U26
+ P  E306      P         1.000000
+ V  E307      X                        X37
+ V  E307      U                        U21
+ P  E307      P         4.000000
+ V  E308      X                        X37
+ V  E308      U                        U21
+ P  E308      P         -4.000000
+ V  E309      X                        X37
+ V  E309      U                        U27
+ P  E309      P         -4.000000
+ V  E310      X                        X37
+ V  E310      U                        U27
+ P  E310      P         4.000000
+ V  E311      X                        X38
+ V  E311      U                        U21
+ P  E311      P         1.000000
+ V  E312      X                        X38
+ V  E312      U                        U21
+ P  E312      P         1.000000
+ V  E313      X                        X38
+ V  E313      U                        U21
+ P  E313      P         -1.000000
+ V  E314      X                        X38
+ V  E314      U                        U21
+ P  E314      P         -1.000000
+ V  E315      X                        X38
+ V  E315      U                        U22
+ P  E315      P         1.000000
+ V  E316      X                        X38
+ V  E316      U                        U22
+ P  E316      P         1.000000
+ V  E317      X                        X38
+ V  E317      U                        U22
+ P  E317      P         -1.000000
+ V  E318      X                        X38
+ V  E318      U                        U22
+ P  E318      P         -1.000000
+ V  E319      X                        X38
+ V  E319      U                        U29
+ P  E319      P         -1.000000
+ V  E320      X                        X38
+ V  E320      U                        U29
+ P  E320      P         -1.000000
+ V  E321      X                        X38
+ V  E321      U                        U29
+ P  E321      P         1.000000
+ V  E322      X                        X38
+ V  E322      U                        U29
+ P  E322      P         1.000000
+ V  E323      X                        X38
+ V  E323      U                        U30
+ P  E323      P         -1.000000
+ V  E324      X                        X38
+ V  E324      U                        U30
+ P  E324      P         -1.000000
+ V  E325      X                        X38
+ V  E325      U                        U30
+ P  E325      P         1.000000
+ V  E326      X                        X38
+ V  E326      U                        U30
+ P  E326      P         1.000000
+ V  E327      X                        X39
+ V  E327      U                        U28
+ P  E327      P         4.000000
+ V  E328      X                        X39
+ V  E328      U                        U28
+ P  E328      P         -4.000000
+ V  E329      X                        X39
+ V  E329      U                        U30
+ P  E329      P         -4.000000
+ V  E330      X                        X39
+ V  E330      U                        U30
+ P  E330      P         4.000000
+ V  E331      X                        X40
+ V  E331      U                        U23
+ P  E331      P         1.000000
+ V  E332      X                        X40
+ V  E332      U                        U23
+ P  E332      P         -1.000000
+ V  E333      X                        X40
+ V  E333      U                        U23
+ P  E333      P         -1.000000
+ V  E334      X                        X40
+ V  E334      U                        U23
+ P  E334      P         1.000000
+ V  E335      X                        X40
+ V  E335      U                        U24
+ P  E335      P         -1.000000
+ V  E336      X                        X40
+ V  E336      U                        U24
+ P  E336      P         1.000000
+ V  E337      X                        X40
+ V  E337      U                        U24
+ P  E337      P         1.000000
+ V  E338      X                        X40
+ V  E338      U                        U24
+ P  E338      P         -1.000000
+ V  E339      X                        X40
+ V  E339      U                        U27
+ P  E339      P         -1.000000
+ V  E340      X                        X40
+ V  E340      U                        U27
+ P  E340      P         1.000000
+ V  E341      X                        X40
+ V  E341      U                        U27
+ P  E341      P         1.000000
+ V  E342      X                        X40
+ V  E342      U                        U27
+ P  E342      P         -1.000000
+ V  E343      X                        X40
+ V  E343      U                        U28
+ P  E343      P         1.000000
+ V  E344      X                        X40
+ V  E344      U                        U28
+ P  E344      P         -1.000000
+ V  E345      X                        X40
+ V  E345      U                        U28
+ P  E345      P         -1.000000
+ V  E346      X                        X40
+ V  E346      U                        U28
+ P  E346      P         1.000000
+ V  E347      X                        X41
+ V  E347      U                        U25
+ P  E347      P         4.000000
+ V  E348      X                        X41
+ V  E348      U                        U25
+ P  E348      P         -4.000000
+ V  E349      X                        X41
+ V  E349      U                        U31
+ P  E349      P         -4.000000
+ V  E350      X                        X41
+ V  E350      U                        U31
+ P  E350      P         4.000000
+ V  E351      X                        X42
+ V  E351      U                        U25
+ P  E351      P         1.000000
+ V  E352      X                        X42
+ V  E352      U                        U25
+ P  E352      P         1.000000
+ V  E353      X                        X42
+ V  E353      U                        U25
+ P  E353      P         -1.000000
+ V  E354      X                        X42
+ V  E354      U                        U25
+ P  E354      P         -1.000000
+ V  E355      X                        X42
+ V  E355      U                        U26
+ P  E355      P         1.000000
+ V  E356      X                        X42
+ V  E356      U                        U26
+ P  E356      P         1.000000
+ V  E357      X                        X42
+ V  E357      U                        U26
+ P  E357      P         -1.000000
+ V  E358      X                        X42
+ V  E358      U                        U26
+ P  E358      P         -1.000000
+ V  E359      X                        X42
+ V  E359      U                        U33
+ P  E359      P         -1.000000
+ V  E360      X                        X42
+ V  E360      U                        U33
+ P  E360      P         -1.000000
+ V  E361      X                        X42
+ V  E361      U                        U33
+ P  E361      P         1.000000
+ V  E362      X                        X42
+ V  E362      U                        U33
+ P  E362      P         1.000000
+ V  E363      X                        X42
+ V  E363      U                        U34
+ P  E363      P         -1.000000
+ V  E364      X                        X42
+ V  E364      U                        U34
+ P  E364      P         -1.000000
+ V  E365      X                        X42
+ V  E365      U                        U34
+ P  E365      P         1.000000
+ V  E366      X                        X42
+ V  E366      U                        U34
+ P  E366      P         1.000000
+ V  E367      X                        X43
+ V  E367      U                        U32
+ P  E367      P         4.000000
+ V  E368      X                        X43
+ V  E368      U                        U32
+ P  E368      P         -4.000000
+ V  E369      X                        X43
+ V  E369      U                        U34
+ P  E369      P         -4.000000
+ V  E370      X                        X43
+ V  E370      U                        U34
+ P  E370      P         4.000000
+ V  E371      X                        X44
+ V  E371      U                        U27
+ P  E371      P         1.000000
+ V  E372      X                        X44
+ V  E372      U                        U27
+ P  E372      P         -1.000000
+ V  E373      X                        X44
+ V  E373      U                        U27
+ P  E373      P         -1.000000
+ V  E374      X                        X44
+ V  E374      U                        U27
+ P  E374      P         1.000000
+ V  E375      X                        X44
+ V  E375      U                        U28
+ P  E375      P         -1.000000
+ V  E376      X                        X44
+ V  E376      U                        U28
+ P  E376      P         1.000000
+ V  E377      X                        X44
+ V  E377      U                        U28
+ P  E377      P         1.000000
+ V  E378      X                        X44
+ V  E378      U                        U28
+ P  E378      P         -1.000000
+ V  E379      X                        X44
+ V  E379      U                        U31
+ P  E379      P         -1.000000
+ V  E380      X                        X44
+ V  E380      U                        U31
+ P  E380      P         1.000000
+ V  E381      X                        X44
+ V  E381      U                        U31
+ P  E381      P         1.000000
+ V  E382      X                        X44
+ V  E382      U                        U31
+ P  E382      P         -1.000000
+ V  E383      X                        X44
+ V  E383      U                        U32
+ P  E383      P         1.000000
+ V  E384      X                        X44
+ V  E384      U                        U32
+ P  E384      P         -1.000000
+ V  E385      X                        X44
+ V  E385      U                        U32
+ P  E385      P         -1.000000
+ V  E386      X                        X44
+ V  E386      U                        U32
+ P  E386      P         1.000000
+ V  E387      X                        X45
+ V  E387      U                        U27
+ P  E387      P         4.000000
+ V  E388      X                        X45
+ V  E388      U                        U27
+ P  E388      P         -4.000000
+ V  E389      X                        X45
+ V  E389      U                        U33
+ P  E389      P         -4.000000
+ V  E390      X                        X45
+ V  E390      U                        U33
+ P  E390      P         4.000000
+ V  E391      X                        X46
+ V  E391      U                        U27
+ P  E391      P         1.000000
+ V  E392      X                        X46
+ V  E392      U                        U27
+ P  E392      P         1.000000
+ V  E393      X                        X46
+ V  E393      U                        U27
+ P  E393      P         -1.000000
+ V  E394      X                        X46
+ V  E394      U                        U27
+ P  E394      P         -1.000000
+ V  E395      X                        X46
+ V  E395      U                        U28
+ P  E395      P         1.000000
+ V  E396      X                        X46
+ V  E396      U                        U28
+ P  E396      P         1.000000
+ V  E397      X                        X46
+ V  E397      U                        U28
+ P  E397      P         -1.000000
+ V  E398      X                        X46
+ V  E398      U                        U28
+ P  E398      P         -1.000000
+ V  E399      X                        X46
+ V  E399      U                        U35
+ P  E399      P         -1.000000
+ V  E400      X                        X46
+ V  E400      U                        U35
+ P  E400      P         -1.000000
+ V  E401      X                        X46
+ V  E401      U                        U35
+ P  E401      P         1.000000
+ V  E402      X                        X46
+ V  E402      U                        U35
+ P  E402      P         1.000000
+ V  E403      X                        X46
+ V  E403      U                        U36
+ P  E403      P         -1.000000
+ V  E404      X                        X46
+ V  E404      U                        U36
+ P  E404      P         -1.000000
+ V  E405      X                        X46
+ V  E405      U                        U36
+ P  E405      P         1.000000
+ V  E406      X                        X46
+ V  E406      U                        U36
+ P  E406      P         1.000000
+ V  E407      X                        X47
+ V  E407      U                        U34
+ P  E407      P         4.000000
+ V  E408      X                        X47
+ V  E408      U                        U34
+ P  E408      P         -4.000000
+ V  E409      X                        X47
+ V  E409      U                        U36
+ P  E409      P         -4.000000
+ V  E410      X                        X47
+ V  E410      U                        U36
+ P  E410      P         4.000000
+ V  E411      X                        X48
+ V  E411      U                        U29
+ P  E411      P         1.000000
+ V  E412      X                        X48
+ V  E412      U                        U29
+ P  E412      P         -1.000000
+ V  E413      X                        X48
+ V  E413      U                        U29
+ P  E413      P         -1.000000
+ V  E414      X                        X48
+ V  E414      U                        U29
+ P  E414      P         1.000000
+ V  E415      X                        X48
+ V  E415      U                        U30
+ P  E415      P         -1.000000
+ V  E416      X                        X48
+ V  E416      U                        U30
+ P  E416      P         1.000000
+ V  E417      X                        X48
+ V  E417      U                        U30
+ P  E417      P         1.000000
+ V  E418      X                        X48
+ V  E418      U                        U30
+ P  E418      P         -1.000000
+ V  E419      X                        X48
+ V  E419      U                        U33
+ P  E419      P         -1.000000
+ V  E420      X                        X48
+ V  E420      U                        U33
+ P  E420      P         1.000000
+ V  E421      X                        X48
+ V  E421      U                        U33
+ P  E421      P         1.000000
+ V  E422      X                        X48
+ V  E422      U                        U33
+ P  E422      P         -1.000000
+ V  E423      X                        X48
+ V  E423      U                        U34
+ P  E423      P         1.000000
+ V  E424      X                        X48
+ V  E424      U                        U34
+ P  E424      P         -1.000000
+ V  E425      X                        X48
+ V  E425      U                        U34
+ P  E425      P         -1.000000
+ V  E426      X                        X48
+ V  E426      U                        U34
+ P  E426      P         1.000000
+ V  E427      X                        X49
+ V  E427      U                        U31
+ P  E427      P         4.000000
+ V  E428      X                        X49
+ V  E428      U                        U31
+ P  E428      P         -4.000000
+ V  E429      X                        X49
+ V  E429      U                        U37
+ P  E429      P         -4.000000
+ V  E430      X                        X49
+ V  E430      U                        U37
+ P  E430      P         4.000000
+ V  E431      X                        X50
+ V  E431      U                        U31
+ P  E431      P         1.000000
+ V  E432      X                        X50
+ V  E432      U                        U31
+ P  E432      P         1.000000
+ V  E433      X                        X50
+ V  E433      U                        U31
+ P  E433      P         -1.000000
+ V  E434      X                        X50
+ V  E434      U                        U31
+ P  E434      P         -1.000000
+ V  E435      X                        X50
+ V  E435      U                        U32
+ P  E435      P         1.000000
+ V  E436      X                        X50
+ V  E436      U                        U32
+ P  E436      P         1.000000
+ V  E437      X                        X50
+ V  E437      U                        U32
+ P  E437      P         -1.000000
+ V  E438      X                        X50
+ V  E438      U                        U32
+ P  E438      P         -1.000000
+ V  E439      X                        X50
+ V  E439      U                        U39
+ P  E439      P         -1.000000
+ V  E440      X                        X50
+ V  E440      U                        U39
+ P  E440      P         -1.000000
+ V  E441      X                        X50
+ V  E441      U                        U39
+ P  E441      P         1.000000
+ V  E442      X                        X50
+ V  E442      U                        U39
+ P  E442      P         1.000000
+ V  E443      X                        X50
+ V  E443      U                        U40
+ P  E443      P         -1.000000
+ V  E444      X                        X50
+ V  E444      U                        U40
+ P  E444      P         -1.000000
+ V  E445      X                        X50
+ V  E445      U                        U40
+ P  E445      P         1.000000
+ V  E446      X                        X50
+ V  E446      U                        U40
+ P  E446      P         1.000000
+ V  E447      X                        X51
+ V  E447      U                        U38
+ P  E447      P         4.000000
+ V  E448      X                        X51
+ V  E448      U                        U38
+ P  E448      P         -4.000000
+ V  E449      X                        X51
+ V  E449      U                        U40
+ P  E449      P         -4.000000
+ V  E450      X                        X51
+ V  E450      U                        U40
+ P  E450      P         4.000000
+ V  E451      X                        X52
+ V  E451      U                        U33
+ P  E451      P         1.000000
+ V  E452      X                        X52
+ V  E452      U                        U33
+ P  E452      P         -1.000000
+ V  E453      X                        X52
+ V  E453      U                        U33
+ P  E453      P         -1.000000
+ V  E454      X                        X52
+ V  E454      U                        U33
+ P  E454      P         1.000000
+ V  E455      X                        X52
+ V  E455      U                        U34
+ P  E455      P         -1.000000
+ V  E456      X                        X52
+ V  E456      U                        U34
+ P  E456      P         1.000000
+ V  E457      X                        X52
+ V  E457      U                        U34
+ P  E457      P         1.000000
+ V  E458      X                        X52
+ V  E458      U                        U34
+ P  E458      P         -1.000000
+ V  E459      X                        X52
+ V  E459      U                        U37
+ P  E459      P         -1.000000
+ V  E460      X                        X52
+ V  E460      U                        U37
+ P  E460      P         1.000000
+ V  E461      X                        X52
+ V  E461      U                        U37
+ P  E461      P         1.000000
+ V  E462      X                        X52
+ V  E462      U                        U37
+ P  E462      P         -1.000000
+ V  E463      X                        X52
+ V  E463      U                        U38
+ P  E463      P         1.000000
+ V  E464      X                        X52
+ V  E464      U                        U38
+ P  E464      P         -1.000000
+ V  E465      X                        X52
+ V  E465      U                        U38
+ P  E465      P         -1.000000
+ V  E466      X                        X52
+ V  E466      U                        U38
+ P  E466      P         1.000000
+ V  E467      X                        X53
+ V  E467      U                        U33
+ P  E467      P         4.000000
+ V  E468      X                        X53
+ V  E468      U                        U33
+ P  E468      P         -4.000000
+ V  E469      X                        X53
+ V  E469      U                        U39
+ P  E469      P         -4.000000
+ V  E470      X                        X53
+ V  E470      U                        U39
+ P  E470      P         4.000000
+ V  E471      X                        X54
+ V  E471      U                        U33
+ P  E471      P         1.000000
+ V  E472      X                        X54
+ V  E472      U                        U33
+ P  E472      P         1.000000
+ V  E473      X                        X54
+ V  E473      U                        U33
+ P  E473      P         -1.000000
+ V  E474      X                        X54
+ V  E474      U                        U33
+ P  E474      P         -1.000000
+ V  E475      X                        X54
+ V  E475      U                        U34
+ P  E475      P         1.000000
+ V  E476      X                        X54
+ V  E476      U                        U34
+ P  E476      P         1.000000
+ V  E477      X                        X54
+ V  E477      U                        U34
+ P  E477      P         -1.000000
+ V  E478      X                        X54
+ V  E478      U                        U34
+ P  E478      P         -1.000000
+ V  E479      X                        X54
+ V  E479      U                        U41
+ P  E479      P         -1.000000
+ V  E480      X                        X54
+ V  E480      U                        U41
+ P  E480      P         -1.000000
+ V  E481      X                        X54
+ V  E481      U                        U41
+ P  E481      P         1.000000
+ V  E482      X                        X54
+ V  E482      U                        U41
+ P  E482      P         1.000000
+ V  E483      X                        X54
+ V  E483      U                        U42
+ P  E483      P         -1.000000
+ V  E484      X                        X54
+ V  E484      U                        U42
+ P  E484      P         -1.000000
+ V  E485      X                        X54
+ V  E485      U                        U42
+ P  E485      P         1.000000
+ V  E486      X                        X54
+ V  E486      U                        U42
+ P  E486      P         1.000000
+ V  E487      X                        X55
+ V  E487      U                        U40
+ P  E487      P         4.000000
+ V  E488      X                        X55
+ V  E488      U                        U40
+ P  E488      P         -4.000000
+ V  E489      X                        X55
+ V  E489      U                        U42
+ P  E489      P         -4.000000
+ V  E490      X                        X55
+ V  E490      U                        U42
+ P  E490      P         4.000000
+ V  E491      X                        X56
+ V  E491      U                        U35
+ P  E491      P         1.000000
+ V  E492      X                        X56
+ V  E492      U                        U35
+ P  E492      P         -1.000000
+ V  E493      X                        X56
+ V  E493      U                        U35
+ P  E493      P         -1.000000
+ V  E494      X                        X56
+ V  E494      U                        U35
+ P  E494      P         1.000000
+ V  E495      X                        X56
+ V  E495      U                        U36
+ P  E495      P         -1.000000
+ V  E496      X                        X56
+ V  E496      U                        U36
+ P  E496      P         1.000000
+ V  E497      X                        X56
+ V  E497      U                        U36
+ P  E497      P         1.000000
+ V  E498      X                        X56
+ V  E498      U                        U36
+ P  E498      P         -1.000000
+ V  E499      X                        X56
+ V  E499      U                        U39
+ P  E499      P         -1.000000
+ V  E500      X                        X56
+ V  E500      U                        U39
+ P  E500      P         1.000000
+ V  E501      X                        X56
+ V  E501      U                        U39
+ P  E501      P         1.000000
+ V  E502      X                        X56
+ V  E502      U                        U39
+ P  E502      P         -1.000000
+ V  E503      X                        X56
+ V  E503      U                        U40
+ P  E503      P         1.000000
+ V  E504      X                        X56
+ V  E504      U                        U40
+ P  E504      P         -1.000000
+ V  E505      X                        X56
+ V  E505      U                        U40
+ P  E505      P         -1.000000
+ V  E506      X                        X56
+ V  E506      U                        U40
+ P  E506      P         1.000000
+ V  E507      X                        X57
+ V  E507      U                        U37
+ P  E507      P         4.000000
+ V  E508      X                        X57
+ V  E508      U                        U37
+ P  E508      P         -4.000000
+ V  E509      X                        X57
+ V  E509      U                        U43
+ P  E509      P         -4.000000
+ V  E510      X                        X57
+ V  E510      U                        U43
+ P  E510      P         4.000000
+ V  E511      X                        X58
+ V  E511      U                        U37
+ P  E511      P         1.000000
+ V  E512      X                        X58
+ V  E512      U                        U37
+ P  E512      P         1.000000
+ V  E513      X                        X58
+ V  E513      U                        U37
+ P  E513      P         -1.000000
+ V  E514      X                        X58
+ V  E514      U                        U37
+ P  E514      P         -1.000000
+ V  E515      X                        X58
+ V  E515      U                        U38
+ P  E515      P         1.000000
+ V  E516      X                        X58
+ V  E516      U                        U38
+ P  E516      P         1.000000
+ V  E517      X                        X58
+ V  E517      U                        U38
+ P  E517      P         -1.000000
+ V  E518      X                        X58
+ V  E518      U                        U38
+ P  E518      P         -1.000000
+ V  E519      X                        X58
+ V  E519      U                        U45
+ P  E519      P         -1.000000
+ V  E520      X                        X58
+ V  E520      U                        U45
+ P  E520      P         -1.000000
+ V  E521      X                        X58
+ V  E521      U                        U45
+ P  E521      P         1.000000
+ V  E522      X                        X58
+ V  E522      U                        U45
+ P  E522      P         1.000000
+ V  E523      X                        X58
+ V  E523      U                        U46
+ P  E523      P         -1.000000
+ V  E524      X                        X58
+ V  E524      U                        U46
+ P  E524      P         -1.000000
+ V  E525      X                        X58
+ V  E525      U                        U46
+ P  E525      P         1.000000
+ V  E526      X                        X58
+ V  E526      U                        U46
+ P  E526      P         1.000000
+ V  E527      X                        X59
+ V  E527      U                        U44
+ P  E527      P         4.000000
+ V  E528      X                        X59
+ V  E528      U                        U44
+ P  E528      P         -4.000000
+ V  E529      X                        X59
+ V  E529      U                        U46
+ P  E529      P         -4.000000
+ V  E530      X                        X59
+ V  E530      U                        U46
+ P  E530      P         4.000000
+ V  E531      X                        X60
+ V  E531      U                        U39
+ P  E531      P         1.000000
+ V  E532      X                        X60
+ V  E532      U                        U39
+ P  E532      P         -1.000000
+ V  E533      X                        X60
+ V  E533      U                        U39
+ P  E533      P         -1.000000
+ V  E534      X                        X60
+ V  E534      U                        U39
+ P  E534      P         1.000000
+ V  E535      X                        X60
+ V  E535      U                        U40
+ P  E535      P         -1.000000
+ V  E536      X                        X60
+ V  E536      U                        U40
+ P  E536      P         1.000000
+ V  E537      X                        X60
+ V  E537      U                        U40
+ P  E537      P         1.000000
+ V  E538      X                        X60
+ V  E538      U                        U40
+ P  E538      P         -1.000000
+ V  E539      X                        X60
+ V  E539      U                        U43
+ P  E539      P         -1.000000
+ V  E540      X                        X60
+ V  E540      U                        U43
+ P  E540      P         1.000000
+ V  E541      X                        X60
+ V  E541      U                        U43
+ P  E541      P         1.000000
+ V  E542      X                        X60
+ V  E542      U                        U43
+ P  E542      P         -1.000000
+ V  E543      X                        X60
+ V  E543      U                        U44
+ P  E543      P         1.000000
+ V  E544      X                        X60
+ V  E544      U                        U44
+ P  E544      P         -1.000000
+ V  E545      X                        X60
+ V  E545      U                        U44
+ P  E545      P         -1.000000
+ V  E546      X                        X60
+ V  E546      U                        U44
+ P  E546      P         1.000000
+ V  E547      X                        X61
+ V  E547      U                        U39
+ P  E547      P         4.000000
+ V  E548      X                        X61
+ V  E548      U                        U39
+ P  E548      P         -4.000000
+ V  E549      X                        X61
+ V  E549      U                        U45
+ P  E549      P         -4.000000
+ V  E550      X                        X61
+ V  E550      U                        U45
+ P  E550      P         4.000000
+ V  E551      X                        X62
+ V  E551      U                        U39
+ P  E551      P         1.000000
+ V  E552      X                        X62
+ V  E552      U                        U39
+ P  E552      P         1.000000
+ V  E553      X                        X62
+ V  E553      U                        U39
+ P  E553      P         -1.000000
+ V  E554      X                        X62
+ V  E554      U                        U39
+ P  E554      P         -1.000000
+ V  E555      X                        X62
+ V  E555      U                        U40
+ P  E555      P         1.000000
+ V  E556      X                        X62
+ V  E556      U                        U40
+ P  E556      P         1.000000
+ V  E557      X                        X62
+ V  E557      U                        U40
+ P  E557      P         -1.000000
+ V  E558      X                        X62
+ V  E558      U                        U40
+ P  E558      P         -1.000000
+ V  E559      X                        X62
+ V  E559      U                        U47
+ P  E559      P         -1.000000
+ V  E560      X                        X62
+ V  E560      U                        U47
+ P  E560      P         -1.000000
+ V  E561      X                        X62
+ V  E561      U                        U47
+ P  E561      P         1.000000
+ V  E562      X                        X62
+ V  E562      U                        U47
+ P  E562      P         1.000000
+ V  E563      X                        X62
+ V  E563      U                        U48
+ P  E563      P         -1.000000
+ V  E564      X                        X62
+ V  E564      U                        U48
+ P  E564      P         -1.000000
+ V  E565      X                        X62
+ V  E565      U                        U48
+ P  E565      P         1.000000
+ V  E566      X                        X62
+ V  E566      U                        U48
+ P  E566      P         1.000000
+ V  E567      X                        X63
+ V  E567      U                        U46
+ P  E567      P         4.000000
+ V  E568      X                        X63
+ V  E568      U                        U46
+ P  E568      P         -4.000000
+ V  E569      X                        X63
+ V  E569      U                        U48
+ P  E569      P         -4.000000
+ V  E570      X                        X63
+ V  E570      U                        U48
+ P  E570      P         4.000000
+ V  E571      X                        X64
+ V  E571      U                        U41
+ P  E571      P         1.000000
+ V  E572      X                        X64
+ V  E572      U                        U41
+ P  E572      P         -1.000000
+ V  E573      X                        X64
+ V  E573      U                        U41
+ P  E573      P         -1.000000
+ V  E574      X                        X64
+ V  E574      U                        U41
+ P  E574      P         1.000000
+ V  E575      X                        X64
+ V  E575      U                        U42
+ P  E575      P         -1.000000
+ V  E576      X                        X64
+ V  E576      U                        U42
+ P  E576      P         1.000000
+ V  E577      X                        X64
+ V  E577      U                        U42
+ P  E577      P         1.000000
+ V  E578      X                        X64
+ V  E578      U                        U42
+ P  E578      P         -1.000000
+ V  E579      X                        X64
+ V  E579      U                        U45
+ P  E579      P         -1.000000
+ V  E580      X                        X64
+ V  E580      U                        U45
+ P  E580      P         1.000000
+ V  E581      X                        X64
+ V  E581      U                        U45
+ P  E581      P         1.000000
+ V  E582      X                        X64
+ V  E582      U                        U45
+ P  E582      P         -1.000000
+ V  E583      X                        X64
+ V  E583      U                        U46
+ P  E583      P         1.000000
+ V  E584      X                        X64
+ V  E584      U                        U46
+ P  E584      P         -1.000000
+ V  E585      X                        X64
+ V  E585      U                        U46
+ P  E585      P         -1.000000
+ V  E586      X                        X64
+ V  E586      U                        U46
+ P  E586      P         1.000000
+ V  E587      X                        X65
+ V  E587      U                        U43
+ P  E587      P         4.000000
+ V  E588      X                        X65
+ V  E588      U                        U43
+ P  E588      P         -4.000000
+ V  E589      X                        X65
+ V  E589      U                        U49
+ P  E589      P         -4.000000
+ V  E590      X                        X65
+ V  E590      U                        U49
+ P  E590      P         4.000000
+ V  E591      X                        X66
+ V  E591      U                        U43
+ P  E591      P         1.000000
+ V  E592      X                        X66
+ V  E592      U                        U43
+ P  E592      P         1.000000
+ V  E593      X                        X66
+ V  E593      U                        U43
+ P  E593      P         -1.000000
+ V  E594      X                        X66
+ V  E594      U                        U43
+ P  E594      P         -1.000000
+ V  E595      X                        X66
+ V  E595      U                        U44
+ P  E595      P         1.000000
+ V  E596      X                        X66
+ V  E596      U                        U44
+ P  E596      P         1.000000
+ V  E597      X                        X66
+ V  E597      U                        U44
+ P  E597      P         -1.000000
+ V  E598      X                        X66
+ V  E598      U                        U44
+ P  E598      P         -1.000000
+ V  E599      X                        X66
+ V  E599      U                        U51
+ P  E599      P         -1.000000
+ V  E600      X                        X66
+ V  E600      U                        U51
+ P  E600      P         -1.000000
+ V  E601      X                        X66
+ V  E601      U                        U51
+ P  E601      P         1.000000
+ V  E602      X                        X66
+ V  E602      U                        U51
+ P  E602      P         1.000000
+ V  E603      X                        X66
+ V  E603      U                        U52
+ P  E603      P         -1.000000
+ V  E604      X                        X66
+ V  E604      U                        U52
+ P  E604      P         -1.000000
+ V  E605      X                        X66
+ V  E605      U                        U52
+ P  E605      P         1.000000
+ V  E606      X                        X66
+ V  E606      U                        U52
+ P  E606      P         1.000000
+ V  E607      X                        X67
+ V  E607      U                        U50
+ P  E607      P         4.000000
+ V  E608      X                        X67
+ V  E608      U                        U50
+ P  E608      P         -4.000000
+ V  E609      X                        X67
+ V  E609      U                        U52
+ P  E609      P         -4.000000
+ V  E610      X                        X67
+ V  E610      U                        U52
+ P  E610      P         4.000000
+ V  E611      X                        X68
+ V  E611      U                        U45
+ P  E611      P         1.000000
+ V  E612      X                        X68
+ V  E612      U                        U45
+ P  E612      P         -1.000000
+ V  E613      X                        X68
+ V  E613      U                        U45
+ P  E613      P         -1.000000
+ V  E614      X                        X68
+ V  E614      U                        U45
+ P  E614      P         1.000000
+ V  E615      X                        X68
+ V  E615      U                        U46
+ P  E615      P         -1.000000
+ V  E616      X                        X68
+ V  E616      U                        U46
+ P  E616      P         1.000000
+ V  E617      X                        X68
+ V  E617      U                        U46
+ P  E617      P         1.000000
+ V  E618      X                        X68
+ V  E618      U                        U46
+ P  E618      P         -1.000000
+ V  E619      X                        X68
+ V  E619      U                        U49
+ P  E619      P         -1.000000
+ V  E620      X                        X68
+ V  E620      U                        U49
+ P  E620      P         1.000000
+ V  E621      X                        X68
+ V  E621      U                        U49
+ P  E621      P         1.000000
+ V  E622      X                        X68
+ V  E622      U                        U49
+ P  E622      P         -1.000000
+ V  E623      X                        X68
+ V  E623      U                        U50
+ P  E623      P         1.000000
+ V  E624      X                        X68
+ V  E624      U                        U50
+ P  E624      P         -1.000000
+ V  E625      X                        X68
+ V  E625      U                        U50
+ P  E625      P         -1.000000
+ V  E626      X                        X68
+ V  E626      U                        U50
+ P  E626      P         1.000000
+ V  E627      X                        X69
+ V  E627      U                        U45
+ P  E627      P         4.000000
+ V  E628      X                        X69
+ V  E628      U                        U45
+ P  E628      P         -4.000000
+ V  E629      X                        X69
+ V  E629      U                        U51
+ P  E629      P         -4.000000
+ V  E630      X                        X69
+ V  E630      U                        U51
+ P  E630      P         4.000000
+ V  E631      X                        X70
+ V  E631      U                        U45
+ P  E631      P         1.000000
+ V  E632      X                        X70
+ V  E632      U                        U45
+ P  E632      P         1.000000
+ V  E633      X                        X70
+ V  E633      U                        U45
+ P  E633      P         -1.000000
+ V  E634      X                        X70
+ V  E634      U                        U45
+ P  E634      P         -1.000000
+ V  E635      X                        X70
+ V  E635      U                        U46
+ P  E635      P         1.000000
+ V  E636      X                        X70
+ V  E636      U                        U46
+ P  E636      P         1.000000
+ V  E637      X                        X70
+ V  E637      U                        U46
+ P  E637      P         -1.000000
+ V  E638      X                        X70
+ V  E638      U                        U46
+ P  E638      P         -1.000000
+ V  E639      X                        X70
+ V  E639      U                        U53
+ P  E639      P         -1.000000
+ V  E640      X                        X70
+ V  E640      U                        U53
+ P  E640      P         -1.000000
+ V  E641      X                        X70
+ V  E641      U                        U53
+ P  E641      P         1.000000
+ V  E642      X                        X70
+ V  E642      U                        U53
+ P  E642      P         1.000000
+ V  E643      X                        X70
+ V  E643      U                        U54
+ P  E643      P         -1.000000
+ V  E644      X                        X70
+ V  E644      U                        U54
+ P  E644      P         -1.000000
+ V  E645      X                        X70
+ V  E645      U                        U54
+ P  E645      P         1.000000
+ V  E646      X                        X70
+ V  E646      U                        U54
+ P  E646      P         1.000000
+ V  E647      X                        X71
+ V  E647      U                        U52
+ P  E647      P         4.000000
+ V  E648      X                        X71
+ V  E648      U                        U52
+ P  E648      P         -4.000000
+ V  E649      X                        X71
+ V  E649      U                        U54
+ P  E649      P         -4.000000
+ V  E650      X                        X71
+ V  E650      U                        U54
+ P  E650      P         4.000000
+ V  E651      X                        X72
+ V  E651      U                        U47
+ P  E651      P         1.000000
+ V  E652      X                        X72
+ V  E652      U                        U47
+ P  E652      P         -1.000000
+ V  E653      X                        X72
+ V  E653      U                        U47
+ P  E653      P         -1.000000
+ V  E654      X                        X72
+ V  E654      U                        U47
+ P  E654      P         1.000000
+ V  E655      X                        X72
+ V  E655      U                        U48
+ P  E655      P         -1.000000
+ V  E656      X                        X72
+ V  E656      U                        U48
+ P  E656      P         1.000000
+ V  E657      X                        X72
+ V  E657      U                        U48
+ P  E657      P         1.000000
+ V  E658      X                        X72
+ V  E658      U                        U48
+ P  E658      P         -1.000000
+ V  E659      X                        X72
+ V  E659      U                        U51
+ P  E659      P         -1.000000
+ V  E660      X                        X72
+ V  E660      U                        U51
+ P  E660      P         1.000000
+ V  E661      X                        X72
+ V  E661      U                        U51
+ P  E661      P         1.000000
+ V  E662      X                        X72
+ V  E662      U                        U51
+ P  E662      P         -1.000000
+ V  E663      X                        X72
+ V  E663      U                        U52
+ P  E663      P         1.000000
+ V  E664      X                        X72
+ V  E664      U                        U52
+ P  E664      P         -1.000000
+ V  E665      X                        X72
+ V  E665      U                        U52
+ P  E665      P         -1.000000
+ V  E666      X                        X72
+ V  E666      U                        U52
+ P  E666      P         1.000000
+ V  E667      X                        X73
+ V  E667      U                        U49
+ P  E667      P         4.000000
+ V  E668      X                        X73
+ V  E668      U                        U49
+ P  E668      P         -4.000000
+ V  E669      X                        X73
+ V  E669      U                        U55
+ P  E669      P         -4.000000
+ V  E670      X                        X73
+ V  E670      U                        U55
+ P  E670      P         4.000000
+ V  E671      X                        X74
+ V  E671      U                        U49
+ P  E671      P         1.000000
+ V  E672      X                        X74
+ V  E672      U                        U49
+ P  E672      P         1.000000
+ V  E673      X                        X74
+ V  E673      U                        U49
+ P  E673      P         -1.000000
+ V  E674      X                        X74
+ V  E674      U                        U49
+ P  E674      P         -1.000000
+ V  E675      X                        X74
+ V  E675      U                        U50
+ P  E675      P         1.000000
+ V  E676      X                        X74
+ V  E676      U                        U50
+ P  E676      P         1.000000
+ V  E677      X                        X74
+ V  E677      U                        U50
+ P  E677      P         -1.000000
+ V  E678      X                        X74
+ V  E678      U                        U50
+ P  E678      P         -1.000000
+ V  E679      X                        X74
+ V  E679      U                        U57
+ P  E679      P         -1.000000
+ V  E680      X                        X74
+ V  E680      U                        U57
+ P  E680      P         -1.000000
+ V  E681      X                        X74
+ V  E681      U                        U57
+ P  E681      P         1.000000
+ V  E682      X                        X74
+ V  E682      U                        U57
+ P  E682      P         1.000000
+ V  E683      X                        X74
+ V  E683      U                        U58
+ P  E683      P         -1.000000
+ V  E684      X                        X74
+ V  E684      U                        U58
+ P  E684      P         -1.000000
+ V  E685      X                        X74
+ V  E685      U                        U58
+ P  E685      P         1.000000
+ V  E686      X                        X74
+ V  E686      U                        U58
+ P  E686      P         1.000000
+ V  E687      X                        X75
+ V  E687      U                        U56
+ P  E687      P         4.000000
+ V  E688      X                        X75
+ V  E688      U                        U56
+ P  E688      P         -4.000000
+ V  E689      X                        X75
+ V  E689      U                        U58
+ P  E689      P         -4.000000
+ V  E690      X                        X75
+ V  E690      U                        U58
+ P  E690      P         4.000000
+ V  E691      X                        X76
+ V  E691      U                        U51
+ P  E691      P         1.000000
+ V  E692      X                        X76
+ V  E692      U                        U51
+ P  E692      P         -1.000000
+ V  E693      X                        X76
+ V  E693      U                        U51
+ P  E693      P         -1.000000
+ V  E694      X                        X76
+ V  E694      U                        U51
+ P  E694      P         1.000000
+ V  E695      X                        X76
+ V  E695      U                        U52
+ P  E695      P         -1.000000
+ V  E696      X                        X76
+ V  E696      U                        U52
+ P  E696      P         1.000000
+ V  E697      X                        X76
+ V  E697      U                        U52
+ P  E697      P         1.000000
+ V  E698      X                        X76
+ V  E698      U                        U52
+ P  E698      P         -1.000000
+ V  E699      X                        X76
+ V  E699      U                        U55
+ P  E699      P         -1.000000
+ V  E700      X                        X76
+ V  E700      U                        U55
+ P  E700      P         1.000000
+ V  E701      X                        X76
+ V  E701      U                        U55
+ P  E701      P         1.000000
+ V  E702      X                        X76
+ V  E702      U                        U55
+ P  E702      P         -1.000000
+ V  E703      X                        X76
+ V  E703      U                        U56
+ P  E703      P         1.000000
+ V  E704      X                        X76
+ V  E704      U                        U56
+ P  E704      P         -1.000000
+ V  E705      X                        X76
+ V  E705      U                        U56
+ P  E705      P         -1.000000
+ V  E706      X                        X76
+ V  E706      U                        U56
+ P  E706      P         1.000000
+ V  E707      X                        X77
+ V  E707      U                        U51
+ P  E707      P         4.000000
+ V  E708      X                        X77
+ V  E708      U                        U51
+ P  E708      P         -4.000000
+ V  E709      X                        X77
+ V  E709      U                        U57
+ P  E709      P         -4.000000
+ V  E710      X                        X77
+ V  E710      U                        U57
+ P  E710      P         4.000000
+ V  E711      X                        X78
+ V  E711      U                        U51
+ P  E711      P         1.000000
+ V  E712      X                        X78
+ V  E712      U                        U51
+ P  E712      P         1.000000
+ V  E713      X                        X78
+ V  E713      U                        U51
+ P  E713      P         -1.000000
+ V  E714      X                        X78
+ V  E714      U                        U51
+ P  E714      P         -1.000000
+ V  E715      X                        X78
+ V  E715      U                        U52
+ P  E715      P         1.000000
+ V  E716      X                        X78
+ V  E716      U                        U52
+ P  E716      P         1.000000
+ V  E717      X                        X78
+ V  E717      U                        U52
+ P  E717      P         -1.000000
+ V  E718      X                        X78
+ V  E718      U                        U52
+ P  E718      P         -1.000000
+ V  E719      X                        X78
+ V  E719      U                        U59
+ P  E719      P         -1.000000
+ V  E720      X                        X78
+ V  E720      U                        U59
+ P  E720      P         -1.000000
+ V  E721      X                        X78
+ V  E721      U                        U59
+ P  E721      P         1.000000
+ V  E722      X                        X78
+ V  E722      U                        U59
+ P  E722      P         1.000000
+ V  E723      X                        X78
+ V  E723      U                        U60
+ P  E723      P         -1.000000
+ V  E724      X                        X78
+ V  E724      U                        U60
+ P  E724      P         -1.000000
+ V  E725      X                        X78
+ V  E725      U                        U60
+ P  E725      P         1.000000
+ V  E726      X                        X78
+ V  E726      U                        U60
+ P  E726      P         1.000000
+ V  E727      X                        X79
+ V  E727      U                        U58
+ P  E727      P         4.000000
+ V  E728      X                        X79
+ V  E728      U                        U58
+ P  E728      P         -4.000000
+ V  E729      X                        X79
+ V  E729      U                        U60
+ P  E729      P         -4.000000
+ V  E730      X                        X79
+ V  E730      U                        U60
+ P  E730      P         4.000000
+ V  E731      X                        X80
+ V  E731      U                        U53
+ P  E731      P         1.000000
+ V  E732      X                        X80
+ V  E732      U                        U53
+ P  E732      P         -1.000000
+ V  E733      X                        X80
+ V  E733      U                        U53
+ P  E733      P         -1.000000
+ V  E734      X                        X80
+ V  E734      U                        U53
+ P  E734      P         1.000000
+ V  E735      X                        X80
+ V  E735      U                        U54
+ P  E735      P         -1.000000
+ V  E736      X                        X80
+ V  E736      U                        U54
+ P  E736      P         1.000000
+ V  E737      X                        X80
+ V  E737      U                        U54
+ P  E737      P         1.000000
+ V  E738      X                        X80
+ V  E738      U                        U54
+ P  E738      P         -1.000000
+ V  E739      X                        X80
+ V  E739      U                        U57
+ P  E739      P         -1.000000
+ V  E740      X                        X80
+ V  E740      U                        U57
+ P  E740      P         1.000000
+ V  E741      X                        X80
+ V  E741      U                        U57
+ P  E741      P         1.000000
+ V  E742      X                        X80
+ V  E742      U                        U57
+ P  E742      P         -1.000000
+ V  E743      X                        X80
+ V  E743      U                        U58
+ P  E743      P         1.000000
+ V  E744      X                        X80
+ V  E744      U                        U58
+ P  E744      P         -1.000000
+ V  E745      X                        X80
+ V  E745      U                        U58
+ P  E745      P         -1.000000
+ V  E746      X                        X80
+ V  E746      U                        U58
+ P  E746      P         1.000000
+ V  E747      X                        X81
+ V  E747      U                        U5
+ P  E747      P         4.000000
+ V  E748      X                        X82
+ V  E748      U                        U5
+ P  E748      P         4.000000
+ V  E749      X                        X82
+ V  E749      U                        U5
+ P  E749      P         -4.000000
+ V  E750      X                        X82
+ V  E750      U                        U11
+ P  E750      P         -4.000000
+ V  E751      X                        X82
+ V  E751      U                        U11
+ P  E751      P         4.000000
+ V  E752      X                        X83
+ V  E752      U                        U11
+ P  E752      P         4.000000
+ V  E753      X                        X83
+ V  E753      U                        U11
+ P  E753      P         -4.000000
+ V  E754      X                        X83
+ V  E754      U                        U17
+ P  E754      P         -4.000000
+ V  E755      X                        X83
+ V  E755      U                        U17
+ P  E755      P         4.000000
+ V  E756      X                        X84
+ V  E756      U                        U17
+ P  E756      P         4.000000
+ V  E757      X                        X84
+ V  E757      U                        U17
+ P  E757      P         -4.000000
+ V  E758      X                        X84
+ V  E758      U                        U23
+ P  E758      P         -4.000000
+ V  E759      X                        X84
+ V  E759      U                        U23
+ P  E759      P         4.000000
+ V  E760      X                        X85
+ V  E760      U                        U23
+ P  E760      P         4.000000
+ V  E761      X                        X85
+ V  E761      U                        U23
+ P  E761      P         -4.000000
+ V  E762      X                        X85
+ V  E762      U                        U29
+ P  E762      P         -4.000000
+ V  E763      X                        X85
+ V  E763      U                        U29
+ P  E763      P         4.000000
+ V  E764      X                        X86
+ V  E764      U                        U29
+ P  E764      P         4.000000
+ V  E765      X                        X86
+ V  E765      U                        U29
+ P  E765      P         -4.000000
+ V  E766      X                        X86
+ V  E766      U                        U35
+ P  E766      P         -4.000000
+ V  E767      X                        X86
+ V  E767      U                        U35
+ P  E767      P         4.000000
+ V  E768      X                        X87
+ V  E768      U                        U35
+ P  E768      P         4.000000
+ V  E769      X                        X87
+ V  E769      U                        U35
+ P  E769      P         -4.000000
+ V  E770      X                        X87
+ V  E770      U                        U41
+ P  E770      P         -4.000000
+ V  E771      X                        X87
+ V  E771      U                        U41
+ P  E771      P         4.000000
+ V  E772      X                        X88
+ V  E772      U                        U41
+ P  E772      P         4.000000
+ V  E773      X                        X88
+ V  E773      U                        U41
+ P  E773      P         -4.000000
+ V  E774      X                        X88
+ V  E774      U                        U47
+ P  E774      P         -4.000000
+ V  E775      X                        X88
+ V  E775      U                        U47
+ P  E775      P         4.000000
+ V  E776      X                        X89
+ V  E776      U                        U47
+ P  E776      P         4.000000
+ V  E777      X                        X89
+ V  E777      U                        U47
+ P  E777      P         -4.000000
+ V  E778      X                        X89
+ V  E778      U                        U53
+ P  E778      P         -4.000000
+ V  E779      X                        X89
+ V  E779      U                        U53
+ P  E779      P         4.000000
+ V  E780      X                        X90
+ V  E780      U                        U53
+ P  E780      P         4.000000
+ V  E781      X                        X90
+ V  E781      U                        U53
+ P  E781      P         -4.000000
+ V  E782      X                        X90
+ V  E782      U                        U59
+ P  E782      P         -4.000000
+ V  E783      X                        X90
+ V  E783      U                        U59
+ P  E783      P         4.000000
+
+GROUP USES
+
+ E  C1        E1        
+ E  C3        E2        
+ E  C4        E3        
+ E  C3        E4        
+ E  C4        E5        
+ E  C2        E6        
+ E  C4        E7        
+ E  C2        E8        
+ E  C4        E9        
+ E  C1        E10       
+ E  C2        E11       
+ E  C1        E12       
+ E  C2        E13       
+ E  C3        E14       
+ E  C5        E15       
+ E  C6        E16       
+ E  C5        E17       
+ E  C6        E18       
+ E  C4        E19       
+ E  C6        E20       
+ E  C4        E21       
+ E  C6        E22       
+ E  C3        E23       
+ E  C4        E24       
+ E  C3        E25       
+ E  C4        E26       
+ E  C1        E27       
+ E  C7        E28       
+ E  C1        E29       
+ E  C7        E30       
+ E  C1        E31       
+ E  C2        E32       
+ E  C9        E33       
+ E  C10       E34       
+ E  C1        E35       
+ E  C2        E36       
+ E  C9        E37       
+ E  C10       E38       
+ E  C1        E39       
+ E  C2        E40       
+ E  C9        E41       
+ E  C10       E42       
+ E  C1        E43       
+ E  C2        E44       
+ E  C9        E45       
+ E  C10       E46       
+ E  C8        E47       
+ E  C10       E48       
+ E  C8        E49       
+ E  C10       E50       
+ E  C3        E51       
+ E  C4        E52       
+ E  C7        E53       
+ E  C8        E54       
+ E  C3        E55       
+ E  C4        E56       
+ E  C7        E57       
+ E  C8        E58       
+ E  C3        E59       
+ E  C4        E60       
+ E  C7        E61       
+ E  C8        E62       
+ E  C3        E63       
+ E  C4        E64       
+ E  C7        E65       
+ E  C8        E66       
+ E  C3        E67       
+ E  C9        E68       
+ E  C3        E69       
+ E  C9        E70       
+ E  C3        E71       
+ E  C4        E72       
+ E  C11       E73       
+ E  C12       E74       
+ E  C3        E75       
+ E  C4        E76       
+ E  C11       E77       
+ E  C12       E78       
+ E  C3        E79       
+ E  C4        E80       
+ E  C11       E81       
+ E  C12       E82       
+ E  C3        E83       
+ E  C4        E84       
+ E  C11       E85       
+ E  C12       E86       
+ E  C10       E87       
+ E  C12       E88       
+ E  C10       E89       
+ E  C12       E90       
+ E  C5        E91       
+ E  C6        E92       
+ E  C9        E93       
+ E  C10       E94       
+ E  C5        E95       
+ E  C6        E96       
+ E  C9        E97       
+ E  C10       E98       
+ E  C5        E99       
+ E  C6        E100      
+ E  C9        E101      
+ E  C10       E102      
+ E  C5        E103      
+ E  C6        E104      
+ E  C9        E105      
+ E  C10       E106      
+ E  C7        E107      
+ E  C13       E108      
+ E  C7        E109      
+ E  C13       E110      
+ E  C7        E111      
+ E  C8        E112      
+ E  C15       E113      
+ E  C16       E114      
+ E  C7        E115      
+ E  C8        E116      
+ E  C15       E117      
+ E  C16       E118      
+ E  C7        E119      
+ E  C8        E120      
+ E  C15       E121      
+ E  C16       E122      
+ E  C7        E123      
+ E  C8        E124      
+ E  C15       E125      
+ E  C16       E126      
+ E  C14       E127      
+ E  C16       E128      
+ E  C14       E129      
+ E  C16       E130      
+ E  C9        E131      
+ E  C10       E132      
+ E  C13       E133      
+ E  C14       E134      
+ E  C9        E135      
+ E  C10       E136      
+ E  C13       E137      
+ E  C14       E138      
+ E  C9        E139      
+ E  C10       E140      
+ E  C13       E141      
+ E  C14       E142      
+ E  C9        E143      
+ E  C10       E144      
+ E  C13       E145      
+ E  C14       E146      
+ E  C9        E147      
+ E  C15       E148      
+ E  C9        E149      
+ E  C15       E150      
+ E  C9        E151      
+ E  C10       E152      
+ E  C17       E153      
+ E  C18       E154      
+ E  C9        E155      
+ E  C10       E156      
+ E  C17       E157      
+ E  C18       E158      
+ E  C9        E159      
+ E  C10       E160      
+ E  C17       E161      
+ E  C18       E162      
+ E  C9        E163      
+ E  C10       E164      
+ E  C17       E165      
+ E  C18       E166      
+ E  C16       E167      
+ E  C18       E168      
+ E  C16       E169      
+ E  C18       E170      
+ E  C11       E171      
+ E  C12       E172      
+ E  C15       E173      
+ E  C16       E174      
+ E  C11       E175      
+ E  C12       E176      
+ E  C15       E177      
+ E  C16       E178      
+ E  C11       E179      
+ E  C12       E180      
+ E  C15       E181      
+ E  C16       E182      
+ E  C11       E183      
+ E  C12       E184      
+ E  C15       E185      
+ E  C16       E186      
+ E  C13       E187      
+ E  C19       E188      
+ E  C13       E189      
+ E  C19       E190      
+ E  C13       E191      
+ E  C14       E192      
+ E  C21       E193      
+ E  C22       E194      
+ E  C13       E195      
+ E  C14       E196      
+ E  C21       E197      
+ E  C22       E198      
+ E  C13       E199      
+ E  C14       E200      
+ E  C21       E201      
+ E  C22       E202      
+ E  C13       E203      
+ E  C14       E204      
+ E  C21       E205      
+ E  C22       E206      
+ E  C20       E207      
+ E  C22       E208      
+ E  C20       E209      
+ E  C22       E210      
+ E  C15       E211      
+ E  C16       E212      
+ E  C19       E213      
+ E  C20       E214      
+ E  C15       E215      
+ E  C16       E216      
+ E  C19       E217      
+ E  C20       E218      
+ E  C15       E219      
+ E  C16       E220      
+ E  C19       E221      
+ E  C20       E222      
+ E  C15       E223      
+ E  C16       E224      
+ E  C19       E225      
+ E  C20       E226      
+ E  C15       E227      
+ E  C21       E228      
+ E  C15       E229      
+ E  C21       E230      
+ E  C15       E231      
+ E  C16       E232      
+ E  C23       E233      
+ E  C24       E234      
+ E  C15       E235      
+ E  C16       E236      
+ E  C23       E237      
+ E  C24       E238      
+ E  C15       E239      
+ E  C16       E240      
+ E  C23       E241      
+ E  C24       E242      
+ E  C15       E243      
+ E  C16       E244      
+ E  C23       E245      
+ E  C24       E246      
+ E  C22       E247      
+ E  C24       E248      
+ E  C22       E249      
+ E  C24       E250      
+ E  C17       E251      
+ E  C18       E252      
+ E  C21       E253      
+ E  C22       E254      
+ E  C17       E255      
+ E  C18       E256      
+ E  C21       E257      
+ E  C22       E258      
+ E  C17       E259      
+ E  C18       E260      
+ E  C21       E261      
+ E  C22       E262      
+ E  C17       E263      
+ E  C18       E264      
+ E  C21       E265      
+ E  C22       E266      
+ E  C19       E267      
+ E  C25       E268      
+ E  C19       E269      
+ E  C25       E270      
+ E  C19       E271      
+ E  C20       E272      
+ E  C27       E273      
+ E  C28       E274      
+ E  C19       E275      
+ E  C20       E276      
+ E  C27       E277      
+ E  C28       E278      
+ E  C19       E279      
+ E  C20       E280      
+ E  C27       E281      
+ E  C28       E282      
+ E  C19       E283      
+ E  C20       E284      
+ E  C27       E285      
+ E  C28       E286      
+ E  C26       E287      
+ E  C28       E288      
+ E  C26       E289      
+ E  C28       E290      
+ E  C21       E291      
+ E  C22       E292      
+ E  C25       E293      
+ E  C26       E294      
+ E  C21       E295      
+ E  C22       E296      
+ E  C25       E297      
+ E  C26       E298      
+ E  C21       E299      
+ E  C22       E300      
+ E  C25       E301      
+ E  C26       E302      
+ E  C21       E303      
+ E  C22       E304      
+ E  C25       E305      
+ E  C26       E306      
+ E  C21       E307      
+ E  C27       E308      
+ E  C21       E309      
+ E  C27       E310      
+ E  C21       E311      
+ E  C22       E312      
+ E  C29       E313      
+ E  C30       E314      
+ E  C21       E315      
+ E  C22       E316      
+ E  C29       E317      
+ E  C30       E318      
+ E  C21       E319      
+ E  C22       E320      
+ E  C29       E321      
+ E  C30       E322      
+ E  C21       E323      
+ E  C22       E324      
+ E  C29       E325      
+ E  C30       E326      
+ E  C28       E327      
+ E  C30       E328      
+ E  C28       E329      
+ E  C30       E330      
+ E  C23       E331      
+ E  C24       E332      
+ E  C27       E333      
+ E  C28       E334      
+ E  C23       E335      
+ E  C24       E336      
+ E  C27       E337      
+ E  C28       E338      
+ E  C23       E339      
+ E  C24       E340      
+ E  C27       E341      
+ E  C28       E342      
+ E  C23       E343      
+ E  C24       E344      
+ E  C27       E345      
+ E  C28       E346      
+ E  C25       E347      
+ E  C31       E348      
+ E  C25       E349      
+ E  C31       E350      
+ E  C25       E351      
+ E  C26       E352      
+ E  C33       E353      
+ E  C34       E354      
+ E  C25       E355      
+ E  C26       E356      
+ E  C33       E357      
+ E  C34       E358      
+ E  C25       E359      
+ E  C26       E360      
+ E  C33       E361      
+ E  C34       E362      
+ E  C25       E363      
+ E  C26       E364      
+ E  C33       E365      
+ E  C34       E366      
+ E  C32       E367      
+ E  C34       E368      
+ E  C32       E369      
+ E  C34       E370      
+ E  C27       E371      
+ E  C28       E372      
+ E  C31       E373      
+ E  C32       E374      
+ E  C27       E375      
+ E  C28       E376      
+ E  C31       E377      
+ E  C32       E378      
+ E  C27       E379      
+ E  C28       E380      
+ E  C31       E381      
+ E  C32       E382      
+ E  C27       E383      
+ E  C28       E384      
+ E  C31       E385      
+ E  C32       E386      
+ E  C27       E387      
+ E  C33       E388      
+ E  C27       E389      
+ E  C33       E390      
+ E  C27       E391      
+ E  C28       E392      
+ E  C35       E393      
+ E  C36       E394      
+ E  C27       E395      
+ E  C28       E396      
+ E  C35       E397      
+ E  C36       E398      
+ E  C27       E399      
+ E  C28       E400      
+ E  C35       E401      
+ E  C36       E402      
+ E  C27       E403      
+ E  C28       E404      
+ E  C35       E405      
+ E  C36       E406      
+ E  C34       E407      
+ E  C36       E408      
+ E  C34       E409      
+ E  C36       E410      
+ E  C29       E411      
+ E  C30       E412      
+ E  C33       E413      
+ E  C34       E414      
+ E  C29       E415      
+ E  C30       E416      
+ E  C33       E417      
+ E  C34       E418      
+ E  C29       E419      
+ E  C30       E420      
+ E  C33       E421      
+ E  C34       E422      
+ E  C29       E423      
+ E  C30       E424      
+ E  C33       E425      
+ E  C34       E426      
+ E  C31       E427      
+ E  C37       E428      
+ E  C31       E429      
+ E  C37       E430      
+ E  C31       E431      
+ E  C32       E432      
+ E  C39       E433      
+ E  C40       E434      
+ E  C31       E435      
+ E  C32       E436      
+ E  C39       E437      
+ E  C40       E438      
+ E  C31       E439      
+ E  C32       E440      
+ E  C39       E441      
+ E  C40       E442      
+ E  C31       E443      
+ E  C32       E444      
+ E  C39       E445      
+ E  C40       E446      
+ E  C38       E447      
+ E  C40       E448      
+ E  C38       E449      
+ E  C40       E450      
+ E  C33       E451      
+ E  C34       E452      
+ E  C37       E453      
+ E  C38       E454      
+ E  C33       E455      
+ E  C34       E456      
+ E  C37       E457      
+ E  C38       E458      
+ E  C33       E459      
+ E  C34       E460      
+ E  C37       E461      
+ E  C38       E462      
+ E  C33       E463      
+ E  C34       E464      
+ E  C37       E465      
+ E  C38       E466      
+ E  C33       E467      
+ E  C39       E468      
+ E  C33       E469      
+ E  C39       E470      
+ E  C33       E471      
+ E  C34       E472      
+ E  C41       E473      
+ E  C42       E474      
+ E  C33       E475      
+ E  C34       E476      
+ E  C41       E477      
+ E  C42       E478      
+ E  C33       E479      
+ E  C34       E480      
+ E  C41       E481      
+ E  C42       E482      
+ E  C33       E483      
+ E  C34       E484      
+ E  C41       E485      
+ E  C42       E486      
+ E  C40       E487      
+ E  C42       E488      
+ E  C40       E489      
+ E  C42       E490      
+ E  C35       E491      
+ E  C36       E492      
+ E  C39       E493      
+ E  C40       E494      
+ E  C35       E495      
+ E  C36       E496      
+ E  C39       E497      
+ E  C40       E498      
+ E  C35       E499      
+ E  C36       E500      
+ E  C39       E501      
+ E  C40       E502      
+ E  C35       E503      
+ E  C36       E504      
+ E  C39       E505      
+ E  C40       E506      
+ E  C37       E507      
+ E  C43       E508      
+ E  C37       E509      
+ E  C43       E510      
+ E  C37       E511      
+ E  C38       E512      
+ E  C45       E513      
+ E  C46       E514      
+ E  C37       E515      
+ E  C38       E516      
+ E  C45       E517      
+ E  C46       E518      
+ E  C37       E519      
+ E  C38       E520      
+ E  C45       E521      
+ E  C46       E522      
+ E  C37       E523      
+ E  C38       E524      
+ E  C45       E525      
+ E  C46       E526      
+ E  C44       E527      
+ E  C46       E528      
+ E  C44       E529      
+ E  C46       E530      
+ E  C39       E531      
+ E  C40       E532      
+ E  C43       E533      
+ E  C44       E534      
+ E  C39       E535      
+ E  C40       E536      
+ E  C43       E537      
+ E  C44       E538      
+ E  C39       E539      
+ E  C40       E540      
+ E  C43       E541      
+ E  C44       E542      
+ E  C39       E543      
+ E  C40       E544      
+ E  C43       E545      
+ E  C44       E546      
+ E  C39       E547      
+ E  C45       E548      
+ E  C39       E549      
+ E  C45       E550      
+ E  C39       E551      
+ E  C40       E552      
+ E  C47       E553      
+ E  C48       E554      
+ E  C39       E555      
+ E  C40       E556      
+ E  C47       E557      
+ E  C48       E558      
+ E  C39       E559      
+ E  C40       E560      
+ E  C47       E561      
+ E  C48       E562      
+ E  C39       E563      
+ E  C40       E564      
+ E  C47       E565      
+ E  C48       E566      
+ E  C46       E567      
+ E  C48       E568      
+ E  C46       E569      
+ E  C48       E570      
+ E  C41       E571      
+ E  C42       E572      
+ E  C45       E573      
+ E  C46       E574      
+ E  C41       E575      
+ E  C42       E576      
+ E  C45       E577      
+ E  C46       E578      
+ E  C41       E579      
+ E  C42       E580      
+ E  C45       E581      
+ E  C46       E582      
+ E  C41       E583      
+ E  C42       E584      
+ E  C45       E585      
+ E  C46       E586      
+ E  C43       E587      
+ E  C49       E588      
+ E  C43       E589      
+ E  C49       E590      
+ E  C43       E591      
+ E  C44       E592      
+ E  C51       E593      
+ E  C52       E594      
+ E  C43       E595      
+ E  C44       E596      
+ E  C51       E597      
+ E  C52       E598      
+ E  C43       E599      
+ E  C44       E600      
+ E  C51       E601      
+ E  C52       E602      
+ E  C43       E603      
+ E  C44       E604      
+ E  C51       E605      
+ E  C52       E606      
+ E  C50       E607      
+ E  C52       E608      
+ E  C50       E609      
+ E  C52       E610      
+ E  C45       E611      
+ E  C46       E612      
+ E  C49       E613      
+ E  C50       E614      
+ E  C45       E615      
+ E  C46       E616      
+ E  C49       E617      
+ E  C50       E618      
+ E  C45       E619      
+ E  C46       E620      
+ E  C49       E621      
+ E  C50       E622      
+ E  C45       E623      
+ E  C46       E624      
+ E  C49       E625      
+ E  C50       E626      
+ E  C45       E627      
+ E  C51       E628      
+ E  C45       E629      
+ E  C51       E630      
+ E  C45       E631      
+ E  C46       E632      
+ E  C53       E633      
+ E  C54       E634      
+ E  C45       E635      
+ E  C46       E636      
+ E  C53       E637      
+ E  C54       E638      
+ E  C45       E639      
+ E  C46       E640      
+ E  C53       E641      
+ E  C54       E642      
+ E  C45       E643      
+ E  C46       E644      
+ E  C53       E645      
+ E  C54       E646      
+ E  C52       E647      
+ E  C54       E648      
+ E  C52       E649      
+ E  C54       E650      
+ E  C47       E651      
+ E  C48       E652      
+ E  C51       E653      
+ E  C52       E654      
+ E  C47       E655      
+ E  C48       E656      
+ E  C51       E657      
+ E  C52       E658      
+ E  C47       E659      
+ E  C48       E660      
+ E  C51       E661      
+ E  C52       E662      
+ E  C47       E663      
+ E  C48       E664      
+ E  C51       E665      
+ E  C52       E666      
+ E  C49       E667      
+ E  C55       E668      
+ E  C49       E669      
+ E  C55       E670      
+ E  C49       E671      
+ E  C50       E672      
+ E  C57       E673      
+ E  C58       E674      
+ E  C49       E675      
+ E  C50       E676      
+ E  C57       E677      
+ E  C58       E678      
+ E  C49       E679      
+ E  C50       E680      
+ E  C57       E681      
+ E  C58       E682      
+ E  C49       E683      
+ E  C50       E684      
+ E  C57       E685      
+ E  C58       E686      
+ E  C56       E687      
+ E  C58       E688      
+ E  C56       E689      
+ E  C58       E690      
+ E  C51       E691      
+ E  C52       E692      
+ E  C55       E693      
+ E  C56       E694      
+ E  C51       E695      
+ E  C52       E696      
+ E  C55       E697      
+ E  C56       E698      
+ E  C51       E699      
+ E  C52       E700      
+ E  C55       E701      
+ E  C56       E702      
+ E  C51       E703      
+ E  C52       E704      
+ E  C55       E705      
+ E  C56       E706      
+ E  C51       E707      
+ E  C57       E708      
+ E  C51       E709      
+ E  C57       E710      
+ E  C51       E711      
+ E  C52       E712      
+ E  C59       E713      
+ E  C60       E714      
+ E  C51       E715      
+ E  C52       E716      
+ E  C59       E717      
+ E  C60       E718      
+ E  C51       E719      
+ E  C52       E720      
+ E  C59       E721      
+ E  C60       E722      
+ E  C51       E723      
+ E  C52       E724      
+ E  C59       E725      
+ E  C60       E726      
+ E  C58       E727      
+ E  C60       E728      
+ E  C58       E729      
+ E  C60       E730      
+ E  C53       E731      
+ E  C54       E732      
+ E  C57       E733      
+ E  C58       E734      
+ E  C53       E735      
+ E  C54       E736      
+ E  C57       E737      
+ E  C58       E738      
+ E  C53       E739      
+ E  C54       E740      
+ E  C57       E741      
+ E  C58       E742      
+ E  C53       E743      
+ E  C54       E744      
+ E  C57       E745      
+ E  C58       E746      
+ E  C5        E747      
+ E  C5        E748      
+ E  C11       E749      
+ E  C5        E750      
+ E  C11       E751      
+ E  C11       E752      
+ E  C17       E753      
+ E  C11       E754      
+ E  C17       E755      
+ E  C17       E756      
+ E  C23       E757      
+ E  C17       E758      
+ E  C23       E759      
+ E  C23       E760      
+ E  C29       E761      
+ E  C23       E762      
+ E  C29       E763      
+ E  C29       E764      
+ E  C35       E765      
+ E  C29       E766      
+ E  C35       E767      
+ E  C35       E768      
+ E  C41       E769      
+ E  C35       E770      
+ E  C41       E771      
+ E  C41       E772      
+ E  C47       E773      
+ E  C41       E774      
+ E  C47       E775      
+ E  C47       E776      
+ E  C53       E777      
+ E  C47       E778      
+ E  C53       E779      
+ E  C53       E780      
+ E  C59       E781      
+ E  C53       E782      
+ E  C59       E783      
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLTN               1.0
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      TRO11X3
+
+INDIVIDUALS
+
+ T  PROD
+ F                      P * X * U
+ G  X                   P * U
+ G  U                   P * X
+ H  X         U         P
+
+ENDATA

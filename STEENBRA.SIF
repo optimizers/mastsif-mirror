@@ -1,0 +1,338 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          STEENBRA
+
+*   Problem :
+*   *********
+
+*   A totally separable quadratic multi-commodity network problem.
+
+*   Source: p. 109 of
+*   P.A. Steenbrink,
+*   "Optimization of Transport Networks",
+*   Wiley, 1974.
+
+*   SIF input: Ph. Toint, June 1990.
+
+*   classification QNR2-AY-432-108
+
+*   The network has the following structure
+
+*                           4
+*                 4 ----------------- 2
+*               / | \               / | \
+*              /  |  \             /  |  \
+*             /   |   \           /   |   \
+*         10 /    |    \ 11    6 /    |    \ 1
+*           /     |12   \       /     |5    \
+*          /      |      \     /      |      \
+*         /   16  |   18  \   /  17   |    3  \
+*       6 ------- 9 ------- 8 ------- 7 ------- 1
+*         \       |       /   \       |       /
+*          \      |      /     \      |      /
+*           \     |     /       \     |     /
+*            \    |15  /         \    |8   / 2
+*          13 \   |   / 14      9 \   |   /
+*              \  |  /             \  |  /
+*               \ | /               \ | /
+*                 5 ----------------- 3
+*                           7
+
+*   Arcs appear in both directions.  The flows using the arc from the
+*   lower numbered node to the higher numbred node are direct (D),
+*   the flows in the other direction reverse (R)
+*   The problem has 432 variables and 108 linear equality constraints.
+
+*   The commodities are determined from the "trip-matrix" and are
+*   numbered as as follows:
+
+*     commodity 1 : flow of 2000 from 2 to 3
+*     commodity 2 : flow of 2000 from 2 to 4
+*     commodity 3 : flow of 1000 from 2 to 5
+*     commodity 4 : flow of 1000 from 3 to 4
+*     commodity 5 : flow of 2000 from 3 to 5
+*     commodity 6 : flow of 1000 from 4 to 5
+*     commodity 7 : flow of  200 from 3 to 2
+*     commodity 8 : flow of  200 from 4 to 2
+*     commodity 9 : flow of  100 from 5 to 2
+*     commodity 10: flow of  100 from 4 to 3
+*     commodity 11: flow of  200 from 5 to 3
+*     commodity 12: flow of  100 from 5 to 4
+
+*   Number of bi-directional arcs
+
+ IE NARCS               18
+
+*   Number of trips (commodities)
+
+ IE NTRIPS              12
+
+*   Lengths of the arcs
+
+ RE COST1               35.0
+ RE COST2               40.0
+ RE COST3               30.0
+ RE COST4               100.0
+ RE COST5               15.0
+ RE COST6               55.0
+ RE COST7               100.0
+ RE COST8               25.0
+ RE COST9               60.0
+ RE COST10              35.0
+ RE COST11              55.0
+ RE COST12              15.0
+ RE COST13              40.0
+ RE COST14              60.0
+ RE COST15              25.0
+ RE COST16              30.0
+ RE COST17              50.0
+ RE COST18              50.0
+
+*   Constants
+
+ IE 1                   1
+ IE 2                   2
+ IE 3                   3
+ IE 4                   4
+ IE 5                   5
+ IE 6                   6
+ IE 7                   7
+ IE 8                   8
+ IE 9                   9
+ IE 10                  10
+ IE 11                  11
+ IE 12                  12
+ IE 13                  13
+ IE 14                  14
+ IE 15                  15
+ IE 16                  16
+ IE 17                  17
+ IE 18                  18
+
+*   Computed parameters
+
+ DO I         1                        NARCS
+ AM A(I)      COST(I)   0.01
+ AM B(I)      COST(I)   0.00001
+ ND
+
+ AE A(4)                0.0
+
+VARIABLES
+
+ DO K         1                        NARCS
+ DO I         1                        NTRIPS
+ X  D(I,K)
+ X  R(I,K)
+ ND
+
+GROUPS
+
+*   Objective function
+
+ N  OBJ
+
+*   Flow conservation constraints
+
+ DO I         1                        NTRIPS
+
+*   Node 1
+
+ XE N1(I)     D(I,1)    -1.0           R(I,1)    1.0
+ XE N1(I)     D(I,2)    -1.0           R(I,2)    1.0
+ XE N1(I)     D(I,3)    -1.0           R(I,3)    1.0
+
+*   Node 2
+
+ XE N2(I)     D(I,4)    -1.0           R(I,4)    1.0
+ XE N2(I)     D(I,5)    -1.0           R(I,5)    1.0
+ XE N2(I)     D(I,6)    -1.0           R(I,6)    1.0
+ XE N2(I)     D(I,1)    1.0            R(I,1)    -1.0
+
+*   Node 3
+
+ XE N3(I)     D(I,7)    -1.0           R(I,7)    1.0
+ XE N3(I)     D(I,8)    -1.0           R(I,8)    1.0
+ XE N3(I)     D(I,9)    -1.0           R(I,9)    1.0
+ XE N3(I)     D(I,2)    1.0            R(I,2)    -1.0
+
+*   Node 4
+
+ XE N4(I)     D(I,10)   -1.0           R(I,10)   1.0
+ XE N4(I)     D(I,11)   -1.0           R(I,11)   1.0
+ XE N4(I)     D(I,12)   -1.0           R(I,12)   1.0
+ XE N4(I)     D(I,4)    1.0            R(I,4)    -1.0
+
+*   Node 5
+
+ XE N5(I)     D(I,13)   -1.0           R(I,13)   1.0
+ XE N5(I)     D(I,14)   -1.0           R(I,14)   1.0
+ XE N5(I)     D(I,15)   -1.0           R(I,15)   1.0
+ XE N5(I)     D(I,7)    1.0            R(I,7)    -1.0
+
+*   Node 6
+
+ XE N6(I)     D(I,16)   -1.0           R(I,16)   1.0
+ XE N6(I)     D(I,10)   1.0            R(I,10)   -1.0
+ XE N6(I)     D(I,13)   1.0            R(I,13)   -1.0
+
+*   Node 7
+
+ XE N7(I)     D(I,17)   -1.0           R(I,17)   1.0
+ XE N7(I)     D(I,3)    1.0            R(I,3)    -1.0
+ XE N7(I)     D(I,5)    1.0            R(I,5)    -1.0
+ XE N7(I)     D(I,8)    1.0            R(I,8)    -1.0
+
+*   Node 8
+
+ XE N8(I)     D(I,18)   -1.0           R(I,18)   1.0
+ XE N8(I)     D(I,6)    1.0            R(I,6)    -1.0
+ XE N8(I)     D(I,9)    1.0            R(I,9)    -1.0
+ XE N8(I)     D(I,11)   1.0            R(I,11)   -1.0
+ XE N8(I)     D(I,14)   1.0            R(I,14)   -1.0
+ XE N8(I)     D(I,17)   1.0            R(I,17)   -1.0
+
+*   Node 9
+
+ XE N9(I)     D(I,12)   1.0            R(I,12)   -1.0
+ XE N9(I)     D(I,15)   1.0            R(I,15)   -1.0
+ XE N9(I)     D(I,16)   1.0            R(I,16)   -1.0
+ XE N9(I)     D(I,18)   1.0            R(I,18)   -1.0
+
+*   End of the flow conservation constraints
+
+ ND
+
+CONSTANTS
+
+ X  STEENBRA  N2(1)     -2000.0
+ X  STEENBRA  N3(1)     2000.0
+
+ X  STEENBRA  N2(2)     -2000.0
+ X  STEENBRA  N4(2)     2000.0
+
+ X  STEENBRA  N2(3)     -1000.0
+ X  STEENBRA  N5(3)     1000.0
+
+ X  STEENBRA  N3(4)     -1000.0
+ X  STEENBRA  N4(4)     1000.0
+
+ X  STEENBRA  N3(5)     -2000.0
+ X  STEENBRA  N5(5)     2000.0
+
+ X  STEENBRA  N4(6)     -1000.0
+ X  STEENBRA  N5(6)     1000.0
+
+ X  STEENBRA  N3(7)     -200.0
+ X  STEENBRA  N2(7)     200.0
+
+ X  STEENBRA  N4(8)     -200.0
+ X  STEENBRA  N2(8)     200.0
+
+ X  STEENBRA  N5(9)     -100.0
+ X  STEENBRA  N2(9)     100.0
+
+ X  STEENBRA  N4(10)    -100.0
+ X  STEENBRA  N3(10)    100.0
+
+ X  STEENBRA  N5(11)    -200.0
+ X  STEENBRA  N3(11)    200.0
+
+ X  STEENBRA  N5(12)    -100.0
+ X  STEENBRA  N4(12)    100.0
+
+START POINT
+
+ XV STEENBRA  'DEFAULT' 0.0
+
+ELEMENT TYPE
+
+ EV QUAD      X1                       X2
+ EV QUAD      X3                       X4
+ EV QUAD      X5                       X6
+ EV QUAD      X7                       X8
+ EV QUAD      X9                       X10
+ EV QUAD      X11                      X12
+ IV QUAD      FLOW
+ EP QUAD      ALPHA                    BETA
+
+ELEMENT USES
+
+ DO I         1                        NARCS
+
+ XT ED(I)     QUAD
+ ZV ED(I)     X1                       D(1,I)
+ ZV ED(I)     X2                       D(2,I)
+ ZV ED(I)     X3                       D(3,I)
+ ZV ED(I)     X4                       D(4,I)
+ ZV ED(I)     X5                       D(5,I)
+ ZV ED(I)     X6                       D(6,I)
+ ZV ED(I)     X7                       D(7,I)
+ ZV ED(I)     X8                       D(8,I)
+ ZV ED(I)     X9                       D(9,I)
+ ZV ED(I)     X10                      D(10,I)
+ ZV ED(I)     X11                      D(11,I)
+ ZV ED(I)     X12                      D(12,I)
+ ZP ED(I)     ALPHA                    A(I)
+ ZP ED(I)     BETA                     B(I)
+
+ XT ER(I)     QUAD
+ ZV ER(I)     X1                       R(1,I)
+ ZV ER(I)     X2                       R(2,I)
+ ZV ER(I)     X3                       R(3,I)
+ ZV ER(I)     X4                       R(4,I)
+ ZV ER(I)     X5                       R(5,I)
+ ZV ER(I)     X6                       R(6,I)
+ ZV ER(I)     X7                       R(7,I)
+ ZV ER(I)     X8                       R(8,I)
+ ZV ER(I)     X9                       R(9,I)
+ ZV ER(I)     X10                      R(10,I)
+ ZV ER(I)     X11                      R(11,I)
+ ZV ER(I)     X12                      R(12,I)
+ ZP ER(I)     ALPHA                    A(I)
+ ZP ER(I)     BETA                     B(I)
+
+ ND
+
+GROUP USES
+
+ DO I         1                        NARCS
+ XE OBJ       ED(I)                    ER(I)
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLTN               16957.674667
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      STEENBRA
+
+TEMPORARIES
+
+ R  TWOBET
+
+INDIVIDUALS
+
+ T  QUAD
+ R  FLOW      X1        1.0            X2        1.0
+ R  FLOW      X3        1.0            X4        1.0
+ R  FLOW      X5        1.0            X6        1.0
+ R  FLOW      X7        1.0            X8        1.0
+ R  FLOW      X9        1.0            X10       1.0
+ R  FLOW      X11       1.0            X12       1.0
+ A  TWOBET              BETA + BETA
+ F                      ALPHA * FLOW + BETA * FLOW * FLOW
+ G  FLOW                ALPHA + TWOBET * FLOW
+ H  FLOW      FLOW      TWOBET
+
+ENDATA

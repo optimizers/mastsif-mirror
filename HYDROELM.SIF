@@ -1,0 +1,289 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          HYDROELM
+
+*   Problem :
+*   *********
+
+*   A hydroelectric reservoir management problem (medium term)
+
+*   Source:
+*   H. Gfrerer, "Globally convergent decomposition methods for
+*                nonconvex optimization problems",
+*                Computing 32, pp. 199-227, 1984.
+
+*   SIF input: Ph. Toint, June 1990.
+
+*   classification OLR2-AN-505-504
+
+*   Problem data
+
+ RE RHO                 1000.0         $ Volumetric weight of water (kg/m**3)
+ RE G                   9.81           $ Gravity constant (m/s**2)
+ RE AT                  0.52           $ Peak tarif (OS/KWh)
+ RE AN                  0.45           $ Off-peak tarif (OS/KWh)
+ RE QMIN                0.0            $ Min discharge to turbines (m**3/s)
+ RE QMAX                26.0           $ Max discharge to turbines (m**3/s)
+ RE VMIN                60000.0        $ Minimum reservoir volume (m**3)
+ RE VMAX                736000.0       $ Maximum reservoir volume (m**3)
+ RE ZMIN                8.0            $ Minimum inlux value (m**3/s)
+ RE ZMAX                11.5           $ Maximum inlux value (m**3/s)
+ RE FSCALE              -1.36D+6       $ Objective scaling (as in paper)
+
+*   Time slicing
+
+ IE DT                  1200           $ Time slice (s)
+ IE NDTM                15             $ Number of time-slices in MORNING
+ IE NDTD                48             $ Number of time-slices in DAY
+ IE NDTE                9              $ Number of time-slices in EVENING
+ IE NDTSM               21             $ Number of time slices in sat-morning
+ IE NDTWE               108            $ Number of time-slices in week-end
+
+*   Computed parameters
+
+ I+ NDTN      NDTE                     NDTM
+ IA MON-AM    NDTM      0
+ I+ MON-PM    MON-AM                   NDTD
+ I+ TUE-AM    MON-PM                   NDTN
+ I+ TUE-PM    TUE-AM                   NDTD
+ I+ WED-AM    TUE-PM                   NDTN
+ I+ WED-PM    WED-AM                   NDTD
+ I+ THU-AM    WED-PM                   NDTN
+ I+ THU-PM    THU-AM                   NDTD
+ I+ FRI-AM    THU-PM                   NDTN
+ I+ FRI-PM    FRI-AM                   NDTD
+ I+ SAT-AM    FRI-PM                   NDTN
+ I+ SAT-NO    SAT-AM                   NDTSM
+ I+ N         SAT-NO                   NDTWE
+
+ IA N-1       N         -1
+ RM -ZMIN     ZMIN      -1.0
+ R+ ZRANGE    ZMAX                     -ZMIN
+ RM ZVAR      ZRANGE    0.5
+ R+ AVZ       ZMIN                     ZVAR
+ RI RDT       DT
+ RD 1/DT      RDT       1.0
+ RM -1/DT     1/DT      -1.0
+ R* RHOG      RHO                      G
+ R/ FSCAL     FSCALE                   RHOG
+
+*   Constants
+
+ IE 0                   0
+ IE 1                   1
+
+*   Set the tarif as a function of time
+
+ IA MOA-1     MON-AM    -1
+ DO T         0                        MOA-1
+ AA A(T)      AN        0.0
+ ND
+ IA MOP-1     MON-PM    -1
+ DO T         MON-AM                   MOP-1
+ AA A(T)      AT        0.0
+ ND
+ IA TUA-1     TUE-AM    -1
+ DO T         MON-PM                   TUA-1
+ AA A(T)      AN        0.0
+ ND
+ IA TUP-1     TUE-PM    -1
+ DO T         TUE-AM                   TUP-1
+ AA A(T)      AT        0.0
+ ND
+ IA WEA-1     WED-AM    -1
+ DO T         TUE-PM                   WEA-1
+ AA A(T)      AN        0.0
+ ND
+ IA WEP-1     WED-PM    -1
+ DO T         WED-AM                   WEP-1
+ AA A(T)      AT        0.0
+ ND
+ IA THA-1     THU-AM    -1
+ DO T         WED-PM                   THA-1
+ AA A(T)      AN        0.0
+ ND
+ IA THP-1     THU-PM    -1
+ DO T         THU-AM                   THP-1
+ AA A(T)      AT        0.0
+ ND
+ IA FRA-1     FRI-AM    -1
+ DO T         THU-PM                   FRA-1
+ AA A(T)      AN        0.0
+ ND
+ IA FRP-1     FRI-PM    -1
+ DO T         FRI-AM                   FRP-1
+ AA A(T)      AT        0.0
+ ND
+ IA SAA-1     SAT-AM    -1
+ DO T         FRI-PM                   SAA-1
+ AA A(T)      AN        0.0
+ ND
+ IA SAN-1     SAT-NO    -1
+ DO T         SAT-AM                   SAN-1
+ AA A(T)      AT        0.0
+ ND
+ DO T         SAT-NO                   N
+ AA A(T)      AN        0.0
+ ND
+
+*   Set the influxes as a function of time
+*   (not specified in the paper: a periodic variation between the
+*   specified bounds is used)
+
+ DO T         0                        N
+ I* TSECS     T                        DT
+ RI TS        TSECS
+ R( STS       SIN                      TS
+ R* VARZ      STS                      ZVAR
+ R+ ZT        AVZ                      VARZ
+ AA Z(T)      ZT        0.0
+ ND
+
+VARIABLES
+
+ DO T         0                        N
+ Z  V(T)      'SCALE'                  VMAX
+ ND
+
+GROUPS
+
+*   Objective function
+
+ ZN F         'SCALE'                  FSCAL
+
+*   Debit constraints
+
+ DO T         1                        N
+ IA T-1       T         -1
+ ZG Q(T)      V(T)                     -1/DT
+ ZG Q(T)      V(T-1)                   1/DT
+ ND
+
+CONSTANTS
+
+*   Debit constraints
+
+ DO T         1                        N
+ IA T-1       T         -1
+ AM -ZT       Z(T-1)    -1.0
+ R+ C         QMIN                     -ZT
+ Z  HYDROELM  Q(T)                     C
+ ND
+
+RANGES
+
+*   Debit constraints
+
+ RM -QMIN     QMIN      -1.0
+ R+ QRANGE    QMAX                     -QMIN
+
+ DO T         1                        N
+ Z  HYDROELM  Q(T)                     QRANGE
+ ND
+
+BOUNDS
+
+ ZX HYDROELM  V(0)                     VMAX
+
+ DO T         1                        N-1
+ ZL HYDROELM  V(T)                     VMIN
+ ZU HYDROELM  V(T)                     VMAX
+ ND
+
+ ZX HYDROELM  V(N)                     VMAX
+
+START POINT
+
+ DO T         0                        N
+ Z  HYDROELM  V(T)                     VMAX
+ ND
+
+ELEMENT TYPE
+
+ EV QI        V                        W
+ EP QI        ZW                       TS
+
+ELEMENT USES
+
+ DO T         1                        N
+ IA T-1       T         -1
+ XT OE(T)     QI
+ ZV OE(T)     V                        V(T)
+ ZV OE(T)     W                        V(T-1)
+ ZP OE(T)     ZW                       Z(T-1)
+ ZP OE(T)     TS                       RDT
+ ND
+
+GROUP USES
+
+ DO T         1                        N
+ IA T-1       T         -1
+ ZE F         OE(T)                    A(T-1)
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLTN               -3582015.53
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      HYDROELM
+
+TEMPORARIES
+
+ R  A
+ R  B
+ R  G
+ R  AA
+ R  AAA
+ R  BB
+ R  VV
+ R  WW
+ R  Q
+ R  DQDV
+ R  DQDW
+ R  RI
+ R  DIDV
+ R  DIDW
+ R  D2IDV2
+ R  D2IDW2
+ R  D2IDVW
+
+INDIVIDUALS
+
+ T  QI
+ A  A                   -3.12
+ A  B                   8.7D-6
+ A  G                   160.989
+ A  VV                  1.0D-6 * V
+ A  WW                  1.0D-6 * W
+ A  AA                  A * TS / 3.0
+ A  AAA                 1.0D-12 * AA
+ A  BB                  0.5 * B * TS
+ A  Q                   ZW + ( W - V ) / TS
+ A  DQDV                -1.0 / TS
+ A  DQDW                1.0 / TS
+ A  RI                  AA * ( VV * VV + VV * WW + WW * WW )
+ A+                     + BB * ( V + W ) + G * TS
+ A  DIDV                AAA * ( V + V + W ) + BB
+ A  DIDW                AAA * ( W + W + V ) + BB
+ A  D2IDV2              AAA + AAA
+ A  D2IDW2              AAA + AAA
+ A  D2IDVW              AAA
+ F                      Q * RI
+ G  V                   DQDV * RI + Q * DIDV
+ G  W                   DQDW * RI + Q * DIDW
+ H  V         V         2.0 * DQDV * DIDV + Q * D2IDV2
+ H  V         W         DQDV * DIDW + DQDW * DIDV + Q * D2IDVW
+ H  W         W         2.0 * DQDW * DIDW + Q * D2IDW2
+
+ENDATA

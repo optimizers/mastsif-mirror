@@ -1,0 +1,605 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          SAWPATH
+
+*   Problem :
+*   *********
+
+*   Knowing a list of points $(x_i, y_i)$, describing the center line of 
+*   a wood piece, we want to fit the best polynomial that minimizes the 
+*   sum of the squares of errors (least square problem). This part is 
+*   simple. But we have to deal with three sets of conditions : 
+*   
+*   1) the polynomial must go through the first point $(x_0, y_0)$ of the list;
+*   2) the initial slope of the curve $m_0$ is also known;
+*   3) the radius of curvature at every point must exceed a given radius 
+*      $R$. 
+*   
+*   Source:
+*   Francois Grondin (francois.grondin@qc.forintek.ca)
+*   Forintek Canada Corp, 319, rue Franquet, Quebec, G1P 4R4, CANADA
+
+*   SIF input: Nick Gould, Dec 1997.
+
+*   classification QOR2-AN-583-774
+
+*   Number of points
+
+ IE n                   195
+
+*   Required radius
+
+ RE R                   2500.0
+ R* R**2      R                        R
+
+*   x and y co-ordinates
+
+ RE x0                  0.0
+ RE y0                  3.556 
+ RE x1                  2.54
+ RE y1                  3.56346
+ RE x2                  5.08
+ RE y2                  3.57091
+ RE x3                  7.62001
+ RE y3                  3.57837
+ RE x4                  10.1612
+ RE y4                  3.59371
+ RE x5                  12.7012
+ RE y5                  3.60213
+ RE x6                  15.2412
+ RE y6                  3.61055
+ RE x7                  17.7812
+ RE y7                  3.61898
+ RE x8                  20.3212
+ RE y8                  3.6274 
+ RE x9                  22.8612
+ RE y9                  3.63582
+ RE x10                 25.4012
+ RE y10                 3.6423 
+ RE x11                 27.9412
+ RE y11                 3.65073
+ RE x12                 30.4812
+ RE y12                 3.6653 
+ RE x13                 33.0212
+ RE y13                 3.67381
+ RE x14                 35.5612
+ RE y14                 3.68233
+ RE x15                 38.1012
+ RE y15                 3.69084
+ RE x16                 40.6411
+ RE y16                 3.50637
+ RE x17                 43.1811
+ RE y17                 3.51498
+ RE x18                 45.7231
+ RE y18                 2.77481
+ RE x19                 48.2631
+ RE y19                 2.78376
+ RE x20                 50.8031
+ RE y20                 2.79272
+ RE x21                 53.3431
+ RE y21                 2.80168
+ RE x22                 55.8839
+ RE y22                 2.78529
+ RE x23                 58.4239
+ RE y23                 2.79415
+ RE x24                 60.965
+ RE y24                 2.47602
+ RE x25                 63.505
+ RE y25                 2.48617
+ RE x26                 66.045
+ RE y26                 2.48369
+ RE x27                 68.585
+ RE y27                 2.49377
+ RE x28                 71.125
+ RE y28                 2.27635
+ RE x29                 73.665
+ RE y29                 2.28521
+ RE x30                 76.205
+ RE y30                 2.26744
+ RE x31                 78.745
+ RE y31                 2.27605
+ RE x32                 81.285
+ RE y32                 2.28465
+ RE x33                 83.825
+ RE y33                 2.29325
+ RE x34                 86.365
+ RE y34                 2.4907 
+ RE x35                 88.905
+ RE y35                 2.49921
+ RE x36                 91.445
+ RE y36                 2.50773
+ RE x37                 93.985
+ RE y37                 2.51624
+ RE x38                 96.525
+ RE y38                 2.53381
+ RE x39                 99.065
+ RE y39                 2.54241
+ RE x40                 101.605
+ RE y40                 2.74855
+ RE x41                 104.145
+ RE y41                 2.75716
+ RE x42                 106.685
+ RE y42                 2.76576
+ RE x43                 109.225
+ RE y43                 2.77437
+ RE x44                 111.766
+ RE y44                 2.60758
+ RE x45                 114.306
+ RE y45                 2.6161 
+ RE x46                 116.847
+ RE y46                 2.26008
+ RE x47                 119.387
+ RE y47                 2.2686 
+ RE x48                 121.927
+ RE y48                 2.28695
+ RE x49                 124.467
+ RE y49                 2.29556
+ RE x50                 127.008
+ RE y50                 1.47808
+ RE x51                 129.548
+ RE y51                 1.4854 
+ RE x52                 132.09
+ RE y52                 1.1101 
+ RE x53                 134.63
+ RE y53                 1.1188 
+ RE x54                 137.17
+ RE y54                 1.12749
+ RE x55                 139.71
+ RE y55                 1.13619
+ RE x56                 142.251
+ RE y56                 0.978377 
+ RE x57                 144.791
+ RE y57                 0.987075 
+ RE x58                 147.33
+ RE y58                 0.82203
+ RE x59                 149.87
+ RE y59                 0.829676 
+ RE x60                 152.41
+ RE y60                 0.837322 
+ RE x61                 154.95
+ RE y61                 0.844885 
+ RE x62                 157.49
+ RE y62                 0.852781 
+ RE x63                 160.03
+ RE y63                 0.86051
+ RE x64                 162.571
+ RE y64                 0.538377 
+ RE x65                 165.111
+ RE y65                 0.546996 
+ RE x66                 167.651
+ RE y66                 0.600516 
+ RE x67                 170.191
+ RE y67                 0.609224 
+ RE x68                 172.731
+ RE y68                 0.789128 
+ RE x69                 175.271
+ RE y69                 0.798084 
+ RE x70                 177.811
+ RE y70                 1.00996
+ RE x71                 180.351
+ RE y71                 1.01883
+ RE x72                 182.891
+ RE y72                 1.03712
+ RE x73                 185.431
+ RE y73                 1.04591
+ RE x74                 187.972
+ RE y74                 0.720837 
+ RE x75                 190.512
+ RE y75                 0.699625 
+ RE x76                 193.052
+ RE y76                 0.708414 
+ RE x77                 195.592
+ RE y77                 0.717203 
+ RE x78                 198.133
+ RE y78                 0.609086 
+ RE x79                 200.673
+ RE y79                 0.617627 
+ RE x80                 203.213
+ RE y80                 0.199369 
+ RE x81                 205.753
+ RE y81                 0.207992 
+ RE x82                 208.293
+ RE y82                 0.225288 
+ RE x83                 210.833
+ RE y83                 0.233831 
+ RE x84                 213.374
+ RE y84                 -0.172432 
+ RE x85                 215.914
+ RE y85                 -0.163889 
+ RE x86                 218.456
+ RE y86                 -0.34889
+ RE x87                 220.996
+ RE y87                 -0.341233 
+ RE x88                 223.536
+ RE y88                 -0.333576 
+ RE x89                 226.076
+ RE y89                 -0.32592
+ RE x90                 228.616
+ RE y90                 -0.522016 
+ RE x91                 231.156
+ RE y91                 -0.514426 
+ RE x92                 233.696
+ RE y92                 -0.506837 
+ RE x93                 236.236
+ RE y93                 -0.499248 
+ RE x94                 238.776
+ RE y94                 -0.491658 
+ RE x95                 241.316
+ RE y95                 -0.484069 
+ RE x96                 243.856
+ RE y96                 -0.47648
+ RE x97                 246.396
+ RE y97                 -0.46889
+ RE x98                 248.936
+ RE y98                 -0.462453 
+ RE x99                 251.476
+ RE y99                 -0.455008 
+ RE x100                254.016
+ RE y100                -0.447563 
+ RE x101                256.556
+ RE y101                -0.440118 
+ RE x102                259.095
+ RE y102                0.055237 
+ RE x103                261.635
+ RE y103                0.063873 
+ RE x104                264.176
+ RE y104                0.062826 
+ RE x105                266.716
+ RE y105                0.070575 
+ RE x106                269.256
+ RE y106                -0.275144 
+ RE x107                271.797
+ RE y107                -0.275842 
+ RE x108                274.337
+ RE y108                -0.268089 
+ RE x109                276.877
+ RE y109                -0.260335 
+ RE x110                279.417
+ RE y110                -0.118406 
+ RE x111                281.957
+ RE y111                -0.110665 
+ RE x112                284.497
+ RE y112                -0.102923 
+ RE x113                287.037
+ RE y113                -0.095181 
+ RE x114                289.577
+ RE y114                0.103362 
+ RE x115                292.117
+ RE y115                0.111028 
+ RE x116                294.657
+ RE y116                0.131239 
+ RE x117                297.197
+ RE y117                0.138981 
+ RE x118                299.736
+ RE y118                0.27243
+ RE x119                302.276
+ RE y119                0.280024 
+ RE x120                304.815
+ RE y120                0.421614 
+ RE x121                307.355
+ RE y121                0.429144 
+ RE x122                309.895
+ RE y122                0.436674 
+ RE x123                312.435
+ RE y123                0.444203 
+ RE x124                314.976
+ RE y124                0.484027 
+ RE x125                317.516
+ RE y125                0.491804 
+ RE x126                320.056
+ RE y126                0.515482 
+ RE x127                322.598
+ RE y127                0.571256 
+ RE x128                325.138
+ RE y128                0.580224 
+ RE x129                327.678
+ RE y129                0.589193 
+ RE x130                330.215
+ RE y130                1.11182
+ RE x131                332.755
+ RE y131                1.12071
+ RE x132                335.295
+ RE y132                1.34551
+ RE x133                337.835
+ RE y133                1.35448
+ RE x134                340.375
+ RE y134                1.38382
+ RE x135                342.915
+ RE y135                1.39287
+ RE x136                345.454
+ RE y136                1.77298
+ RE x137                347.994
+ RE y137                1.78202
+ RE x138                350.534
+ RE y138                2.00633
+ RE x139                353.074
+ RE y139                2.01544
+ RE x140                355.615
+ RE y140                2.41293
+ RE x141                358.155
+ RE y141                2.42093
+ RE x142                360.695
+ RE y142                2.39029
+ RE x143                363.235
+ RE y143                2.39823
+ RE x144                365.773
+ RE y144                2.89123
+ RE x145                368.313
+ RE y145                2.89911
+ RE x146                370.853
+ RE y146                3.33714
+ RE x147                373.393
+ RE y147                3.34509
+ RE x148                375.933
+ RE y148                3.40441
+ RE x149                378.473
+ RE y149                3.41248
+ RE x150                381.012
+ RE y150                3.70271
+ RE x151                383.552
+ RE y151                3.71094
+ RE x152                386.09
+ RE y152                4.15353
+ RE x153                388.632
+ RE y153                4.12735
+ RE x154                391.17
+ RE y154                4.56011
+ RE x155                393.71
+ RE y155                4.56923
+ RE x156                396.25
+ RE y156                4.77252
+ RE x157                398.79
+ RE y157                4.78163
+ RE x158                401.329
+ RE y158                4.89149
+ RE x159                403.869
+ RE y159                4.89935
+ RE x160                406.41
+ RE y160                4.96478
+ RE x161                408.95
+ RE y161                4.97272
+ RE x162                411.49
+ RE y162                5.16767
+ RE x163                414.03
+ RE y163                5.17553
+ RE x164                416.57
+ RE y164                5.38577
+ RE x165                419.11
+ RE y165                5.39364
+ RE x166                421.65
+ RE y166                5.40151
+ RE x167                424.19
+ RE y167                5.40937
+ RE x168                426.729
+ RE y168                5.28358
+ RE x169                429.269
+ RE y169                5.29136
+ RE x170                431.81
+ RE y170                5.14203
+ RE x171                434.35
+ RE y171                5.14865
+ RE x172                436.891
+ RE y172                4.80067
+ RE x173                439.431
+ RE y173                4.80729
+ RE x174                441.972
+ RE y174                4.86169
+ RE x175                444.512
+ RE y175                4.86947
+ RE x176                447.052
+ RE y176                4.56159
+ RE x177                449.592
+ RE y177                4.56937
+ RE x178                452.134
+ RE y178                3.78824
+ RE x179                454.674
+ RE y179                3.79602
+ RE x180                457.214
+ RE y180                3.8038 
+ RE x181                459.754
+ RE y181                3.81158
+ RE x182                462.295
+ RE y182                3.66534
+ RE x183                464.835
+ RE y183                3.67306
+ RE x184                467.375
+ RE y184                3.67665
+ RE x185                469.915
+ RE y185                3.6845 
+ RE x186                472.455
+ RE y186                3.6904 
+ RE x187                474.995
+ RE y187                3.69832
+ RE x188                477.535
+ RE y188                3.70624
+ RE x189                480.075
+ RE y189                3.71416
+ RE x190                482.616
+ RE y190                3.50154
+ RE x191                485.156
+ RE y191                3.50963
+ RE x192                487.696
+ RE y192                3.51772
+ RE x193                490.236
+ RE y193                3.52581
+ RE x194                492.776
+ RE y194                3.5339 
+ RE x195                495.316
+ RE y195                3.54199
+
+*  Initial slope
+
+ R- dx        x15                      x0
+ R- dy        y15                      y0
+ R/ m_0       dy                       dx
+
+*  degree of polynomial
+
+ IE m                   4
+
+*   other parameter definitions
+
+ IE 0                   0
+ IE 1                   1
+ IE 2                   2
+
+VARIABLES
+
+ DO i         0                        m
+ X  a(i)
+ ND
+
+ DO j         0                        n
+ X  p(j)
+ X  pprime(j)
+ X  pprime2(j)
+ ND
+
+GROUPS
+
+*  objective function
+
+ DO j         0                        n
+ XN z(j)      p(j)      1.0
+ ND
+
+*  evaluate p(x) and its first two derivatives  at each data point
+
+ DO j         0                        n
+ XE p(j)      p(j)      -1.0
+ XE pprime(j) pprime(j) -1.0
+ XE pprime2(j)pprime2(j)-1.0
+
+ RE prod                1.0
+ DO i         0                        m
+ ZE p(j)      a(i)                     prod
+ A* prod      prod                     x(j)
+ OD i
+ 
+ RE prod                1.0
+ DO i         1                        m
+ RI Ri        i
+ R* prod2     prod                     Ri
+ ZE pprime(j) a(i)                     prod2
+ A* prod      prod                     x(j)
+ OD i
+ 
+ RE prod                1.0
+ DO i         2                        m
+ RI Ri        i
+ RA Ri-1      Ri        -1.0            
+ R* prod2     prod                     Ri
+ R* prod2     prod2                    Ri-1
+ ZE pprime2(j)a(i)                     prod2
+ A* prod      prod                     x(j)
+ OD i
+
+*  curvature constraint
+ 
+ XL c(j)
+ ND
+
+CONSTANTS
+
+*  objective function
+
+ DO j         0                        n
+ ZN SAWPATH   z(j)                     y(j)
+ ND
+
+BOUNDS
+
+ FR SAWPATH   'DEFAULT'
+ ZX SAWPATH   p0                       y0
+ ZX SAWPATH   pprime0                  m_0
+
+START POINT
+
+ELEMENT TYPE
+
+ EV SQR       V
+ EV SIXTH     V
+
+ELEMENT USES
+
+ DO j         0                        n
+ XT p2(j)     SQR
+ ZV p2(j)     V                        pprime2(j)
+ XT p1(j)     SIXTH
+ ZV p1(j)     V                        pprime(j)
+ ND
+
+GROUP TYPE
+
+ GV L2        GVAR
+
+GROUP USES
+
+*   objective function
+
+ DO j         0                        n
+ XT z(j)      L2
+ ND
+
+*   curvature constraints
+
+ DO j         0                        n
+ ZE c(j)      p2(j)                    R**2
+ XE c(j)      p1(j)     -1.0
+ ND
+
+*   Solution
+
+*LO SOLTN               1.0
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      SAWPATH
+
+TEMPORARIES
+
+ R  V2P1
+
+INDIVIDUALS
+
+ T  SQR
+ F                      V * V
+ G  V                   V + V
+ H  V         V         2.0D+0
+
+ T  SIXTH
+ A  V2P1                1.0D+0 + V * V
+ F                      V2P1 ** 3
+ G  V                   6.0D+0 * V * V2P1 ** 2 
+ H  V         V         6.0D+0 * V2P1 ** 2 + 
+ H+                     24.0D+0 * V2P1 * V * V
+
+ENDATA
+
+*********************
+* SET UP THE GROUPS *
+* ROUTINE           *
+*********************
+
+GROUPS        SAWPATH
+
+INDIVIDUALS
+
+ T  L2
+ F                      GVAR * GVAR
+ G                      GVAR + GVAR
+ H                      2.0
+
+ENDATA
+
+
+
+
+

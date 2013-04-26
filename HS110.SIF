@@ -1,0 +1,149 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          HS110
+
+*   Problem :
+*   *********
+
+*   This problem is a sum of 2n+1 groups, 2n of which contain 1 linear
+*   element and the other one contains n elements.
+
+*   Source: problem 110 in
+*   W. Hock and K. Schittkowski,
+*   "Test examples for nonlinear programming codes",
+*   Lectures Notes in Economics and Mathematical Systems 187, Springer
+*   Verlag, Heidelberg, 1981.
+
+*   SIF input: A.R. Conn, Mar 1990.
+
+*   classification SBR2-AN-V-0
+
+*   N is the number of variables
+
+ IE N                   10             $-PARAMETER     original value
+*IE N                   50             $-PARAMETER
+*IE N                   100            $-PARAMETER
+*IE N                   200            $-PARAMETER
+
+*   Define useful parameters
+
+ IE 1                   1
+
+VARIABLES
+
+ DO I         1                        N
+ X  X(I)
+ ND
+
+GROUPS
+
+ DO I         1                        N
+ XN 2LOG(I)   X(I)      1.0
+ XN 10LOG(I)  X(I)      -1.0
+ ND
+
+ N  GEXP
+
+CONSTANTS
+
+ DO I         1                        N
+ X  HS110     2LOG(I)   2.0
+ X  HS110     10LOG(I)  -10.0
+ ND
+
+BOUNDS
+
+ XL HS110     'DEFAULT' 2.001
+ XU HS110     'DEFAULT' 9.999
+
+START POINT
+
+ XV HS110     'DEFAULT' 9.0
+
+ELEMENT TYPE
+
+ EV LOG       X
+
+ELEMENT USES
+
+ DO I         1                        N
+ XT LOGX(I)   LOG
+ ZV LOGX(I)   X                        X(I)
+ ND
+
+GROUP TYPE
+
+ GV LOGSQR    GVAR
+ GV EXP       GVAR
+
+GROUP USES
+
+ XT 'DEFAULT' LOGSQR
+
+ T  GEXP      EXP
+
+ DO I         1                        N
+ XE GEXP      LOGX(I)
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLTN               -45.77846971
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      HS110
+
+TEMPORARIES
+
+ M  LOG
+
+INDIVIDUALS
+
+*   Logarithmic elements
+
+ T  LOG
+ F                      LOG(X)
+ G  X                   1.0/X
+ H  X         X         -1.0/X**2
+
+ENDATA
+
+*********************
+* SET UP THE GROUPS *
+* ROUTINE           *
+*********************
+
+GROUPS        HS110
+
+TEMPORARIES
+
+ M  LOG
+ M  EXP
+ R  LOGVAR
+ R  EXPVAR
+
+INDIVIDUALS
+
+ T  LOGSQR
+ A  LOGVAR              LOG(GVAR)
+ F                      LOGVAR**2
+ G                      2.0*LOGVAR/GVAR
+ H                      2.0*(1.0 - LOGVAR)/GVAR**2
+
+ T  EXP
+ A  EXPVAR              -EXP(0.2*GVAR)
+ F                      EXPVAR
+ G                      0.2*EXPVAR
+ H                      0.04*EXPVAR
+
+ENDATA

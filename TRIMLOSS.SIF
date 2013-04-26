@@ -1,0 +1,399 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          TRIMLOSS 
+
+*   Problem :
+*   *********
+
+*   Convex Square Root formulation of a nonconvex MINLP arising from
+*   trim loss minimization in the paper industry. The problem is to 
+*   produce a set of product paper rolls from raw paper rolls such that 
+*   a cost function including the trim loss and the overall production cost
+*   is minimized.
+*
+*   SMALLER PROBLEM
+
+*   Source: I. Harjunkoski, T. Westerlund, R. P\"{o}rn and H. Skrifvars
+*   "Different transformations for solving non--convex trim loss problems 
+*   by MINLP", Report, Process Design Laboratory at Abo Akademi University,
+*   Finland, Jan. 1996.
+
+*   SIF input: S. Leyffer, November 1997
+
+*   classification LOR2-AN-142-75
+
+* PROBLEM SPECIFI CONSTANTS
+ IE 1                   1
+ IE II                  4              $ = I, types of product rolls
+ IE JJ                  4              $ = J, types of cutting patters
+ I- JJ-1      JJ                       1
+ IE NMAX                5              $ max. number of rolls per cut
+ AE NORD1               12.0           $ NORD(i) is # order of type i
+ AE NORD2               6.0
+ AE NORD3               15.0
+ AE NORD4               9.0
+ AE LL1                 15.0           $ L(i) max. multiple of cutting pattern
+ AE LL2                 12.0
+ AE LL3                 9.0
+ AE LL4                 6.0
+ AE KK1                 5.0            $ K(i) max. multiple of cutting pattern
+ AE KK2                 5.0
+ AE KK3                 5.0
+ AE KK4                 4.0
+ RE TEN                 10.0
+ RE BMAX                2000.0         $ width of raw paper roll
+ RE DELTA               200.0          $ tolerance
+ AE B1                  330.0          $ B(i) is width of order i
+ AE B2                  365.0
+ AE B3                  390.0
+ AE B4                  435.0
+
+* ... cost coefficients
+ DO J         1                        JJ
+ AI COUNT     J
+ A/ CC(J)     COUNT                    TEN
+ AE C(J)                1.0
+ ND
+ DO J         1                        JJ
+ A= LLJR      LL(J)
+ IR LLJ       LLJR
+ DO L         1                        LLJ
+ AI IND       L
+ A* CCC(J,L)  IND                      C(J)
+ ND
+
+VARIABLES
+
+ DO J         1                        JJ
+ X  Y(J)      INTEGER
+ ND
+ DO J         1                        JJ
+ A= LLJR      LL(J)
+ IR LLJ       LLJR
+ DO L         1                        LLJ
+ X  BETA(J,L) INTEGER
+ OD L
+ OD J
+ DO I         1                        II
+ DO J         1                        JJ
+ A= KKIR      KK(I)
+ IR KKI       KKIR
+ DO K         1                        KKI
+ X  Z(I,J,K)  INTEGER               
+ OD K
+ OD J
+ OD I
+ DO J         1                        JJ
+ X  M(J) 
+ ND
+ DO I         1                        II
+ DO J         1                        JJ
+ X  N(I,J)
+ OD J
+ OD I
+
+GROUPS
+
+* ... objective / cost function (1)
+ DO J         1                        JJ
+ ZN COST      Y(J)                     CC(J)
+ ND
+ DO J         1                        JJ
+ A= LLJR      LL(J)
+ IR LLJ       LLJR
+ DO L         1                        LLJ
+ ZN COST      BETA(J,L)                CCC(J,L)
+ OD L
+ OD J
+
+* ... constraint (2)
+ DO J         1                        JJ
+ A= LLJR      LL(J)
+ IR LLJ       LLJR
+ DO L         1                        LLJ
+ AI TEMP      L
+ AM TEMP      TEMP      -1.0
+ ZL LIN2      BETA(J,L)                TEMP
+ OD L
+ OD J
+
+* ... constraint set (3)
+ DO J         1                        JJ
+ DO I         1                        II
+ A= KKIR      KK(I)
+ IR KKI       KKIR
+ DO K         1                        KKI
+ AI TEMP      K
+ ZL LIN3(J)   Z(I,J,K)                 TEMP
+ OD K
+ AM TEMP      KK(I)     -1.0
+ ZL LIN3(J)   Y(J)                     TEMP
+ OD I
+ OD J
+
+* ... constraint set (4)
+ DO J         1                        JJ
+ DO I         1                        II
+ A= KKIR      KK(I)
+ IR KKI       KKIR
+ DO K         1                        KKI
+ AI TEMP      K
+ A* TEMP      B(I)                     TEMP
+ ZL LIN4(J)   Z(I,J,K)                 TEMP
+ OD K
+ OD I
+ AM TEMP      BMAX      -1.0
+ ZL LIN4(J)   Y(J)                     TEMP
+ OD J
+
+* ... constraint set (5)
+ DO J         1                        JJ
+ DO I         1                        II
+ A= KKIR      KK(I)
+ IR KKI       KKIR
+ DO K         1                        KKI
+ AI TEMP      K
+ A* TEMP      B(I)                     TEMP
+ AM TEMP      TEMP      -1.0
+ ZL LIN5(J)   Z(I,J,K)                 TEMP
+ OD K
+ OD I
+ A- TEMP      BMAX                     DELTA
+ ZL LIN5(J)   Y(J)                     TEMP
+ OD J
+
+* ... constraint set (6)
+ DO J         1                        JJ
+ A= LLJR      LL(J)
+ IR LLJ       LLJR
+ DO L         1                        LLJ
+ AI TEMP      L
+ AM TEMP      TEMP      -1.0
+ ZL LIN6(J)   BETA(J,L)                TEMP
+ OD L
+ XL LIN6(J)   Y(J)      1.0
+ OD J
+
+* ... constraint set (7)
+ DO J         1                        JJ
+ A= LLJR      LL(J)
+ IR LLJ       LLJR
+ DO L         1                        LLJ
+ AI TEMP      L
+ ZL LIN7(J)   BETA(J,L)                TEMP
+ OD L
+ AM TEMP      LL(J)     -1.0
+ ZL LIN7(J)   Y(J)                     TEMP
+ OD J
+
+* ... constraint set (8)
+ DO J         1                        JJ
+ A= LLJR      LL(J)
+ IR LLJ       LLJR
+ DO L         1                        LLJ
+ AI LR        L
+ AA TEMP      LR        2.0
+ A* TEMP      TEMP                     LR
+ AM TEMP      TEMP      -1.0
+ ZE LIN8(J)   BETA(J,L)                TEMP
+ OD L
+ XE LIN8(J)   M(J)      1.0
+ OD J
+
+* ... constraint set (9)
+ DO I         1                        II
+ DO J         1                        JJ
+ A= KKIR      KK(I)
+ IR KKI       KKIR
+ DO K         1                        KKI
+ AI KR        K
+ AA TEMP      KR        2.0
+ A* TEMP      TEMP                     KR
+ AM TEMP      TEMP      -1.0
+ ZE L9(I,J)   Z(I,J,K)                 TEMP
+ OD K
+ XE L9(I,J)   N(I,J)    1.0
+ OD J
+ OD I
+
+* ... constraint set (12)
+ DO I         1                        II
+ DO J         1                        JJ
+ A= KKIR      KK(I)
+ IR KKI       KKIR
+ DO K         1                        KKI
+ XL L12(I,J)  Z(I,J,K)  1.0
+ OD K
+ OD J
+ OD I
+
+* ... constraint set (13)
+ DO J         1                        JJ
+ A= LLJR      LL(J)
+ IR LLJ       LLJR
+ DO L         1                        LLJ
+ XL LIN13(J)  BETA(J,L) 1.0
+ OD L
+ OD J
+
+* ... constraint set (14)
+ DO J         1                        JJ-1
+ IA JP1       J         1
+ A= LLJP1R    LL(JP1)
+ IR LLJP1     LLJP1R
+ DO L         1                        LLJP1
+ XL LIN14(J)  BETA(J,L) 1.0
+ OD L
+ A= LLJR      LL(J)
+ IR LLJ       LLJR
+ DO L         1                        LLJ
+ XL LIN14(J)  BETA(J,L) -1.0
+ OD L
+ OD J
+
+* ... constraint set (15)
+ DO J         1                        JJ-1
+ IA JP1       J         1
+ XL LIN15(J)  Y(JP1)    1.0            Y(J)      -1.0
+ ND
+
+* ... constraint set (16)
+ DO J         1                        JJ
+ A= LLJR      LL(J)
+ IR LLJ       LLJR
+ DO L         1                        LLJ
+ AI TEMP      L
+ ZL LIN16(J)  BETA(J,L)                TEMP
+ OD L
+ OD J
+
+* ... nonlinear constraints (17) LINEAR PART
+ DO I         1                        II
+ DO J         1                        JJ
+ A= LLJR      LL(J)
+ IR LLJ       LLJR
+ DO L         1                        LLJ
+ AI TEMP      L
+ ZL NLN17(I)  BETA(J,L)                TEMP
+ OD L
+ A= KKIR      KK(I)
+ IR KKI       KKIR
+ DO K         1                        KKI
+ AI TEMP      K
+ ZL NLN17(I)  Z(I,J,K)                 TEMP
+ OD L
+ OD J
+ OD I
+
+CONSTANTS
+
+ X  TRIMLOSS  LIN2      -9.0
+ DO J         1                        JJ
+ X  TRIMLOSS  LIN8(J)   1.0
+ ND
+ DO I         1                        II
+ DO J         1                        JJ
+ X  TRIMLOSS  L9(I,J)   1.0
+ OD J
+ OD I
+ DO J         1                        JJ
+ DO I         1                        II
+ X  TRIMLOSS  L12(I,J)  1.0
+ OD I
+ X  TRIMLOSS  LIN13(J)  1.0
+ Z  TRIMLOSS  LIN16(J)                 LL(J)
+ OD J
+ DO I         1                        II
+ AE RHS                 0.0
+ A- RHS       RHS                      NORD(I)
+ AI TEMP      JJ
+ A- RHS       RHS                      TEMP
+ Z  TRIMLOSS  NLN17(I)                 RHS
+ OD I
+
+BOUNDS
+
+ DO J         1                        JJ
+ XU TRIMLOSS  Y(J)      1.0 
+ A= LLJR      LL(J)
+ IR LLJ       LLJR
+ DO L         1                        LLJ
+ XU TRIMLOSS  BETA(J,L) 1.0 
+ OD L
+ DO I         1                        II
+ A= KKIR      KK(I)
+ IR KKI       KKIR
+ DO K         1                        KKI
+ XU TRIMLOSS  Z(I,J,K)  1.0
+ OD K
+ OD I
+ OD J
+
+START POINT
+
+ DO J         1                        JJ
+ XV TRIMLOSS  M(J)      1.0
+ DO I         1                        II
+ XV TRIMLOSS  N(I,J)    1.0
+ OD I
+ OD J
+
+ELEMENT TYPE
+
+ EV SQRTXY    X                        Y
+
+ELEMENT USES
+
+ DO J         1                        JJ
+ DO I         1                        II
+ XT SQ(I,J)   SQRTXY
+ ZV SQ(I,J)   X                        M(J)
+ ZV SQ(I,J)   Y                        N(I,J)
+ OD I
+ OD J
+
+GROUP USES
+
+ DO I         1                        II
+ DO J         1                        JJ
+ XE NLN17(I)  SQ(I,J)   -1.0
+ OD J
+ OD I
+
+OBJECT BOUND
+
+*   Solution
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      TRIMLOSS 
+
+ EV SQRTXY    X                        Y
+
+TEMPORARIES
+
+ R  FUN
+ R  PROD
+ R  RECIP
+
+INDIVIDUALS
+
+ T  SQRTXY
+ A  PROD                X * Y
+ A  FUN                 SQRT ( PROD )
+ F                      FUN
+ G  X                   Y / FUN / 2.0
+ G  Y                   X / FUN / 2.0
+ A  RECIP               1.0 / FUN / PROD 
+ H  X         X         - Y * Y * RECIP / 4.0
+ H  X         Y         1.0 / FUN / 4.0 
+ H  Y         Y         - X * X * RECIP / 4.0
+
+ENDATA

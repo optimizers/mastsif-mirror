@@ -1,0 +1,334 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          ROCKET 
+
+*   Problem :
+*   *********
+
+*   Maximize the final altitude of a vertically-lauched rocket, using
+*   the thrust as a control and given the initial mass, the fuel mass
+*   and the drag characteristics of the rocket.
+
+*   This is problem 10 in the COPS (Version 2) collection of 
+*   E. Dolan and J. More'
+*   see "Benchmarking Optimization Software with COPS"
+*   Argonne National Labs Technical Report ANL/MCS-246 (2000)
+
+*   SIF input: Nick Gould, November 2000
+
+*   classification OOR2-AN-V-V
+
+*   The number of subintervals in mesh
+
+*IE NH                  50             $-PARAMETER
+*IE NH                  100            $-PARAMETER
+*IE NH                  200            $-PARAMETER
+ IE NH                  400            $-PARAMETER
+
+* Initial velocity
+
+ RE V0                  0.0
+
+* Gravity at the surface; normalization of the equations allows g_0 = 1
+
+ RE G0                  1.0
+
+* Initial height; normalization of the equations allows h_0 = 1
+
+ RE H0                  1.0
+
+* Initial mass; normalization of the equations allows m_0 = 1
+
+ RE M0                  1.0
+
+* Parameters for the model
+
+ RE TC                  3.5
+ RE HC                  500.0
+ RE VC                  620.0
+ RE MC                  0.6
+
+* Derived parameters
+
+ R* G0H0      G0                       H0 
+ R* G0H02     G0H0                     H0 
+ R( C         SQRT                     G0H0
+ RM C         C         0.5
+ R* MF        MC                       M0 
+ R/ DC        M0                       G0
+ R* DC        DC                       VC
+ RM DC        DC        0.5
+ R* TMAX      M0                       G0
+ R* TMAX      TMAX                     TC
+
+*  Other useful values
+
+ IE 0                   0
+ IE 1                   1
+ RE ONE                 1.0
+ RM TMAX/2    TMAX      0.5
+ RI RNH       NH
+ RD 1/NH      RNH       1.0
+ R- MF-M0     MF                       M0
+ R/ HC/H0     HC                       H0
+ RD -1/2C     C         -0.5
+
+VARIABLES
+
+ X  STEP
+
+ DO I         0                        NH
+ X  H(I)      $ Height of rocket
+ X  V(I)      $ Velocity of rocket
+ X  M(I)      $ Mass of rocket
+ X  T(I)      $ Thrust of rocket
+ X  D(I)      $ Drag
+ X  G(I)      $ Gravity
+ ND
+
+GROUPS
+
+*  Objective: maximize final_velocity:
+ 
+ XN OBJ       H(NH)     -1.0
+
+ DO I         0                        NH
+
+* linear part of drag constraint {i in 0..nh}:
+*  -D[i] + DC *(v[i]^2)*exp(-HC *(h[i]-H0 )/H0 ) = 0
+
+ XE D(I)      D(I)      -1.0
+
+* linear part of gravity constraint {i in 0..nh}:
+*  -G[i] + G0*(H0 /h[i])^2 = 0
+
+ XE G(I)      G(I)      -1.0
+ ND
+
+ DO J         1                        NH
+ IA J-1       J         -1
+
+* linear part of h_eqn {j in 1..nh}:
+*  - h[j] + h[j-1] + .5*step*(v[j] + v[j-1]) = 0
+
+ XE H(J)      H(J)      -1.0           H(J-1)    1.0  
+
+* linear part of v_eqn {j in 1..nh}:
+*  - v[j] + v[j-1] + .5*step*((T[j] - D[j] - m[j]*g[j])/m[j]
+*                +          (T[j-1] - D[j-1] - m[j-1]*g[j-1])/m[j-1]) = 0
+
+ XE V(J)      V(J)      -1.0           V(J-1)    1.0  
+
+* linear part of m_eqn {j in 1..nh}:
+*  - m[j] + m[j-1] - .5*step*(T[j] + T[j-1])/c = 0
+
+ XE M(J)      M(J)      -1.0           M(J-1)    1.0  
+
+ ND
+
+CONSTANTS
+
+BOUNDS
+
+ XR ROCKET    'DEFAULT'
+
+ XL ROCKET    STEP      0.0
+
+ DO I         0                        NH
+ XL ROCKET    V(I)      0.0
+ ZL ROCKET    H(I)                     H0
+ XL ROCKET    T(I)      0.0
+ ZU ROCKET    T(I)                     TMAX
+ ZL ROCKET    M(I)                     MF
+ ZU ROCKET    M(I)                     M0
+ ND
+
+ ZX ROCKET    H(0)                     H0
+ ZX ROCKET    V(0)                     V0
+ ZX ROCKET    M(0)                     M0
+ ZX ROCKET    M(NH)                    MF
+
+START POINT
+
+ Z  ROCKET    STEP                     1/NH
+
+ DO I         0                        NH
+ RI RI        I
+ R= HI        ONE
+ Z  ROCKET    H(I)                     HI
+ Z  ROCKET    T(I)                     TMAX/2
+
+ R/ I/NH      RI                       RNH
+ R- 1-I/NH    ONE                      I/NH
+ R* VI        I/NH                     1-I/NH
+ Z  ROCKET    V(I)                     VI
+
+ R* MI        MF-M0                    I/NH
+ R+ MI        MI                       M0
+ Z  ROCKET    M(I)                     MI
+
+ R- DI        H0                       HI
+ R/ DI        DI                       H0
+ R* DI        DI                       HC
+ R( DI        EXP                      DI
+ R* DI        DI                       VI
+ R* DI        DI                       VI
+ R* DI        DI                       DC
+ Z  ROCKET    D(I)                     DI
+
+ A/ GI        H0                       HI
+ R* GI        GI                       GI
+ R* GI        GI                       G0
+ Z  ROCKET    G(I)                     GI
+ ND
+
+ELEMENT TYPE
+
+ EV EXPFUN    V                        H
+ EP EXPFUN    C                        D
+ EV RECIP2    H
+ EV HTYPE     V1                       V2
+ EV HTYPE     STEP 
+ IV HTYPE     V                        STEP
+ EV VTYPE     STEP
+ EV VTYPE     T                        D
+ EV VTYPE     M                        G
+ IV VTYPE     STEP                     TD
+ IV VTYPE     M                        G
+
+ELEMENT USES
+
+ DO I         0                        NH
+ XT E(I)      EXPFUN 
+ ZV E(I)      V                        V(I)
+ ZV E(I)      H                        H(I)
+ ZP E(I)      C                        HC/H0
+ ZP E(I)      D                        HC
+ XT R(I)      RECIP2
+ ZV R(I)      H                        H(I)
+ XT V(I)      VTYPE
+ ZV V(I)      STEP                     STEP
+ ZV V(I)      T                        T(I)
+ ZV V(I)      D                        D(I)
+ ZV V(I)      M                        M(I)
+ ZV V(I)      G                        G(I)
+ ND
+
+ DO J         1                        NH
+ IA J-1       J         -1
+ XT H(J)      HTYPE
+ ZV H(J)      V1                       V(J)
+ ZV H(J)      V2                       V(J-1)
+ ZV H(J)      STEP                     STEP
+ XT M(J)      HTYPE
+ ZV M(J)      V1                       T(J)
+ ZV M(J)      V2                       T(J-1)
+ ZV M(J)      STEP                     STEP
+ ND
+
+GROUP USES
+
+ DO I         0                        NH
+
+* nonlinear part of drag constraint {i in 0..nh}:
+*  -D[i] + DC *(v[i]^2)*exp(-HC *(h[i]-H0 )/H0 ) = 0
+
+ ZE D(I)      E(I)                     DC
+
+* nonlinear part of gravity constraint {i in 0..nh}:
+*  -G[i] + G0*(H0 /h[i])^2 = 0
+
+ ZE G(I)      R(I)                     G0H02
+ ND
+
+ DO J         1                        NH
+ IA J-1       J         -1
+
+* nonlinear part of h_eqn {j in 1..nh}:
+*  - h[j] + h[j-1] + .5*step*(v[j] + v[j-1]) = 0
+
+ XE H(J)      H(J)      0.5
+
+* nonlinear part of v_eqn {j in 1..nh}:
+*  - v[j] + v[j-1] + .5*step*((T[j] - D[j] - m[j]*g[j])/m[j]
+*                +            (T[j-1] - D[j-1] - m[j-1]*g[j-1])/m[j-1]) = 0
+
+ XE V(J)      V(J)      0.5            V(J-1)    0.5
+
+* nonlinear part of m_eqn {j in 1..nh}:
+*  - m[j] + m[j-1] - .5*step*(T[j] + T[j-1])/c = 0
+
+ ZE M(J)      M(J)                     -1/2C
+
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLUTION             -1.0128D+00   $ (NH=50)
+*LO SOLUTION             -1.0128D+00   $ (NH=100)
+*LO SOLUTION             -1.0128D+00   $ (NH=200)
+*LO SOLUTION             -1.0128D+00   $ (NH=400)
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      ROCKET 
+
+TEMPORARIES
+
+ R  EXPARG
+ M  EXP
+
+INDIVIDUALS
+
+ T  EXPFUN
+ A  EXPARG              EXP( D - C * H )
+ F                      V ** 2 * EXPARG
+ G  H                   - C * V ** 2 * EXPARG
+ G  V                   2.0 * V * EXPARG
+ H  H         H         ( C * V ) ** 2 * EXPARG
+ H  V         V         2.0 * EXPARG
+ H  H         V         - 2.0 * C * V * EXPARG
+
+ T  RECIP2
+ F                      1.0 / H ** 2
+ G  H                   - 2.0 / H ** 3 
+ H  H         H         6.0 / H ** 4       
+
+ T  HTYPE
+ R  V         V1        1.0            V2        1.0
+ R  STEP      STEP      1.0
+ F                      STEP * V 
+ G  V                   STEP
+ G  STEP                V
+ H  V         STEP      1.0
+
+ T  VTYPE
+ R  TD        T         1.0            D         -1.0
+ R  M         M         1.0
+ R  G         G         1.0
+ R  STEP      STEP      1.0
+ F                      STEP * ( ( TD / M ) - G )          
+ G  STEP                ( ( TD / M ) - G )
+ G  TD                  STEP / M
+ G  M                   - STEP * TD / M ** 2
+ G  G                   - STEP 
+ H  TD        STEP      1.0 / M
+ H  M         STEP      - TD / M ** 2
+ H  G         STEP      - 1.0
+ H  M         TD        - STEP / M ** 2
+ H  M         M         2.0 * STEP * TD / M ** 3
+
+ENDATA
+
+
+
+

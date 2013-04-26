@@ -1,0 +1,717 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          BRITGAS
+
+*   Problem :
+*   *********
+*   A simple high pressure gas network problem for British Gas.
+*   Invented Data, but real network.
+*   23 node network, 8 hour operation.
+
+*   Source:
+*   N. Gould, private communication,March 1990.
+
+*   SIF input: N. Gould, March 1990.
+
+*   classification OOI2-RN-450-360
+
+*   Period is the number of time periods
+
+ IE HOURS               8
+ IE NODES               23
+
+*   Define problem parameters
+
+ RE THETA               0.75
+ RE A                   1.0
+ RE B                   1.0
+ RE ALPHA               1.8539
+ RE DT                  1.0
+
+*   Define a few helpful parameters
+
+ IE 0                   0
+ IE 1                   1
+ RE ONE                 1.0
+
+ RE -ONE                -1.0
+ RM -THETA    THETA     -1.0
+ RA OMEGA     -THETA    1.0
+ RM -OMEGA    OMEGA     -1.0
+ R/ 1/DT      ONE                      DT
+
+
+VARIABLES
+
+ DO T         0                        HOURS
+
+* P(J,) = pressure at node J at time T
+
+ DO J         1                        NODES
+ X  P(J,T)
+ ND
+
+* flows along pipes connecting nodes (network dependent)
+* Q(I,J,T) = flow from node I to node J at time T
+
+ DO T         0                        HOURS
+ X  Q1, 2, (T)
+ X  Q1, 17,(T)
+ X  Q2, 3, (T)
+ X  Q4, 5, (T)
+ X  Q5, 6, (T)
+ X  Q7, 8, (T)
+ X  Q8, 9, (T)
+ X  Q8, 10,(T)
+ X  Q8, 11,(T)
+ X  Q11,12,(T)
+ X  Q12,13,(T)
+ X  Q13,14,(T)
+ X  Q13,15,(T)
+ X  Q15,16,(T)
+ X  Q17,18,(T)
+ X  Q18,19,(T)
+ X  Q20,21,(T)
+ X  Q21,22,(T)
+ X  Q22,23,(T)
+ ND
+
+ DO T         1                        HOURS
+
+* flows through machines connecting nodes (network dependent)
+* F(I,J,T) = flow from node I to node J at time T
+
+ X  F3, 4, (T)
+ X  F5, 7, (T)
+ X  F19,20,(T)
+
+* compressor ratios (network dependent)
+* R(I,J,T) = compressor ratio between node I to node J at time T
+
+ X  R3, 4, (T)
+ X  R5, 7, (T)
+ X  R19,20,(T)
+
+ ND
+
+ DO T         1                        HOURS
+
+*  the input supply at node 1
+
+ X  IN1,(T)
+
+*  the output supplies at nodes 16 and 23
+
+ X  OUT16,(T)
+ X  OUT23,(T)
+
+ ND
+
+GROUPS
+
+*   Define objective function group
+
+ N  OBJ
+
+
+ DO T         1                        HOURS
+ IA S         T         -1
+
+*   mass balance at nodes
+
+ ZE M1,(T)    Q1, 17,(T)               -THETA
+ ZE M1,(T)    Q1, 2, (T)               -THETA
+ ZE M1,(T)    IN1,(T)                  ONE
+ ZE M1,(T)    Q1, 17,(S)               -OMEGA
+ ZE M1,(T)    Q1, 2, (S)               -OMEGA
+
+ ZE M2,(T)    Q2, 3, (T)               -THETA
+ ZE M2,(T)    Q1, 2, (T)               THETA
+ ZE M2,(T)    Q2, 3, (S)               -OMEGA
+ ZE M2,(T)    Q1, 2, (S)               OMEGA
+
+ ZE M3,(T)    F3, 4, (T)               -ONE
+ ZE M3,(T)    Q2, 3, (T)               THETA
+ ZE M3,(T)    Q2, 3, (S)               OMEGA
+
+ ZE M4,(T)    Q4, 5, (T)               -THETA
+ ZE M4,(T)    F3, 4, (T)               ONE
+ ZE M4,(T)    Q4, 5, (S)               -OMEGA
+
+ ZE M5,(T)    Q5, 6, (T)               -THETA
+ ZE M5,(T)    F5, 7, (T)               -ONE
+ ZE M5,(T)    Q4, 5, (T)               THETA
+ ZE M5,(T)    Q5, 6, (S)               -OMEGA
+ ZE M5,(T)    Q4, 5, (S)               OMEGA
+
+ ZE M6,(T)    Q5, 6, (T)               THETA
+ ZE M6,(T)    Q5, 6, (S)               OMEGA
+
+ ZE M7,(T)    Q7, 8, (T)               -THETA
+ ZE M7,(T)    F5, 7, (T)               ONE
+ ZE M7,(T)    Q7, 8, (S)               -OMEGA
+
+ ZE M8,(T)    Q8, 9, (T)               -THETA
+ ZE M8,(T)    Q8, 10,(T)               -THETA
+ ZE M8,(T)    Q8, 11,(T)               -THETA
+ ZE M8,(T)    Q7, 8, (T)               THETA
+ ZE M8,(T)    Q8, 9, (S)               -OMEGA
+ ZE M8,(T)    Q8, 10,(S)               -OMEGA
+ ZE M8,(T)    Q8, 11,(S)               -OMEGA
+ ZE M8,(T)    Q7, 8, (S)               OMEGA
+
+ ZE M9,(T)    Q8, 9, (T)               THETA
+ ZE M9,(T)    Q8, 9, (S)               OMEGA
+
+ ZE M10,(T)   Q8, 10,(T)               THETA
+ ZE M10,(T)   Q8, 10,(S)               OMEGA
+
+ ZE M11,(T)   Q11,12,(T)               -THETA
+ ZE M11,(T)   Q8, 11,(T)               THETA
+ ZE M11,(T)   Q11,12,(S)               -OMEGA
+ ZE M11,(T)   Q8, 11,(S)               OMEGA
+
+ ZE M12,(T)   Q12,13,(T)               -THETA
+ ZE M12,(T)   Q11,12,(T)               THETA
+ ZE M12,(T)   Q12,13,(S)               -OMEGA
+ ZE M12,(T)   Q11,12,(S)               OMEGA
+
+ ZE M13,(T)   Q13,14,(T)               -THETA
+ ZE M13,(T)   Q13,15,(T)               -THETA
+ ZE M13,(T)   Q12,13,(T)               THETA
+ ZE M13,(T)   Q13,14,(S)               -OMEGA
+ ZE M13,(T)   Q13,15,(S)               -OMEGA
+ ZE M13,(T)   Q12,13,(S)               OMEGA
+
+ ZE M14,(T)   Q13,14,(T)               THETA
+ ZE M14,(T)   Q13,14,(S)               OMEGA
+
+ ZE M15,(T)   Q15,16,(T)               -THETA
+ ZE M15,(T)   Q13,15,(T)               THETA
+ ZE M15,(T)   Q15,16,(S)               -OMEGA
+ ZE M15,(T)   Q13,15,(S)               OMEGA
+
+ ZE M16,(T)   Q15,16,(T)               THETA
+ ZE M16,(T)   Q15,16,(S)               OMEGA
+ ZE M16,(T)   OUT16,(T)                -ONE
+
+ ZE M17,(T)   Q17,18,(T)               -THETA
+ ZE M17,(T)   Q1, 17,(T)               THETA
+ ZE M17,(T)   Q17,18,(S)               -OMEGA
+ ZE M17,(T)   Q1, 17,(S)               OMEGA
+
+ ZE M18,(T)   Q18,19,(T)               -THETA
+ ZE M18,(T)   Q17,18,(T)               THETA
+ ZE M18,(T)   Q18,19,(S)               -OMEGA
+ ZE M18,(T)   Q17,18,(S)               OMEGA
+
+ ZE M19,(T)   F19,20,(T)               -ONE
+ ZE M19,(T)   Q18,19,(T)               THETA
+ ZE M19,(T)   Q18,19,(S)               OMEGA
+
+ ZE M20,(T)   Q20,21,(T)               -THETA
+ ZE M20,(T)   F19,20,(T)               ONE
+ ZE M20,(T)   Q20,21,(S)               -OMEGA
+
+ ZE M21,(T)   Q21,22,(T)               -THETA
+ ZE M21,(T)   Q20,21,(T)               THETA
+ ZE M21,(T)   Q21,22,(S)               -OMEGA
+ ZE M21,(T)   Q20,21,(S)               OMEGA
+
+ ZE M22,(T)   Q22,23,(T)               -THETA
+ ZE M22,(T)   Q21,22,(T)               THETA
+ ZE M22,(T)   Q22,23,(S)               -OMEGA
+ ZE M22,(T)   Q21,22,(S)               OMEGA
+
+ ZE M23,(T)   Q22,23,(T)               THETA
+ ZE M23,(T)   Q22,23,(S)               OMEGA
+ ZE M23,(T)   OUT23,(T)                -ONE
+
+*  compressor ratio constraints.
+
+ ZE C3, 4, (T)P4,(T)                   -ONE
+ ZE C5, 7, (T)P7,(T)                   -ONE
+ ZE C19,20,(T)P20,(T)                  -ONE
+
+*   Panhandle pipe equations (nonlinear)
+
+ XE P1, 2, (T)
+ XE P1, 17,(T)
+ XE P2, 3, (T)
+ XE P4, 5, (T)
+ XE P5, 6, (T)
+ XE P7, 8, (T)
+ XE P8, 9, (T)
+ XE P8, 10,(T)
+ XE P8, 11,(T)
+ XE P11,12,(T)
+ XE P12,13,(T)
+ XE P13,14,(T)
+ XE P13,15,(T)
+ XE P15,16,(T)
+ XE P17,18,(T)
+ XE P18,19,(T)
+ XE P20,21,(T)
+ XE P21,22,(T)
+ XE P22,23,(T)
+
+ ND
+
+CONSTANTS
+
+*   The constants for the mass balance equations (guesses).
+
+ DO T         1                        HOURS
+*X  BRITGAS   M1,(T)    -8.0
+ X  BRITGAS   M2,(T)    1.0
+ X  BRITGAS   M6,(T)    1.0
+ X  BRITGAS   M10,(T)   1.0
+ X  BRITGAS   M13,(T)   1.0
+ X  BRITGAS   M15,(T)   1.0
+*X  BRITGAS   M16,(T)   1.0
+ X  BRITGAS   M17,(T)   1.0
+ X  BRITGAS   M18,(T)   1.0
+ X  BRITGAS   M21,(T)   1.0
+ X  BRITGAS   M22,(T)   1.0
+*X  BRITGAS   M23,(T)   1.0
+ ND
+
+BOUNDS
+
+*  All flows and pressures are positive
+
+*  compressor ratio bounds
+*  crmax = maximum compressor ratio (guess)
+
+ RE CRMAX               10.0
+
+* flows along pipes connecting nodes (network dependent)
+* Q(I,J,T) = flow from node I to node J at time T
+
+ DO T         0                        HOURS
+ XL BRITGAS   Q1, 2, (T)1.0D-16
+ XL BRITGAS   Q1, 17,(T)1.0D-16
+ XL BRITGAS   Q2, 3, (T)1.0D-16
+ XL BRITGAS   Q4, 5, (T)1.0D-16
+ XL BRITGAS   Q5, 6, (T)1.0D-16
+ XL BRITGAS   Q7, 8, (T)1.0D-16
+ XL BRITGAS   Q8, 9, (T)1.0D-16
+ XL BRITGAS   Q8, 10,(T)1.0D-16
+ XL BRITGAS   Q8, 11,(T)1.0D-16
+ XL BRITGAS   Q11,12,(T)1.0D-16
+ XL BRITGAS   Q12,13,(T)1.0D-16
+ XL BRITGAS   Q13,14,(T)1.0D-16
+ XL BRITGAS   Q13,15,(T)1.0D-16
+ XL BRITGAS   Q15,16,(T)1.0D-16
+ XL BRITGAS   Q17,18,(T)1.0D-16
+ XL BRITGAS   Q18,19,(T)1.0D-16
+ XL BRITGAS   Q20,21,(T)1.0D-16
+ XL BRITGAS   Q21,22,(T)1.0D-16
+ XL BRITGAS   Q22,23,(T)1.0D-16
+ ND
+
+ DO T         1                        HOURS
+ ZL BRITGAS   R3, 4, (T)               ONE
+ ZL BRITGAS   R5, 7, (T)               ONE
+ ZL BRITGAS   R19,20,(T)               ONE
+ ZU BRITGAS   R3, 4, (T)               CRMAX
+ ZU BRITGAS   R5, 7, (T)               CRMAX
+ ZU BRITGAS   R19,20,(T)               CRMAX
+ ND
+
+START POINT
+
+ XV BRITGAS   'DEFAULT' 1.0
+
+ELEMENT TYPE
+
+ EV HPOWER    F                        R
+
+ EV PROD      PI                       R
+
+ EV RATIO     P
+
+ EV SQUARE    P
+
+ EV PANHAN    Q                        PL
+ EV PANHAN    PR
+
+ELEMENT USES
+
+ DO T         1                        HOURS
+
+*  horsepower at compressors
+
+ XT H3, 4, (T)HPOWER
+ ZV H3, 4, (T)R                        R3, 4, (T)
+ ZV H3, 4, (T)F                        F3, 4, (T)
+
+ XT H5, 7, (T)HPOWER
+ ZV H5, 7, (T)R                        R5, 7, (T)
+ ZV H5, 7, (T)F                        F5, 7, (T)
+
+ XT H19,20,(T)HPOWER
+ ZV H19,20,(T)R                        R19,20,(T)
+ ZV H19,20,(T)F                        F19,20,(T)
+
+*  compressor ratios
+
+ XT C3, 4, (T)PROD
+ ZV C3, 4, (T)R                        R3, 4, (T)
+ ZV C3, 4, (T)PI                       P3,(T)
+
+ XT C5, 7, (T)PROD
+ ZV C5, 7, (T)R                        R5, 7, (T)
+ ZV C5, 7, (T)PI                       P5,(T)
+
+ XT C19,20,(T)PROD
+ ZV C19,20,(T)R                        R19,20,(T)
+ ZV C19,20,(T)PI                       P19,(T)
+
+ ND
+
+*   for the mass balance constraint at each node
+
+ DO T         0                        HOURS
+ DO J         1                        NODES
+ XT R(J,T)    RATIO
+ ZV R(J,T)    P                        P(J,T)
+ ND
+
+ DO T         1                        HOURS
+
+*   For the panhandle constraints along each pipe
+
+ DO J         1                        NODES
+
+ XT S(J,T)    SQUARE
+ ZV S(J,T)    P                        P(J,T)
+
+ OD J
+
+ XT P1, 2, (T)PANHAN
+ ZV P1, 2, (T)PL                       P1,(T)
+ ZV P1, 2, (T)PR                       P2,(T)
+ ZV P1, 2, (T)Q                        Q1, 2, (T)
+
+ XT P1, 17,(T)PANHAN
+ ZV P1, 17,(T)PL                       P1,(T)
+ ZV P1, 17,(T)PR                       P17,(T)
+ ZV P1, 17,(T)Q                        Q1, 17,(T)
+
+ XT P2, 3, (T)PANHAN
+ ZV P2, 3, (T)PL                       P2,(T)
+ ZV P2, 3, (T)PR                       P3,(T)
+ ZV P2, 3, (T)Q                        Q2, 3, (T)
+
+ XT P4, 5, (T)PANHAN
+ ZV P4, 5, (T)PL                       P4,(T)
+ ZV P4, 5, (T)PR                       P5,(T)
+ ZV P4, 5, (T)Q                        Q4, 5, (T)
+
+ XT P5, 6, (T)PANHAN
+ ZV P5, 6, (T)PL                       P5,(T)
+ ZV P5, 6, (T)PR                       P6,(T)
+ ZV P5, 6, (T)Q                        Q5, 6, (T)
+
+ XT P7, 8, (T)PANHAN
+ ZV P7, 8, (T)PL                       P7,(T)
+ ZV P7, 8, (T)PR                       P8,(T)
+ ZV P7, 8, (T)Q                        Q7, 8, (T)
+
+ XT P8, 9, (T)PANHAN
+ ZV P8, 9, (T)PL                       P8,(T)
+ ZV P8, 9, (T)PR                       P9,(T)
+ ZV P8, 9, (T)Q                        Q8, 9, (T)
+
+ XT P8, 10,(T)PANHAN
+ ZV P8, 10,(T)PL                       P8,(T)
+ ZV P8, 10,(T)PR                       P10,(T)
+ ZV P8, 10,(T)Q                        Q8, 10,(T)
+
+ XT P8, 11,(T)PANHAN
+ ZV P8, 11,(T)PL                       P8,(T)
+ ZV P8, 11,(T)PR                       P11,(T)
+ ZV P8, 11,(T)Q                        Q8, 11,(T)
+
+ XT P11,12,(T)PANHAN
+ ZV P11,12,(T)PL                       P11,(T)
+ ZV P11,12,(T)PR                       P12,(T)
+ ZV P11,12,(T)Q                        Q11,12,(T)
+
+ XT P12,13,(T)PANHAN
+ ZV P12,13,(T)PL                       P12,(T)
+ ZV P12,13,(T)PR                       P13,(T)
+ ZV P12,13,(T)Q                        Q12,13,(T)
+
+ XT P13,14,(T)PANHAN
+ ZV P13,14,(T)PL                       P13,(T)
+ ZV P13,14,(T)PR                       P14,(T)
+ ZV P13,14,(T)Q                        Q13,14,(T)
+
+ XT P13,15,(T)PANHAN
+ ZV P13,15,(T)PL                       P13,(T)
+ ZV P13,15,(T)PR                       P15,(T)
+ ZV P13,15,(T)Q                        Q13,15,(T)
+
+ XT P15,16,(T)PANHAN
+ ZV P15,16,(T)PL                       P15,(T)
+ ZV P15,16,(T)PR                       P16,(T)
+ ZV P15,16,(T)Q                        Q15,16,(T)
+
+ XT P17,18,(T)PANHAN
+ ZV P17,18,(T)PL                       P17,(T)
+ ZV P17,18,(T)PR                       P18,(T)
+ ZV P17,18,(T)Q                        Q17,18,(T)
+
+ XT P18,19,(T)PANHAN
+ ZV P18,19,(T)PL                       P18,(T)
+ ZV P18,19,(T)PR                       P19,(T)
+ ZV P18,19,(T)Q                        Q18,19,(T)
+
+ XT P20,21,(T)PANHAN
+ ZV P20,21,(T)PL                       P20,(T)
+ ZV P20,21,(T)PR                       P21,(T)
+ ZV P20,21,(T)Q                        Q20,21,(T)
+
+ XT P21,22,(T)PANHAN
+ ZV P21,22,(T)PL                       P21,(T)
+ ZV P21,22,(T)PR                       P22,(T)
+ ZV P21,22,(T)Q                        Q21,22,(T)
+
+ XT P22,23,(T)PANHAN
+ ZV P22,23,(T)PL                       P22,(T)
+ ZV P22,23,(T)PR                       P23,(T)
+ ZV P22,23,(T)Q                        Q22,23,(T)
+
+ ND
+
+GROUP USES
+
+*  objective function = sum of power generated at compressors.
+*  zi (inlet compressibility) and k are constants (guesses)
+
+ RE K                   1.0
+ RE ZI                  1.0
+ R* K*ZI      K                        ZI
+
+ DO T         1                        HOURS
+
+ ZE OBJ       H3, 4, (T)               K*ZI
+ ZE OBJ       H5, 7, (T)               K*ZI
+ ZE OBJ       H19,20,(T)               K*ZI
+
+*  compressor ratio constraints
+
+ XE C3, 4, (T)C3, 4, (T)
+ XE C5, 7, (T)C5, 7, (T)
+ XE C19,20,(T)C19,20,(T)
+
+ ND
+
+*  mass balance constraints
+*  v = volume coefficient for mass around node (guess)
+
+*RD V                   0.0
+ RE V                   1.0
+ R* V/DT      V                        1/DT
+ RM -V/DT     V/DT      -1.0
+
+ DO T         1                        HOURS
+ IA S         T         -1
+
+ DO J         1                        NODES
+
+ ZE M(J,T)    R(J,T)                   V/DT
+ ZE M(J,T)    R(J,S)                   -V/DT
+
+ ND
+
+*  Pressure drop equations
+*  H = friction coefficient (guess)
+
+ RE H                   0.01
+*RD H                   0.1
+ RM -H        H         -1.0
+
+ DO T         1                        HOURS
+
+ ZE P1, 2, (T)S1,(T)                   ONE
+ ZE P1, 2, (T)S2,(T)                   -ONE
+ ZE P1, 2, (T)P1, 2, (T)               -H
+
+ ZE P1, 17,(T)S1,(T)                   ONE
+ ZE P1, 17,(T)S17,(T)                  -ONE
+ ZE P1, 17,(T)P1, 17,(T)               -H
+
+ ZE P2, 3, (T)S2,(T)                   ONE
+ ZE P2, 3, (T)S3,(T)                   -ONE
+ ZE P2, 3, (T)P2, 3, (T)               -H
+
+ ZE P4, 5, (T)S4,(T)                   ONE
+ ZE P4, 5, (T)S5,(T)                   -ONE
+ ZE P4, 5, (T)P4, 5, (T)               -H
+
+ ZE P5, 6, (T)S5,(T)                   ONE
+ ZE P5, 6, (T)S6,(T)                   -ONE
+ ZE P5, 6, (T)P5, 6, (T)               -H
+
+ ZE P7, 8, (T)S7,(T)                   ONE
+ ZE P7, 8, (T)S8,(T)                   -ONE
+ ZE P7, 8, (T)P7, 8, (T)               -H
+
+ ZE P8, 9, (T)S8,(T)                   ONE
+ ZE P8, 9, (T)S9,(T)                   -ONE
+ ZE P8, 9, (T)P8, 9, (T)               -H
+
+ ZE P8, 10,(T)S8,(T)                   ONE
+ ZE P8, 10,(T)S10,(T)                  -ONE
+ ZE P8, 10,(T)P8, 10,(T)               -H
+
+ ZE P8, 11,(T)S8,(T)                   ONE
+ ZE P8, 11,(T)S11,(T)                  -ONE
+ ZE P8, 11,(T)P8, 11,(T)               -H
+
+ ZE P11,12,(T)S11,(T)                  ONE
+ ZE P11,12,(T)S12,(T)                  -ONE
+ ZE P11,12,(T)P11,12,(T)               -H
+
+ ZE P12,13,(T)S12,(T)                  ONE
+ ZE P12,13,(T)S13,(T)                  -ONE
+ ZE P12,13,(T)P12,13,(T)               -H
+
+ ZE P13,14,(T)S13,(T)                  ONE
+ ZE P13,14,(T)S14,(T)                  -ONE
+ ZE P13,14,(T)P13,14,(T)               -H
+
+ ZE P13,15,(T)S13,(T)                  ONE
+ ZE P13,15,(T)S15,(T)                  -ONE
+ ZE P13,15,(T)P13,15,(T)               -H
+
+ ZE P15,16,(T)S15,(T)                  ONE
+ ZE P15,16,(T)S16,(T)                  -ONE
+ ZE P15,16,(T)P15,16,(T)               -H
+
+ ZE P17,18,(T)S17,(T)                  ONE
+ ZE P17,18,(T)S18,(T)                  -ONE
+ ZE P17,18,(T)P17,18,(T)               -H
+
+ ZE P18,19,(T)S18,(T)                  ONE
+ ZE P18,19,(T)S19,(T)                  -ONE
+ ZE P18,19,(T)P18,19,(T)               -H
+
+ ZE P20,21,(T)S20,(T)                  ONE
+ ZE P20,21,(T)S21,(T)                  -ONE
+ ZE P20,21,(T)P20,21,(T)               -H
+
+ ZE P21,22,(T)S21,(T)                  ONE
+ ZE P21,22,(T)S22,(T)                  -ONE
+ ZE P21,22,(T)P21,22,(T)               -H
+
+ ZE P22,23,(T)S22,(T)                  ONE
+ ZE P22,23,(T)S23,(T)                  -ONE
+ ZE P22,23,(T)P22,23,(T)               -H
+
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLTN              0.0
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      BRITGAS
+
+TEMPORARIES
+
+ R  A
+ R  B
+ R  HALFB
+ R  ALPHA
+ R  BETA
+ R  SUM
+ R  RATIO
+ R  BETARA
+ R  BETARF
+ R  ABSLQ
+ R  POWER1
+ R  POWER2
+ M  ABS
+
+GLOBALS
+
+*  compresibility coefficients (guesses)
+
+ A  A                   1.0D+0
+ A  B                   1.0D+0
+ A  HALFB               5.0D-1 * B
+
+INDIVIDUALS
+
+*   horse power from compressor
+
+ T  HPOWER
+
+ A  BETA                0.22D+0
+ A  RATIO               ABS( R ) ** BETA
+ A  BETARA              BETA * RATIO
+ A  BETARF              BETARA * F
+
+ F                      F * ( RATIO - 1.0D+0 )
+ G  R                   BETARF / R
+ G  F                   RATIO - 1.0D+0
+ H  R         R         BETARF * ( BETA - 1.0D+0 ) / ( R * R )
+ H  F         R         BETARA / R
+
+*   product of pi and r
+
+ T  PROD
+ F                      PI * R
+ G  PI                  R
+ G  R                   PI
+ H  PI        R         1.0D+0
+
+*   ratio of p over a + b p
+
+ T  RATIO
+ A  SUM                 A + B * P
+ F                      P / SUM
+ G  P                   A / SUM ** 2
+ H  P         P         - 2.0D+0 * A * B / SUM ** 3
+
+*   square of p
+
+ T  SQUARE
+ F                      P * P
+ G  P                   P + P
+ H  P         P         2.0D+0
+
+*   panhandle term
+
+ T  PANHAN
+
+ A  ALPHA               1.8539D+0
+ A  SUM                 A + HALFB * ( PL + PR )
+ A  ABSLQ               ABS( Q )
+ A  POWER1              ABSLQ ** ALPHA
+ A  POWER2              ABSLQ ** ( ALPHA - 1.0D+0 )
+
+ F                      SUM * POWER1
+ G  Q                   ALPHA * SUM * POWER2
+ G  PL                  HALFB * POWER1
+ G  PR                  HALFB * POWER1
+ H  Q         Q         ALPHA * ( ALPHA - 1.0D+0 ) *
+ H+                     SUM * ABSLQ ** ( ALPHA - 2.0D+0 )
+ H  Q         PL        HALFB * ALPHA * POWER2
+ H  Q         PR        HALFB * ALPHA * POWER2
+
+ENDATA

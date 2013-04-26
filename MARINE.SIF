@@ -1,0 +1,664 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          MARINE  
+
+*   Problem :
+*   *********
+
+*   Given estimates of the abundance of the population of a marine
+*   spieces at each stage as a function of time, determine specific
+*   growth and mortality rates. Th emodel for the population dynamics
+*   of the n_e -stage population is 
+
+*     y_j' = g_j-1 y_j-1 - (m_j + g_j) y_j   (1 <= j <= n_e)
+
+*   where m_i and g_i are unknown mortality and growth rates at stage i
+*   with g_0 = 0 = g_n_e. This model assumes that the species eventually
+*   dies or grows into the next stage, with the implicit assumption that
+*   the species cannot skip a stage. Initial conditions for the differntial
+*   equation are unknown, since the stage abundance measurements at the
+*   initial time might also be contaminated with experimental error. The
+*   problem is to minimize the error between the observed and computed data,
+
+*    sum{i=1,nm} || y(tau_i,m,g) - z_i||^2
+
+*   where the z_i are stage abundance measurements.
+
+*   This is problem 6 in the COPS (Version 2) collection of 
+*   E. Dolan and J. More'
+*   see "Benchmarking Optimization Software with COPS"
+*   Argonne National Labs Technical Report ANL/MCS-246 (2000)
+
+*   SIF input: Nick Gould, November 2000
+
+*   classification OOR2-AN-V-V
+
+* The number of differential equations
+
+ IE NE                  8
+
+*   The number of subintervals
+
+*IE NH                  25             $-PARAMETER
+*IE NH                  50             $-PARAMETER
+*IE NH                  100            $-PARAMETER
+ IE NH                  200            $-PARAMETER
+
+* The number of measurements
+
+ IE NM                  21
+
+*  The number of collocation points 
+
+*IE NC                  1              $-PARAMETER
+ IE NC                  2              $-PARAMETER
+*IE NC                  3              $-PARAMETER
+*IE NC                  4              $-PARAMETER
+
+* roots of NC-th degree Legendre polynomial
+
+*RE RHO1                0.5            $-PARAMETER NC = 1 
+ RE RHO1                0.7886751346   $-PARAMETER NC = 2 
+*RE RHO1                0.5            $-PARAMETER NC = 3 
+*RE RHO1                0.0694318442   $-PARAMETER NC = 4
+
+ RE RHO2                0.2113248654   $-PARAMETER NC = 2 
+*RE RHO2                0.8872983346   $-PARAMETER NC = 3 
+*RE RHO2                0.3300094782   $-PARAMETER NC = 4
+
+*RE RHO3                0.1127016654   $-PARAMETER NC = 3 
+*RE RHO3                0.6699905218   $-PARAMETER NC = 4
+
+*RE RHO4                0.9305681558   $-PARAMETER NC = 4
+
+* times at which observations made
+
+ RE TAU1                0.0
+ RE TAU2                0.5
+ RE TAU3                1.0
+ RE TAU4                1.5
+ RE TAU5                2.0
+ RE TAU6                2.5
+ RE TAU7                3.0
+ RE TAU8                3.5
+ RE TAU9                4.0
+ RE TAU10               4.5
+ RE TAU11               5.0
+ RE TAU12               5.5
+ RE TAU13               6.0
+ RE TAU14               6.5
+ RE TAU15               7.0
+ RE TAU16               7.5
+ RE TAU17               8.0
+ RE TAU18               8.5
+ RE TAU19               9.0
+ RE TAU20               9.5
+ RE TAU21               10.0
+
+*  The ODE is defined in [0,TF]
+
+ A= TF        TAU(NM)
+
+*   The uniform interval length
+
+ RI RNH       NH
+ R/ H         TF                       RNH
+
+*  Concentrations
+
+ RE Z1,1                20000.0 
+ RE Z2,1                12445.0 
+ RE Z3,1                 7705.0 
+ RE Z4,1                 4664.0 
+ RE Z5,1                 2977.0 
+ RE Z6,1                 1769.0 
+ RE Z7,1                  943.0 
+ RE Z8,1                  581.0 
+ RE Z9,1                  355.0 
+ RE Z10,1                 223.0 
+ RE Z11,1                 137.0 
+ RE Z12,1                  87.0 
+ RE Z13,1                  49.0 
+ RE Z14,1                  32.0 
+ RE Z15,1                  17.0 
+ RE Z16,1                  11.0 
+ RE Z17,1                   7.0 
+ RE Z18,1                   4.0 
+ RE Z19,1                   2.0 
+ RE Z20,1                   1.0 
+ RE Z21,1                   1.0 
+
+ RE Z1,2                17000.0 
+ RE Z2,2                15411.0 
+ RE Z3,2                13074.0 
+ RE Z4,2                 8579.0 
+ RE Z5,2                 7053.0 
+ RE Z6,2                 5054.0 
+ RE Z7,2                 3907.0 
+ RE Z8,2                 2624.0 
+ RE Z9,2                 1744.0 
+ RE Z10,2                1272.0 
+ RE Z11,2                 821.0 
+ RE Z12,2                 577.0 
+ RE Z13,2                 337.0 
+ RE Z14,2                 228.0 
+ RE Z15,2                 168.0 
+ RE Z16,2                  99.0 
+ RE Z17,2                  65.0 
+ RE Z18,2                  44.0 
+ RE Z19,2                  27.0 
+ RE Z20,2                  20.0 
+ RE Z21,2                  12.0 
+
+ RE Z1,3                10000.0 
+ RE Z2,3                13040.0 
+ RE Z3,3                14623.0 
+ RE Z4,3                12434.0 
+ RE Z5,3                11219.0 
+ RE Z6,3                10065.0 
+ RE Z7,3                 9473.0 
+ RE Z8,3                 7421.0 
+ RE Z9,3                 5369.0 
+ RE Z10,3                4713.0 
+ RE Z11,3                3451.0 
+ RE Z12,3                2649.0 
+ RE Z13,3                2058.0 
+ RE Z14,3                1440.0 
+ RE Z15,3                1178.0 
+ RE Z16,3                 919.0 
+ RE Z17,3                 647.0 
+ RE Z18,3                 509.0 
+ RE Z19,3                 345.0 
+ RE Z20,3                 231.0 
+ RE Z21,3                 198.0 
+
+ RE Z1,4                15000.0 
+ RE Z2,4                13338.0 
+ RE Z3,4                11976.0 
+ RE Z4,4                12603.0 
+ RE Z5,4                11340.0 
+ RE Z6,4                11232.0 
+ RE Z7,4                10334.0 
+ RE Z8,4                10297.0 
+ RE Z9,4                 7748.0 
+ RE Z10,4                6869.0 
+ RE Z11,4                6050.0 
+ RE Z12,4                5454.0 
+ RE Z13,4                4115.0 
+ RE Z14,4                3790.0 
+ RE Z15,4                3087.0 
+ RE Z16,4                2596.0 
+ RE Z17,4                1873.0 
+ RE Z18,4                1571.0 
+ RE Z19,4                1227.0 
+ RE Z20,4                 934.0 
+ RE Z21,4                 707.0 
+
+ RE Z1,5                12000.0  
+ RE Z2,5                13484.0  
+ RE Z3,5                12453.0  
+ RE Z4,5                11738.0  
+ RE Z5,5                13665.0  
+ RE Z6,5                12112.0  
+ RE Z7,5                11115.0  
+ RE Z8,5                12427.0  
+ RE Z9,5                10057.0  
+ RE Z10,5                9564.0  
+ RE Z11,5                8671.0  
+ RE Z12,5                8430.0  
+ RE Z13,5                7435.0  
+ RE Z14,5                6474.0  
+ RE Z15,5                6524.0  
+ RE Z16,5                5360.0  
+ RE Z17,5                4556.0  
+ RE Z18,5                4009.0  
+ RE Z19,5                3677.0  
+ RE Z20,5                3197.0  
+ RE Z21,5                2562.0  
+
+ RE Z1,6                9000.0  
+ RE Z2,6                8426.0  
+ RE Z3,6                9272.0  
+ RE Z4,6                9710.0  
+ RE Z5,6                8534.0  
+ RE Z6,6                9600.0  
+ RE Z7,6                8826.0  
+ RE Z8,6                8747.0  
+ RE Z9,6                8698.0  
+ RE Z10,6               8766.0  
+ RE Z11,6               8291.0  
+ RE Z12,6               7411.0  
+ RE Z13,6               7627.0  
+ RE Z14,6               6658.0  
+ RE Z15,6               5880.0  
+ RE Z16,6               5762.0  
+ RE Z17,6               5058.0  
+ RE Z18,6               4527.0  
+ RE Z19,6               4229.0  
+ RE Z20,6               3695.0  
+ RE Z21,6               3163.0  
+
+ RE Z1,7                7000.0  
+ RE Z2,7                6615.0  
+ RE Z3,7                6891.0  
+ RE Z4,7                6821.0  
+ RE Z5,7                6242.0  
+ RE Z6,7                6647.0  
+ RE Z7,7                6842.0  
+ RE Z8,7                7199.0  
+ RE Z9,7                6542.0  
+ RE Z10,7               6810.0  
+ RE Z11,7               6827.0  
+ RE Z12,7               6423.0  
+ RE Z13,7               6268.0  
+ RE Z14,7               5859.0  
+ RE Z15,7               5562.0  
+ RE Z16,7               4480.0  
+ RE Z17,7               4944.0  
+ RE Z18,7               4233.0  
+ RE Z19,7               3805.0  
+ RE Z20,7               3159.0  
+ RE Z21,7               3232.0  
+
+ RE Z1,8                3000.0
+ RE Z2,8                4022.0
+ RE Z3,8                5020.0
+ RE Z4,8                5722.0
+ RE Z5,8                5695.0
+ RE Z6,8                7034.0
+ RE Z7,8                7348.0
+ RE Z8,8                7684.0
+ RE Z9,8                7410.0
+ RE Z10,8               6961.0
+ RE Z11,8               7525.0
+ RE Z12,8               8388.0
+ RE Z13,8               7189.0
+ RE Z14,8               7467.0
+ RE Z15,8               7144.0
+ RE Z16,8               7256.0
+ RE Z17,8               7538.0
+ RE Z18,8               6649.0
+ RE Z19,8               6378.0
+ RE Z20,8               6454.0
+ RE Z21,8               5566.0
+
+*  Other useful values
+
+ IE 1                   1
+ IE 2                   2
+ IE 3                   3
+ IE 4                   4
+ IE 5                   5
+ IE 6                   6
+ IE 7                   7
+ IE 8                   8
+ IA NE-1      NE        -1                
+ IA NH-1      NH        -1                
+ 
+*  Factorials
+
+ RE FACT0               1.0
+ DO I         1                        NC
+ RI RI        I
+ IA I-1       I         -1
+ A* FACT(I)   FACT(I-1)                RI
+ ND
+
+* itau[i] is the largest integer k with t[k] <= tau[i]
+* itau {i in 1..nm} := min(nh,floor(tau[i]/h)+1);    
+
+ DO I         1                        NM
+ A/ TAU/H     TAU(I)                   H
+ IR IT/H      TAU/H
+ IA IT/H+1    IT/H      1
+ I= A         IT/H+1
+ I= B         NH
+
+*  this is how we find min(a,b) !!
+
+*  first set a <- - a and b <- - b
+ IM A         A         -1
+ IM B         B         -1
+*  now add |a| + |b| to both
+ RI A         A  
+ R( ABSA      ABS                      A
+ IR ABSA      ABSA
+ RI B         B
+ R( ABSB      ABS                      B
+ IR ABSB      ABSB
+ I+ ABSA+B    ABSA                     ABSB
+ I+ A         A                        ABSA+B
+ I+ B         B                        ABSA+B
+* only one of [a/b] and [b/a] is nonzero (unless a=b)
+ I/ A/B       A                        B
+ I/ B/A       B                        A
+* form max(a,b) = (a.[a/b] + b.[b/a]) / ([a/b] + [b/a])
+ I+ SUM       A/B                      B/A
+ I* A         A                        A/B
+ I* B         B                        B/A
+ I+ MAXA,B    A                        B
+ I/ MAXA,B    MAXA,B                   SUM
+* subtract |a| + |b| and negate to find the required minimum
+ I- MINA,B    ABSA+B                   MAXA,B
+
+ AI ITAU(I)   MINA,B
+ ND
+
+VARIABLES
+
+* The growth rates G and mortality rates M
+
+ DO I         1                        NE-1
+ X  M(I)
+ X  G(I)
+ OD J
+ X  M(NE)
+
+*  The collocation approximation u is defined by the parameters V and W
+
+ DO I         1                        NH
+ DO J         1                        NE
+ X  V(I,J)
+ OD J
+
+ DO K         1                        NC
+ DO S         1                        NE
+ X  W(I,K,S)
+ OD S
+ OD K
+
+ DO J         1                        NC
+ DO S         1                        NE
+
+* U[i,j,s] is u evaluated  at the collocation points
+
+ X  U(I,J,S)
+
+* DU[i,j,s] is u' evaluated  at the collocation points
+
+ X  DU(I,J,S)
+ ND
+
+GROUPS
+
+* param t {i in 1..nh+1} := (i-1)*h
+*  obj(j,s) =  v[itau[j],s] - z[j,s] + (
+*     sum {k in 1..nc} w[itau[j],k,s]*(tau[j]-t[itau[j]])^k/(fact[k]*h^(k-1)))
+
+ DO J         1                        NM
+ A= RITAU     ITAU(J)
+ IR I         RITAU
+ RA T         RITAU     -1.0
+ R* T         T                        H
+ A- DIFF      TAU(J)                   T
+
+ DO S         1                        NE
+ R= RATIO     DIFF
+ XN OBJ(J,S)  V(I,S)    1.0
+
+ DO K         1                        NC
+ A/ COEF      RATIO                    FACT(K)
+ ZN OBJ(J,S)  W(I,K,S)                 COEF
+ R* RATIO     RATIO                    DIFF
+ R/ RATIO     RATIO                    H
+ ND
+
+* - u {i in 1..nh, j in 1..nc, s in 1..ne} + 
+*  v[i,s] + h*sum {k in 1..nc} w[i,k,s]*(rho[j]^k/fact[k]) = 0
+
+ DO I         1                        NH
+ DO J         1                        NC
+ A= RH        RHO(J)
+
+ XE U(I,J,1)  U(I,J,1)  -1.0           V(I,1)    1.0      
+ XE U(I,J,2)  U(I,J,2)  -1.0           V(I,2)    1.0      
+ XE U(I,J,3)  U(I,J,3)  -1.0           V(I,3)    1.0      
+ XE U(I,J,4)  U(I,J,4)  -1.0           V(I,4)    1.0      
+ XE U(I,J,5)  U(I,J,5)  -1.0           V(I,5)    1.0      
+ XE U(I,J,6)  U(I,J,6)  -1.0           V(I,6)    1.0      
+ XE U(I,J,7)  U(I,J,7)  -1.0           V(I,7)    1.0      
+ XE U(I,J,8)  U(I,J,8)  -1.0           V(I,8)    1.0      
+
+ R* PROD      RH                       H
+ DO K         1                        NC
+ A/ COEF      PROD                     FACT(K)
+ ZE U(I,J,1)  W(I,K,1)                 COEF
+ ZE U(I,J,2)  W(I,K,2)                 COEF
+ ZE U(I,J,3)  W(I,K,3)                 COEF
+ ZE U(I,J,4)  W(I,K,4)                 COEF
+ ZE U(I,J,5)  W(I,K,5)                 COEF
+ ZE U(I,J,6)  W(I,K,6)                 COEF
+ ZE U(I,J,7)  W(I,K,7)                 COEF
+ ZE U(I,J,8)  W(I,K,8)                 COEF
+ R* PROD      PROD                     RH
+ OD K
+
+* - du {i in 1..nh, j in 1..nc, s in 1..ne} +
+*   sum {k in 1..nc} w[i,k,s]*(rho[j]^(k-1)/fact[k-1]) = 0
+ 
+ XE DU(I,J,1) DU(I,J,1) -1.0
+ XE DU(I,J,2) DU(I,J,2) -1.0
+ XE DU(I,J,3) DU(I,J,3) -1.0
+ XE DU(I,J,4) DU(I,J,4) -1.0
+ XE DU(I,J,5) DU(I,J,5) -1.0
+ XE DU(I,J,6) DU(I,J,6) -1.0
+ XE DU(I,J,7) DU(I,J,7) -1.0
+ XE DU(I,J,8) DU(I,J,8) -1.0
+
+ RE PROD                1.0
+ DO K         1                        NC
+ IA K-1       K         -1
+ A/ COEF      PROD                     FACT(K-1)
+ ZE DU(I,J,1) W(I,K,1)                 COEF
+ ZE DU(I,J,2) W(I,K,2)                 COEF
+ ZE DU(I,J,3) W(I,K,3)                 COEF
+ ZE DU(I,J,4) W(I,K,4)                 COEF
+ ZE DU(I,J,5) W(I,K,5)                 COEF
+ ZE DU(I,J,6) W(I,K,6)                 COEF
+ ZE DU(I,J,7) W(I,K,7)                 COEF
+ ZE DU(I,J,8) W(I,K,8)                 COEF
+ R* PROD      PROD                     RH
+
+ ND
+
+*  continuity {i in 1..nh-1, s in 1..ne}:  
+*   v[i,s] - v[i+1,s] + (sum {j in 1..nc} w[i,j,s]*h/fact[j]) = 0
+
+ DO I         1                        NH-1
+ IA I+1       I         1
+ DO S         1                        NE
+ XE C(I,S)    V(I,S)    1.0            V(I+1,S)  -1.0
+ DO J         1                        NC
+ A/ COEF      H                        FACT(J)
+ ZE C(I,S)    W(I,J,S)                 COEF
+ ND
+
+* collocation eqns (linear parts)
+
+ DO I         1                        NH
+ DO J         1                        NC
+ DO S         1                        NE
+ XE CO(I,J,S) DU(I,J,S) 1.0
+ ND
+
+CONSTANTS
+
+ DO J         1                        NM
+ DO S         1                        NE
+ Z  MARINE    OBJ(J,S)                 Z(J,S)
+ ND
+
+BOUNDS
+
+ XR MARINE    'DEFAULT'
+
+ DO I         1                        NE-1
+ XL MARINE    M(I)      0.0
+ XL MARINE    G(I)      0.0
+ OD J
+ XL MARINE    M(NE)     0.0
+
+START POINT
+
+ DO I         1                        NH
+ DO J         1                        NE
+ X  MARINE    V(I,J)
+ OD J
+ ND
+
+ IE I1                  1
+ A= RITAU     ITAU(1)
+ IR I2        RITAU
+
+ DO I         I1                       I2
+ DO S         1                        NE
+ Z  MARINE    V(I,S)                   Z(1,S)
+ DO J         1                        NC
+ X  MARINE    W(I,J,S)  0.0
+ Z  MARINE    U(I,J,S)                 Z(1,S)
+ X  MARINE    DU(I,J,S) 0.0
+ ND
+
+ DO K         2                        NM
+ IA I1        I2        1
+ A= RITAU     ITAU(K)
+ IR I2        RITAU
+ DO I         I1                       I2
+ IE S                   1
+ Z  MARINE    V(I,S)                   Z(K,S)
+ DO J         1                        NC
+ X  MARINE    W(I,J,S)  0.0
+ Z  MARINE    U(I,J,S)                 Z(K,S)
+ X  MARINE    DU(I,J,S) 0.0
+ OD J
+ IE S                   2
+ Z  MARINE    V(I,S)                   Z(K,S)
+ DO J         1                        NC
+ X  MARINE    W(I,J,S)  0.0
+ Z  MARINE    U(I,J,S)                 Z(K,S)
+ X  MARINE    DU(I,J,S) 0.0
+ OD J
+ IE S                   3
+ Z  MARINE    V(I,S)                   Z(K,S)
+ DO J         1                        NC
+ X  MARINE    W(I,J,S)  0.0
+ Z  MARINE    U(I,J,S)                 Z(K,S)
+ X  MARINE    DU(I,J,S) 0.0
+ OD J
+ ND
+
+ IA I1        I2        1
+ I= I2        NH
+ DO I         I1                       I2
+ DO S         1                        NE
+ Z  MARINE    V(I,S)                   Z(NM,S)
+ DO J         1                        NC
+ X  MARINE    W(I,J,S)  0.0
+ Z  MARINE    U(I,J,S)                 Z(NM,S)
+ X  MARINE    DU(I,J,S) 0.0
+ ND
+
+ELEMENT TYPE
+
+ EV PROD      THETA                    U
+
+ELEMENT USES
+
+ DO I         1                        NH
+ DO J         1                        NC
+ DO S         1                        NE
+ XT M(I,J,S)  PROD
+ ZV M(I,J,S)  THETA                    M(S)
+ ZV M(I,J,S)  U                        U(I,J,S)
+ OD S
+ DO S         1                        NE-1
+ XT G(I,J,S)  PROD
+ ZV G(I,J,S)  THETA                    G(S)
+ ZV G(I,J,S)  U                        U(I,J,S)
+ ND
+
+GROUP TYPE
+
+ GV L2        X
+
+GROUP USES
+
+* collocation for equation 1 {i in 1..nh,j in 1..nc}:
+* du[i,j,1] + (m[1]+g[1])*u[i,j,1] = 0
+
+* collocation for equations {i in 1..nh,j in 1..nc,s in 2..ne-1}:
+* du[i,j,s] - g[s-1]*u[i,j,s-1] + (m[s]+g[s])*u[i,j,s] = 0
+
+* collocation for equation {i in 1..nh,j in 1..nc}:
+* du[i,j,ne] - g[ne-1]*u[i,j,ne-1] + m[ne]*u[i,j,ne] = 0
+
+ DO I         1                        NH
+ DO J         1                        NC
+
+ I= S         1
+ XE CO(I,J,S) G(I,J,S)  1.0            M(I,J,S)  1.0
+
+ DO S         2                        NE-1
+ IA S1        S         -1
+ XE CO(I,J,S) G(I,J,S1) -1.0           M(I,J,S)  1.0
+ XE CO(I,J,S) G(I,J,S)  1.0
+ OD S
+
+ I= S         NE
+ IA S1        S         -1
+ XE CO(I,J,S) G(I,J,S1) -1.0           M(I,J,S)  1.0
+
+ ND
+
+*  objective function sum {j in 1..nm} obj(j)^2
+
+ DO J         1                        NM
+ DO S         1                        NE
+ XT OBJ(J,S)  L2
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLUTION             1.97522D+07   $ (NH=25)
+*LO SOLUTION             1.97465D+07   $ (NH=50)
+*LO SOLUTION             1.97465D+07   $ (NH=100)
+*LO SOLUTION             1.97465D+07   $ (NH=200)
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      MARINE  
+
+INDIVIDUALS
+
+ T  PROD
+ F                      THETA * U 
+ G  THETA               U 
+ G  U                   THETA
+ H  THETA     U         1.0
+
+ENDATA
+
+*********************
+* SET UP THE GROUPS *
+* ROUTINE           *
+*********************
+
+GROUPS        MARINE  
+
+INDIVIDUALS
+
+ T  L2
+ F                      X * X
+ G                      X + X 
+ H                      2.0
+
+ENDATA

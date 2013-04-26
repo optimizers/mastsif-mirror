@@ -1,0 +1,229 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          EG3     
+
+*   Problem :
+*   *********
+
+*   The obvious generalization of example from Section 1.2.5 
+*   of the LANCELOT users' manual, where the number of variables 
+*   is a parameter, N, not merely 100 as specified in the text.
+
+*   Source:
+*   A. R. Conn, N. I. M. Gould and Ph. L. Toint,
+*   "LANCELOT: a Fortran package for large-scale nonlinear optimization
+*    (Release A)", Springer Series in Computational Mathematics 17,
+*   Springer Verlag, 1992
+
+*   SIF input: A. R. Conn, Nick Gould and Ph. L. Toint, June 1994.
+
+*   classification OOR2-AY-V-V
+
+*   Number of variables
+
+*IE N                   10             $-PARAMETER
+*IE N                   100            $-PARAMETER     original value
+*IE N                   1000           $-PARAMETER
+ IE N                   10000          $-PARAMETER
+
+*   other parameter definitions
+
+ IE 1                   1
+ IE 2                   2
+ IA N-1       N         -1
+ 
+
+VARIABLES
+
+    Y
+
+ DO I         1                        N
+ X  X(I)
+ ND
+
+GROUPS
+
+*  The objective function (1.2.18)
+
+ N  OBJ       Y         1.0
+
+*  The constraints (1.2.19)
+
+ DO I         1                        N-1
+ XL Q(I)      Y         1.0
+ ND
+
+*  The constraints (1.2.20)
+
+ DO I         1                        N
+ XG S(I)
+ ND
+
+*  The equality constraint (1.2.21)
+
+ E  Q
+
+CONSTANTS
+
+    EG3       Q         1.0
+
+RANGES
+
+ DO I         1                        N
+ X  EG3       S(I)      0.5
+ ND
+
+BOUNDS
+
+*  The simple bounds (1.2.22)
+
+ LO EG3       'DEFAULT' -1.0
+
+ FR EG3       Y
+
+ DO I         1                        N
+ RI RI        I
+ ZU EG3       X(I)                     RI
+ ND
+
+START POINT
+
+    EG3       'DEFAULT' 0.5
+    EG3       Y         0.0
+
+ELEMENT TYPE
+
+ EV RPROD     X1                       XN
+ EV RPROD     X2
+ IV RPROD     X                        Y
+
+ EV PROD      X                        Y
+
+ EV SINSQR    X
+
+ EV SQR2      Y                        Z
+ IV SQR2      X
+
+ELEMENT USES
+
+ T  OBJ       RPROD
+ ZV OBJ       X1                       X(1)
+ ZV OBJ       X2                       X(2)
+ ZV OBJ       XN                       X(N)
+
+ DO I         1                        N-1
+ IA I+1       I         1
+ XT Q1(I)     PROD
+ ZV Q1(I)     X                        X(1)
+ ZV Q1(I)     Y                        X(I+1)
+ XT Q2(I)     PROD
+ ZV Q2(I)     X                        X(I)
+ ZV Q2(I)     Y                        X(N)
+ ND
+
+ DO I         1                        N
+ XT S(I)      SINSQR
+ ZV S(I)      X                        X(I)
+ ND
+
+ XT Q         SQR2
+ ZV Q         Y                        X(1)
+ ZV Q         Z                        X(N)
+
+GROUP TYPE
+
+ GV HALFL2    ALPHA
+
+GROUP USES
+
+ T  OBJ       HALFL2
+ XE OBJ       OBJ
+
+ DO I         1                        N-1
+ RI RI        I
+ RD 2/I       RI        2.0
+ RA 1+2/I     2/I       1.0
+ XE Q(I)      Q1(I)
+ ZE Q(I)      Q2(I)                    1+2/I
+ ND
+
+ DO I         1                        N
+ XE S(I)      S(I)
+ ND
+
+ XE Q         Q
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      EG3     
+
+TEMPORARIES
+
+ R  SINX
+ R  COSX
+ M  SIN
+ M  COS
+
+INDIVIDUALS
+
+*  product of x and y
+
+ T  PROD
+ F                      X * Y
+ G  X                   Y
+ G  Y                   X
+ H  X         Y         1.0
+
+*  product of x = x1 - xn and y = x2
+
+ T  RPROD
+ R  X         X1        1.0            XN        -1.0
+ R  Y         X2        1.0
+ F                      X * Y
+ G  X                   Y
+ G  Y                   X
+ H  X         Y         1.0
+
+*  square of x = y + z
+
+ T  SQR2
+ R  X         Y         1.0            Z         1.0
+ F                      X * X
+ G  X                   X + X
+ H  X         X         2.0
+
+*  square of sin x
+
+ T  SINSQR
+ A  SINX                SIN( X )
+ A  COSX                COS( X )
+ F                      SINX * SINX
+ G  X                   2.0 * SINX * COSX
+ H  X         X         2.0 * ( COSX * COSX - SINX * SINX )
+
+ENDATA
+
+*********************
+* SET UP THE GROUPS *
+* ROUTINE           *
+*********************
+
+GROUPS        EG3     
+
+INDIVIDUALS
+
+*  half alpha ** 2
+
+ T  HALFL2
+ F                      0.5 * ALPHA * ALPHA
+ G                      ALPHA
+ H                      1.0
+
+ENDATA

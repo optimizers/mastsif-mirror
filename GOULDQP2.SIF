@@ -1,0 +1,151 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          GOULDQP2
+
+*   Problem :
+*   *********
+
+*   Source: a problem of optimal knot placement in a scheme for
+*   ordinary differential equations with boundary values suggested
+*   by J. R. Kightley, see N. I. M. Gould, "An algorithm for
+*   large-scale quadratic programming", IMA J. Num. Anal (1991),
+*   11, 299-324, problem class 2.
+
+*   SIF input: Nick Gould, December 1991
+*              Revised June 1998 with rescaling for larger examples
+
+*   classification QLR2-MN-V-V
+
+*   Number of knots
+
+*IE K                   50             $-PARAMETER
+*IE K                   100            $-PARAMETER
+*IE K                   150            $-PARAMETER
+*IE K                   200            $-PARAMETER
+*IE K                   250            $-PARAMETER
+*IE K                   300            $-PARAMETER
+*IE K                   350            $-PARAMETER     original value
+*IE K                   1000           $-PARAMETER
+*IE K                   5000           $-PARAMETER
+ IE K                   10000          $-PARAMETER
+*IE K                   50001          $-PARAMETER
+
+*   Other useful parameters
+
+ IA K+1       K         1
+ IA K-1       K         -1
+ IA K-2       K         -2
+ IE 1                   1
+ IE 2                   2
+
+*   Minimum knot spacings
+
+ IE 1000                1000
+ I/ K/1000    K                        1000
+ IM I2        K/1000    2
+ IA I+1       K/1000    1
+ I/ K>1000    I2                       I+1
+ IS K<1000    K>1000    1
+ RI RK<1000   K<1000
+ RI RK>1000   K>1000
+ 
+ RM FACT1     RK<1000   1.01             
+ RM FACT2     RK>1000   1.0001             
+ R+ FACTOR    FACT1                    FACT2
+
+ RE ALPHA               1.0
+ R= BETA      FACTOR
+ RE A1                  2.0
+
+ DO I         2                        K+1
+ A+ A(I)      ALPHA                    BETA
+ A* BETA      BETA                     FACTOR
+ ND
+
+VARIABLES
+
+ DO I         1                        K
+ X  KNOT(I)
+ ND
+
+ DO I         1                        K-1
+ X  SPACE(I)
+ ND
+
+GROUPS
+
+ DO I         1                        K-2
+ IA I+1       I         1
+ XN OBJ(I)    SPACE(I+1)1.0            SPACE(I)  -1.0
+ ND
+
+ DO I         1                        K-1
+ IA I+1       I         1
+ XE CON(I)    SPACE(I)  1.0
+ XE CON(I)    KNOT(I+1) -1.0           KNOT(I)   1.0
+ ND
+
+BOUNDS
+
+ DO I         1                        K
+ IA I+1       I         1
+ ZL GOULDQP2  KNOT(I)                  A(I)
+ ZU GOULDQP2  KNOT(I)                  A(I+1)
+ ND
+
+ DO I         1                        K-1
+ IA I+2       I         2
+ A- DIF       A(I+2)                   A(I)
+ AM DIFL      DIF       0.4
+ AM DIFU      DIF       0.6
+ ZL GOULDQP2  SPACE(I)                 DIFL
+ ZU GOULDQP2  SPACE(I)                 DIFU
+ ND
+
+START POINT
+
+ DO I         1                        K
+ Z  GOULDQP2  KNOT(I)                  A(I)
+ ND
+
+ DO I         1                        K-1
+ IA I+1       I         1
+ A- DIF       A(I+1)                   A(I)
+ Z  GOULDQP2  SPACE(I)                 DIF
+ ND
+
+GROUP TYPE
+
+ GV SQUARE    ALPHA
+
+GROUP USES
+
+ DO I         1                        K-2
+ XT OBJ(I)    SQUARE
+ ND
+
+OBJECT BOUND
+
+ LO GOULDQP2            0.0
+
+*   Solution
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+GROUPS        GOULDQP2
+
+INDIVIDUALS
+
+ T  SQUARE
+ F                      5.0D-1 * ALPHA * ALPHA
+ G                      ALPHA
+ H                      1.0D+0
+
+ENDATA

@@ -1,0 +1,145 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+ 
+NAME          ALLINQP
+ 
+*   Problem :
+*   *********
+ 
+*   A banded QP with all sorts of constraint and variable bounds
+*   SIF input: Nick Gould, December 1999.
+ 
+*   classification QLR2-AN-V-V
+
+*IE N                   10
+*IE N                   100
+*IE N                   10000
+ IE N                   50000
+*IE N                   100000
+*IE N                   200000
+*IE N                   400000
+*IE N                   500000
+
+ IE 1                   1
+ IE 2                   2
+ IE 3                   3
+ IE 4                   4
+ IE 5                   5
+ IE 6                   6
+ IE 7                   7
+ RI RN        N
+ RE ONE                 1.0    
+
+ I/ M         N                        2
+ I- N-1       N                        1
+ I/ M/4       M                        4
+ IA M/4+1     M/4       1
+ IM 2M/4      M/4       2
+ IA 2M/4+1    2M/4      1
+ IM 3M/4      M/4       3
+ IA 3M/4+1    3M/4      1
+ I/ N/7       N                        7
+ IA N/7+1     N/7       1
+ IM 2N/7      N/7       2
+ IA 2N/7+1    2N/7      1
+ IM 3N/7      N/7       3
+ IA 3N/7+1    3N/7      1
+ IM 4N/7      N/7       4
+ IA 4N/7+1    4N/7      1
+ IM 5N/7      N/7       5
+ IA 5N/7+1    5N/7      1
+ IM 6N/7      N/7       6
+ IA 6N/7+1    6N/7      1
+
+VARIABLES
+ 
+ DO I         1                        N
+ X  X(I)
+ ND
+ 
+GROUPS
+ 
+ DO I         3N/7+1                   4N/7
+ RI RI        I
+ R/ RI/RN     RI                       RN
+ RM -RI/RN    RI/RN     -1.0
+ ZN OBJ       X(I)                     -RI/RN
+ ND 
+
+ DO I         1                        M/4
+ I+ M+I       M                        I
+ XE C(I)      X(I)      1.0            X(M+I)    1.0
+ ND
+  
+ DO I         M/4+1                    3M/4
+ I+ M+I       M                        I
+ XG C(I)      X(I)      1.0            X(M+I)    1.0
+ ND
+  
+ DO I         3M/4+1                   M
+ I+ M+I       M                        I
+ XL C(I)      X(I)      1.0            X(M+I)    1.0
+ ND
+  
+CONSTANTS
+ 
+ DO I         1                        M/4
+ X  ALLINQP   C(I)      1.0
+ ND
+
+ DO I         M/4+1                    2M/4
+ X  ALLINQP   C(I)      1.0
+ ND
+
+ DO I         2M/4+1                   3M/4
+ X  ALLINQP   C(I)      1.0
+ ND
+
+ DO I         3M/4+1                   M
+ X  ALLINQP   C(I)      1.0
+ ND
+
+RANGES
+ 
+ DO I         2M/4+1                   3M/4
+ X  ALLINQP   C(I)      1.0
+ ND
+
+BOUNDS
+ 
+ FR ALLINQP   'DEFAULT' 0.0
+ DO I         N/7+1                    2N/7
+ XL ALLINQP   X(I)      0.0
+ ND 
+ DO I         2N/7+1                   3N/7
+ XL ALLINQP   X(I)      0.0
+ ND 
+ DO I         3N/7+1                   4N/7
+ XL ALLINQP   X(I)      0.5
+ XU ALLINQP   X(I)      2.0
+ ND 
+ DO I         4N/7+1                   5N/7
+ XU ALLINQP   X(I)      3.0
+ ND 
+ DO I         5N/7+1                   6N/7
+ XU ALLINQP   X(I)      0.0
+ ND 
+ DO I         6N/7+1                   N
+ XX ALLINQP   X(I)      0.0
+ ND 
+
+*START POINT
+
+*    ALLINQP   'DEFAULT' 1.0
+
+QUADRATIC
+
+ DO I         1                        N-1
+ I+ I+1       I                        1
+ X  X(I )     X(I)      2.0            X(I+1)    -1.0
+ ND
+ X  X(N )     X(N)      2.0
+ 
+ENDATA
+ 

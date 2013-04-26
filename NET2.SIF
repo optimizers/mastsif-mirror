@@ -1,0 +1,1061 @@
+
+NAME          NET2
+
+*   Problem :
+*   *********
+
+*   A gas network problem for the south of England.
+
+*    SIF input: Sybille Schachler, Oxford, August 1992.
+*    classification OOI2-RN-144-160
+
+*   ...Problem size parameters
+
+ IE 1                              1
+ IE NNOD                          65
+ IE NPIP                          59
+ IE NCMP                           5
+ IE NRGL                           1
+ IE NSRC                           4
+ IE CSTART                        60
+ IE CEND                          64
+ IE RSTART                        65
+ IE REND                          65
+ IE SSTART                        66
+ IE SEND                          69
+
+VARIABLES
+    NOP21
+    PFL29
+    NOP22
+    PFL27
+    NOP20
+    PFL28
+    NOP27
+    NOP37
+    PFL47
+    PFL37
+    PFL48
+    NOP46
+    NOP43
+    NOP50
+    PFL24
+    SFL67
+    SBV67
+    PFL35
+    PFL31
+    NOP17
+    NOP26
+    NOP24
+    PFL25
+    PFL36
+    PFL32
+    NOP61
+    PFL58
+    NOP62
+    PFL59
+    NOP47
+    NOP63
+    PFL2
+    PFL23
+    NOP1
+    NOP16
+    NOP36
+    PFL1
+    PFL22
+    PFL6
+    NOP33
+    NOP23
+    NOP4
+    PFL43
+    PFL30
+    PFL5
+    NOP42
+    NOP7
+    PFL45
+    PFL10
+    NOP34
+    PFL44
+    NOP39
+    PFL15
+    NOP10
+    PFL11
+    SFL69
+    SBV69
+    NOP8
+    NOP60
+    NOP56
+    PFL12
+    PFL49
+    PFL56
+    NOP40
+    NOP55
+    PFL4
+    PFL42
+    NOP3
+    NOP31
+    CFL60
+    CBV60
+    CFL64
+    CBV64
+    NOP2
+    NOP32
+    PFL3
+    PFL13
+    NOP29
+    NOP9
+    PFL39
+    PFL14
+    NOP49
+    PFL53
+    NOP58
+    RFL65
+    R1B65
+    R2B65
+    NOP59
+    NOP41
+    PFL57
+    PFL50
+    NOP57
+    PFL51
+    NOP45
+    PFL17
+    NOP12
+    CFL61
+    CBV61
+    NOP11
+    PFL16
+    NOP28
+    PFL38
+    NOP44
+    NOP6
+    PFL8
+    PFL7
+    SFL66
+    SBV66
+    NOP5
+    PFL9
+    NOP64
+    PFL26
+    NOP18
+    CFL63
+    CBV63
+    NOP19
+    NOP38
+    PFL19
+    PFL20
+    NOP14
+    CFL62
+    CBV62
+    NOP15
+    NOP54
+    NOP13
+    PFL21
+    PFL41
+    PFL18
+    NOP30
+    PFL40
+    NOP52
+    PFL55
+    PFL54
+    NOP53
+    PFL52
+    NOP48
+    PFL33
+    NOP25
+    PFL46
+    NOP35
+    PFL34
+    NOP51
+    SFL68
+    SBV68
+
+GROUPS
+
+*   Linear constraints
+
+*   ...Mass balance equations...
+ XE MBE1      PFL1                -1   PFL2                -1
+ XE MBE2      PFL3                -1   CFL60               -1
+ XE MBE3      PFL4                -1   CFL60                1
+ XE MBE4      PFL5                -1   PFL6                -1
+ XE MBE5      PFL7                -1   PFL8                -1
+ XE MBE5      PFL9                -1   SFL66                1
+ XE MBE6      PFL7                 1
+ XE MBE7      PFL5                 1   PFL10               -1
+ XE MBE8      PFL11               -1   PFL12               -1
+ XE MBE9      PFL13               -1   PFL14               -1
+ XE MBE10     PFL11                1   PFL15               -1
+ XE MBE11     PFL16               -1   CFL61               -1
+ XE MBE12     PFL17               -1   CFL61                1
+ XE MBE13     PFL18               -1
+ XE MBE14     PFL19               -1   PFL20               -1
+ XE MBE14     CFL62               -1
+ XE MBE15     PFL21               -1   CFL62                1
+ XE MBE16     PFL22               -1   PFL23               -1
+ XE MBE17     PFL24               -1   PFL25               -1
+ XE MBE17     SFL67                1
+ XE MBE18     PFL26               -1   CFL63               -1
+ XE MBE19     PFL19                1   CFL63                1
+ XE MBE20     PFL27               -1   PFL28               -1
+ XE MBE21     PFL29               -1
+ XE MBE22     PFL27                1   PFL29                1
+ XE MBE23     PFL22                1   PFL30               -1
+ XE MBE24     PFL31               -1   PFL32               -1
+ XE MBE25     PFL33               -1   PFL34               -1
+ XE MBE26     PFL35               -1   PFL36               -1
+ XE MBE27     PFL28                1   PFL37               -1
+ XE MBE28     PFL16                1   PFL38               -1
+ XE MBE29     PFL3                 1   PFL39               -1
+ XE MBE30     PFL18                1   PFL21                1
+ XE MBE30     PFL40               -1   PFL41               -1
+ XE MBE31     PFL42               -1   CFL64               -1
+ XE MBE32     PFL13                1   CFL64                1
+ XE MBE33     PFL1                 1   PFL43               -1
+ XE MBE34     PFL10                1   PFL44               -1
+ XE MBE34     PFL45               -1
+ XE MBE35     PFL46               -1   SFL68                1
+ XE MBE36     PFL6                 1
+ XE MBE37     PFL47               -1   PFL48               -1
+ XE MBE38     PFL20                1
+ XE MBE39     PFL15                1   PFL44                1
+ XE MBE40     PFL4                 1   PFL12                1
+ XE MBE40     PFL49               -1
+ XE MBE41     PFL50               -1
+ XE MBE42     PFL30                1   PFL43                1
+ XE MBE42     PFL45                1
+ XE MBE43     PFL35                1   PFL37                1
+ XE MBE44     PFL8                 1   PFL38                1
+ XE MBE45     PFL17                1   PFL51               -1
+ XE MBE46     PFL24                1   PFL47                1
+ XE MBE47     PFL2                 1
+ XE MBE48     PFL33                1   PFL46                1
+ XE MBE48     PFL52               -1
+ XE MBE49     PFL14                1   PFL39                1
+ XE MBE49     PFL53               -1
+ XE MBE50     PFL31                1   PFL48                1
+ XE MBE51     PFL34                1
+ XE MBE52     PFL40                1   PFL54               -1
+ XE MBE52     PFL55               -1
+ XE MBE53     PFL52                1   PFL54                1
+ XE MBE53     PFL55                1
+ XE MBE54     PFL41                1
+ XE MBE55     PFL42                1   PFL56               -1
+ XE MBE56     PFL56                1   SFL69                1
+ XE MBE57     PFL50                1   PFL51                1
+ XE MBE57     PFL57               -1
+ XE MBE58     PFL53                1   RFL65               -1
+ XE MBE59     PFL57                1   RFL65                1
+ XE MBE60     PFL49                1
+ XE MBE61     PFL25                1   PFL32                1
+ XE MBE61     PFL36                1   PFL58               -1
+ XE MBE62     PFL58                1   PFL59               -1
+ XE MBE63     PFL23                1   PFL59                1
+ XE MBE64     PFL9                 1   PFL26                1
+*   ...Max. compression ratio...
+ XL MCR60     NOP3        1.00000000   NOP2       -2.00000000
+ XL MCR60     CBV60      28.00000000
+ XL MCR61     NOP12       1.00000000   NOP11      -2.00000000
+ XL MCR61     CBV61      28.00000000
+ XL MCR62     NOP15       1.00000000   NOP14      -2.00000000
+ XL MCR62     CBV62      28.00000000
+ XL MCR63     NOP19       1.00000000   NOP18      -2.00000000
+ XL MCR63     CBV63      28.00000000
+ XL MCR64     NOP32       1.00000000   NOP31      -2.00000000
+ XL MCR64     CBV64      28.00000000
+*   ...Binary flow constraints...
+ XL CLF60     CBV60      1.00000D+04   CFL60      -1.00000000
+ XL CLF61     CBV61      1.00000D+04   CFL61      -1.00000000
+ XL CLF62     CBV62      1.00000D+04   CFL62      -1.00000000
+ XL CLF63     CBV63      1.00000D+04   CFL63      -1.00000000
+ XL CLF64     CBV64      1.00000D+04   CFL64      -1.00000000
+ XL RLF65     R2B65     -1.00000D+04   RFL65      -1.00000000
+ XL RUF65     R1B65     -1.00000D+04   RFL65       1.00000000
+ XL SLF66     SBV66      0.00000D+00   SFL66      -1.00000000
+ XL SUF66     SBV66     -3.00000D+03   SFL66       1.00000000
+ XL SLF67     SBV67      0.00000D+00   SFL67      -1.00000000
+ XL SUF67     SBV67     -3.00000D+03   SFL67       1.00000000
+ XL SLF68     SBV68      0.00000D+00   SFL68      -1.00000000
+ XL SUF68     SBV68     -1.00000D+02   SFL68       1.00000000
+ XL SLF69     SBV69      0.00000D+00   SFL69      -1.00000000
+ XL SUF69     SBV69     -3.00000D+03   SFL69       1.00000000
+*   ...Binary pressure constraints...
+ XL CLP60     NOP3                 1   NOP2                -1
+ XL CLP60     CBV60     -5.03000D+02
+ XL CUP60     NOP3                -1   NOP2                 1
+ XL CLP61     NOP12                1   NOP11               -1
+ XL CLP61     CBV61     -4.72000D+02
+ XL CUP61     NOP12               -1   NOP11                1
+ XL CLP62     NOP15                1   NOP14               -1
+ XL CLP62     CBV62     -3.45000D+02
+ XL CUP62     NOP15               -1   NOP14                1
+ XL CLP63     NOP19                1   NOP18               -1
+ XL CLP63     CBV63     -5.67000D+02
+ XL CUP63     NOP19               -1   NOP18                1
+ XL CLP64     NOP32                1   NOP31               -1
+ XL CLP64     CBV64     -5.03000D+02
+ XL CUP64     NOP32               -1   NOP31                1
+ XL RLP65     NOP59                1   NOP58               -1
+ XL RLP65     R1B65      6.30000D+02   R2B65     -30.00000000
+ XL RUP65     NOP59               -1   NOP58                1
+ XL RUP65     R1B65     -30.00000000   R2B65      6.30000D+02
+
+*   Nonlinear constraints
+
+*   ...Pressure Drop Equations...
+ DO i         1                        NPIP
+ XE PDE(i)    'SCALE'    1.00000D+03
+ OD i
+*   ...Maximum HP constraints...
+ DO i         CSTART                   CEND
+ XL HPCON(i)  'SCALE'    70.00000000
+ OD i
+*   ...Compressor HP objective...
+ DO i         CSTART                   CEND
+ XN HPOBJ(i)  'SCALE'     0.03500000
+ OD i
+
+CONSTANTS
+
+*   Linear constraints
+
+*   ...Mass balance equations...
+    NET2      MBE4       31.90000000
+    NET2      MBE6        6.28000000
+    NET2      MBE10      2.83000D+02
+    NET2      MBE13       1.85000000
+    NET2      MBE16      12.90000000
+    NET2      MBE20      66.80000000
+    NET2      MBE21      1.25000D+02
+    NET2      MBE23      55.30000000
+    NET2      MBE24      10.00000000
+    NET2      MBE25      3.51000D+02
+    NET2      MBE26      54.10000000
+    NET2      MBE27      1.44000D+02
+    NET2      MBE28      44.50000000
+    NET2      MBE29      1.73000D+02
+    NET2      MBE30      1.51000D+02
+    NET2      MBE33      38.00000000
+    NET2      MBE34      93.20000000
+    NET2      MBE36      1.11000D+02
+    NET2      MBE37       3.34000000
+    NET2      MBE38      4.01000D+02
+    NET2      MBE39      81.60000000
+    NET2      MBE41      5.00000D+02
+    NET2      MBE43      20.95000000
+    NET2      MBE44      22.80000000
+    NET2      MBE45       2.40000000
+    NET2      MBE46      1.30000D+02
+    NET2      MBE47      1.20000D+02
+    NET2      MBE48      84.10000000
+    NET2      MBE50       6.36000000
+    NET2      MBE51      4.65000D+02
+    NET2      MBE57      4.38000D+02
+    NET2      MBE60      3.50000D+02
+    NET2      MBE64      1.40000D+02
+*   ...Binary flow constraints...
+    NET2      CLF60      1.00000D+04
+    NET2      CLF61      1.00000D+04
+    NET2      CLF62      1.00000D+04
+    NET2      CLF63      1.00000D+04
+    NET2      CLF64      1.00000D+04
+*   ...Binary pressure constraints...
+    NET2      RLP65      6.00000D+02
+    NET2      RUP65      6.00000D+02
+
+*   Nonlinear constraints
+
+*   ...Maximum HP values...
+ X  NET2      HPCON60    2.07000D+04
+ X  NET2      HPCON61    2.07000D+04
+ X  NET2      HPCON62    2.07000D+04
+ X  NET2      HPCON63    4.14000D+04
+ X  NET2      HPCON64    3.19000D+04
+
+BOUNDS
+
+*   ...Default all variables to be free
+
+ FR NET2      'DEFAULT'
+
+*   ...Non-default bounds
+
+ XL NET2      SFL66      0.00000D+00
+ XU NET2      SFL66      3.00000D+03
+ XL NET2      SFL67      0.00000D+00
+ XU NET2      SFL67      3.00000D+03
+ XL NET2      SFL68      0.00000D+00
+ XU NET2      SFL68      1.00000D+02
+ XL NET2      SFL69      0.00000D+00
+ XU NET2      SFL69      3.00000D+03
+ XL NET2      NOP1       5.00000D+02
+ XU NET2      NOP1       1.10000D+03
+ XL NET2      NOP2       5.00000D+02
+ XU NET2      NOP2       1.10000D+03
+ XL NET2      NOP3       5.00000D+02
+ XU NET2      NOP3       1.00300D+03
+ XL NET2      NOP4       5.00000D+02
+ XU NET2      NOP4       1.10000D+03
+ XL NET2      NOP5       5.00000D+02
+ XU NET2      NOP5       9.75000D+02
+ XL NET2      NOP6       5.00000D+02
+ XU NET2      NOP6       1.10000D+03
+ XL NET2      NOP7       5.00000D+02
+ XU NET2      NOP7       1.10000D+03
+ XL NET2      NOP8       5.00000D+02
+ XU NET2      NOP8       1.10000D+03
+ XL NET2      NOP9       5.00000D+02
+ XU NET2      NOP9       1.10000D+03
+ XL NET2      NOP10      5.00000D+02
+ XU NET2      NOP10      1.10000D+03
+ XL NET2      NOP11      5.00000D+02
+ XU NET2      NOP11      1.10000D+03
+ XL NET2      NOP12      5.00000D+02
+ XU NET2      NOP12      9.72000D+02
+ XL NET2      NOP13      5.00000D+02
+ XU NET2      NOP13      1.10000D+03
+ XL NET2      NOP14      5.00000D+02
+ XU NET2      NOP14      1.10000D+03
+ XL NET2      NOP15      5.00000D+02
+ XU NET2      NOP15      8.45000D+02
+ XL NET2      NOP16      5.00000D+02
+ XU NET2      NOP16      1.10000D+03
+ XL NET2      NOP17      5.00000D+02
+ XU NET2      NOP17      1.07200D+03
+ XL NET2      NOP18      5.00000D+02
+ XU NET2      NOP18      1.10000D+03
+ XL NET2      NOP19      5.00000D+02
+ XU NET2      NOP19      1.06700D+03
+ XL NET2      NOP20      5.00000D+02
+ XU NET2      NOP20      1.10000D+03
+ XL NET2      NOP21      5.75000D+02
+ XU NET2      NOP21      1.10000D+03
+ XL NET2      NOP22      5.00000D+02
+ XU NET2      NOP22      1.10000D+03
+ XL NET2      NOP23      5.00000D+02
+ XU NET2      NOP23      1.10000D+03
+ XL NET2      NOP24      5.00000D+02
+ XU NET2      NOP24      1.10000D+03
+ XL NET2      NOP25      5.00000D+02
+ XU NET2      NOP25      1.10000D+03
+ XL NET2      NOP26      5.00000D+02
+ XU NET2      NOP26      1.10000D+03
+ XL NET2      NOP27      5.00000D+02
+ XU NET2      NOP27      1.10000D+03
+ XL NET2      NOP28      5.00000D+02
+ XU NET2      NOP28      1.10000D+03
+ XL NET2      NOP29      5.00000D+02
+ XU NET2      NOP29      1.10000D+03
+ XL NET2      NOP30      5.00000D+02
+ XU NET2      NOP30      1.10000D+03
+ XL NET2      NOP31      5.00000D+02
+ XU NET2      NOP31      1.10000D+03
+ XL NET2      NOP32      5.00000D+02
+ XU NET2      NOP32      1.00300D+03
+ XL NET2      NOP33      5.85000D+02
+ XU NET2      NOP33      1.10000D+03
+ XL NET2      NOP34      5.00000D+02
+ XU NET2      NOP34      1.10000D+03
+ XL NET2      NOP35      5.00000D+02
+ XU NET2      NOP35      1.10000D+03
+ XL NET2      NOP36      5.65000D+02
+ XU NET2      NOP36      1.10000D+03
+ XL NET2      NOP37      5.00000D+02
+ XU NET2      NOP37      1.10000D+03
+ XL NET2      NOP38      5.05000D+02
+ XU NET2      NOP38      1.10000D+03
+ XL NET2      NOP39      5.00000D+02
+ XU NET2      NOP39      1.10000D+03
+ XL NET2      NOP40      5.00000D+02
+ XU NET2      NOP40      1.10000D+03
+ XL NET2      NOP41      6.70000D+02
+ XU NET2      NOP41      1.10000D+03
+ XL NET2      NOP42      5.00000D+02
+ XU NET2      NOP42      1.10000D+03
+ XL NET2      NOP43      5.00000D+02
+ XU NET2      NOP43      1.10000D+03
+ XL NET2      NOP44      5.00000D+02
+ XU NET2      NOP44      1.10000D+03
+ XL NET2      NOP45      5.00000D+02
+ XU NET2      NOP45      1.10000D+03
+ XL NET2      NOP46      5.00000D+02
+ XU NET2      NOP46      1.10000D+03
+ XL NET2      NOP47      5.00000D+02
+ XU NET2      NOP47      1.10000D+03
+ XL NET2      NOP48      5.00000D+02
+ XU NET2      NOP48      1.10000D+03
+ XL NET2      NOP49      5.00000D+02
+ XU NET2      NOP49      1.10000D+03
+ XL NET2      NOP50      5.00000D+02
+ XU NET2      NOP50      1.10000D+03
+ XL NET2      NOP51      5.90000D+02
+ XU NET2      NOP51      1.10000D+03
+ XL NET2      NOP52      5.00000D+02
+ XU NET2      NOP52      1.10000D+03
+ XL NET2      NOP53      5.00000D+02
+ XU NET2      NOP53      1.10000D+03
+ XL NET2      NOP54      5.00000D+02
+ XU NET2      NOP54      1.10000D+03
+ XL NET2      NOP55      5.00000D+02
+ XU NET2      NOP55      1.10000D+03
+ XL NET2      NOP56      5.00000D+02
+ XU NET2      NOP56      1.07200D+03
+ XL NET2      NOP57      5.00000D+02
+ XU NET2      NOP57      1.10000D+03
+ XL NET2      NOP58      5.00000D+02
+ XU NET2      NOP58      1.10000D+03
+ XL NET2      NOP59      5.00000D+02
+ XU NET2      NOP59      1.10000D+03
+ XL NET2      NOP60      5.00000D+02
+ XU NET2      NOP60      1.10000D+03
+ XL NET2      NOP61      5.00000D+02
+ XU NET2      NOP61      1.10000D+03
+ XL NET2      NOP62      5.00000D+02
+ XU NET2      NOP62      1.10000D+03
+ XL NET2      NOP63      5.00000D+02
+ XU NET2      NOP63      1.10000D+03
+ XL NET2      NOP64      5.00000D+02
+ XU NET2      NOP64      1.10000D+03
+ XX NET2      CBV60                1
+ XX NET2      CBV61                1
+ XX NET2      CBV62                1
+ XX NET2      CBV63                1
+ XX NET2      CBV64                1
+ XX NET2      R1B65                1
+ XX NET2      R2B65                1
+ XX NET2      SBV66                1
+ XX NET2      SBV67                1
+ XX NET2      SBV68                1
+ XX NET2      SBV69                1
+
+START POINT
+
+*   ...Default all variables to start at 500
+
+ XV NET2      'DEFAULT'  5.00000D+02
+
+ELEMENT TYPE
+*   ...Panhandle 'A' equation
+ EV A0PANHAN  PIN
+ EV A0PANHAN  POUT
+ EV A0PANHAN  FLOW
+ EP A0PANHAN  PIPRES
+*   ...Compressor horsepower constraint equn.
+ EV A1MAXHP   PIN
+ EV A1MAXHP   POUT
+ EV A1MAXHP   FLOW
+ EV A1MAXHP   CBV
+ EP A1MAXHP   IPL
+ EP A1MAXHP   OPL
+*   ...Compressor horsepower objective function.
+ EV A2HPFUN   PIN
+ EV A2HPFUN   POUT
+ EV A2HPFUN   FLOW
+ EV A2HPFUN   CBV
+ EP A2HPFUN   IPL
+ EP A2HPFUN   OPL
+
+ELEMENT USES
+*   ...Panhandle Elements
+ XT PANH1     A0PANHAN
+ ZV PANH1     PIN                      NOP1
+ ZV PANH1     POUT                     NOP33
+ ZV PANH1     FLOW                     PFL1
+ XP PANH1     PIPRES      0.37812904
+ XT PANH2     A0PANHAN
+ ZV PANH2     PIN                      NOP1
+ ZV PANH2     POUT                     NOP47
+ ZV PANH2     FLOW                     PFL2
+ XP PANH2     PIPRES      0.23633206
+ XT PANH3     A0PANHAN
+ ZV PANH3     PIN                      NOP2
+ ZV PANH3     POUT                     NOP29
+ ZV PANH3     FLOW                     PFL3
+ XP PANH3     PIPRES      0.08078410
+ XT PANH4     A0PANHAN
+ ZV PANH4     PIN                      NOP3
+ ZV PANH4     POUT                     NOP40
+ ZV PANH4     FLOW                     PFL4
+ XP PANH4     PIPRES      0.33076453
+ XT PANH5     A0PANHAN
+ ZV PANH5     PIN                      NOP4
+ ZV PANH5     POUT                     NOP7
+ ZV PANH5     FLOW                     PFL5
+ XP PANH5     PIPRES      8.48664293
+ XT PANH6     A0PANHAN
+ ZV PANH6     PIN                      NOP4
+ ZV PANH6     POUT                     NOP36
+ ZV PANH6     FLOW                     PFL6
+ XP PANH6     PIPRES      2.75006391
+ XT PANH7     A0PANHAN
+ ZV PANH7     PIN                      NOP5
+ ZV PANH7     POUT                     NOP6
+ ZV PANH7     FLOW                     PFL7
+ XP PANH7     PIPRES     1.57398D-04
+ XT PANH8     A0PANHAN
+ ZV PANH8     PIN                      NOP5
+ ZV PANH8     POUT                     NOP44
+ ZV PANH8     FLOW                     PFL8
+ XP PANH8     PIPRES      0.63602718
+ XT PANH9     A0PANHAN
+ ZV PANH9     PIN                      NOP5
+ ZV PANH9     POUT                     NOP64
+ ZV PANH9     FLOW                     PFL9
+ XP PANH9     PIPRES      0.32353729
+ XT PANH10    A0PANHAN
+ ZV PANH10    PIN                      NOP7
+ ZV PANH10    POUT                     NOP34
+ ZV PANH10    FLOW                     PFL10
+ XP PANH10    PIPRES      1.02119650
+ XT PANH11    A0PANHAN
+ ZV PANH11    PIN                      NOP8
+ ZV PANH11    POUT                     NOP10
+ ZV PANH11    FLOW                     PFL11
+ XP PANH11    PIPRES      0.45186242
+ XT PANH12    A0PANHAN
+ ZV PANH12    PIN                      NOP8
+ ZV PANH12    POUT                     NOP40
+ ZV PANH12    FLOW                     PFL12
+ XP PANH12    PIPRES      0.62035873
+ XT PANH13    A0PANHAN
+ ZV PANH13    PIN                      NOP9
+ ZV PANH13    POUT                     NOP32
+ ZV PANH13    FLOW                     PFL13
+ XP PANH13    PIPRES      0.24083311
+ XT PANH14    A0PANHAN
+ ZV PANH14    PIN                      NOP9
+ ZV PANH14    POUT                     NOP49
+ ZV PANH14    FLOW                     PFL14
+ XP PANH14    PIPRES      0.17376608
+ XT PANH15    A0PANHAN
+ ZV PANH15    PIN                      NOP10
+ ZV PANH15    POUT                     NOP39
+ ZV PANH15    FLOW                     PFL15
+ XP PANH15    PIPRES      1.69911579
+ XT PANH16    A0PANHAN
+ ZV PANH16    PIN                      NOP11
+ ZV PANH16    POUT                     NOP28
+ ZV PANH16    FLOW                     PFL16
+ XP PANH16    PIPRES      0.13414971
+ XT PANH17    A0PANHAN
+ ZV PANH17    PIN                      NOP12
+ ZV PANH17    POUT                     NOP45
+ ZV PANH17    FLOW                     PFL17
+ XP PANH17    PIPRES      0.13099307
+ XT PANH18    A0PANHAN
+ ZV PANH18    PIN                      NOP13
+ ZV PANH18    POUT                     NOP30
+ ZV PANH18    FLOW                     PFL18
+ XP PANH18    PIPRES      3.87591677
+ XT PANH19    A0PANHAN
+ ZV PANH19    PIN                      NOP14
+ ZV PANH19    POUT                     NOP19
+ ZV PANH19    FLOW                     PFL19
+ XP PANH19    PIPRES      0.86960522
+ XT PANH20    A0PANHAN
+ ZV PANH20    PIN                      NOP14
+ ZV PANH20    POUT                     NOP38
+ ZV PANH20    FLOW                     PFL20
+ XP PANH20    PIPRES      2.18757098
+ XT PANH21    A0PANHAN
+ ZV PANH21    PIN                      NOP15
+ ZV PANH21    POUT                     NOP30
+ ZV PANH21    FLOW                     PFL21
+ XP PANH21    PIPRES      0.26514278
+ XT PANH22    A0PANHAN
+ ZV PANH22    PIN                      NOP16
+ ZV PANH22    POUT                     NOP23
+ ZV PANH22    FLOW                     PFL22
+ XP PANH22    PIPRES      1.22831522
+ XT PANH23    A0PANHAN
+ ZV PANH23    PIN                      NOP16
+ ZV PANH23    POUT                     NOP63
+ ZV PANH23    FLOW                     PFL23
+ XP PANH23    PIPRES      2.88934774
+ XT PANH24    A0PANHAN
+ ZV PANH24    PIN                      NOP17
+ ZV PANH24    POUT                     NOP46
+ ZV PANH24    FLOW                     PFL24
+ XP PANH24    PIPRES      0.53810761
+ XT PANH25    A0PANHAN
+ ZV PANH25    PIN                      NOP17
+ ZV PANH25    POUT                     NOP61
+ ZV PANH25    FLOW                     PFL25
+ XP PANH25    PIPRES      4.87287665
+ XT PANH26    A0PANHAN
+ ZV PANH26    PIN                      NOP18
+ ZV PANH26    POUT                     NOP64
+ ZV PANH26    FLOW                     PFL26
+ XP PANH26    PIPRES      0.33616301
+ XT PANH27    A0PANHAN
+ ZV PANH27    PIN                      NOP20
+ ZV PANH27    POUT                     NOP22
+ ZV PANH27    FLOW                     PFL27
+ XP PANH27    PIPRES      0.58491209
+ XT PANH28    A0PANHAN
+ ZV PANH28    PIN                      NOP20
+ ZV PANH28    POUT                     NOP27
+ ZV PANH28    FLOW                     PFL28
+ XP PANH28    PIPRES      1.24001395
+ XT PANH29    A0PANHAN
+ ZV PANH29    PIN                      NOP21
+ ZV PANH29    POUT                     NOP22
+ ZV PANH29    FLOW                     PFL29
+ XP PANH29    PIPRES      2.44493171
+ XT PANH30    A0PANHAN
+ ZV PANH30    PIN                      NOP23
+ ZV PANH30    POUT                     NOP42
+ ZV PANH30    FLOW                     PFL30
+ XP PANH30    PIPRES      1.74303754
+ XT PANH31    A0PANHAN
+ ZV PANH31    PIN                      NOP24
+ ZV PANH31    POUT                     NOP50
+ ZV PANH31    FLOW                     PFL31
+ XP PANH31    PIPRES      1.31020284
+ XT PANH32    A0PANHAN
+ ZV PANH32    PIN                      NOP24
+ ZV PANH32    POUT                     NOP61
+ ZV PANH32    FLOW                     PFL32
+ XP PANH32    PIPRES      0.29244474
+ XT PANH33    A0PANHAN
+ ZV PANH33    PIN                      NOP25
+ ZV PANH33    POUT                     NOP48
+ ZV PANH33    FLOW                     PFL33
+ XP PANH33    PIPRES      0.34454682
+ XT PANH34    A0PANHAN
+ ZV PANH34    PIN                      NOP25
+ ZV PANH34    POUT                     NOP51
+ ZV PANH34    FLOW                     PFL34
+ XP PANH34    PIPRES      0.62968866
+ XT PANH35    A0PANHAN
+ ZV PANH35    PIN                      NOP26
+ ZV PANH35    POUT                     NOP43
+ ZV PANH35    FLOW                     PFL35
+ XP PANH35    PIPRES      2.87764988
+ XT PANH36    A0PANHAN
+ ZV PANH36    PIN                      NOP26
+ ZV PANH36    POUT                     NOP61
+ ZV PANH36    FLOW                     PFL36
+ XP PANH36    PIPRES      1.05281776
+ XT PANH37    A0PANHAN
+ ZV PANH37    PIN                      NOP27
+ ZV PANH37    POUT                     NOP43
+ ZV PANH37    FLOW                     PFL37
+ XP PANH37    PIPRES      3.05312386
+ XT PANH38    A0PANHAN
+ ZV PANH38    PIN                      NOP28
+ ZV PANH38    POUT                     NOP44
+ ZV PANH38    FLOW                     PFL38
+ XP PANH38    PIPRES      0.52555146
+ XT PANH39    A0PANHAN
+ ZV PANH39    PIN                      NOP29
+ ZV PANH39    POUT                     NOP49
+ ZV PANH39    FLOW                     PFL39
+ XP PANH39    PIPRES      0.32009454
+ XT PANH40    A0PANHAN
+ ZV PANH40    PIN                      NOP30
+ ZV PANH40    POUT                     NOP52
+ ZV PANH40    FLOW                     PFL40
+ XP PANH40    PIPRES      0.21385638
+ XT PANH41    A0PANHAN
+ ZV PANH41    PIN                      NOP30
+ ZV PANH41    POUT                     NOP54
+ ZV PANH41    FLOW                     PFL41
+ XP PANH41    PIPRES      0.76038520
+ XT PANH42    A0PANHAN
+ ZV PANH42    PIN                      NOP31
+ ZV PANH42    POUT                     NOP55
+ ZV PANH42    FLOW                     PFL42
+ XP PANH42    PIPRES      0.60359197
+ XT PANH43    A0PANHAN
+ ZV PANH43    PIN                      NOP33
+ ZV PANH43    POUT                     NOP42
+ ZV PANH43    FLOW                     PFL43
+ XP PANH43    PIPRES      7.18462737
+ XT PANH44    A0PANHAN
+ ZV PANH44    PIN                      NOP34
+ ZV PANH44    POUT                     NOP39
+ ZV PANH44    FLOW                     PFL44
+ XP PANH44    PIPRES      2.08683738
+ XT PANH45    A0PANHAN
+ ZV PANH45    PIN                      NOP34
+ ZV PANH45    POUT                     NOP42
+ ZV PANH45    FLOW                     PFL45
+ XP PANH45    PIPRES     17.63022431
+ XT PANH46    A0PANHAN
+ ZV PANH46    PIN                      NOP35
+ ZV PANH46    POUT                     NOP48
+ ZV PANH46    FLOW                     PFL46
+ XP PANH46    PIPRES      1.36532505
+ XT PANH47    A0PANHAN
+ ZV PANH47    PIN                      NOP37
+ ZV PANH47    POUT                     NOP46
+ ZV PANH47    FLOW                     PFL47
+ XP PANH47    PIPRES      1.14640412
+ XT PANH48    A0PANHAN
+ ZV PANH48    PIN                      NOP37
+ ZV PANH48    POUT                     NOP50
+ ZV PANH48    FLOW                     PFL48
+ XP PANH48    PIPRES      1.42718491
+ XT PANH49    A0PANHAN
+ ZV PANH49    PIN                      NOP40
+ ZV PANH49    POUT                     NOP60
+ ZV PANH49    FLOW                     PFL49
+ XP PANH49    PIPRES      0.90368745
+ XT PANH50    A0PANHAN
+ ZV PANH50    PIN                      NOP41
+ ZV PANH50    POUT                     NOP57
+ ZV PANH50    FLOW                     PFL50
+ XP PANH50    PIPRES      0.15841242
+ XT PANH51    A0PANHAN
+ ZV PANH51    PIN                      NOP45
+ ZV PANH51    POUT                     NOP57
+ ZV PANH51    FLOW                     PFL51
+ XP PANH51    PIPRES      0.27619018
+ XT PANH52    A0PANHAN
+ ZV PANH52    PIN                      NOP48
+ ZV PANH52    POUT                     NOP53
+ ZV PANH52    FLOW                     PFL52
+ XP PANH52    PIPRES      0.04356348
+ XT PANH53    A0PANHAN
+ ZV PANH53    PIN                      NOP49
+ ZV PANH53    POUT                     NOP58
+ ZV PANH53    FLOW                     PFL53
+ XP PANH53    PIPRES      5.67207383
+ XT PANH54    A0PANHAN
+ ZV PANH54    PIN                      NOP52
+ ZV PANH54    POUT                     NOP53
+ ZV PANH54    FLOW                     PFL54
+ XP PANH54    PIPRES      0.12868080
+ XT PANH55    A0PANHAN
+ ZV PANH55    PIN                      NOP52
+ ZV PANH55    POUT                     NOP53
+ ZV PANH55    FLOW                     PFL55
+ XP PANH55    PIPRES      0.12868080
+ XT PANH56    A0PANHAN
+ ZV PANH56    PIN                      NOP55
+ ZV PANH56    POUT                     NOP56
+ ZV PANH56    FLOW                     PFL56
+ XP PANH56    PIPRES     1.52180D-04
+ XT PANH57    A0PANHAN
+ ZV PANH57    PIN                      NOP57
+ ZV PANH57    POUT                     NOP59
+ ZV PANH57    FLOW                     PFL57
+ XP PANH57    PIPRES      0.00472715
+ XT PANH58    A0PANHAN
+ ZV PANH58    PIN                      NOP61
+ ZV PANH58    POUT                     NOP62
+ ZV PANH58    FLOW                     PFL58
+ XP PANH58    PIPRES      0.00116961
+ XT PANH59    A0PANHAN
+ ZV PANH59    PIN                      NOP62
+ ZV PANH59    POUT                     NOP63
+ ZV PANH59    FLOW                     PFL59
+ XP PANH59    PIPRES      0.00116961
+*   ...Horsepower constraint elements
+ XT HPMAX60   A1MAXHP
+ ZV HPMAX60   PIN                      NOP2
+ ZV HPMAX60   POUT                     NOP3
+ ZV HPMAX60   FLOW                     CFL60
+ ZV HPMAX60   CBV                      CBV60
+ XP HPMAX60   IPL        10.00000000   OPL         8.00000000
+ XT HPMAX61   A1MAXHP
+ ZV HPMAX61   PIN                      NOP11
+ ZV HPMAX61   POUT                     NOP12
+ ZV HPMAX61   FLOW                     CFL61
+ ZV HPMAX61   CBV                      CBV61
+ XP HPMAX61   IPL        10.00000000   OPL         8.00000000
+ XT HPMAX62   A1MAXHP
+ ZV HPMAX62   PIN                      NOP14
+ ZV HPMAX62   POUT                     NOP15
+ ZV HPMAX62   FLOW                     CFL62
+ ZV HPMAX62   CBV                      CBV62
+ XP HPMAX62   IPL        10.00000000   OPL         8.00000000
+ XT HPMAX63   A1MAXHP
+ ZV HPMAX63   PIN                      NOP18
+ ZV HPMAX63   POUT                     NOP19
+ ZV HPMAX63   FLOW                     CFL63
+ ZV HPMAX63   CBV                      CBV63
+ XP HPMAX63   IPL        10.00000000   OPL         8.00000000
+ XT HPMAX64   A1MAXHP
+ ZV HPMAX64   PIN                      NOP31
+ ZV HPMAX64   POUT                     NOP32
+ ZV HPMAX64   FLOW                     CFL64
+ ZV HPMAX64   CBV                      CBV64
+ XP HPMAX64   IPL        10.00000000   OPL         8.00000000
+*   ...Horsepower objective elements
+ XT HPFUN60   A2HPFUN
+ ZV HPFUN60   PIN                      NOP2
+ ZV HPFUN60   POUT                     NOP3
+ ZV HPFUN60   FLOW                     CFL60
+ ZV HPFUN60   CBV                      CBV60
+ XP HPFUN60   IPL        10.00000000   OPL         8.00000000
+ XT HPFUN61   A2HPFUN
+ ZV HPFUN61   PIN                      NOP11
+ ZV HPFUN61   POUT                     NOP12
+ ZV HPFUN61   FLOW                     CFL61
+ ZV HPFUN61   CBV                      CBV61
+ XP HPFUN61   IPL        10.00000000   OPL         8.00000000
+ XT HPFUN62   A2HPFUN
+ ZV HPFUN62   PIN                      NOP14
+ ZV HPFUN62   POUT                     NOP15
+ ZV HPFUN62   FLOW                     CFL62
+ ZV HPFUN62   CBV                      CBV62
+ XP HPFUN62   IPL        10.00000000   OPL         8.00000000
+ XT HPFUN63   A2HPFUN
+ ZV HPFUN63   PIN                      NOP18
+ ZV HPFUN63   POUT                     NOP19
+ ZV HPFUN63   FLOW                     CFL63
+ ZV HPFUN63   CBV                      CBV63
+ XP HPFUN63   IPL        10.00000000   OPL         8.00000000
+ XT HPFUN64   A2HPFUN
+ ZV HPFUN64   PIN                      NOP31
+ ZV HPFUN64   POUT                     NOP32
+ ZV HPFUN64   FLOW                     CFL64
+ ZV HPFUN64   CBV                      CBV64
+ XP HPFUN64   IPL        10.00000000   OPL         8.00000000
+
+GROUP USES
+*   ...Panhandle Elements
+ DO i         1                        NPIP
+ XE PDE(i)    PANH(i)
+ OD i
+*   ...Horsepower constraint elements
+ DO i         CSTART                   CEND
+ XE HPCON(i)  HPMAX(i)
+ OD i
+*   ...Horsepower objective elements
+ DO i         CSTART                   CEND
+ XE HPOBJ(i)  HPFUN(i)
+ OD i
+ENDATA
+
+
+ELEMENTS      NET2
+
+TEMPORARIES
+*   ...Temps for PDEs
+ L  A0FGT0
+ R  A0FLEX
+ R  A0HFLO
+*   ...Temps for max. HP constraint
+ R  A1BETA
+ R  A1HFAC
+ R  A1PSUC
+ R  A1PDIS
+ R  A1CRB
+ R  A1PROD
+ R  A1GPIN
+ R  A1GPOU
+ R  A1GFLO
+ R  A1GCBV
+ R  A1HII
+ R  A1HIO
+ R  A1HOO
+ R  A1HIC
+ R  A1HOC
+*   ...Temps for horsewpower objective
+ R  A2BETA
+ R  A2HFAC
+ R  A2PSUC
+ R  A2PDIS
+ R  A2CRB
+ R  A2PROD
+ R  A2GPIN
+ R  A2GPOU
+ R  A2GFLO
+ R  A2GCBV
+ R  A2HII
+ R  A2HIO
+ R  A2HOO
+ R  A2HIC
+ R  A2HOC
+*   ...Intrinsic function references
+ M  ABS
+
+INDIVIDUALS
+
+*   ...Pressure drop equation element
+
+ T  A0PANHAN
+ A  A0FLEX              1.8539D0
+ A  A0FGT0              FLOW.GE.0.0D0
+ I  A0FGT0    A0HFLO    -PIPRES*A0FLEX*(A0FLEX-1.0D0)
+ I+                     *FLOW**(A0FLEX-2.0D0)
+ E  A0FGT0    A0HFLO    A0FLEX*(A0FLEX-1.0D0)*PIPRES
+ E+                     *ABS(FLOW)**(A0FLEX-2.0D0)
+ F                      PIN*PIN - POUT*POUT
+ F+                     - PIPRES*FLOW*ABS(FLOW)**(A0FLEX-1.0D0)
+ G  POUT                -2.0D0*POUT
+ G  PIN                 2.0D0*PIN
+ G  FLOW                -PIPRES*A0FLEX*ABS(FLOW)**(A0FLEX-1.0D0)
+ H  POUT      POUT      -2.0D0
+ H  PIN       PIN       2.0D0
+ H  FLOW      FLOW      A0HFLO
+
+*   ...Horsepower (constraint) element
+
+ T  A1MAXHP
+ A  A1BETA              0.23077D0
+ A  A1HFAC              203.712D0
+ A  A1PSUC              PIN - IPL*CBV
+ A  A1PDIS              POUT + OPL*CBV
+ A  A1CRB               (A1PDIS/A1PSUC)**A1BETA
+ A  A1PROD              A1BETA*A1HFAC*A1CRB *FLOW
+ A  A1GPIN              -A1PROD/A1PSUC
+ A  A1GPOU              A1PROD/A1PDIS
+ A  A1GFLO              A1HFAC*( A1CRB  - 1.0D0)
+ A  A1GCBV              -IPL*A1GPIN + OPL*A1GPOU
+ A  A1HII               A1PROD*(A1BETA+1.0D0)/(A1PSUC**2)
+ A  A1HIO               -A1PROD*A1BETA/(A1PSUC*A1PDIS)
+ A  A1HOO               A1PROD*(A1BETA-1.0D0)/(A1PDIS**2)
+ A  A1HIC               -IPL*A1HII  + OPL*A1HIO
+ A  A1HOC               -IPL*A1HIO  + OPL*A1HOO
+ F                      FLOW*A1GFLO
+ G  PIN                 A1GPIN
+ G  POUT                A1GPOU
+ G  FLOW                A1GFLO
+ G  CBV                 A1GCBV
+ H  PIN       PIN       A1HII
+ H  PIN       POUT      A1HIO
+ H  POUT      POUT      A1HOO
+ H  PIN       FLOW      A1GPIN/FLOW
+ H  POUT      FLOW      A1GPOU/FLOW
+ H  PIN       CBV       A1HIC
+ H  POUT      CBV       A1HOC
+ H  FLOW      CBV       A1GCBV/FLOW
+ H  CBV       CBV       -IPL*A1HIC  +  OPL*A1HOC
+
+*   ...Horsepower objective function element
+
+ T  A2HPFUN
+ A  A2BETA              0.23077D0
+ A  A2HFAC              203.712D0
+ A  A2PSUC              PIN - IPL*CBV
+ A  A2PDIS              POUT + OPL*CBV
+ A  A2CRB               (A2PDIS/A2PSUC)**A2BETA
+ A  A2PROD              A2BETA*A2HFAC*A2CRB *FLOW
+ A  A2GPIN              -A2PROD/A2PSUC
+ A  A2GPOU              A2PROD/A2PDIS
+ A  A2GFLO              A2HFAC*( A2CRB  - 1.0D0)
+ A  A2GCBV              -IPL*A2GPIN + OPL*A2GPOU
+ A  A2HII               A2PROD*(A2BETA+1.0D0)/(A2PSUC**2)
+ A  A2HIO               -A2PROD*A2BETA/(A2PSUC*A2PDIS)
+ A  A2HOO               A2PROD*(A2BETA-1.0D0)/(A2PDIS**2)
+ A  A2HIC               -IPL*A2HII  + OPL*A2HIO
+ A  A2HOC               -IPL*A2HIO  + OPL*A2HOO
+ F                      FLOW*A2GFLO
+ G  PIN                 A2GPIN
+ G  POUT                A2GPOU
+ G  FLOW                A2GFLO
+ G  CBV                 A2GCBV
+ H  PIN       PIN       A2HII
+ H  PIN       POUT      A2HIO
+ H  POUT      POUT      A2HOO
+ H  PIN       FLOW      A2GPIN/FLOW
+ H  POUT      FLOW      A2GPOU/FLOW
+ H  PIN       CBV       A2HIC
+ H  POUT      CBV       A2HOC
+ H  FLOW      CBV       A2GCBV/FLOW
+ H  CBV       CBV       -IPL*A2HIC  +  OPL*A2HOC
+ENDATA

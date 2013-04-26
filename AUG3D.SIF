@@ -1,0 +1,303 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          AUG3D
+
+*   Problem :
+*   *********
+
+*   An expanded system formulation of a 3-D PDE system.
+
+*   A nine-point discretization of Laplace's equation in a 
+*   rectangular domain may be expressed in the form 
+
+*         - M v = b, 
+
+*   where M = sum a_i a_i^T. Letting A = (a_1 .... a_m), 
+*   this system may be expanded as
+
+*          ( I   A^T ) (x) = (0),
+*          ( A    0  ) (v)   (b)
+
+*   which is then equivalentto solving the EQP 
+*   minimize 1/2 || x ||_2^2   s.t.    A x = b
+
+*   In this variant, we replace the leading I block in the
+*   above formulation with a zero-one diagonal matrix D.
+*   This corresponds to certain boundary conditions.
+*   The resulting QP is thus convex but not strictly convex.
+
+*   SIF input: Nick Gould, February 1994
+
+*   classification QLR2-AN-V-V
+
+*   Number of nodes in x direction
+
+*IE NX                  3              $-PARAMETER
+*IE NX                  10             $-PARAMETER
+ IE NX                  20             $-PARAMETER
+
+*   Number of nodes in y direction
+
+*IE NY                  3              $-PARAMETER
+*IE NY                  10             $-PARAMETER 
+ IE NY                  20             $-PARAMETER
+
+*   Number of nodes in z direction
+
+*IE NZ                  3              $-PARAMETER
+*IE NZ                  10             $-PARAMETER 
+ IE NZ                  20             $-PARAMETER
+
+*   Other useful parameters
+
+ IA X+        NX        1
+ IA X-        NX        -1
+ IA Y+        NY        1
+ IA Y-        NY        -1
+ IA Z+        NZ        1
+ IA Z-        NZ        -1
+
+ I= M         NX
+ I= N         NY
+ I= P         NZ
+
+ IE 1                   1
+ IE 0                   0
+
+*  It is easier to describe this problem by columns.
+ 
+GROUPS
+
+* objective function
+
+ DO K         1                        Z-
+ DO J         1                        Y-
+ DO I         1                        X-
+
+ XN OX(I,J,K)
+ XN OY(I,J,K)
+ XN OZ(I,J,K)
+
+ ND
+
+ DO K         1                        Z-
+ DO J         1                        Y-
+
+ XN OY(NX,J,K)
+ XN OZ(NX,J,K)
+
+ ND
+
+ DO K         1                        Z-
+ DO I         1                        X-
+
+ XN OX(I,NY,K)
+ XN OZ(I,NY,K)
+
+ ND
+
+ DO J         1                        Y-
+ DO I         1                        X-
+
+ XN OX(I,J,NZ)
+ XN OY(I,J,NZ)
+
+ ND
+
+* constraints
+
+ DO K         1                        NZ
+ DO J         1                        NY
+ DO I         1                        NX
+
+ XE V(I,J,K)
+
+ ND
+
+VARIABLES
+
+* objective function terms
+
+ DO K         1                        Z-
+ DO J         1                        Y-
+ DO I         1                        X-
+
+ X  X(I,J,K)  OX(I,J,K) 1.0
+ X  Y(I,J,K)  OY(I,J,K) 1.0
+ X  Z(I,J,K)  OZ(I,J,K) 1.0
+
+ ND
+
+ DO K         1                        Z-
+ DO J         1                        Y-
+
+ X  Y(NX,J,K) OY(NX,J,K) 1.0
+ X  Z(NX,J,K) OZ(NX,J,K) 1.0
+
+ ND
+
+ DO K         1                        Z-
+ DO I         1                        X-
+
+ X  X(I,NY,K) OX(I,NY,K) 1.0
+ X  Z(I,NY,K) OZ(I,NY,K) 1.0
+
+ ND
+
+ DO J         1                        Y-
+ DO I         1                        X-
+
+ X  X(I,J,NZ) OX(I,J,NZ) 1.0
+ X  Y(I,J,NZ) OY(I,J,NZ) 1.0
+
+ ND
+
+* constraints : central constraints
+
+ DO K         1                        Z-
+ IA K+        K         1
+
+ DO J         1                        Y-
+ IA J+        J         1
+
+ DO I         1                        X-
+ IA I+        I         1
+
+ X  X(I,J,K)  V(I,J,K)  1.0            V(I+,J,K) -1.0
+ X  Y(I,J,K)  V(I,J,K)  1.0            V(I,J+,K) -1.0
+ X  Z(I,J,K)  V(I,J,K)  1.0            V(I,J,K+) -1.0
+
+ ND
+
+ DO K         1                        Z-
+ IA K+        K         1
+
+ DO J         1                        Y-
+ IA J+        J         1
+
+ X  Y(NX,J,K) V(NX,J,K) 1.0            V(NX,J+,K) -1.0
+ X  Z(NX,J,K) V(NX,J,K) 1.0            V(NX,J,K+) -1.0
+
+ ND
+
+ DO K         1                        Z-
+ IA K+        K         1
+
+ DO I         1                        X-
+ IA I+        I         1
+
+ X  X(I,NY,K) V(I,NY,K) 1.0            V(I+,NY,K) -1.0
+ X  Z(I,NY,K) V(I,NY,K) 1.0            V(I,NY,K+) -1.0
+
+ ND
+
+ DO J         1                        Y-
+ IA J+        J         1
+
+ DO I         1                        X-
+ IA I+        I         1
+
+ X  X(I,J,NZ) V(I,J,NZ) 1.0            V(I+,J,NZ) -1.0
+ X  Y(I,J,NZ) V(I,J,NZ) 1.0            V(I,J+,NZ) -1.0
+
+ ND
+
+*  edge constraints
+
+ DO K         1                        NZ
+ DO J         1                        NY
+
+ X  Y(0,J,K)  V(1,J,K)  1.0
+ X  Z(0,J,K)  V(1,J,K)  1.0
+ X  Y(X+,J,K) V(NX,J,K) 1.0
+ X  Z(X+,J,K) V(NX,J,K) 1.0
+
+ ND
+
+ DO K         1                        NZ
+ DO I         1                        NX
+
+ X  X(I,0,K)  V(I,1,K)  1.0
+ X  Z(I,0,K)  V(I,1,K)  1.0
+ X  X(I,Y+,K) V(I,NY,K) 1.0
+ X  Z(I,Y+,K) V(I,NY,K) 1.0
+
+ ND
+
+ DO J         1                        NY
+ DO I         1                        NX
+
+ X  X(I,J,0)  V(I,J,1)  1.0
+ X  Y(I,J,0)  V(I,J,1)  1.0
+ X  X(I,J,Z+) V(I,J,NZ) 1.0
+ X  Y(I,J,Z+) V(I,J,NZ) 1.0
+
+ ND
+
+CONSTANTS
+
+ X  AUG3D     'DEFAULT' 1.0
+
+BOUNDS
+
+ FR AUG3D     'DEFAULT'
+
+GROUP TYPE
+
+ GV SQUARE    ALPHA
+
+GROUP USES
+
+ DO K         1                        Z-
+ DO J         1                        Y-
+ DO I         1                        X-
+
+ XT OX(I,J,K) SQUARE
+ XT OY(I,J,K) SQUARE
+ XT OZ(I,J,K) SQUARE
+
+ ND
+
+ DO K         1                        Z-
+ DO J         1                        Y-
+
+ XT OY(M,J,K) SQUARE
+ XT OZ(M,J,K) SQUARE
+
+ ND
+
+ DO K         1                        Z-
+ DO I         1                        X-
+
+ XT OX(I,N,K) SQUARE
+ XT OZ(I,N,K) SQUARE
+
+ ND
+
+ DO J         1                        Y-
+ DO I         1                        X-
+
+ XT OX(I,J,P) SQUARE
+ XT OY(I,J,P) SQUARE
+
+ ND
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+GROUPS        AUG3D
+
+INDIVIDUALS
+
+ T  SQUARE
+ F                      5.0D-1 * ALPHA * ALPHA
+ G                      ALPHA
+ H                      1.0D+0
+
+ENDATA

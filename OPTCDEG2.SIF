@@ -1,0 +1,159 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          OPTCDEG2
+
+*   Problem :
+*   *********
+*   An optimal control problem determining the applied force
+*   that restores a damped spring-mass system to equilibrium
+*   as fast as possible, given bounds on state and control
+*   variables.  The displacement of the mass from equilibrium
+*   is x, velocity is y, and the controlling force is u.
+
+*   Source:
+*   B. Murtagh and M. Saunders,
+*   Mathematical Programming studies 16, pp 84-117,
+*   (example 5.11)
+
+*   SIF input: Nick Gould, June 1990.
+*              Todd Plantenga, August 1995.
+
+*   classification QQR2-AN-V-V
+
+*   This is a corrected version of OPTCNTRL.SIF.  The original code
+*   neglected to scale finite difference derivatives by the
+*   discretization parameter T, and therefore was physically
+*   meaningful only for T=100.  In addition, x(T) is a free
+*   variable (the SIF default inadvertantly created a lower bound
+*   of zero).
+
+*   problem size: 3T+2 unknowns, T nonlinear equalities
+
+*IE T                   10             $-PARAMETER  n =   32
+*IE T                   40             $-PARAMETER  n =  122   original value
+*IE T                   100            $-PARAMETER  n =  302
+*IE T                   400            $-PARAMETER  n = 1202
+ IE T                   1500           $-PARAMETER  n = 4502
+
+*   useful parameters
+
+ IA T-1       T         -1
+ RI TMP       T
+ RD DT        TMP       20.0
+ RM MINUSDT   DT        -1.0
+
+ RM A1        DT        0.5
+ RE SPRINGKM            0.02
+ RE DAMPING             0.05
+ R* C1        SPRINGKM                 DT
+ R* C2        DAMPING                  DT
+
+ IE 0                   0
+ IE 1                   1
+
+VARIABLES
+
+ DO t         0                        T
+ X  x(t)
+ X  y(t)
+ ND
+
+ DO t         0                        T-1
+ X  u(t)
+ ND
+
+GROUPS
+
+ N  OBJ
+
+ DO t         0                        T-1
+ IA t+1       t         1
+ XE B(t)      x(t+1)    1.0            x(t)      -1.0
+ ZE B(t)      y(t)                     MINUSDT
+ XE C(t)      y(t+1)    1.0            y(t)      -1.0
+ ZE C(t)      u(t)                     MINUSDT
+ ZE C(t)      x(t)                     C1
+ ND
+
+BOUNDS
+
+ DO t         0                        T-1
+ XR OPTCDEG2  x(t)
+ XL OPTCDEG2  y(t)      -1.0
+ XL OPTCDEG2  u(t)      -0.2
+ XU OPTCDEG2  u(t)      0.2
+ ND
+
+ XX OPTCDEG2  x(0)      10.0
+ XR OPTCDEG2  x(T)
+ XX OPTCDEG2  y(0)      0.0
+ XX OPTCDEG2  y(T)      0.0
+
+START POINT
+
+ DO t         1                        T-1
+ X  OPTCDEG2  y(t)      -1.0
+ ND
+
+ELEMENT TYPE
+
+ EV SQR       X
+
+ELEMENT USES
+
+ DO t         0                        T
+ XT o(t)      SQR
+ ZV o(t)      X                        x(t)
+ ND
+
+ DO t         0                        T-1
+ XT c(t)      SQR
+ ZV c(t)      X                        y(t)
+ ND
+
+GROUP USES
+
+ DO t         0                        T
+ ZE OBJ       o(t)                     A1
+ ND
+
+ DO t         0                        T-1
+ ZE C(t)      c(t)                     C2
+ ND
+
+OBJECT BOUND
+
+*   Least square problems are bounded below by zero
+
+ LO OPTCDEG2            0.0
+
+*   Solution
+
+*LO SOLTN      340.6053  (T= 10)  Variable  Y( 3)             has  active lower bound
+*LO SOLTN      253.2756  (T= 40)  Variables Y( 9) thru Y( 15) have active lower bounds
+*LO SOLTN      237.2764  (T=100)  Variables Y(20) thru Y( 40) have active lower bounds
+*LO SOLTN      229.573   (T=400)  Variables Y(76) thru Y(163) have active lower bounds
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      OPTCDEG2
+
+INDIVIDUALS
+
+*   square element.
+
+ T  SQR
+
+ F                      X * X
+ G  X                   X + X
+ H  X         X         2.0
+
+ENDATA
+

@@ -1,0 +1,901 @@
+NAME          ORBIT2
+
+*
+*       A reformulation of the discretized optimal control problem
+*       ORBIT
+*
+*       Consider minimising the time needed for a spacecraft to
+*       move from one circular orbit around the earth to another.
+
+*       This problem can be put in the following form:
+*
+*       let (x1,x2,x3) be the position and (x4,x5,x6) the velocity
+*       let (u1,u2,u3) be the driving force vector
+*       let q be the time required, then our problem becomes:
+*
+*       MINIMISE        q
+*
+*       with the equations of motion:
+*
+*                       dx1/dt = hv*q*x4
+*                       dx2/dt = hv*q*x5
+*                       dx3/dt = hv*q*x6
+*                       dx4/dt = hv*q*(hg*x1/r^3-hf*u(1)/m)     (1)
+*                       dx5/dt = hv*q*(hg*x1/r^3-hf*u(2)/m)             
+*                       dx6/dt = hv*q*(hg*x1/r^3-hf*u(3)/m)
+*       
+*       with    m = m0-hm*q*t   ( - the mass variation)
+*                       
+*               r = sqrt( x1^2 + x2^2 + x3^2 )  -  dist. from the center
+*                                                  of the earth
+*
+*       't' is a rescaled time varying between 0 and 1, and
+*
+*       'hv,hf,hg,hm' are scaling constants.
+*
+*       the driving force is bounded by 
+*
+*                       u1^2 + u2^2 + u3^2 <= 1                 (2)
+*
+*       (the rather arbitrary no. '1' representing the max. power
+*       of the spacecraft).
+*       We choose the initial conditions:
+*
+*               x1 = x2 = 0   ,   x3 = 1   -  initial position
+*
+*               x5 = x6 = 0   ,   x4 = Vorb    -   corresponding orbital
+*                                                  speed
+*
+*       and the final conditions are:
+*
+*       x1^2 + x2^2 + x3^2 = Rf^2  -   final orbit radius
+*
+*       x4^2 + x5^2 + x6^2 = Vforb^2 -  corresponding orbital
+*                                                speed
+*
+*       x1*x4  + x2*x5 + x3*x6 = 0  -  direction must be parallel
+*                                       to the velocity
+*
+*
+*       we have chosen the constants hg,hf,hv,hm so that the x,u vectors
+*       are of order one. These correspond to an initial orbit at 150 km
+*       above the earth's surface, and a final orbit at 250 km above the 
+*       earth's surface.
+*       The reduction to an NLP is done in that same way as for CAR.SIF
+*
+*       The time taken should be:
+*
+*                       q = 315 secs
+*
+
+*   SIF input: Thomas Felici, Universite de Nancy, France, 
+*              October 1993, with modifications to compute derivatives
+*              by Nick Gould
+
+*   classification LOR1-RN-V-V
+
+********************************************
+
+*       M = Number of time nodes.
+
+*       Change this for different resolution
+
+*IE M                              3   $-PARAMETER n= 25, m= 18
+*IE M                             10   $-PARAMETER n= 88, m= 67
+*IE M                             30   $-PARAMETER n=268, m=207 original value
+ IE M                            300   $-PARAMETER n=2698, m=2097
+
+********************************************
+
+ IE NEQ                            6   
+ IE NCON                           1   
+ IE NLIM                           3   
+ IE NLINEQ                         0   
+ IE NLINCON                        0   
+ IE NLINLIM                        0   
+ I+ NTEQ      NEQ                      NLINEQ    
+ I+ NTCON     NCON                     NLINCON   
+ I+ NTLIM     NLIM                     NLINLIM   
+ IE NX                             6   
+ IE NU                             3   
+ IE NQ                             1   
+ 
+*       DEFINE REQUIRED INTEGERS
+ IE 1                              1   
+ IE 2                              2   
+ IE 3                              3   
+ IE 4                              4   
+ IE 5                              5   
+ IE 6                              6   
+ 
+ I- M-1       M                        1         
+ 
+*       DEFINE TIME NODES
+ 
+ RI RM        M-1       
+ DO I         1                        M         
+ I- I-1       I                        1         
+ RI RI1       I-1       
+ A/ T(I)      RI1                      RM        
+ ND 
+ 
+*  Orbit related parameters
+
+*  Earth radius in KM
+
+ RE RT                  6371.0D0
+ R* RT*RT     RT                       RT
+
+*  Gravitation constant
+
+ RM MU        RT*RT     9.81D-3
+
+*  pi
+
+ RE ONE                 1.0D+0
+ R( PI/4      ARCTAN                   ONE
+ RM PI        PI/4      4.0D+0
+
+*  Height of initial orbit (KM)
+
+ RA R0        RT        1.5D+2
+ R* R0*R0     R0                       R0
+
+*  Speed on initial circular orbit = VITB 
+
+ R/ MU/R0     MU                       R0
+ R( VORB      SQRT                     MU/R0
+
+*  Height of final orbit
+
+ RA RF        RT        2.5D+2
+
+*  Mass of spacecraft (in KG)
+
+ RE M0                  3.0D+3
+
+*  Debit total QT (in KG/S)
+
+ RE QT                  3.333D+0
+
+*  Speed of gas (in KM/S)
+
+ RE VG                  3.0D+0
+
+*  Typical time scale
+
+ RE TS                  1.0D+0
+
+* Scaling the constants used in the equations of motion
+* (so that x,v are of order 1)
+
+ R* HG        VORB                     R0*R0 
+ R/ HG        MU                       HG
+ R* HG        TS                       HG
+ R/ HV        VORB                     R0
+ R* HV        TS                       HV
+ R* HF        VORB                     M0
+ R/ HF        VG                       HF
+ R* HF        QT                       HF
+ R* HF        TS                       HF
+ R/ HM        QT                       M0
+ R* HM        TS                       HM
+
+ R/ VF        MU                       RF
+ R( VF        SQRT                     VF
+ R/ VF        VF                       VORB
+ R* VFVF      VF                       VF
+
+ R/ RF        RF                       R0
+ R* RFRF      RF                       RF
+
+VARIABLES
+ 
+ DO I         1                        M         
+ DO J         1                        NX        
+ X  X(I,J)    
+ ND 
+
+ DO I         1                        M-1       
+ DO J         1                        NU        
+ X  U(I,J)    
+ ND 
+
+ DO J         1                        NQ        
+ X  Q(J)      'SCALE'    1.0D+2
+ OD 
+ 
+GROUPS
+ 
+ XN OBJ       Q(1)       1.0
+
+*  The differential equation constraints
+
+ DO I         1                        M-1       
+ DO J         1                        NTEQ      
+ XE K(I,J)    
+ ND 
+
+*  The final condition constraints
+
+ DO J         1                        NTLIM     
+ XE L(J)      
+ ND 
+
+*  The driving force constraints
+ 
+ DO I         1                        M         
+ DO J         1                        NTCON     
+*XL G(I,J)    'SCALE'     1.0D+3
+ XL G(I,J)    'SCALE'     1.0D+2
+ ND 
+ 
+CONSTANTS
+
+ Z  ORBIT2    L(1)                     RFRF
+ Z  ORBIT2    L(3)                     VFVF
+
+ DO I         1                        M         
+ X  ORBIT2    G(I,1)      1.0D+0
+ ND 
+
+BOUNDS
+ 
+ XL BNDS      Q(1)        .10000E+03   
+ XU BNDS      Q(1)        .40000E+26 
+
+*       AT T=0, X IS GIVEN
+  
+ XX BNDS      X(1,1)      .00000E+00   
+ XX BNDS      X(1,2)      .00000E+00   
+ XX BNDS      X(1,3)      .10000E+01   
+ XX BNDS      X(1,4)      .10000E+01   
+ XX BNDS      X(1,5)      .00000E+00   
+ XX BNDS      X(1,6)      .00000E+00  
+ 
+*        X FOR T>0 IS FREE
+  
+ DO I         2                        M         
+ XL BNDS      X(I,1)     -.10000E+26   
+ XU BNDS      X(I,1)      .10000E+26   
+ XL BNDS      X(I,2)     -.10000E+26   
+ XU BNDS      X(I,2)      .10000E+26   
+ XL BNDS      X(I,3)     -.10000E+26   
+ XU BNDS      X(I,3)      .10000E+26   
+ XL BNDS      X(I,4)     -.10000E+26   
+ XU BNDS      X(I,4)      .10000E+26   
+ XL BNDS      X(I,5)     -.10000E+26   
+ XU BNDS      X(I,5)      .10000E+26   
+ XL BNDS      X(I,6)     -.10000E+26   
+ XU BNDS      X(I,6)      .10000E+26   
+ ND 
+
+*        THE CONTROLS ARE BOUNDED : -1 < U1,U2,U3 < 1
+*       these bounde are already taken into account by the 
+*       nonlinear constraint:
+*
+*               g = u1^2 + u2^2 + u3^2 <= 1
+*
+*       But they restrain the feasible space for SBMIN
+
+ DO I         1                        M-1       
+ XL BNDS      U(I,1)     -.10000E+01   
+ XU BNDS      U(I,1)      .10000E+01   
+ XL BNDS      U(I,2)     -.10000E+01   
+ XU BNDS      U(I,2)      .10000E+01   
+ XL BNDS      U(I,3)     -.10000E+01   
+ XU BNDS      U(I,3)      .10000E+01   
+ ND 
+
+
+START POINT
+
+*       Initially, we set X(T) = X(0) (given already in BOUNDS)
+*       and U(T) = (1,1,1)
+*       these are the values I used for NPSOL .... 
+ 
+ X  INITS     Q(1)        .10000E+03   
+ DO I         1                        M         
+ X  INITS     X(I,1)      .00000E+00   
+ X  INITS     X(I,2)      .00000E+00   
+ X  INITS     X(I,3)      .10000E+01   
+ X  INITS     X(I,4)      .10000E+01   
+ X  INITS     X(I,5)      .00000E+00   
+ X  INITS     X(I,6)      .00000E+00   
+ ND 
+ DO I         1                        M-1       
+ X  INITS     U(I,1)      .10000E+01   
+ X  INITS     U(I,2)      .10000E+01   
+ X  INITS     U(I,3)      .10000E+01   
+ ND 
+
+ELEMENT TYPE
+
+*     Square
+
+ EV SQR       X
+
+*     Product
+
+ EV PROD      X                        Y
+
+*     ODE`S
+ 
+ EV Ktyp      XI1                      XF1       
+ EV Ktyp      XI2                      XF2       
+ EV Ktyp      XI3                      XF3       
+ EV Ktyp      XI4                      XF4       
+ EV Ktyp      XI5                      XF5       
+ EV Ktyp      XI6                      XF6       
+ EV Ktyp      UV1       
+ EV Ktyp      UV2       
+ EV Ktyp      UV3       
+ EV Ktyp      QV1       
+ EP Ktyp      TN        
+ EP Ktyp      TN1       
+ EP Ktyp      ID        
+ 
+ELEMENT USES
+ 
+*     ODEs
+ 
+ DO I         1                        M-1       
+ IA S         I         1              
+ DO J         1                        NTEQ      
+ RI ReJ       J         
+ XT Ke(I,J)   Ktyp      
+ ZP Ke(I,J)   TN                       T(I)      
+ ZP Ke(I,J)   TN1                      T(S)      
+ ZP Ke(I,J)   ID                       ReJ       
+ ZV Ke(I,J)   XI1                      X(I,1)    
+ ZV Ke(I,J)   XF1                      X(S,1)    
+ ZV Ke(I,J)   XI2                      X(I,2)    
+ ZV Ke(I,J)   XF2                      X(S,2)    
+ ZV Ke(I,J)   XI3                      X(I,3)    
+ ZV Ke(I,J)   XF3                      X(S,3)    
+ ZV Ke(I,J)   XI4                      X(I,4)    
+ ZV Ke(I,J)   XF4                      X(S,4)    
+ ZV Ke(I,J)   XI5                      X(I,5)    
+ ZV Ke(I,J)   XF5                      X(S,5)    
+ ZV Ke(I,J)   XI6                      X(I,6)    
+ ZV Ke(I,J)   XF6                      X(S,6)    
+ ZV Ke(I,J)   UV1                      U(I,1)    
+ ZV Ke(I,J)   UV2                      U(I,2)    
+ ZV Ke(I,J)   UV3                      U(I,3)    
+ ZV Ke(I,J)   QV1                      Q(1)      
+ ND 
+ 
+*    constraints
+ 
+ DO J         1                        NTCON     
+ DO I         1                        M-1       
+ XT Ge(I,J,1) SQR
+ ZV Ge(I,J,1) X                        U(I,1)    
+ XT Ge(I,J,2) SQR
+ ZV Ge(I,J,2) X                        U(I,2)    
+ XT Ge(I,J,3) SQR
+ ZV Ge(I,J,3) X                        U(I,3)    
+ ND 
+
+ DO J         1                        NTCON     
+ XT Ge(M,J,1) SQR
+ ZV Ge(M,J,1) X                        U(M-1,1)  
+ XT Ge(M,J,2) SQR
+ ZV Ge(M,J,2) X                        U(M-1,2)  
+ XT Ge(M,J,3) SQR
+ ZV Ge(M,J,3) X                        U(M-1,3)  
+ ND 
+ 
+*    limit conditions
+ 
+ XT Le(1,1)   SQR
+ ZV Le(1,1)   X                        X(M,1)    
+ XT Le(1,2)   SQR
+ ZV Le(1,2)   X                        X(M,2)    
+ XT Le(1,3)   SQR
+ ZV Le(1,3)   X                        X(M,3)    
+
+ XT Le(2,1)   PROD
+ ZV Le(2,1)   X                        X(M,1)    
+ ZV Le(2,1)   Y                        X(M,4)    
+ XT Le(2,2)   PROD
+ ZV Le(2,2)   X                        X(M,2)    
+ ZV Le(2,2)   Y                        X(M,5)    
+ XT Le(2,3)   PROD
+ ZV Le(2,3)   X                        X(M,3)    
+ ZV Le(2,3)   Y                        X(M,6)    
+
+ XT Le(3,1)   SQR
+ ZV Le(3,1)   X                        X(M,4)    
+ XT Le(3,2)   SQR
+ ZV Le(3,2)   X                        X(M,5)    
+ XT Le(3,3)   SQR
+ ZV Le(3,3)   X                        X(M,6)    
+ 
+GROUP USES
+ 
+*     ODE`S
+ 
+ DO I         1                        M-1       
+ DO J         1                        NTEQ      
+ XE K(I,J)    Ke(I,J)   
+ ND 
+ 
+*    constraints
+ 
+ DO I         1                        M         
+ DO J         1                        NTCON     
+ XE G(I,J)    Ge(I,J,1)                Ge(I,J,2)   
+ XE G(I,J)    Ge(I,J,3)   
+ ND 
+ 
+*    limit conditions
+ 
+ DO I         1                        NTLIM     
+ XE L(I)      Le(I,1)                  Le(I,2)     
+ XE L(I)      Le(I,3)
+ ND 
+
+ENDATA
+ 
+********************************************************
+*       DEFINITION OF THE VARIOUS NONLINEAR FUNCTIONS  *
+********************************************************
+ 
+ELEMENTS      ORBIT2
+ 
+ 
+TEMPORARIES
+ 
+ R  F
+ R  GXI1
+ R  GXI2
+ R  GXI3
+ R  GXI4
+ R  GXI5
+ R  GXI6
+ R  GXF1
+ R  GXF2
+ R  GXF3
+ R  GXF4
+ R  GXF5
+ R  GXF6
+ R  GUV1
+ R  GUV2
+ R  GUV3
+ R  GQV1
+ R  COLLOC
+ F  COLLOC
+ 
+INDIVIDUALS
+ 
+*  Square group type
+
+ T  SQR
+ 
+ F                      X * X
+ G  X                   X + X
+ H  X         X         2.0
+
+*  Product group type
+
+ T  PROD
+ 
+ F                      X * Y
+ G  X                   Y
+ G  Y                   X
+ H  X         Y         1.0
+
+*     ODE`S
+ 
+ T  Ktyp      
+ 
+ F                      COLLOC(
+ F+                        XI1, XI2, XI3, XI4, XI5, XI6, 
+ F+                        XF1, XF2, XF3, XF4, XF5, XF6,
+ F+                        UV1, UV2, UV3, QV1, 
+ F+                        GXI1, GXI2, GXI3, GXI4, GXI5, GXI6,
+ F+                        GXF1, GXF2, GXF3, GXF4, GXF5, GXF6, 
+ F+                        GUV1, GUV2, GUV3, GQV1,
+ F+                        TN, TN1, ID, .FALSE. )
+ A  F                   COLLOC(
+ A+                        XI1, XI2, XI3, XI4, XI5, XI6, 
+ A+                        XF1, XF2, XF3, XF4, XF5, XF6,
+ A+                        UV1, UV2, UV3, QV1, 
+ A+                        GXI1, GXI2, GXI3, GXI4, GXI5, GXI6,
+ A+                        GXF1, GXF2, GXF3, GXF4, GXF5, GXF6, 
+ A+                        GUV1, GUV2, GUV3, GQV1,
+ A+                        TN, TN1, ID, .TRUE. )
+ G  XI1                 GXI1
+ G  XI2                 GXI2
+ G  XI3                 GXI3
+ G  XI4                 GXI4
+ G  XI5                 GXI5
+ G  XI6                 GXI6
+ G  XF1                 GXF1
+ G  XF2                 GXF2
+ G  XF3                 GXF3
+ G  XF4                 GXF4
+ G  XF5                 GXF5
+ G  XF6                 GXF6
+ G  UV1                 GUV1
+ G  UV2                 GUV2
+ G  UV3                 GUV3
+ G  QV1                 GQV1
+
+ENDATA
+ 
+*****************************
+*       EXTERNAL FUNCTIONS  *
+*****************************
+ 
+        DOUBLE PRECISION FUNCTION COLLOC(
+     *     X1, X2, X3, X4, X5, X6, XP1, XP2, XP3, XP4, XP5, XP6,
+     *     U1, U2, U3, Q1, GX1, GX2, GX3, GX4, GX5, GX6,
+     *     GXP1, GXP2, GXP3, GXP4, GXP5, GXP6, GU1, GU2, GU3, GQ1,
+     *     T, T1, DIM, DERIV )
+ 
+C   Compute a finite-difference discretization to the system of 
+C   ordinary differential equations
+C
+C     dX/dT - F( X, U, Q, T ) = 0
+C
+C  involving the values X, U, Q and XP = X + (T1 - T)
+C  The returned value will be the approximation function
+C  COLLOC( X, XP, U, Q ) and, if DERIV is true, its derivative
+C  with respect to each parameter.
+C
+
+        INTEGER ISTART, ID, I, J , NE, NX, NU, NQ, NP
+        DOUBLE PRECISION X1, X2, X3, X4, X5, X6,
+     *    XP1, XP2, XP3, XP4, XP5, XP6, U1, U2, U3, Q1
+        DOUBLE PRECISION GX1, GX2, GX3, GX4, GX5, GX6,
+     *    GXP1, GXP2, GXP3, GXP4, GXP5, GXP6, GU1, GU2, GU3, GQ1
+        DOUBLE PRECISION T, T1, DIM, TOR, TC, C1, C2
+C
+C  Parameters:
+C  NE = Number of differential equations
+C  NX = Number of variables X in the equations
+C  NU = Number of variables U in the equations
+C  NQ = Number of variables Q in the equations
+C  NP = Number of fixed parameters in the equations
+C
+        PARAMETER ( NE = 6, NX = 6, NU = 3, NQ = 1, NP = 4 )
+        DOUBLE PRECISION X( NX ), XP( NX ), XC( NX ), U( NU ), Q( NQ )
+        DOUBLE PRECISION F( NX ), FP( NX ), FC( NX ), FCPRED( NX )
+        DOUBLE PRECISION DX( NX ), DXP( NX ), DU( NU ), DQ( NQ )
+        DOUBLE PRECISION DFDX ( NX, NE ), DFDU ( NU, NE )
+        DOUBLE PRECISION DFDQ ( NQ, NE ), DFDQP( NQ, NE )  
+        DOUBLE PRECISION DFDXP( NX, NE ), DFDUP( NU, NE )
+        DOUBLE PRECISION DFDXC( NX, NE ), DFDUC( NU, NE ) 
+        DOUBLE PRECISION DFDQC( NQ, NE ), PARAM( NP )  
+        DOUBLE PRECISION HALF, FOURTH, EIGHTH, ONEPT5
+        DOUBLE PRECISION HM, HV, HG, HF
+        PARAMETER ( HALF   = 5.0D-1 , FOURTH = 2.5D-1 )
+        PARAMETER ( EIGHTH = 1.25D-1, ONEPT5 = 1.5D+0 )
+        LOGICAL DERIV
+        COMMON / STRTUP / ISTART
+        DOUBLE PRECISION MU, M0, RT, R0, VORB, QT, VG, TS
+        INTRINSIC SQRT
+        SAVE RT, MU, R0, VORB, M0, QT, VG, TS, HM, HV, HG, HF
+C
+C  Initiialize constants.
+C
+        IF ( ISTART .NE. 123 ) THEN
+          ISTART = 123
+C
+C....................Earth radius in KM
+C
+          RT = 6371.0D0
+C
+C....................Gravitation constant
+C
+          MU = 9.81D-3 * RT * RT
+C
+C...... Height of initial orbit (KM)
+C
+          R0 = RT + 150.0D0
+C
+C---- Speed on initial circular orbit = VITB 
+C
+          VORB = SQRT( MU / R0 )
+C
+C------ Mass of spacecraft (in KG) [3000.]
+C
+          M0 = 3000.0D0
+C
+C------ Debit total QT (in KG/S) [3.]
+C
+          QT = 3.333D0
+C
+C------ Speed of gas (in KM/S) [3.333]
+C
+          VG = 3.0D0
+C
+C ----- Typical time scale
+C
+          TS = 1.0D0
+C
+C ----- Scaling constants used in the equations of motion
+C ------ (so that x,v are of order 1)
+C
+          HM = TS * QT / M0
+          HV = TS * VORB / R0
+          HG = TS * MU / ( VORB * R0 ** 2 )
+          HF = TS * QT * VG / ( VORB * M0 )
+        END IF
+        PARAM( 1 ) = HM
+        PARAM( 2 ) = HV
+        PARAM( 3 ) = HG
+        PARAM( 4 ) = HF
+C
+C  Place scalar input in vectors, for convenience.
+C
+        ID = DIM
+        X ( 1 ) = X1       
+        X ( 2 ) = X2       
+        X ( 3 ) = X3       
+        X ( 4 ) = X4       
+        X ( 5 ) = X5       
+        X ( 6 ) = X6       
+        XP( 1 ) = XP1       
+        XP( 2 ) = XP2       
+        XP( 3 ) = XP3       
+        XP( 4 ) = XP4       
+        XP( 5 ) = XP5       
+        XP( 6 ) = XP6       
+        U ( 1 ) = U1       
+        U ( 2 ) = U2       
+        U ( 3 ) = U3       
+        Q ( 1 ) = Q1       
+C
+C  Calculate the values of F, F and FP, at X and XP, respectively.
+C 
+        TOR = T1 - T
+        CALL FSYS( DERIV, F , X , U, T , Q, PARAM,
+     *             DFDX , DFDU , DFDQ  )
+        CALL FSYS( DERIV, FP, XP, U, T1, Q, PARAM,
+     *             DFDXP, DFDUP, DFDQP )
+C 
+C  Calculate the corrector value XC and the predicted value of F,
+C  FCPRED, at XC.
+C 
+        C1 = EIGHTH * TOR
+        C2 = ONEPT5 / TOR
+        DO 10 J = 1, NX
+           XC    ( J ) = HALF * ( X( J ) + XP( J ) ) + 
+     *                   C1 * ( F( J ) - FP( J ) )
+           FCPRED( J ) = C2 * ( XP( J ) - X( J ) ) - 
+     *                   FOURTH * ( F( J ) + FP( J ) )
+   10   CONTINUE
+ 
+C  Calculate the actual value of F, FC, at XC.
+ 
+        TC = HALF * ( T1 + T ) 
+        CALL FSYS( DERIV, FC, XC, U, TC, Q, PARAM, 
+     *             DFDXC, DFDUC, DFDQC )
+C
+C  The objective function value is the difference between the predicted
+C  and actual values of F at XC.
+C
+        COLLOC = FCPRED( ID ) - FC( ID )
+        IF ( .NOT. DERIV ) RETURN
+C
+C  Obtain the gradient values of the IDth term. First, include the
+C  contributions from the FC term. 
+C
+        DO 20 I = 1, NX
+          DX ( I ) = - FOURTH * DFDX ( I, ID )
+          DXP( I ) = - FOURTH * DFDXP( I, ID )
+   20   CONTINUE
+        DO 30 I = 1, NU
+          DU( I ) = - FOURTH * ( DFDU( I, ID ) + DFDUP( I, ID ) )
+   30   CONTINUE
+        DO 40 I = 1, NQ
+          DQ( I ) = - FOURTH * ( DFDQ( I, ID ) + DFDQP( I, ID ) )
+   40   CONTINUE
+        DX ( ID ) = DX ( ID ) - C2
+        DXP( ID ) = DXP( ID ) + C2
+C
+C  Now include the contributions from the FCF term, using the
+C  chain rule for partial differentiation. 
+C
+C  Derivatives with respect to X and XP.
+C
+        DO 80 I = 1, NX
+           DO 50 J = 1, NX
+              DX ( I ) = DX ( I ) - DFDXC( J, ID ) * C1 * DFDX ( I, J )
+              DXP( I ) = DXP( I ) + DFDXC( J, ID ) * C1 * DFDXP( I, J )
+   50      CONTINUE
+           DX ( I ) = DX ( I ) - DFDXC( I, ID ) * HALF
+           DXP( I ) = DXP( I ) - DFDXC( I, ID ) * HALF 
+   80   CONTINUE
+C
+C  Derivatives with respect to U.
+C
+        DO 120 I = 1, NU
+           DO 90 J = 1, NX
+              DU ( I ) = DU ( I ) - DFDXC( J, ID ) * 
+     *                   C1 * ( DFDU ( I, J ) - DFDUP( I, J ) )
+   90      CONTINUE
+           DU ( I ) = DU ( I ) - DFDUC( I, ID ) 
+  120   CONTINUE
+C
+C  Derivates with respect to Q.
+C
+        DO 160 I = 1, NQ
+           DO 130 J = 1, NX
+              DQ ( I ) = DQ ( I ) - DFDXC( J, ID ) * 
+     *                   C1 * ( DFDQ ( I, J ) - DFDQP( I, J ) )
+  130      CONTINUE
+           DQ ( I ) = DQ ( I ) - DFDQC( I, ID )
+  160   CONTINUE
+C
+C  Assign the array components to their scalar counterparts.
+C
+        GX1  = DX ( 1 )
+        GX2  = DX ( 2 )
+        GX3  = DX ( 3 )
+        GX4  = DX ( 4 )
+        GX5  = DX ( 5 )
+        GX6  = DX ( 6 )
+        GXP1 = DXP( 1 )
+        GXP2 = DXP( 2 )
+        GXP3 = DXP( 3 )
+        GXP4 = DXP( 4 )
+        GXP5 = DXP( 5 )
+        GXP6 = DXP( 6 )
+        GU1  = DU ( 1 )
+        GU2  = DU ( 2 )
+        GU3  = DU ( 3 )
+        GQ1  = DQ ( 1 )     
+        RETURN
+        END
+
+        BLOCK DATA SETDIM
+        INTEGER ISTART 
+        COMMON / STRTUP / ISTART
+        DATA ISTART / 0 /
+        END
+
+C ** Subroutines for user defined optimal control problem
+
+        SUBROUTINE FSYS( DERIV, F, X, U, T, Q, PARAM, 
+     *                   DFDX, DFDU, DFDQ )
+C       
+C  Subroutine defining system of ODE's for given X, U, Q and T.
+C
+C  Given a set of differential equations 
+C
+C     dX/dT = F( X, U, Q, T, PARAM ),
+C
+C  returns the values of F and, if DERIV is .TRUE., its Jacobians
+C  dF/dX, dF/dU and dF/dQ for given input X, U, Q, T and PARAM.
+C
+C  DFDX( I, J ) contains the derivative of F(J) w.r.t. X(I)
+C  DFDU( I, J ) contains the derivative of F(J) w.r.t. U(I)
+C  DFDQ( I, J ) contains the derivative of F(J) w.r.t. Q(I)
+C
+        INTEGER NE, NX, NU, NQ, NP 
+        PARAMETER ( NE = 6, NX = 6, NU = 3, NQ = 1, NP = 4 )
+        DOUBLE PRECISION M, R, S, T, D1OVER, ZERO, ONE, TWO
+        DOUBLE PRECISION HM, HV, HG, HF
+        DOUBLE PRECISION ONEPT5, TWOPT5
+        DOUBLE PRECISION F( NE ), X( NX ), U( NU ), Q( NQ ), PARAM( NP )  
+        DOUBLE PRECISION DFDX( NX, NE ), DFDU( NU, NE ), DFDQ( NQ, NE ) 
+        LOGICAL DERIV
+        PARAMETER ( ZERO = 0.0D+0, ONE = 1.0D+0, TWO = 2.0D+0 )
+        PARAMETER ( ONEPT5 = 1.5D+0, TWOPT5 = 2.5D+0 )
+        HM = PARAM( 1 ) 
+        HV = PARAM( 2 ) 
+        HG = PARAM( 3 ) 
+        HF = PARAM( 4 ) 
+        M = ONE - HM * T * Q( 1 )
+        S = X( 1 ) ** 2 + X( 2 ) ** 2 + X( 3 ) ** 2
+        R = S ** ONEPT5
+        D1OVER = - ONEPT5 / S ** TWOPT5
+
+C  equation 1
+
+        F( 1 ) = HV * Q( 1 ) * X( 4 )
+        IF ( DERIV ) THEN
+           DFDX( 1, 1 ) = ZERO
+           DFDX( 2, 1 ) = ZERO
+           DFDX( 3, 1 ) = ZERO
+           DFDX( 4, 1 ) = HV * Q( 1 )
+           DFDX( 5, 1 ) = ZERO
+           DFDX( 6, 1 ) = ZERO
+           DFDU( 1, 1 ) = ZERO
+           DFDU( 2, 1 ) = ZERO
+           DFDU( 3, 1 ) = ZERO
+           DFDQ( 1, 1 ) = HV * X( 4 )
+        END IF
+
+C  equation 2
+
+        F( 2 ) = HV * Q( 1 ) * X( 5 )
+        IF ( DERIV ) THEN
+           DFDX( 1, 2 ) = ZERO
+           DFDX( 2, 2 ) = ZERO
+           DFDX( 3, 2 ) = ZERO
+           DFDX( 4, 2 ) = ZERO
+           DFDX( 5, 2 ) = HV * Q( 1 )
+           DFDX( 6, 2 ) = ZERO
+           DFDU( 1, 2 ) = ZERO
+           DFDU( 2, 2 ) = ZERO
+           DFDU( 3, 2 ) = ZERO
+           DFDQ( 1, 2 ) = HV * X( 5 )
+        END IF
+
+C  equation 3
+
+        F( 3 ) = HV * Q( 1 ) * X( 6 )
+        IF ( DERIV ) THEN
+           DFDX( 1, 3 ) = ZERO
+           DFDX( 2, 3 ) = ZERO
+           DFDX( 3, 3 ) = ZERO
+           DFDX( 4, 3 ) = ZERO
+           DFDX( 5, 3 ) = ZERO
+           DFDX( 6, 3 ) = HV * Q( 1 )
+           DFDU( 1, 3 ) = ZERO
+           DFDU( 2, 3 ) = ZERO
+           DFDU( 3, 3 ) = ZERO
+           DFDQ( 1, 3 ) = HV * X( 6 )
+        END IF
+
+C  equation 4
+
+        F( 4 ) = Q( 1 ) * ( - HG * X( 1 ) / R - HF * U( 1 ) / M )
+        IF ( DERIV ) THEN
+           DFDX( 1, 4 ) = - Q( 1 ) * HG * ( ONE / R +
+     *                               X( 1 ) * D1OVER * TWO * X( 1 ) )
+           DFDX( 2, 4 ) = - Q( 1 ) * HG * X( 1 ) * D1OVER * TWO * X( 2 )
+           DFDX( 3, 4 ) = - Q( 1 ) * HG * X( 1 ) * D1OVER * TWO * X( 3 )
+           DFDX( 4, 4 ) = ZERO
+           DFDX( 5, 4 ) = ZERO
+           DFDX( 6, 4 ) = ZERO
+           DFDU( 1, 4 ) = - Q( 1 ) * HF / M
+           DFDU( 2, 4 ) = ZERO
+           DFDU( 3, 4 ) = ZERO
+           DFDQ( 1, 4 ) = - HG * X( 1 ) / R - HF * U( 1 ) / M -
+     *                    Q( 1 ) * HF * HM * T * U( 1 ) / M ** 2
+        END IF
+
+C  equation 5
+
+        F( 5 ) = Q( 1 ) * ( - HG * X( 2 ) / R - HF * U( 2 ) / M )
+        IF ( DERIV ) THEN
+           DFDX( 1, 5 ) = - Q( 1 ) * HG * X( 2 ) * D1OVER * TWO * X( 1 )
+           DFDX( 2, 5 ) = - Q( 1 ) * HG * ( ONE / R +
+     *                               X( 2 ) * D1OVER * TWO * X( 2 ) )
+           DFDX( 3, 5 ) = - Q( 1 ) * HG * X( 2 ) * D1OVER * TWO * X( 3 )
+           DFDX( 4, 5 ) = ZERO
+           DFDX( 5, 5 ) = ZERO
+           DFDX( 6, 5 ) = ZERO
+           DFDU( 1, 5 ) = ZERO
+           DFDU( 2, 5 ) = - Q( 1 ) * HF / M
+           DFDU( 3, 5 ) = ZERO
+           DFDQ( 1, 5 ) = - HG * X( 2 ) / R - HF * U( 2 ) / M -
+     *                    Q( 1 ) * HF * HM * T * U( 2 ) / M ** 2
+        END IF
+
+C  equation 6
+
+        F( 6 ) = Q( 1 ) * ( - HG * X( 3 ) / R - HF * U( 3 ) / M )
+        IF ( DERIV ) THEN
+           DFDX( 1, 6 ) = - Q( 1 ) * HG * X( 3 ) * D1OVER * TWO * X( 1 )
+           DFDX( 2, 6 ) = - Q( 1 ) * HG * X( 3 ) * D1OVER * TWO * X( 2 )
+           DFDX( 3, 6 ) = - Q( 1 ) * HG * ( ONE / R +
+     *                               X( 3 ) * D1OVER * TWO * X( 3 ) )
+           DFDX( 4, 6 ) = ZERO
+           DFDX( 5, 6 ) = ZERO
+           DFDX( 6, 6 ) = ZERO
+           DFDU( 1, 6 ) = ZERO
+           DFDU( 2, 6 ) = ZERO
+           DFDU( 3, 6 ) = - Q( 1 ) * HF / M
+           DFDQ( 1, 6 ) = - HG * X( 3 ) / R - HF * U( 3 ) / M -
+     *                    Q( 1 ) * HF * HM * T * U( 3 ) / M ** 2
+        END IF
+
+        RETURN
+        END

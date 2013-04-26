@@ -1,0 +1,112 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          DEGENQP 
+
+*   Problem :
+*   *********
+
+*   A simple degenerate convex quadratic program, 
+*   with a large number of constraints
+
+*   SIF input: Nick Gould, February 2000
+
+*   classification QLR2-AN-V-V
+
+*   Number of variables. NB: there will be O(N**3) constraints
+
+*IE N                   10             $-PARAMETER
+*IE N                   20             $-PARAMETER     original value
+ IE N                   50             $-PARAMETER
+
+*   Other useful parameters
+
+ IE 1                   1 
+ IE 2                   2
+
+VARIABLES
+
+ DO I         1                        N
+ X  X(I)
+ ND
+
+GROUPS
+
+* objective function
+
+ DO I         1                        N
+ XN OBJ       X(I)      1.0
+ ND
+
+* constraints
+
+ DO I         1                        N
+ DI I         2
+ IE I+1       I         1
+ XE E(I)      X(I)      1.0            X(I+1)    -1.0
+ ND
+
+ DO I         1                        N
+ IE I+1       I         1
+ DO J         I+1                      N
+ IE J+1       J         1
+ DO K         J+1                      N
+ XG C(I,J,K)  X(I)      1.0            X(J)      1.0
+ XG C(I,J,K)  X(K)
+ ND
+
+CONSTANTS
+
+ X  DEGENQP   'DEFAULT' 0.0
+
+RANGES
+
+ X  DEGENQP   'DEFAULT' 2.0
+
+BOUNDS
+
+ LO DEGENQP   'DEFAULT' 0.0
+ UP DEGENQP   'DEFAULT' 1.0
+
+START POINT
+
+    DEGENQP   'DEFAULT' 2.0
+
+ELEMENT TYPE
+
+ EV SQUARE    ALPHA
+
+ELEMENT USES
+
+ DO I         1                        N
+ XT O(I)      SQUARE
+ ZV O(I)      ALPHA                    X(I)
+ ND
+
+GROUP USES
+
+ RI RN        N
+ DO I         1                        N
+ RI RI        I
+ R/ RI/RN     RI                       RN
+ ZE OBJ       O(I)                     RI/RN
+ ND
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      DEGENQP 
+
+INDIVIDUALS
+
+ T  SQUARE
+ F                      5.0D-1 * ALPHA * ALPHA
+ G  ALPHA               ALPHA
+ H  ALPHA     ALPHA     1.0D+0
+
+ENDATA

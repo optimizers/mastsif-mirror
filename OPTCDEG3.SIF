@@ -1,0 +1,165 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          OPTCDEG3
+
+*   Problem :
+*   *********
+*   An optimal control problem determining the applied force
+*   that restores a cubically damped spring-mass system to equilibrium
+*   as fast as possible, given bounds on state and control variables.
+*   The displacement of the mass from equilibrium is x, velocity is y,
+*   and the controlling force is u.  The objective function also differs
+*   slightly from that of OPTCDEG2.
+
+*   Source:
+*   P.S. Ritch,
+*   Automatica, 1973, V9, pp 415-429,
+*   (example 6.1)
+
+*   SIF input: Todd Plantenga, August 1995.
+
+*   classification QQR2-AN-V-V
+
+*   problem size: 3T+2 unknowns, T nonlinear equalities
+
+*IE T                   10             $-PARAMETER  n =   32
+*IE T                   40             $-PARAMETER  n =  122   original value
+*IE T                   100            $-PARAMETER  n =  302
+*IE T                   400            $-PARAMETER  n = 1202
+ IE T                   1500           $-PARAMETER  n = 4502
+
+*   useful parameters
+
+ IA T-1       T         -1
+ RI TMP       T
+ RD DT        TMP       20.0
+ RM MINUSDT   DT        -1.0
+
+ RM A1        DT        0.1
+ RE SPRINGKM            0.02
+ RE DAMPING             0.05
+ R* C1        SPRINGKM                 DT
+ R* C2        DAMPING                  DT
+
+ IE 0                   0
+ IE 1                   1
+
+VARIABLES
+
+ DO t         0                        T
+ X  x(t)
+ X  y(t)
+ ND
+
+ DO t         0                        T-1
+ X  u(t)
+ ND
+
+GROUPS
+
+ N  OBJ
+
+ DO t         0                        T-1
+ IA t+1       t         1
+ XE B(t)      x(t+1)    1.0            x(t)      -1.0
+ ZE B(t)      y(t)                     MINUSDT
+ XE C(t)      y(t+1)    1.0            y(t)      -1.0
+ ZE C(t)      u(t)                     MINUSDT
+ ZE C(t)      x(t)                     C1
+ ND
+
+BOUNDS
+
+ DO t         0                        T-1
+ XR OPTCDEG3  x(t)
+ XL OPTCDEG3  y(t)      -1.0
+ XL OPTCDEG3  u(t)      -0.2
+ XU OPTCDEG3  u(t)      0.2
+ ND
+
+ XX OPTCDEG3  x(0)      10.0
+ XX OPTCDEG3  x(T)      0.0
+ XX OPTCDEG3  y(0)      0.0
+ XR OPTCDEG3  y(T)
+
+START POINT
+
+ DO t         1                        T-1
+ X  OPTCDEG3  y(t)      -1.0
+ ND
+
+ELEMENT TYPE
+
+ EV SQR       X
+ EV CUBE      X
+
+ELEMENT USES
+
+ DO t         0                        T
+ XT o(t)      SQR
+ ZV o(t)      X                        x(t)
+ ND
+
+ XT oy        SQR
+ ZV oy        X                        y(T)
+
+ DO t         0                        T-1
+ XT c(t)      CUBE
+ ZV c(t)      X                        y(t)
+ ND
+
+GROUP USES
+
+ DO t         0                        T
+ ZE OBJ       o(t)                     A1
+ ND
+
+ XE OBJ       oy        1000.0
+
+ DO t         0                        T-1
+ ZE C(t)      c(t)                     C2
+ ND
+
+OBJECT BOUND
+
+*   Least square problems are bounded below by zero
+
+ LO OPTCDEG3            0.0
+
+*   Solution
+
+*LO SOLTN       67.4677  (T= 10)  Y( 2) thru Y(  4) have active lower bound
+*LO SOLTN       50.6341  (T= 40)  Y( 6) thru Y( 18) have active lower bounds
+*LO SOLTN       47.6146  (T=100)  Y(14) thru Y( 45) have active lower bounds
+*LO SOLTN       46.145   (T=400)  Y(53) thru Y(181) have active lower bounds
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      OPTCDEG3
+
+INDIVIDUALS
+
+*   square element.
+
+ T  SQR
+
+ F                      X * X
+ G  X                   X + X
+ H  X         X         2.0
+
+*   cube element.
+
+ T  CUBE
+
+ F                      X * X * X
+ G  X                   3.0 * X * X
+ H  X         X         6.0 * X
+
+ENDATA

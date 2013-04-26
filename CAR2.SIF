@@ -1,0 +1,612 @@
+NAME          CAR2
+
+*
+*       A DISCRETIZED OPTIMAL CONTROL PROBLEM
+*
+*       consider minimising the time needed for a car on a surface
+*       to get from x = (0,0) to (1,1) given that the initial and 
+*       final speed is zero.
+*       
+*       This problem can be put in the following form:
+*
+*       let (x1,x2) be the position and (x3,x4) the velocity
+*       let (u1,u2) be the driving force vector
+*       let q be the time required, then our problem becomes:
+*
+*       MINIMISE        q
+*
+*       with the equations of motion:
+*
+*                       dx1/dt = q*x3
+*                       dx2/dt = q*x4
+*                       dx3/dt = q*(u1-f*x3)            (1)
+*                       dx4/dt = q*(u2-f*x4)
+*
+*       where 't' is a rescaled time varying between 0 and 1, and
+*       'f' is a coefficient of friction.
+*
+*       the deriving force is bounded by 
+*
+*               u1^2 + u2^2 <= 1/2                      (2)
+*
+*       (the rather arbitrary no. 1/2 representing the max. power
+*       of the car).
+*       We finally have the limit conditions:
+*
+*               x1 = x2 = x3 = x4 = 0      - at  t = 0
+*
+*               x1 = x2 = 1   ,   x3 = x4 = 0     - at  t = 1
+*
+*
+*       This can be reduced to an NLP by discretization. Let:
+*
+*               X(1),X(2) ... X(M)   be   x(t1),x(t2), ....., x(tm)
+*
+*       and similarly
+*
+*               U(1),U(2) ...  U(M-1)   be   u(t1),u(t2), ..., u(tm-1)
+*
+*       respectively, where:
+*
+*               0 = t1 < t2 < .... < tm = 1
+*
+*       then, by a suitable discretization (eg. finite
+*       differences), (1) becomes a set of equations at each
+*       time nodd 'ti' of the form:
+*
+*               K(Xi,X(i+1),U(i)) = 0      ( 1 <= i <= M-1 )
+*
+*       while (2) and (3) simply become:
+*
+*               mod[U(i)]^2 <= 1/2     ( 1 <= i <= M-1 )
+*
+*               X(1) = (0,0,0,0)  ,   X(M) = (1,1,0,0)
+*
+*
+*       The solution of the problem is obvious: the car
+*       will move in a straight line, initially accelerating
+*       at its maximum ( u1 = u2 = 1/4 ) and then decelerating
+*       to stop as quickly as possible ( u1 = u2 = - 1/4 ).
+*       In the absence of friction ( f = 0 ) the change will
+*       occur halfway and the minimum time will be
+*
+*               q = 2 * sqrt(2) = 2.8284... 
+*
+* 
+
+*   SIF input: Thomas Felici, Universite de Nancy, France, 
+*              October 1993, with modifications to compute derivatives
+*              by Nick Gould
+
+*   classification LOR1-RN-V-V
+
+
+********************************************
+
+*       number of variables = M * ( NX + NU ) + NQ - NU
+*       M = Number of time nodes.
+
+*IE M                     30           $-PARAMETER n = 179  original value
+ IE M                     300          $-PARAMETER n = 1799
+ IE M                     1000         $-PARAMETER n = 5999
+
+*       COEFRI = Coefficient of friction.
+
+ RE COEFRI                1.0          $-PARAMETER        
+
+********************************************
+ 
+ IE NEQ                            4   
+ IE NCON                           1   
+ IE NLINEQ                         0   
+ IE NLINCON                        0   
+ I+ NTEQ      NEQ                      NLINEQ    
+ I+ NTCON     NCON                     NLINCON   
+ IE NX                             4   
+ IE NU                             2   
+ IE NQ                             1   
+ 
+*       DEFINE REQUIRED INTEGERS
+ IE 1                              1   
+ IE 2                              2   
+ IE 3                              3   
+ IE 4                              4   
+
+ I- M-1       M                        1         
+ 
+*       DEFINE TIME NODES
+ 
+ RI RM        M-1       
+ DO I         1                        M         
+ I- I-1       I                        1         
+ RI RI1       I-1       
+ A/ T(I)      RI1                      RM        
+ ND 
+ 
+ 
+VARIABLES
+ 
+ DO I         1                        M         
+ DO J         1                        NX        
+ X  X(I,J)    
+ ND 
+ DO I         1                        M-1       
+ DO J         1                        NU        
+ X  U(I,J)    
+ ND 
+ DO J         1                        NQ        
+ X  Q(J)      
+ OD 
+ 
+GROUPS
+ 
+ XN OBJ       Q(1)       1.0
+
+ DO I         1                        M-1       
+ DO J         1                        NTEQ      
+ XE K(I,J)    
+ ND 
+
+ DO I         1                        M         
+ DO J         1                        NTCON     
+ XL G(I,J)    
+ ND 
+ 
+CONSTANTS
+ 
+ DO I         1                        M         
+ X  CAR2      G(I,1)      1.0D+0
+ ND 
+
+BOUNDS
+ 
+ XL BNDS      Q(1)        .10000E+01   
+ XU BNDS      Q(1)        .10000E+26   
+
+ XX BNDS      X(1,1)      .00000E+00   
+ XX BNDS      X(1,2)      .00000E+00   
+ XX BNDS      X(1,3)      .00000E+00   
+ XX BNDS      X(1,4)      .00000E+00   
+ XX BNDS      X(M,1)      .10000E+01   
+ XX BNDS      X(M,2)      .10000E+01   
+ XX BNDS      X(M,3)      .00000E+00   
+ XX BNDS      X(M,4)      .00000E+00   
+
+ DO I         2                        M-1       
+ XL BNDS      X(I,1)     -.10000E+26   
+ XU BNDS      X(I,1)      .10000E+26   
+ XL BNDS      X(I,2)     -.10000E+26   
+ XU BNDS      X(I,2)      .10000E+26   
+ XL BNDS      X(I,3)     -.10000E+26   
+ XU BNDS      X(I,3)      .10000E+26   
+ XL BNDS      X(I,4)     -.10000E+26   
+ XU BNDS      X(I,4)      .10000E+26   
+ ND 
+ DO I         1                        M-1       
+ XL BNDS      U(I,1)     -.10000E+01   
+ XU BNDS      U(I,1)      .10000E+01   
+ XL BNDS      U(I,2)     -.10000E+01   
+ XU BNDS      U(I,2)      .10000E+01   
+ ND 
+ 
+START POINT
+
+*       THIS IS AN ARBITRARY, BUT JOUDICIOUS CHOICE!
+ 
+ X  INITS     Q(1)        .10000E+00   
+ DO I         1                        M         
+ X  INITS     X(I,1)      .10000E+00   
+ X  INITS     X(I,2)      .10000E+00   
+ X  INITS     X(I,3)      .10000E+00   
+ X  INITS     X(I,4)      .10000E+00   
+ ND 
+ DO I         1                        M-1       
+ X  INITS     U(I,1)      .00000E+00   
+ X  INITS     U(I,2)      .00000E+00   
+ ND 
+ 
+ELEMENT TYPE
+ 
+*     Square
+
+ EV SQR       X
+
+*     Product
+
+ EV PROD      X                        Y
+
+*     ODE`S
+ 
+ EV Ktyp      XI1                      XF1       
+ EV Ktyp      XI2                      XF2       
+ EV Ktyp      XI3                      XF3       
+ EV Ktyp      XI4                      XF4       
+ EV Ktyp      UV1                      UV2
+ EV Ktyp      QV1       
+ EP Ktyp      TN        
+ EP Ktyp      TN1       
+ EP Ktyp      ID        
+ EP Ktyp      COEFRI  
+ 
+ELEMENT USES
+ 
+ 
+*     ODEs
+ 
+ DO I         1                        M-1       
+ IA S         I         1              
+ DO J         1                        NTEQ      
+ RI ReJ       J         
+ XT Ke(I,J)   Ktyp      
+ ZP Ke(I,J)   COEFRI                   COEFRI
+ ZP Ke(I,J)   TN                       T(I)      
+ ZP Ke(I,J)   TN1                      T(S)      
+ ZP Ke(I,J)   ID                       ReJ       
+ ZV Ke(I,J)   XI1                      X(I,1)    
+ ZV Ke(I,J)   XF1                      X(S,1)    
+ ZV Ke(I,J)   XI2                      X(I,2)    
+ ZV Ke(I,J)   XF2                      X(S,2)    
+ ZV Ke(I,J)   XI3                      X(I,3)    
+ ZV Ke(I,J)   XF3                      X(S,3)    
+ ZV Ke(I,J)   XI4                      X(I,4)    
+ ZV Ke(I,J)   XF4                      X(S,4)    
+ ZV Ke(I,J)   UV1                      U(I,1)    
+ ZV Ke(I,J)   UV2                      U(I,2)    
+ ZV Ke(I,J)   QV1                      Q(1)      
+ ND 
+ 
+*    constraints
+ 
+ DO J         1                        NTCON     
+ DO I         1                        M-1       
+ XT Ge(I,J,1) SQR
+ ZV Ge(I,J,1) X                        U(I,1)    
+ XT Ge(I,J,2) SQR
+ ZV Ge(I,J,2) X                        U(I,2)    
+ ND 
+
+ DO J         1                        NTCON     
+ XT Ge(M,J,1) SQR
+ ZV Ge(M,J,1) X                        U(M-1,1)  
+ XT Ge(M,J,2) SQR
+ ZV Ge(M,J,2) X                        U(M-1,2)  
+ ND 
+ 
+GROUP USES
+ 
+*     ODE`S
+ 
+ DO I         1                        M-1       
+ DO J         1                        NTEQ      
+ XE K(I,J)    Ke(I,J)   
+ ND 
+ 
+*    constraints
+ 
+ DO I         1                        M         
+ DO J         1                        NTCON     
+ XE G(I,J)    Ge(I,J,1)                Ge(I,J,2)   
+ ND 
+ 
+ENDATA
+ 
+********************************************************
+*       DEFINITION OF THE VARIOUS NONLINEAR FUNCTIONS  *
+********************************************************
+ 
+ELEMENTS      CAR2
+ 
+ 
+TEMPORARIES
+ 
+ R  F
+ R  GXI1
+ R  GXI2
+ R  GXI3
+ R  GXI4
+ R  GXF1
+ R  GXF2
+ R  GXF3
+ R  GXF4
+ R  GUV1
+ R  GUV2
+ R  GQV1
+ R  COLLOC
+ F  COLLOC
+ 
+INDIVIDUALS
+ 
+*  Square group type
+
+ T  SQR
+ 
+ F                      X * X
+ G  X                   X + X
+ H  X         X         2.0
+
+*  Product group type
+
+ T  PROD
+ 
+ F                      X * Y
+ G  X                   Y
+ G  Y                   X
+ H  X         Y         1.0
+
+*     ODE`S
+ 
+ T  Ktyp      
+ 
+ F                      COLLOC(
+ F+                        XI1, XI2, XI3, XI4,  
+ F+                        XF1, XF2, XF3, XF4, 
+ F+                        UV1, UV2, QV1, 
+ F+                        GXI1, GXI2, GXI3, GXI4,
+ F+                        GXF1, GXF2, GXF3, GXF4,
+ F+                        GUV1, GUV2, GQV1,
+ F+                        COEFRI, TN, TN1, ID, .FALSE. )
+ A  F                   COLLOC(
+ A+                        XI1, XI2, XI3, XI4, 
+ A+                        XF1, XF2, XF3, XF4, 
+ A+                        UV1, UV2, QV1, 
+ A+                        GXI1, GXI2, GXI3, GXI4,
+ A+                        GXF1, GXF2, GXF3, GXF4,
+ A+                        GUV1, GUV2, GQV1,
+ A+                        COEFRI, TN, TN1, ID, .TRUE. )
+ G  XI1                 GXI1
+ G  XI2                 GXI2
+ G  XI3                 GXI3
+ G  XI4                 GXI4
+ G  XF1                 GXF1
+ G  XF2                 GXF2
+ G  XF3                 GXF3
+ G  XF4                 GXF4
+ G  UV1                 GUV1
+ G  UV2                 GUV2
+ G  QV1                 GQV1
+
+ENDATA
+ 
+*****************************
+*       EXTERNAL FUNCTIONS  *
+*****************************
+
+        DOUBLE PRECISION FUNCTION COLLOC(
+     *     X1, X2, X3, X4, XP1, XP2, XP3, XP4, 
+     *     U1, U2, Q1, GX1, GX2, GX3, GX4, 
+     *     GXP1, GXP2, GXP3, GXP4, GU1, GU2, GQ1,
+     *     COEFRI, T, T1, DIM, DERIV )
+ 
+C   Compute a finite-difference discretization to the system of 
+C   ordinary differential equations
+C
+C     dX/dT - F( X, U, Q, T ) = 0
+C
+C  involving the values X, U, Q and XP = X + (T1 - T)
+C  The returned value will be the approximation function
+C  COLLOC( X, XP, U, Q ) and, if DERIV is true, its derivative
+C  with respect to each parameter.
+C
+
+        INTEGER ID, I, J , NE, NX, NU, NQ, NP
+        DOUBLE PRECISION X1, X2, X3, X4, 
+     *    XP1, XP2, XP3, XP4, U1, U2, Q1
+        DOUBLE PRECISION GX1, GX2, GX3, GX4, 
+     *    GXP1, GXP2, GXP3, GXP4, GU1, GU2, GQ1
+        DOUBLE PRECISION COEFRI, T, T1, DIM, TOR, TC, C1, C2
+C
+C  Parameters:
+C  NE = Number of differential equations
+C  NX = Number of variables X in the equations
+C  NU = Number of variables U in the equations
+C  NQ = Number of variables Q in the equations
+C  NP = Number of fixed parameters in the equations
+C
+        PARAMETER ( NE = 4, NX = 4, NU = 2, NQ = 1, NP = 1 )
+        DOUBLE PRECISION X( NX ), XP( NX ), XC( NX ), U( NU ), Q( NQ )
+        DOUBLE PRECISION F( NX ), FP( NX ), FC( NX ), FCPRED( NX )
+        DOUBLE PRECISION DX( NX ), DXP( NX ), DU( NU ), DQ( NQ )
+        DOUBLE PRECISION DFDX ( NX, NE ), DFDU ( NU, NE )
+        DOUBLE PRECISION DFDQ ( NQ, NE ), DFDQP( NQ, NE )  
+        DOUBLE PRECISION DFDXP( NX, NE ), DFDUP( NU, NE )
+        DOUBLE PRECISION DFDXC( NX, NE ), DFDUC( NU, NE ) 
+        DOUBLE PRECISION DFDQC( NQ, NE ), PARAM( NP ) 
+        DOUBLE PRECISION HALF, FOURTH, EIGHTH, ONEPT5
+        PARAMETER ( HALF   = 5.0D-1 , FOURTH = 2.5D-1 )
+        PARAMETER ( EIGHTH = 1.25D-1, ONEPT5 = 1.5D+0 )
+        LOGICAL DERIV
+        PARAM( 1 ) = COEFRI
+C
+C  Place scalar input in vectors, for convenience.
+C
+        ID = DIM
+        X ( 1 ) = X1       
+        X ( 2 ) = X2       
+        X ( 3 ) = X3       
+        X ( 4 ) = X4       
+        XP( 1 ) = XP1       
+        XP( 2 ) = XP2       
+        XP( 3 ) = XP3       
+        XP( 4 ) = XP4       
+        U ( 1 ) = U1       
+        U ( 2 ) = U2       
+        Q ( 1 ) = Q1       
+C
+C  Calculate the values of F, F and FP, at X and XP, respectively.
+C 
+        TOR = T1 - T
+        CALL FSYS( DERIV, F , X , U, T , Q, PARAM, 
+     *             DFDX , DFDU , DFDQ  )
+        CALL FSYS( DERIV, FP, XP, U, T1, Q, PARAM, 
+     *             DFDXP, DFDUP, DFDQP )
+C 
+C  Calculate the corrector value XC and the predicted value of F,
+C  FCPRED, at XC.
+C 
+        C1 = EIGHTH * TOR
+        C2 = ONEPT5 / TOR
+        DO 10 J = 1, NX
+           XC    ( J ) = HALF * ( X( J ) + XP( J ) ) + 
+     *                   C1 * ( F( J ) - FP( J ) )
+           FCPRED( J ) = C2 * ( XP( J ) - X( J ) ) - 
+     *                   FOURTH * ( F( J ) + FP( J ) )
+   10   CONTINUE
+ 
+C  Calculate the actual value of F, FC, at XC.
+ 
+        TC = HALF * ( T1 + T )
+        CALL FSYS( DERIV, FC, XC, U, TC, Q, PARAM, 
+     *             DFDXC, DFDUC, DFDQC )
+C
+C  The objective function value is the difference between the predicted
+C  and actual values of F at XC.
+C
+        COLLOC = FCPRED( ID ) - FC( ID )
+        IF ( .NOT. DERIV ) RETURN
+C
+C  Obtain the gradient values of the IDth term. First, include the
+C  contributions from the FC term. 
+C
+        DO 20 I = 1, NX
+          DX ( I ) = - FOURTH * DFDX ( I, ID )
+          DXP( I ) = - FOURTH * DFDXP( I, ID )
+   20   CONTINUE
+        DO 30 I = 1, NU
+          DU( I ) = - FOURTH * ( DFDU( I, ID ) + DFDUP( I, ID ) )
+   30   CONTINUE
+        DO 40 I = 1, NQ
+          DQ( I ) = - FOURTH * ( DFDQ( I, ID ) + DFDQP( I, ID ) )
+   40   CONTINUE
+        DX ( ID ) = DX ( ID ) - C2
+        DXP( ID ) = DXP( ID ) + C2
+C
+C  Now include the contributions from the FCF term, using the
+C  chain rule for partial differentiation. 
+C
+C  Derivatives with respect to X and XP.
+C
+        DO 80 I = 1, NX
+           DO 50 J = 1, NX
+              DX ( I ) = DX ( I ) - DFDXC( J, ID ) * C1 * DFDX ( I, J )
+              DXP( I ) = DXP( I ) + DFDXC( J, ID ) * C1 * DFDXP( I, J )
+   50      CONTINUE
+           DX ( I ) = DX ( I ) - DFDXC( I, ID ) * HALF
+           DXP( I ) = DXP( I ) - DFDXC( I, ID ) * HALF 
+   80   CONTINUE
+C
+C  Derivatives with respect to U.
+C
+        DO 120 I = 1, NU
+           DO 90 J = 1, NX
+              DU ( I ) = DU ( I ) - DFDXC( J, ID ) * 
+     *                   C1 * ( DFDU ( I, J ) - DFDUP( I, J ) )
+   90      CONTINUE
+           DU ( I ) = DU ( I ) - DFDUC( I, ID ) 
+  120   CONTINUE
+C
+C  Derivatives with respect to Q.
+C
+        DO 160 I = 1, NQ
+           DO 130 J = 1, NX
+              DQ ( I ) = DQ ( I ) - DFDXC( J, ID ) * 
+     *                   C1 * ( DFDQ ( I, J ) - DFDQP( I, J ) )
+  130      CONTINUE
+           DQ ( I ) = DQ ( I ) - DFDQC( I, ID )
+  160   CONTINUE
+C
+C  Assign the array components to their scalar counterparts.
+C
+        GX1  = DX ( 1 )
+        GX2  = DX ( 2 )
+        GX3  = DX ( 3 )
+        GX4  = DX ( 4 )
+        GXP1 = DXP( 1 )
+        GXP2 = DXP( 2 )
+        GXP3 = DXP( 3 )
+        GXP4 = DXP( 4 )
+        GU1  = DU ( 1 )
+        GU2  = DU ( 2 )
+        GQ1  = DQ ( 1 )     
+        RETURN
+        END
+
+        SUBROUTINE FSYS( DERIV, F, X, U, T, Q, PARAM, 
+     *                   DFDX, DFDU, DFDQ )
+        
+C  Subroutine defining system of ODE's for given X, U, Q and T.
+C  Given a set of differential equations 
+C
+C     dX/dT = F( X, U, Q, T, PARAM ),
+C
+C  returns the values of F and, if DERIV is .TRUE., its Jacobians
+C  dF/dX, dF/dU and dF/dQ for given input X, U, Q, T and PARAM.
+C
+C  DFDX( I, J ) contains the derivative of F(J) w.r.t. X(I)
+C  DFDU( I, J ) contains the derivative of F(J) w.r.t. U(I)
+C  DFDQ( I, J ) contains the derivative of F(J) w.r.t. Q(I)
+
+        INTEGER NE, NX, NU, NQ, NP
+        LOGICAL DERIV
+        PARAMETER ( NE = 4, NX = 4, NU = 2, NQ = 1, NP = 1 )
+        DOUBLE PRECISION T, ZERO, ONE, TWO
+        PARAMETER ( ZERO = 0.0D+0, ONE = 1.0D+0, TWO = 2.0D+0 )
+        DOUBLE PRECISION F( NE ), X( NX ), U( NU ), Q( NQ ), PARAM( NP )
+        DOUBLE PRECISION DFDX( 4, 4 ), DFDU( 2, 4 ), DFDQ( 1, 4 ) 
+        DOUBLE PRECISION FRIC
+        FRIC = PARAM( 1 )
+
+C  equation 1
+
+        F( 1 ) = Q( 1 ) * X( 3 )
+        IF ( DERIV ) THEN
+           DFDX( 1, 1 ) = ZERO
+           DFDX( 2, 1 ) = ZERO
+           DFDX( 3, 1 ) = Q( 1 )
+           DFDX( 4, 1 ) = ZERO
+           DFDU( 1, 1 ) = ZERO
+           DFDU( 2, 1 ) = ZERO
+           DFDQ( 1, 1 ) = X( 3 )
+        END IF
+
+C  equation 2
+
+        F( 2 ) = Q( 1 ) * X( 4 )
+        IF ( DERIV ) THEN
+           DFDX( 1, 2 ) = ZERO
+           DFDX( 2, 2 ) = ZERO
+           DFDX( 3, 2 ) = ZERO
+           DFDX( 4, 2 ) = Q( 1 )
+           DFDU( 1, 2 ) = ZERO
+           DFDU( 2, 2 ) = ZERO
+           DFDQ( 1, 2 ) = X( 4 )
+        END IF
+
+C  equation 3
+
+        F( 3 ) = Q( 1 ) * ( U( 1 ) - FRIC * X( 3 ) )
+        IF ( DERIV ) THEN
+           DFDX( 1, 3 ) = ZERO
+           DFDX( 2, 3 ) = ZERO
+           DFDX( 3, 3 ) = - FRIC * Q( 1 )
+           DFDX( 4, 3 ) = ZERO
+           DFDU( 1, 3 ) = Q( 1 )
+           DFDU( 2, 3 ) = ZERO
+           DFDQ( 1, 3 ) = U( 1 ) - FRIC * X( 3 )
+        END IF
+
+C  equation 4
+
+        F( 4 ) = Q( 1 ) * ( U( 2 ) - FRIC * X( 4 ) )
+        IF ( DERIV ) THEN
+           DFDX( 1, 4 ) = ZERO
+           DFDX( 2, 4 ) = ZERO
+           DFDX( 3, 4 ) = ZERO
+           DFDX( 4, 4 ) = - FRIC * Q( 1 )
+           DFDU( 1, 4 ) = ZERO
+           DFDU( 2, 4 ) = Q( 1 )
+           DFDQ( 1, 4 ) = U( 2 ) - FRIC * X( 4 )
+        END IF
+
+        RETURN
+        END
+

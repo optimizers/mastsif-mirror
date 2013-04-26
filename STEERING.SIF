@@ -1,0 +1,252 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          STEERING
+
+*   Problem :
+*   *********
+
+*   Minimize the time taken for a particle, acted upon by a thrust of     
+*   constant magnitude, to achieve a given altitude and terminal velocity
+
+*   This is problem 9 in the COPS (Version 2) collection of 
+*   E. Dolan and J. More'
+*   see "Benchmarking Optimization Software with COPS"
+*   Argonne National Labs Technical Report ANL/MCS-246 (2000)
+
+*   SIF input: Nick Gould, December 2000
+
+*   classification LOR2-AN-V-V
+
+*   The number of subintervals in mesh
+
+*IE NH                  50             $-PARAMETER
+*IE NH                  100            $-PARAMETER
+*IE NH                  200            $-PARAMETER
+ IE NH                  400            $-PARAMETER
+
+* The maagnitude of the force
+
+ RE A                   100.0
+
+* approximation of pi
+
+ RF PI/4      ARCTAN    1.0
+ RM PI        PI/4      4.0
+ RM PI/2      PI        0.5
+ RM -PI/2     PI/2      -1.0
+
+* The bounds on the control
+
+ R= UMIN      -PI/2 
+ R= UMAX      PI/2 
+
+* Initial values for the state constraint
+
+ RE Y10                 0.0
+ RE Y20                 0.0
+ RE Y30                 0.0
+ RE Y40                 0.0
+
+* Terminal values for the state constraint
+
+ AE Y2N                 5.0
+ AE Y3N                 45.0
+ AE Y4N                 0.0
+
+*  Other useful values
+
+ IE 0                   0
+ IE 1                   1
+ IA NH-1      NH        -1
+ RI NH        NH
+ RD 1/NH      NH        1.0
+ RM 5/NH      1/NH      5.0
+ RM 45/NH     1/NH      45.0
+ RM A/2       A         0.5
+
+VARIABLES
+
+ X  H         $ step size
+
+ DO I         0                        NH
+ X  U(I)      $ control
+ X  Y1(I)     $ first position coordinate
+ X  Y2(I)     $ second position coordinate
+ X  Y3(I)     $ first velocity coordinate
+ X  Y4(I)     $ second velocity coordinate
+ ND
+
+GROUPS
+
+*  Objective function: minimize final time
+
+ ZN TF        H                        NH
+
+ DO I         0                        NH-1
+ IA I+1       I         1
+
+* Constraint on y1 {j in 0..nh-1}:
+*  - y1[j+1] + y1[j] + 0.5*h*(y3[j] + y3[j+1]) = 0
+
+ XE C1(I)     Y1(I)     1.0            Y1(I+1)   -1.0
+
+* Constraint on y2 {j in 0..nh-1}:
+*  - y2[j+1] + y2[j] + 0.5*h*(y4[j] + y4[j+1]) = 0
+
+ XE C2(I)     Y2(I)     1.0            Y2(I+1)   -1.0
+
+* Constraint on y3 {j in 0..nh-1}:
+*  - y3[j+1] + y3[j] + 0.5*h*(a*cos(u[j]) + a*cos(u[j+1])) = 0
+
+ XE C3(I)     Y3(I)     1.0            Y3(I+1)   -1.0
+
+* Constraint on y4 {j in 0..nh-1}:
+*  - y4[j+1] + y4[j] + 0.5*h*(a*sin(u[j]) + a*sin(u[j+1])) = 0
+
+ XE C4(I)     Y4(I)     1.0            Y4(I+1)   -1.0
+
+ ND
+
+CONSTANTS
+
+BOUNDS
+
+ XR STEERING  'DEFAULT'
+ XL STEERING  H         0.0
+
+ DO I         0                        NH
+ ZL STEERING  U(I)                     UMIN
+ ZU STEERING  U(I)                     UMAX
+ ND
+
+ ZX STEERING  Y1(0)                    Y10 
+ ZX STEERING  Y2(0)                    Y20 
+ ZX STEERING  Y3(0)                    Y30 
+ ZX STEERING  Y4(0)                    Y40 
+ ZX STEERING  Y2(NH)                   Y2N
+ ZX STEERING  Y3(NH)                   Y3N 
+ ZX STEERING  Y4(NH)                   Y4N 
+
+START POINT
+
+ Z  STEERING  H                        1/NH
+
+ DO I         0                        NH
+ RI I         I
+ R* 5I/NH     5/NH                     I
+ R* 45I/NH    45/NH                    I
+ X  STEERING  U(I)      0.0
+ X  STEERING  Y1(I)     0.0
+ Z  STEERING  Y2(I)                    5I/NH
+ Z  STEERING  Y3(I)                    45I/NH
+ X  STEERING  Y4(I)     0.0
+ ND
+
+ELEMENT TYPE
+
+ EV PROD      X                        Y
+ EV SI        H                        U
+ EV CO        H                        U
+
+ELEMENT USES
+
+ DO I         0                        NH
+ XT P3(I)     PROD
+ ZV P3(I)     X                        H
+ ZV P3(I)     Y                        Y3(I)
+ XT P4(I)     PROD
+ ZV P4(I)     X                        H
+ ZV P4(I)     Y                        Y4(I)
+ XT S(I)      SI
+ ZV S(I)      H                        H
+ ZV S(I)      U                        U(I)
+ XT C(I)      CO
+ ZV C(I)      H                        H
+ ZV C(I)      U                        U(I)
+ ND
+
+GROUP USES
+
+ DO I         0                        NH-1
+ IA I+1       I         1
+
+* Constraint on y1 {j in 0..nh-1}:
+*  - y1[j+1] + y1[j] + 0.5*h*(y3[j] + y3[j+1]) = 0
+
+ XE C1(I)     P3(I)     0.5            P3(I+1)   0.5
+
+* Constraint on y2 {j in 0..nh-1}:
+*  - y2[j+1] + y2[j] + 0.5*h*(y4[j] + y4[j+1]) = 0
+
+ XE C2(I)     P4(I)     0.5            P4(I+1)   0.5
+
+* Constraint on y3 {j in 0..nh-1}:
+*  - y3[j+1] + y3[j] + 0.5*h*(a*cos(u[j]) + a*cos(u[j+1])) = 0
+
+ ZE C3(I)     C(I)                     A/2
+ ZE C3(I)     C(I+1)                   A/2
+
+* Constraint on y4 {j in 0..nh-1}:
+*  - y4[j+1] + y4[j] + 0.5*h*(a*sin(u[j]) + a*sin(u[j+1])) = 0
+
+ ZE C4(I)     S(I)                     A/2
+ ZE C4(I)     S(I+1)                   A/2
+
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLUTION             5.54668D-01   $ (NH=50)
+*LO SOLUTION             5.54595D-01   $ (NH=100)
+*LO SOLUTION             5.54577D-01   $ (NH=200)
+*LO SOLUTION             5.54572D-01   $ (NH=400)
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      STEERING
+
+TEMPORARIES
+
+ R  SINU
+ R  COSU
+ M  SIN
+ M  COS
+
+INDIVIDUALS
+
+ T  PROD
+ F                      X * Y
+ G  X                   Y
+ G  Y                   X
+ H  X         Y         1.0
+
+ T  SI
+ A  SINU                SIN( U )
+ A  COSU                COS( U )
+ F                      H * SINU                  
+ G  H                   SINU
+ G  U                   H * COSU
+ H  H         U         COSU
+ H  U         U         - H * SINU
+
+ T  CO
+ A  SINU                SIN( U )
+ A  COSU                COS( U )
+ F                      H * COSU
+ G  H                   COSU
+ G  U                   - H * SINU
+ H  H         U         - SINU
+ H  U         U         - H * COSU
+
+ENDATA
+
+

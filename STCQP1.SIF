@@ -1,0 +1,155 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          STCQP1   
+
+*   Problem :
+*   *********
+
+*   A convex quadratic program with some structure.
+
+*   The objective function is of the form
+*
+*      sum (i=0,n) x_i^2 + sum (l=1,n/p) sum(i=1,p) sum(k;i) x_{k+l}^2,
+*
+*   where n = 2^p and (k;i) means k takes the values of the first i powers of 2
+*   eg, (k:3) = {k = {1,2,4}} and (k:7) = {k = {1,2,4,8,16,32}}.
+*
+*   There are equality constraints of the form
+*   
+*      sum(k;i) x_{k+l-1} = i, where l=1,n/p,2 and i=1,p.
+*
+*   Finally, there are simple bounds
+*
+*         2 <= x_i, y_i <= 2    (i=0,n).
+
+*   SIF input: Nick Gould, May 1996
+
+*   classification QLR2-AN-V-V
+
+*   There will be 2**p + 1 variables
+
+*IE P                   2              $-PARAMETER n = 5
+*IE P                   4              $-PARAMETER n = 17
+*IE P                   6              $-PARAMETER n = 65
+*IE P                   8              $-PARAMETER n = 257
+*IE P                   10             $-PARAMETER n = 1025
+*IE P                   12             $-PARAMETER n = 4097     original value
+ IE P                   13             $-PARAMETER n = 8193
+*IE P                   14             $-PARAMETER n = 16395
+
+*  Other useful values.
+
+ IE 0                   0
+ IE 1                   1
+ IE 2                   2
+
+*  Number of variables.
+
+ IE N                   1
+ DO I         1                        P
+ I* N         N                        2
+ ND
+ I/ N/P       N                        P
+
+VARIABLES
+
+ DO I         0                        N
+ X  X(I)
+ ND
+
+GROUPS
+
+* Objective function groups
+
+ DO I         0                        N
+ XN O(I)      X(I)      1.0
+ ND
+
+ DO L         1                        N/P
+ DO I         1                        P
+ I= K         1
+ DO J         1                        I
+ I+ K+L       K                        L
+ XN N(I,L)    X(K+L)    1.0
+ I* K         K                        2        
+ ND
+
+*  Constraint groups
+
+ DO L         1                        N/P
+ DI L         2
+ DO I         1                        P
+ I= K         1
+ DO J         1                        I
+ I- K-1       K                        1
+ I+ K+L-1     K-1                      L
+ XE E(I,L)    X(K+L-1)  1.0
+ I* K         K                        2        
+ ND
+
+CONSTANTS
+
+ DO L         1                        N/P
+ DI L         2
+ DO I         1                        P
+ RI RI        I
+ ZE STCQP1    E(I,L)                   RI
+ ND
+
+BOUNDS
+
+ DO I         0                        N
+ XL STCQP1    X(I)      -2.0
+ XU STCQP1    X(I)      2.0
+ ND
+
+START POINT
+
+ XV STCQP1    'DEFAULT' 0.5
+
+GROUP TYPE
+
+ GV SQR       X
+
+GROUP USES
+
+ DO I         0                        N
+ XT O(I)      SQR
+ ND
+
+ DO L         1                        N/P
+ DO I         1                        P
+ XT N(I,L)    SQR
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLUTION            3.714286E+00   $ (P=2)
+*LO SOLUTION            4.786842E+01   $ (P=4)
+*LO SOLUTION            4.945209E+02   $ (P=6)
+*LO SOLUTION            4.040487E+03   $ (P=8)
+*LO SOLUTION            2.617925E+04   $ (P=10)
+*LO SOLUTION            1.551436E+05   $ (P=12)
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+GROUPS        STCQP1  
+
+INDIVIDUALS
+
+ T  SQR
+ F                      X * X
+ G                      X + X
+ H                      2.0
+
+ENDATA
+

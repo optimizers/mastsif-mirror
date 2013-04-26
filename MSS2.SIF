@@ -1,0 +1,3657 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          MSS2    
+
+*   Problem :
+*   *********
+
+*   A rank-two relaxation of a maximum stable set problem
+
+*   SIF input: N. Gould, March 2002
+
+*   classification QQR2-AN-756-703
+
+*   Number of vertices
+
+ IE N                          378
+
+*   Number of edges
+
+ IE E                          702
+
+*   other parameter definitions
+
+ IE 1                   1
+ IE 2                   2
+ 
+VARIABLES
+
+ DO K         1                        N
+ X  X(K)
+ X  Y(K)
+ ND
+
+GROUPS
+
+*  objective function
+
+ DO I         1                        N
+ XN O1        X(I)      1.0
+ XN O2        Y(I)      1.0
+ ND
+
+*   speherical constraint
+
+ E  S
+
+*   edge constraints
+
+ DO K         1                        E
+ XE C(K)
+ ND
+
+CONSTANTS
+
+    CONSNT    S         1.0
+
+BOUNDS
+
+ FR BOUNDS    'DEFAULT'
+
+START POINT
+
+    START     'DEFAULT' 1.0
+
+ELEMENT TYPE
+
+ EV SQ        Z
+ EV PROD      X                        Y
+
+ELEMENT USES
+
+ XT 'DEFAULT' PROD
+
+ V  X1        X                        X28       
+ V  X1        Y                        X1        
+ V  Y1        X                        Y28       
+ V  Y1        Y                        Y1        
+
+ V  X2        X                        X29       
+ V  X2        Y                        X2        
+ V  Y2        X                        Y29       
+ V  Y2        Y                        Y2        
+
+ V  X3        X                        X29       
+ V  X3        Y                        X28       
+ V  Y3        X                        Y29       
+ V  Y3        Y                        Y28       
+
+ V  X4        X                        X30       
+ V  X4        Y                        X3        
+ V  Y4        X                        Y30       
+ V  Y4        Y                        Y3        
+
+ V  X5        X                        X30       
+ V  X5        Y                        X28       
+ V  Y5        X                        Y30       
+ V  Y5        Y                        Y28       
+
+ V  X6        X                        X30       
+ V  X6        Y                        X29       
+ V  Y6        X                        Y30       
+ V  Y6        Y                        Y29       
+
+ V  X7        X                        X31       
+ V  X7        Y                        X4        
+ V  Y7        X                        Y31       
+ V  Y7        Y                        Y4        
+
+ V  X8        X                        X32       
+ V  X8        Y                        X5        
+ V  Y8        X                        Y32       
+ V  Y8        Y                        Y5        
+
+ V  X9        X                        X32       
+ V  X9        Y                        X31       
+ V  Y9        X                        Y32       
+ V  Y9        Y                        Y31       
+
+ V  X10       X                        X33       
+ V  X10       Y                        X6        
+ V  Y10       X                        Y33       
+ V  Y10       Y                        Y6        
+
+ V  X11       X                        X33       
+ V  X11       Y                        X31       
+ V  Y11       X                        Y33       
+ V  Y11       Y                        Y31       
+
+ V  X12       X                        X33       
+ V  X12       Y                        X32       
+ V  Y12       X                        Y33       
+ V  Y12       Y                        Y32       
+
+ V  X13       X                        X34       
+ V  X13       Y                        X7        
+ V  Y13       X                        Y34       
+ V  Y13       Y                        Y7        
+
+ V  X14       X                        X35       
+ V  X14       Y                        X8        
+ V  Y14       X                        Y35       
+ V  Y14       Y                        Y8        
+
+ V  X15       X                        X35       
+ V  X15       Y                        X34       
+ V  Y15       X                        Y35       
+ V  Y15       Y                        Y34       
+
+ V  X16       X                        X36       
+ V  X16       Y                        X9        
+ V  Y16       X                        Y36       
+ V  Y16       Y                        Y9        
+
+ V  X17       X                        X36       
+ V  X17       Y                        X34       
+ V  Y17       X                        Y36       
+ V  Y17       Y                        Y34       
+
+ V  X18       X                        X36       
+ V  X18       Y                        X35       
+ V  Y18       X                        Y36       
+ V  Y18       Y                        Y35       
+
+ V  X19       X                        X37       
+ V  X19       Y                        X1        
+ V  Y19       X                        Y37       
+ V  Y19       Y                        Y1        
+
+ V  X20       X                        X38       
+ V  X20       Y                        X5        
+ V  Y20       X                        Y38       
+ V  Y20       Y                        Y5        
+
+ V  X21       X                        X38       
+ V  X21       Y                        X37       
+ V  Y21       X                        Y38       
+ V  Y21       Y                        Y37       
+
+ V  X22       X                        X39       
+ V  X22       Y                        X9        
+ V  Y22       X                        Y39       
+ V  Y22       Y                        Y9        
+
+ V  X23       X                        X39       
+ V  X23       Y                        X37       
+ V  Y23       X                        Y39       
+ V  Y23       Y                        Y37       
+
+ V  X24       X                        X39       
+ V  X24       Y                        X38       
+ V  Y24       X                        Y39       
+ V  Y24       Y                        Y38       
+
+ V  X25       X                        X40       
+ V  X25       Y                        X1        
+ V  Y25       X                        Y40       
+ V  Y25       Y                        Y1        
+
+ V  X26       X                        X41       
+ V  X26       Y                        X6        
+ V  Y26       X                        Y41       
+ V  Y26       Y                        Y6        
+
+ V  X27       X                        X41       
+ V  X27       Y                        X40       
+ V  Y27       X                        Y41       
+ V  Y27       Y                        Y40       
+
+ V  X28       X                        X42       
+ V  X28       Y                        X8        
+ V  Y28       X                        Y42       
+ V  Y28       Y                        Y8        
+
+ V  X29       X                        X42       
+ V  X29       Y                        X40       
+ V  Y29       X                        Y42       
+ V  Y29       Y                        Y40       
+
+ V  X30       X                        X42       
+ V  X30       Y                        X41       
+ V  Y30       X                        Y42       
+ V  Y30       Y                        Y41       
+
+ V  X31       X                        X43       
+ V  X31       Y                        X2        
+ V  Y31       X                        Y43       
+ V  Y31       Y                        Y2        
+
+ V  X32       X                        X44       
+ V  X32       Y                        X4        
+ V  Y32       X                        Y44       
+ V  Y32       Y                        Y4        
+
+ V  X33       X                        X44       
+ V  X33       Y                        X43       
+ V  Y33       X                        Y44       
+ V  Y33       Y                        Y43       
+
+ V  X34       X                        X45       
+ V  X34       Y                        X9        
+ V  Y34       X                        Y45       
+ V  Y34       Y                        Y9        
+
+ V  X35       X                        X45       
+ V  X35       Y                        X43       
+ V  Y35       X                        Y45       
+ V  Y35       Y                        Y43       
+
+ V  X36       X                        X45       
+ V  X36       Y                        X44       
+ V  Y36       X                        Y45       
+ V  Y36       Y                        Y44       
+
+ V  X37       X                        X46       
+ V  X37       Y                        X2        
+ V  Y37       X                        Y46       
+ V  Y37       Y                        Y2        
+
+ V  X38       X                        X47       
+ V  X38       Y                        X6        
+ V  Y38       X                        Y47       
+ V  Y38       Y                        Y6        
+
+ V  X39       X                        X47       
+ V  X39       Y                        X46       
+ V  Y39       X                        Y47       
+ V  Y39       Y                        Y46       
+
+ V  X40       X                        X48       
+ V  X40       Y                        X7        
+ V  Y40       X                        Y48       
+ V  Y40       Y                        Y7        
+
+ V  X41       X                        X48       
+ V  X41       Y                        X46       
+ V  Y41       X                        Y48       
+ V  Y41       Y                        Y46       
+
+ V  X42       X                        X48       
+ V  X42       Y                        X47       
+ V  Y42       X                        Y48       
+ V  Y42       Y                        Y47       
+
+ V  X43       X                        X49       
+ V  X43       Y                        X3        
+ V  Y43       X                        Y49       
+ V  Y43       Y                        Y3        
+
+ V  X44       X                        X50       
+ V  X44       Y                        X4        
+ V  Y44       X                        Y50       
+ V  Y44       Y                        Y4        
+
+ V  X45       X                        X50       
+ V  X45       Y                        X49       
+ V  Y45       X                        Y50       
+ V  Y45       Y                        Y49       
+
+ V  X46       X                        X51       
+ V  X46       Y                        X8        
+ V  Y46       X                        Y51       
+ V  Y46       Y                        Y8        
+
+ V  X47       X                        X51       
+ V  X47       Y                        X49       
+ V  Y47       X                        Y51       
+ V  Y47       Y                        Y49       
+
+ V  X48       X                        X51       
+ V  X48       Y                        X50       
+ V  Y48       X                        Y51       
+ V  Y48       Y                        Y50       
+
+ V  X49       X                        X52       
+ V  X49       Y                        X3        
+ V  Y49       X                        Y52       
+ V  Y49       Y                        Y3        
+
+ V  X50       X                        X53       
+ V  X50       Y                        X5        
+ V  Y50       X                        Y53       
+ V  Y50       Y                        Y5        
+
+ V  X51       X                        X53       
+ V  X51       Y                        X52       
+ V  Y51       X                        Y53       
+ V  Y51       Y                        Y52       
+
+ V  X52       X                        X54       
+ V  X52       Y                        X7        
+ V  Y52       X                        Y54       
+ V  Y52       Y                        Y7        
+
+ V  X53       X                        X54       
+ V  X53       Y                        X52       
+ V  Y53       X                        Y54       
+ V  Y53       Y                        Y52       
+
+ V  X54       X                        X54       
+ V  X54       Y                        X53       
+ V  Y54       X                        Y54       
+ V  Y54       Y                        Y53       
+
+ V  X55       X                        X55       
+ V  X55       Y                        X1        
+ V  Y55       X                        Y55       
+ V  Y55       Y                        Y1        
+
+ V  X56       X                        X56       
+ V  X56       Y                        X4        
+ V  Y56       X                        Y56       
+ V  Y56       Y                        Y4        
+
+ V  X57       X                        X56       
+ V  X57       Y                        X55       
+ V  Y57       X                        Y56       
+ V  Y57       Y                        Y55       
+
+ V  X58       X                        X57       
+ V  X58       Y                        X7        
+ V  Y58       X                        Y57       
+ V  Y58       Y                        Y7        
+
+ V  X59       X                        X57       
+ V  X59       Y                        X55       
+ V  Y59       X                        Y57       
+ V  Y59       Y                        Y55       
+
+ V  X60       X                        X57       
+ V  X60       Y                        X56       
+ V  Y60       X                        Y57       
+ V  Y60       Y                        Y56       
+
+ V  X61       X                        X58       
+ V  X61       Y                        X2        
+ V  Y61       X                        Y58       
+ V  Y61       Y                        Y2        
+
+ V  X62       X                        X59       
+ V  X62       Y                        X5        
+ V  Y62       X                        Y59       
+ V  Y62       Y                        Y5        
+
+ V  X63       X                        X59       
+ V  X63       Y                        X58       
+ V  Y63       X                        Y59       
+ V  Y63       Y                        Y58       
+
+ V  X64       X                        X60       
+ V  X64       Y                        X8        
+ V  Y64       X                        Y60       
+ V  Y64       Y                        Y8        
+
+ V  X65       X                        X60       
+ V  X65       Y                        X58       
+ V  Y65       X                        Y60       
+ V  Y65       Y                        Y58       
+
+ V  X66       X                        X60       
+ V  X66       Y                        X59       
+ V  Y66       X                        Y60       
+ V  Y66       Y                        Y59       
+
+ V  X67       X                        X61       
+ V  X67       Y                        X3        
+ V  Y67       X                        Y61       
+ V  Y67       Y                        Y3        
+
+ V  X68       X                        X62       
+ V  X68       Y                        X6        
+ V  Y68       X                        Y62       
+ V  Y68       Y                        Y6        
+
+ V  X69       X                        X62       
+ V  X69       Y                        X61       
+ V  Y69       X                        Y62       
+ V  Y69       Y                        Y61       
+
+ V  X70       X                        X63       
+ V  X70       Y                        X9        
+ V  Y70       X                        Y63       
+ V  Y70       Y                        Y9        
+
+ V  X71       X                        X63       
+ V  X71       Y                        X61       
+ V  Y71       X                        Y63       
+ V  Y71       Y                        Y61       
+
+ V  X72       X                        X63       
+ V  X72       Y                        X62       
+ V  Y72       X                        Y63       
+ V  Y72       Y                        Y62       
+
+ V  X73       X                        X64       
+ V  X73       Y                        X10       
+ V  Y73       X                        Y64       
+ V  Y73       Y                        Y10       
+
+ V  X74       X                        X65       
+ V  X74       Y                        X11       
+ V  Y74       X                        Y65       
+ V  Y74       Y                        Y11       
+
+ V  X75       X                        X65       
+ V  X75       Y                        X64       
+ V  Y75       X                        Y65       
+ V  Y75       Y                        Y64       
+
+ V  X76       X                        X66       
+ V  X76       Y                        X12       
+ V  Y76       X                        Y66       
+ V  Y76       Y                        Y12       
+
+ V  X77       X                        X66       
+ V  X77       Y                        X64       
+ V  Y77       X                        Y66       
+ V  Y77       Y                        Y64       
+
+ V  X78       X                        X66       
+ V  X78       Y                        X65       
+ V  Y78       X                        Y66       
+ V  Y78       Y                        Y65       
+
+ V  X79       X                        X67       
+ V  X79       Y                        X13       
+ V  Y79       X                        Y67       
+ V  Y79       Y                        Y13       
+
+ V  X80       X                        X68       
+ V  X80       Y                        X14       
+ V  Y80       X                        Y68       
+ V  Y80       Y                        Y14       
+
+ V  X81       X                        X68       
+ V  X81       Y                        X67       
+ V  Y81       X                        Y68       
+ V  Y81       Y                        Y67       
+
+ V  X82       X                        X69       
+ V  X82       Y                        X15       
+ V  Y82       X                        Y69       
+ V  Y82       Y                        Y15       
+
+ V  X83       X                        X69       
+ V  X83       Y                        X67       
+ V  Y83       X                        Y69       
+ V  Y83       Y                        Y67       
+
+ V  X84       X                        X69       
+ V  X84       Y                        X68       
+ V  Y84       X                        Y69       
+ V  Y84       Y                        Y68       
+
+ V  X85       X                        X70       
+ V  X85       Y                        X16       
+ V  Y85       X                        Y70       
+ V  Y85       Y                        Y16       
+
+ V  X86       X                        X71       
+ V  X86       Y                        X17       
+ V  Y86       X                        Y71       
+ V  Y86       Y                        Y17       
+
+ V  X87       X                        X71       
+ V  X87       Y                        X70       
+ V  Y87       X                        Y71       
+ V  Y87       Y                        Y70       
+
+ V  X88       X                        X72       
+ V  X88       Y                        X18       
+ V  Y88       X                        Y72       
+ V  Y88       Y                        Y18       
+
+ V  X89       X                        X72       
+ V  X89       Y                        X70       
+ V  Y89       X                        Y72       
+ V  Y89       Y                        Y70       
+
+ V  X90       X                        X72       
+ V  X90       Y                        X71       
+ V  Y90       X                        Y72       
+ V  Y90       Y                        Y71       
+
+ V  X91       X                        X73       
+ V  X91       Y                        X10       
+ V  Y91       X                        Y73       
+ V  Y91       Y                        Y10       
+
+ V  X92       X                        X74       
+ V  X92       Y                        X14       
+ V  Y92       X                        Y74       
+ V  Y92       Y                        Y14       
+
+ V  X93       X                        X74       
+ V  X93       Y                        X73       
+ V  Y93       X                        Y74       
+ V  Y93       Y                        Y73       
+
+ V  X94       X                        X75       
+ V  X94       Y                        X18       
+ V  Y94       X                        Y75       
+ V  Y94       Y                        Y18       
+
+ V  X95       X                        X75       
+ V  X95       Y                        X73       
+ V  Y95       X                        Y75       
+ V  Y95       Y                        Y73       
+
+ V  X96       X                        X75       
+ V  X96       Y                        X74       
+ V  Y96       X                        Y75       
+ V  Y96       Y                        Y74       
+
+ V  X97       X                        X76       
+ V  X97       Y                        X10       
+ V  Y97       X                        Y76       
+ V  Y97       Y                        Y10       
+
+ V  X98       X                        X77       
+ V  X98       Y                        X15       
+ V  Y98       X                        Y77       
+ V  Y98       Y                        Y15       
+
+ V  X99       X                        X77       
+ V  X99       Y                        X76       
+ V  Y99       X                        Y77       
+ V  Y99       Y                        Y76       
+
+ V  X100      X                        X78       
+ V  X100      Y                        X17       
+ V  Y100      X                        Y78       
+ V  Y100      Y                        Y17       
+
+ V  X101      X                        X78       
+ V  X101      Y                        X76       
+ V  Y101      X                        Y78       
+ V  Y101      Y                        Y76       
+
+ V  X102      X                        X78       
+ V  X102      Y                        X77       
+ V  Y102      X                        Y78       
+ V  Y102      Y                        Y77       
+
+ V  X103      X                        X79       
+ V  X103      Y                        X11       
+ V  Y103      X                        Y79       
+ V  Y103      Y                        Y11       
+
+ V  X104      X                        X80       
+ V  X104      Y                        X13       
+ V  Y104      X                        Y80       
+ V  Y104      Y                        Y13       
+
+ V  X105      X                        X80       
+ V  X105      Y                        X79       
+ V  Y105      X                        Y80       
+ V  Y105      Y                        Y79       
+
+ V  X106      X                        X81       
+ V  X106      Y                        X18       
+ V  Y106      X                        Y81       
+ V  Y106      Y                        Y18       
+
+ V  X107      X                        X81       
+ V  X107      Y                        X79       
+ V  Y107      X                        Y81       
+ V  Y107      Y                        Y79       
+
+ V  X108      X                        X81       
+ V  X108      Y                        X80       
+ V  Y108      X                        Y81       
+ V  Y108      Y                        Y80       
+
+ V  X109      X                        X82       
+ V  X109      Y                        X11       
+ V  Y109      X                        Y82       
+ V  Y109      Y                        Y11       
+
+ V  X110      X                        X83       
+ V  X110      Y                        X15       
+ V  Y110      X                        Y83       
+ V  Y110      Y                        Y15       
+
+ V  X111      X                        X83       
+ V  X111      Y                        X82       
+ V  Y111      X                        Y83       
+ V  Y111      Y                        Y82       
+
+ V  X112      X                        X84       
+ V  X112      Y                        X16       
+ V  Y112      X                        Y84       
+ V  Y112      Y                        Y16       
+
+ V  X113      X                        X84       
+ V  X113      Y                        X82       
+ V  Y113      X                        Y84       
+ V  Y113      Y                        Y82       
+
+ V  X114      X                        X84       
+ V  X114      Y                        X83       
+ V  Y114      X                        Y84       
+ V  Y114      Y                        Y83       
+
+ V  X115      X                        X85       
+ V  X115      Y                        X12       
+ V  Y115      X                        Y85       
+ V  Y115      Y                        Y12       
+
+ V  X116      X                        X86       
+ V  X116      Y                        X13       
+ V  Y116      X                        Y86       
+ V  Y116      Y                        Y13       
+
+ V  X117      X                        X86       
+ V  X117      Y                        X85       
+ V  Y117      X                        Y86       
+ V  Y117      Y                        Y85       
+
+ V  X118      X                        X87       
+ V  X118      Y                        X17       
+ V  Y118      X                        Y87       
+ V  Y118      Y                        Y17       
+
+ V  X119      X                        X87       
+ V  X119      Y                        X85       
+ V  Y119      X                        Y87       
+ V  Y119      Y                        Y85       
+
+ V  X120      X                        X87       
+ V  X120      Y                        X86       
+ V  Y120      X                        Y87       
+ V  Y120      Y                        Y86       
+
+ V  X121      X                        X88       
+ V  X121      Y                        X12       
+ V  Y121      X                        Y88       
+ V  Y121      Y                        Y12       
+
+ V  X122      X                        X89       
+ V  X122      Y                        X14       
+ V  Y122      X                        Y89       
+ V  Y122      Y                        Y14       
+
+ V  X123      X                        X89       
+ V  X123      Y                        X88       
+ V  Y123      X                        Y89       
+ V  Y123      Y                        Y88       
+
+ V  X124      X                        X90       
+ V  X124      Y                        X16       
+ V  Y124      X                        Y90       
+ V  Y124      Y                        Y16       
+
+ V  X125      X                        X90       
+ V  X125      Y                        X88       
+ V  Y125      X                        Y90       
+ V  Y125      Y                        Y88       
+
+ V  X126      X                        X90       
+ V  X126      Y                        X89       
+ V  Y126      X                        Y90       
+ V  Y126      Y                        Y89       
+
+ V  X127      X                        X91       
+ V  X127      Y                        X10       
+ V  Y127      X                        Y91       
+ V  Y127      Y                        Y10       
+
+ V  X128      X                        X92       
+ V  X128      Y                        X13       
+ V  Y128      X                        Y92       
+ V  Y128      Y                        Y13       
+
+ V  X129      X                        X92       
+ V  X129      Y                        X91       
+ V  Y129      X                        Y92       
+ V  Y129      Y                        Y91       
+
+ V  X130      X                        X93       
+ V  X130      Y                        X16       
+ V  Y130      X                        Y93       
+ V  Y130      Y                        Y16       
+
+ V  X131      X                        X93       
+ V  X131      Y                        X91       
+ V  Y131      X                        Y93       
+ V  Y131      Y                        Y91       
+
+ V  X132      X                        X93       
+ V  X132      Y                        X92       
+ V  Y132      X                        Y93       
+ V  Y132      Y                        Y92       
+
+ V  X133      X                        X94       
+ V  X133      Y                        X11       
+ V  Y133      X                        Y94       
+ V  Y133      Y                        Y11       
+
+ V  X134      X                        X95       
+ V  X134      Y                        X14       
+ V  Y134      X                        Y95       
+ V  Y134      Y                        Y14       
+
+ V  X135      X                        X95       
+ V  X135      Y                        X94       
+ V  Y135      X                        Y95       
+ V  Y135      Y                        Y94       
+
+ V  X136      X                        X96       
+ V  X136      Y                        X17       
+ V  Y136      X                        Y96       
+ V  Y136      Y                        Y17       
+
+ V  X137      X                        X96       
+ V  X137      Y                        X94       
+ V  Y137      X                        Y96       
+ V  Y137      Y                        Y94       
+
+ V  X138      X                        X96       
+ V  X138      Y                        X95       
+ V  Y138      X                        Y96       
+ V  Y138      Y                        Y95       
+
+ V  X139      X                        X97       
+ V  X139      Y                        X12       
+ V  Y139      X                        Y97       
+ V  Y139      Y                        Y12       
+
+ V  X140      X                        X98       
+ V  X140      Y                        X15       
+ V  Y140      X                        Y98       
+ V  Y140      Y                        Y15       
+
+ V  X141      X                        X98       
+ V  X141      Y                        X97       
+ V  Y141      X                        Y98       
+ V  Y141      Y                        Y97       
+
+ V  X142      X                        X99       
+ V  X142      Y                        X18       
+ V  Y142      X                        Y99       
+ V  Y142      Y                        Y18       
+
+ V  X143      X                        X99       
+ V  X143      Y                        X97       
+ V  Y143      X                        Y99       
+ V  Y143      Y                        Y97       
+
+ V  X144      X                        X99       
+ V  X144      Y                        X98       
+ V  Y144      X                        Y99       
+ V  Y144      Y                        Y98       
+
+ V  X145      X                        X100      
+ V  X145      Y                        X19       
+ V  Y145      X                        Y100      
+ V  Y145      Y                        Y19       
+
+ V  X146      X                        X101      
+ V  X146      Y                        X20       
+ V  Y146      X                        Y101      
+ V  Y146      Y                        Y20       
+
+ V  X147      X                        X101      
+ V  X147      Y                        X100      
+ V  Y147      X                        Y101      
+ V  Y147      Y                        Y100      
+
+ V  X148      X                        X102      
+ V  X148      Y                        X21       
+ V  Y148      X                        Y102      
+ V  Y148      Y                        Y21       
+
+ V  X149      X                        X102      
+ V  X149      Y                        X100      
+ V  Y149      X                        Y102      
+ V  Y149      Y                        Y100      
+
+ V  X150      X                        X102      
+ V  X150      Y                        X101      
+ V  Y150      X                        Y102      
+ V  Y150      Y                        Y101      
+
+ V  X151      X                        X103      
+ V  X151      Y                        X22       
+ V  Y151      X                        Y103      
+ V  Y151      Y                        Y22       
+
+ V  X152      X                        X104      
+ V  X152      Y                        X23       
+ V  Y152      X                        Y104      
+ V  Y152      Y                        Y23       
+
+ V  X153      X                        X104      
+ V  X153      Y                        X103      
+ V  Y153      X                        Y104      
+ V  Y153      Y                        Y103      
+
+ V  X154      X                        X105      
+ V  X154      Y                        X24       
+ V  Y154      X                        Y105      
+ V  Y154      Y                        Y24       
+
+ V  X155      X                        X105      
+ V  X155      Y                        X103      
+ V  Y155      X                        Y105      
+ V  Y155      Y                        Y103      
+
+ V  X156      X                        X105      
+ V  X156      Y                        X104      
+ V  Y156      X                        Y105      
+ V  Y156      Y                        Y104      
+
+ V  X157      X                        X106      
+ V  X157      Y                        X25       
+ V  Y157      X                        Y106      
+ V  Y157      Y                        Y25       
+
+ V  X158      X                        X107      
+ V  X158      Y                        X26       
+ V  Y158      X                        Y107      
+ V  Y158      Y                        Y26       
+
+ V  X159      X                        X107      
+ V  X159      Y                        X106      
+ V  Y159      X                        Y107      
+ V  Y159      Y                        Y106      
+
+ V  X160      X                        X108      
+ V  X160      Y                        X27       
+ V  Y160      X                        Y108      
+ V  Y160      Y                        Y27       
+
+ V  X161      X                        X108      
+ V  X161      Y                        X106      
+ V  Y161      X                        Y108      
+ V  Y161      Y                        Y106      
+
+ V  X162      X                        X108      
+ V  X162      Y                        X107      
+ V  Y162      X                        Y108      
+ V  Y162      Y                        Y107      
+
+ V  X163      X                        X109      
+ V  X163      Y                        X19       
+ V  Y163      X                        Y109      
+ V  Y163      Y                        Y19       
+
+ V  X164      X                        X110      
+ V  X164      Y                        X23       
+ V  Y164      X                        Y110      
+ V  Y164      Y                        Y23       
+
+ V  X165      X                        X110      
+ V  X165      Y                        X109      
+ V  Y165      X                        Y110      
+ V  Y165      Y                        Y109      
+
+ V  X166      X                        X111      
+ V  X166      Y                        X27       
+ V  Y166      X                        Y111      
+ V  Y166      Y                        Y27       
+
+ V  X167      X                        X111      
+ V  X167      Y                        X109      
+ V  Y167      X                        Y111      
+ V  Y167      Y                        Y109      
+
+ V  X168      X                        X111      
+ V  X168      Y                        X110      
+ V  Y168      X                        Y111      
+ V  Y168      Y                        Y110      
+
+ V  X169      X                        X112      
+ V  X169      Y                        X19       
+ V  Y169      X                        Y112      
+ V  Y169      Y                        Y19       
+
+ V  X170      X                        X113      
+ V  X170      Y                        X24       
+ V  Y170      X                        Y113      
+ V  Y170      Y                        Y24       
+
+ V  X171      X                        X113      
+ V  X171      Y                        X112      
+ V  Y171      X                        Y113      
+ V  Y171      Y                        Y112      
+
+ V  X172      X                        X114      
+ V  X172      Y                        X26       
+ V  Y172      X                        Y114      
+ V  Y172      Y                        Y26       
+
+ V  X173      X                        X114      
+ V  X173      Y                        X112      
+ V  Y173      X                        Y114      
+ V  Y173      Y                        Y112      
+
+ V  X174      X                        X114      
+ V  X174      Y                        X113      
+ V  Y174      X                        Y114      
+ V  Y174      Y                        Y113      
+
+ V  X175      X                        X115      
+ V  X175      Y                        X20       
+ V  Y175      X                        Y115      
+ V  Y175      Y                        Y20       
+
+ V  X176      X                        X116      
+ V  X176      Y                        X22       
+ V  Y176      X                        Y116      
+ V  Y176      Y                        Y22       
+
+ V  X177      X                        X116      
+ V  X177      Y                        X115      
+ V  Y177      X                        Y116      
+ V  Y177      Y                        Y115      
+
+ V  X178      X                        X117      
+ V  X178      Y                        X27       
+ V  Y178      X                        Y117      
+ V  Y178      Y                        Y27       
+
+ V  X179      X                        X117      
+ V  X179      Y                        X115      
+ V  Y179      X                        Y117      
+ V  Y179      Y                        Y115      
+
+ V  X180      X                        X117      
+ V  X180      Y                        X116      
+ V  Y180      X                        Y117      
+ V  Y180      Y                        Y116      
+
+ V  X181      X                        X118      
+ V  X181      Y                        X20       
+ V  Y181      X                        Y118      
+ V  Y181      Y                        Y20       
+
+ V  X182      X                        X119      
+ V  X182      Y                        X24       
+ V  Y182      X                        Y119      
+ V  Y182      Y                        Y24       
+
+ V  X183      X                        X119      
+ V  X183      Y                        X118      
+ V  Y183      X                        Y119      
+ V  Y183      Y                        Y118      
+
+ V  X184      X                        X120      
+ V  X184      Y                        X25       
+ V  Y184      X                        Y120      
+ V  Y184      Y                        Y25       
+
+ V  X185      X                        X120      
+ V  X185      Y                        X118      
+ V  Y185      X                        Y120      
+ V  Y185      Y                        Y118      
+
+ V  X186      X                        X120      
+ V  X186      Y                        X119      
+ V  Y186      X                        Y120      
+ V  Y186      Y                        Y119      
+
+ V  X187      X                        X121      
+ V  X187      Y                        X21       
+ V  Y187      X                        Y121      
+ V  Y187      Y                        Y21       
+
+ V  X188      X                        X122      
+ V  X188      Y                        X22       
+ V  Y188      X                        Y122      
+ V  Y188      Y                        Y22       
+
+ V  X189      X                        X122      
+ V  X189      Y                        X121      
+ V  Y189      X                        Y122      
+ V  Y189      Y                        Y121      
+
+ V  X190      X                        X123      
+ V  X190      Y                        X26       
+ V  Y190      X                        Y123      
+ V  Y190      Y                        Y26       
+
+ V  X191      X                        X123      
+ V  X191      Y                        X121      
+ V  Y191      X                        Y123      
+ V  Y191      Y                        Y121      
+
+ V  X192      X                        X123      
+ V  X192      Y                        X122      
+ V  Y192      X                        Y123      
+ V  Y192      Y                        Y122      
+
+ V  X193      X                        X124      
+ V  X193      Y                        X21       
+ V  Y193      X                        Y124      
+ V  Y193      Y                        Y21       
+
+ V  X194      X                        X125      
+ V  X194      Y                        X23       
+ V  Y194      X                        Y125      
+ V  Y194      Y                        Y23       
+
+ V  X195      X                        X125      
+ V  X195      Y                        X124      
+ V  Y195      X                        Y125      
+ V  Y195      Y                        Y124      
+
+ V  X196      X                        X126      
+ V  X196      Y                        X25       
+ V  Y196      X                        Y126      
+ V  Y196      Y                        Y25       
+
+ V  X197      X                        X126      
+ V  X197      Y                        X124      
+ V  Y197      X                        Y126      
+ V  Y197      Y                        Y124      
+
+ V  X198      X                        X126      
+ V  X198      Y                        X125      
+ V  Y198      X                        Y126      
+ V  Y198      Y                        Y125      
+
+ V  X199      X                        X127      
+ V  X199      Y                        X19       
+ V  Y199      X                        Y127      
+ V  Y199      Y                        Y19       
+
+ V  X200      X                        X128      
+ V  X200      Y                        X22       
+ V  Y200      X                        Y128      
+ V  Y200      Y                        Y22       
+
+ V  X201      X                        X128      
+ V  X201      Y                        X127      
+ V  Y201      X                        Y128      
+ V  Y201      Y                        Y127      
+
+ V  X202      X                        X129      
+ V  X202      Y                        X25       
+ V  Y202      X                        Y129      
+ V  Y202      Y                        Y25       
+
+ V  X203      X                        X129      
+ V  X203      Y                        X127      
+ V  Y203      X                        Y129      
+ V  Y203      Y                        Y127      
+
+ V  X204      X                        X129      
+ V  X204      Y                        X128      
+ V  Y204      X                        Y129      
+ V  Y204      Y                        Y128      
+
+ V  X205      X                        X130      
+ V  X205      Y                        X20       
+ V  Y205      X                        Y130      
+ V  Y205      Y                        Y20       
+
+ V  X206      X                        X131      
+ V  X206      Y                        X23       
+ V  Y206      X                        Y131      
+ V  Y206      Y                        Y23       
+
+ V  X207      X                        X131      
+ V  X207      Y                        X130      
+ V  Y207      X                        Y131      
+ V  Y207      Y                        Y130      
+
+ V  X208      X                        X132      
+ V  X208      Y                        X26       
+ V  Y208      X                        Y132      
+ V  Y208      Y                        Y26       
+
+ V  X209      X                        X132      
+ V  X209      Y                        X130      
+ V  Y209      X                        Y132      
+ V  Y209      Y                        Y130      
+
+ V  X210      X                        X132      
+ V  X210      Y                        X131      
+ V  Y210      X                        Y132      
+ V  Y210      Y                        Y131      
+
+ V  X211      X                        X133      
+ V  X211      Y                        X21       
+ V  Y211      X                        Y133      
+ V  Y211      Y                        Y21       
+
+ V  X212      X                        X134      
+ V  X212      Y                        X24       
+ V  Y212      X                        Y134      
+ V  Y212      Y                        Y24       
+
+ V  X213      X                        X134      
+ V  X213      Y                        X133      
+ V  Y213      X                        Y134      
+ V  Y213      Y                        Y133      
+
+ V  X214      X                        X135      
+ V  X214      Y                        X27       
+ V  Y214      X                        Y135      
+ V  Y214      Y                        Y27       
+
+ V  X215      X                        X135      
+ V  X215      Y                        X133      
+ V  Y215      X                        Y135      
+ V  Y215      Y                        Y133      
+
+ V  X216      X                        X135      
+ V  X216      Y                        X134      
+ V  Y216      X                        Y135      
+ V  Y216      Y                        Y134      
+
+ V  X217      X                        X136      
+ V  X217      Y                        X1        
+ V  Y217      X                        Y136      
+ V  Y217      Y                        Y1        
+
+ V  X218      X                        X137      
+ V  X218      Y                        X11       
+ V  Y218      X                        Y137      
+ V  Y218      Y                        Y11       
+
+ V  X219      X                        X137      
+ V  X219      Y                        X136      
+ V  Y219      X                        Y137      
+ V  Y219      Y                        Y136      
+
+ V  X220      X                        X138      
+ V  X220      Y                        X21       
+ V  Y220      X                        Y138      
+ V  Y220      Y                        Y21       
+
+ V  X221      X                        X138      
+ V  X221      Y                        X136      
+ V  Y221      X                        Y138      
+ V  Y221      Y                        Y136      
+
+ V  X222      X                        X138      
+ V  X222      Y                        X137      
+ V  Y222      X                        Y138      
+ V  Y222      Y                        Y137      
+
+ V  X223      X                        X139      
+ V  X223      Y                        X4        
+ V  Y223      X                        Y139      
+ V  Y223      Y                        Y4        
+
+ V  X224      X                        X140      
+ V  X224      Y                        X14       
+ V  Y224      X                        Y140      
+ V  Y224      Y                        Y14       
+
+ V  X225      X                        X140      
+ V  X225      Y                        X139      
+ V  Y225      X                        Y140      
+ V  Y225      Y                        Y139      
+
+ V  X226      X                        X141      
+ V  X226      Y                        X24       
+ V  Y226      X                        Y141      
+ V  Y226      Y                        Y24       
+
+ V  X227      X                        X141      
+ V  X227      Y                        X139      
+ V  Y227      X                        Y141      
+ V  Y227      Y                        Y139      
+
+ V  X228      X                        X141      
+ V  X228      Y                        X140      
+ V  Y228      X                        Y141      
+ V  Y228      Y                        Y140      
+
+ V  X229      X                        X142      
+ V  X229      Y                        X7        
+ V  Y229      X                        Y142      
+ V  Y229      Y                        Y7        
+
+ V  X230      X                        X143      
+ V  X230      Y                        X17       
+ V  Y230      X                        Y143      
+ V  Y230      Y                        Y17       
+
+ V  X231      X                        X143      
+ V  X231      Y                        X142      
+ V  Y231      X                        Y143      
+ V  Y231      Y                        Y142      
+
+ V  X232      X                        X144      
+ V  X232      Y                        X27       
+ V  Y232      X                        Y144      
+ V  Y232      Y                        Y27       
+
+ V  X233      X                        X144      
+ V  X233      Y                        X142      
+ V  Y233      X                        Y144      
+ V  Y233      Y                        Y142      
+
+ V  X234      X                        X144      
+ V  X234      Y                        X143      
+ V  Y234      X                        Y144      
+ V  Y234      Y                        Y143      
+
+ V  X235      X                        X145      
+ V  X235      Y                        X1        
+ V  Y235      X                        Y145      
+ V  Y235      Y                        Y1        
+
+ V  X236      X                        X146      
+ V  X236      Y                        X14       
+ V  Y236      X                        Y146      
+ V  Y236      Y                        Y14       
+
+ V  X237      X                        X146      
+ V  X237      Y                        X145      
+ V  Y237      X                        Y146      
+ V  Y237      Y                        Y145      
+
+ V  X238      X                        X147      
+ V  X238      Y                        X27       
+ V  Y238      X                        Y147      
+ V  Y238      Y                        Y27       
+
+ V  X239      X                        X147      
+ V  X239      Y                        X145      
+ V  Y239      X                        Y147      
+ V  Y239      Y                        Y145      
+
+ V  X240      X                        X147      
+ V  X240      Y                        X146      
+ V  Y240      X                        Y147      
+ V  Y240      Y                        Y146      
+
+ V  X241      X                        X148      
+ V  X241      Y                        X1        
+ V  Y241      X                        Y148      
+ V  Y241      Y                        Y1        
+
+ V  X242      X                        X149      
+ V  X242      Y                        X15       
+ V  Y242      X                        Y149      
+ V  Y242      Y                        Y15       
+
+ V  X243      X                        X149      
+ V  X243      Y                        X148      
+ V  Y243      X                        Y149      
+ V  Y243      Y                        Y148      
+
+ V  X244      X                        X150      
+ V  X244      Y                        X26       
+ V  Y244      X                        Y150      
+ V  Y244      Y                        Y26       
+
+ V  X245      X                        X150      
+ V  X245      Y                        X148      
+ V  Y245      X                        Y150      
+ V  Y245      Y                        Y148      
+
+ V  X246      X                        X150      
+ V  X246      Y                        X149      
+ V  Y246      X                        Y150      
+ V  Y246      Y                        Y149      
+
+ V  X247      X                        X151      
+ V  X247      Y                        X2        
+ V  Y247      X                        Y151      
+ V  Y247      Y                        Y2        
+
+ V  X248      X                        X152      
+ V  X248      Y                        X13       
+ V  Y248      X                        Y152      
+ V  Y248      Y                        Y13       
+
+ V  X249      X                        X152      
+ V  X249      Y                        X151      
+ V  Y249      X                        Y152      
+ V  Y249      Y                        Y151      
+
+ V  X250      X                        X153      
+ V  X250      Y                        X27       
+ V  Y250      X                        Y153      
+ V  Y250      Y                        Y27       
+
+ V  X251      X                        X153      
+ V  X251      Y                        X151      
+ V  Y251      X                        Y153      
+ V  Y251      Y                        Y151      
+
+ V  X252      X                        X153      
+ V  X252      Y                        X152      
+ V  Y252      X                        Y153      
+ V  Y252      Y                        Y152      
+
+ V  X253      X                        X154      
+ V  X253      Y                        X2        
+ V  Y253      X                        Y154      
+ V  Y253      Y                        Y2        
+
+ V  X254      X                        X155      
+ V  X254      Y                        X15       
+ V  Y254      X                        Y155      
+ V  Y254      Y                        Y15       
+
+ V  X255      X                        X155      
+ V  X255      Y                        X154      
+ V  Y255      X                        Y155      
+ V  Y255      Y                        Y154      
+
+ V  X256      X                        X156      
+ V  X256      Y                        X25       
+ V  Y256      X                        Y156      
+ V  Y256      Y                        Y25       
+
+ V  X257      X                        X156      
+ V  X257      Y                        X154      
+ V  Y257      X                        Y156      
+ V  Y257      Y                        Y154      
+
+ V  X258      X                        X156      
+ V  X258      Y                        X155      
+ V  Y258      X                        Y156      
+ V  Y258      Y                        Y155      
+
+ V  X259      X                        X157      
+ V  X259      Y                        X3        
+ V  Y259      X                        Y157      
+ V  Y259      Y                        Y3        
+
+ V  X260      X                        X158      
+ V  X260      Y                        X13       
+ V  Y260      X                        Y158      
+ V  Y260      Y                        Y13       
+
+ V  X261      X                        X158      
+ V  X261      Y                        X157      
+ V  Y261      X                        Y158      
+ V  Y261      Y                        Y157      
+
+ V  X262      X                        X159      
+ V  X262      Y                        X26       
+ V  Y262      X                        Y159      
+ V  Y262      Y                        Y26       
+
+ V  X263      X                        X159      
+ V  X263      Y                        X157      
+ V  Y263      X                        Y159      
+ V  Y263      Y                        Y157      
+
+ V  X264      X                        X159      
+ V  X264      Y                        X158      
+ V  Y264      X                        Y159      
+ V  Y264      Y                        Y158      
+
+ V  X265      X                        X160      
+ V  X265      Y                        X3        
+ V  Y265      X                        Y160      
+ V  Y265      Y                        Y3        
+
+ V  X266      X                        X161      
+ V  X266      Y                        X14       
+ V  Y266      X                        Y161      
+ V  Y266      Y                        Y14       
+
+ V  X267      X                        X161      
+ V  X267      Y                        X160      
+ V  Y267      X                        Y161      
+ V  Y267      Y                        Y160      
+
+ V  X268      X                        X162      
+ V  X268      Y                        X25       
+ V  Y268      X                        Y162      
+ V  Y268      Y                        Y25       
+
+ V  X269      X                        X162      
+ V  X269      Y                        X160      
+ V  Y269      X                        Y162      
+ V  Y269      Y                        Y160      
+
+ V  X270      X                        X162      
+ V  X270      Y                        X161      
+ V  Y270      X                        Y162      
+ V  Y270      Y                        Y161      
+
+ V  X271      X                        X163      
+ V  X271      Y                        X1        
+ V  Y271      X                        Y163      
+ V  Y271      Y                        Y1        
+
+ V  X272      X                        X164      
+ V  X272      Y                        X13       
+ V  Y272      X                        Y164      
+ V  Y272      Y                        Y13       
+
+ V  X273      X                        X164      
+ V  X273      Y                        X163      
+ V  Y273      X                        Y164      
+ V  Y273      Y                        Y163      
+
+ V  X274      X                        X165      
+ V  X274      Y                        X25       
+ V  Y274      X                        Y165      
+ V  Y274      Y                        Y25       
+
+ V  X275      X                        X165      
+ V  X275      Y                        X163      
+ V  Y275      X                        Y165      
+ V  Y275      Y                        Y163      
+
+ V  X276      X                        X165      
+ V  X276      Y                        X164      
+ V  Y276      X                        Y165      
+ V  Y276      Y                        Y164      
+
+ V  X277      X                        X166      
+ V  X277      Y                        X2        
+ V  Y277      X                        Y166      
+ V  Y277      Y                        Y2        
+
+ V  X278      X                        X167      
+ V  X278      Y                        X14       
+ V  Y278      X                        Y167      
+ V  Y278      Y                        Y14       
+
+ V  X279      X                        X167      
+ V  X279      Y                        X166      
+ V  Y279      X                        Y167      
+ V  Y279      Y                        Y166      
+
+ V  X280      X                        X168      
+ V  X280      Y                        X26       
+ V  Y280      X                        Y168      
+ V  Y280      Y                        Y26       
+
+ V  X281      X                        X168      
+ V  X281      Y                        X166      
+ V  Y281      X                        Y168      
+ V  Y281      Y                        Y166      
+
+ V  X282      X                        X168      
+ V  X282      Y                        X167      
+ V  Y282      X                        Y168      
+ V  Y282      Y                        Y167      
+
+ V  X283      X                        X169      
+ V  X283      Y                        X3        
+ V  Y283      X                        Y169      
+ V  Y283      Y                        Y3        
+
+ V  X284      X                        X170      
+ V  X284      Y                        X15       
+ V  Y284      X                        Y170      
+ V  Y284      Y                        Y15       
+
+ V  X285      X                        X170      
+ V  X285      Y                        X169      
+ V  Y285      X                        Y170      
+ V  Y285      Y                        Y169      
+
+ V  X286      X                        X171      
+ V  X286      Y                        X27       
+ V  Y286      X                        Y171      
+ V  Y286      Y                        Y27       
+
+ V  X287      X                        X171      
+ V  X287      Y                        X169      
+ V  Y287      X                        Y171      
+ V  Y287      Y                        Y169      
+
+ V  X288      X                        X171      
+ V  X288      Y                        X170      
+ V  Y288      X                        Y171      
+ V  Y288      Y                        Y170      
+
+ V  X289      X                        X172      
+ V  X289      Y                        X1        
+ V  Y289      X                        Y172      
+ V  Y289      Y                        Y1        
+
+ V  X290      X                        X173      
+ V  X290      Y                        X12       
+ V  Y290      X                        Y173      
+ V  Y290      Y                        Y12       
+
+ V  X291      X                        X173      
+ V  X291      Y                        X172      
+ V  Y291      X                        Y173      
+ V  Y291      Y                        Y172      
+
+ V  X292      X                        X174      
+ V  X292      Y                        X20       
+ V  Y292      X                        Y174      
+ V  Y292      Y                        Y20       
+
+ V  X293      X                        X174      
+ V  X293      Y                        X172      
+ V  Y293      X                        Y174      
+ V  Y293      Y                        Y172      
+
+ V  X294      X                        X174      
+ V  X294      Y                        X173      
+ V  Y294      X                        Y174      
+ V  Y294      Y                        Y173      
+
+ V  X295      X                        X175      
+ V  X295      Y                        X4        
+ V  Y295      X                        Y175      
+ V  Y295      Y                        Y4        
+
+ V  X296      X                        X176      
+ V  X296      Y                        X15       
+ V  Y296      X                        Y176      
+ V  Y296      Y                        Y15       
+
+ V  X297      X                        X176      
+ V  X297      Y                        X175      
+ V  Y297      X                        Y176      
+ V  Y297      Y                        Y175      
+
+ V  X298      X                        X177      
+ V  X298      Y                        X23       
+ V  Y298      X                        Y177      
+ V  Y298      Y                        Y23       
+
+ V  X299      X                        X177      
+ V  X299      Y                        X175      
+ V  Y299      X                        Y177      
+ V  Y299      Y                        Y175      
+
+ V  X300      X                        X177      
+ V  X300      Y                        X176      
+ V  Y300      X                        Y177      
+ V  Y300      Y                        Y176      
+
+ V  X301      X                        X178      
+ V  X301      Y                        X7        
+ V  Y301      X                        Y178      
+ V  Y301      Y                        Y7        
+
+ V  X302      X                        X179      
+ V  X302      Y                        X18       
+ V  Y302      X                        Y179      
+ V  Y302      Y                        Y18       
+
+ V  X303      X                        X179      
+ V  X303      Y                        X178      
+ V  Y303      X                        Y179      
+ V  Y303      Y                        Y178      
+
+ V  X304      X                        X180      
+ V  X304      Y                        X26       
+ V  Y304      X                        Y180      
+ V  Y304      Y                        Y26       
+
+ V  X305      X                        X180      
+ V  X305      Y                        X178      
+ V  Y305      X                        Y180      
+ V  Y305      Y                        Y178      
+
+ V  X306      X                        X180      
+ V  X306      Y                        X179      
+ V  Y306      X                        Y180      
+ V  Y306      Y                        Y179      
+
+ V  X307      X                        X181      
+ V  X307      Y                        X1        
+ V  Y307      X                        Y181      
+ V  Y307      Y                        Y1        
+
+ V  X308      X                        X182      
+ V  X308      Y                        X18       
+ V  Y308      X                        Y182      
+ V  Y308      Y                        Y18       
+
+ V  X309      X                        X182      
+ V  X309      Y                        X181      
+ V  Y309      X                        Y182      
+ V  Y309      Y                        Y181      
+
+ V  X310      X                        X183      
+ V  X310      Y                        X23       
+ V  Y310      X                        Y183      
+ V  Y310      Y                        Y23       
+
+ V  X311      X                        X183      
+ V  X311      Y                        X181      
+ V  Y311      X                        Y183      
+ V  Y311      Y                        Y181      
+
+ V  X312      X                        X183      
+ V  X312      Y                        X182      
+ V  Y312      X                        Y183      
+ V  Y312      Y                        Y182      
+
+ V  X313      X                        X184      
+ V  X313      Y                        X1        
+ V  Y313      X                        Y184      
+ V  Y313      Y                        Y1        
+
+ V  X314      X                        X185      
+ V  X314      Y                        X17       
+ V  Y314      X                        Y185      
+ V  Y314      Y                        Y17       
+
+ V  X315      X                        X185      
+ V  X315      Y                        X184      
+ V  Y315      X                        Y185      
+ V  Y315      Y                        Y184      
+
+ V  X316      X                        X186      
+ V  X316      Y                        X24       
+ V  Y316      X                        Y186      
+ V  Y316      Y                        Y24       
+
+ V  X317      X                        X186      
+ V  X317      Y                        X184      
+ V  Y317      X                        Y186      
+ V  Y317      Y                        Y184      
+
+ V  X318      X                        X186      
+ V  X318      Y                        X185      
+ V  Y318      X                        Y186      
+ V  Y318      Y                        Y185      
+
+ V  X319      X                        X187      
+ V  X319      Y                        X2        
+ V  Y319      X                        Y187      
+ V  Y319      Y                        Y2        
+
+ V  X320      X                        X188      
+ V  X320      Y                        X18       
+ V  Y320      X                        Y188      
+ V  Y320      Y                        Y18       
+
+ V  X321      X                        X188      
+ V  X321      Y                        X187      
+ V  Y321      X                        Y188      
+ V  Y321      Y                        Y187      
+
+ V  X322      X                        X189      
+ V  X322      Y                        X22       
+ V  Y322      X                        Y189      
+ V  Y322      Y                        Y22       
+
+ V  X323      X                        X189      
+ V  X323      Y                        X187      
+ V  Y323      X                        Y189      
+ V  Y323      Y                        Y187      
+
+ V  X324      X                        X189      
+ V  X324      Y                        X188      
+ V  Y324      X                        Y189      
+ V  Y324      Y                        Y188      
+
+ V  X325      X                        X190      
+ V  X325      Y                        X2        
+ V  Y325      X                        Y190      
+ V  Y325      Y                        Y2        
+
+ V  X326      X                        X191      
+ V  X326      Y                        X16       
+ V  Y326      X                        Y191      
+ V  Y326      Y                        Y16       
+
+ V  X327      X                        X191      
+ V  X327      Y                        X190      
+ V  Y327      X                        Y191      
+ V  Y327      Y                        Y190      
+
+ V  X328      X                        X192      
+ V  X328      Y                        X24       
+ V  Y328      X                        Y192      
+ V  Y328      Y                        Y24       
+
+ V  X329      X                        X192      
+ V  X329      Y                        X190      
+ V  Y329      X                        Y192      
+ V  Y329      Y                        Y190      
+
+ V  X330      X                        X192      
+ V  X330      Y                        X191      
+ V  Y330      X                        Y192      
+ V  Y330      Y                        Y191      
+
+ V  X331      X                        X193      
+ V  X331      Y                        X3        
+ V  Y331      X                        Y193      
+ V  Y331      Y                        Y3        
+
+ V  X332      X                        X194      
+ V  X332      Y                        X17       
+ V  Y332      X                        Y194      
+ V  Y332      Y                        Y17       
+
+ V  X333      X                        X194      
+ V  X333      Y                        X193      
+ V  Y333      X                        Y194      
+ V  Y333      Y                        Y193      
+
+ V  X334      X                        X195      
+ V  X334      Y                        X22       
+ V  Y334      X                        Y195      
+ V  Y334      Y                        Y22       
+
+ V  X335      X                        X195      
+ V  X335      Y                        X193      
+ V  Y335      X                        Y195      
+ V  Y335      Y                        Y193      
+
+ V  X336      X                        X195      
+ V  X336      Y                        X194      
+ V  Y336      X                        Y195      
+ V  Y336      Y                        Y194      
+
+ V  X337      X                        X196      
+ V  X337      Y                        X3        
+ V  Y337      X                        Y196      
+ V  Y337      Y                        Y3        
+
+ V  X338      X                        X197      
+ V  X338      Y                        X16       
+ V  Y338      X                        Y197      
+ V  Y338      Y                        Y16       
+
+ V  X339      X                        X197      
+ V  X339      Y                        X196      
+ V  Y339      X                        Y197      
+ V  Y339      Y                        Y196      
+
+ V  X340      X                        X198      
+ V  X340      Y                        X23       
+ V  Y340      X                        Y198      
+ V  Y340      Y                        Y23       
+
+ V  X341      X                        X198      
+ V  X341      Y                        X196      
+ V  Y341      X                        Y198      
+ V  Y341      Y                        Y196      
+
+ V  X342      X                        X198      
+ V  X342      Y                        X197      
+ V  Y342      X                        Y198      
+ V  Y342      Y                        Y197      
+
+ V  X343      X                        X199      
+ V  X343      Y                        X1        
+ V  Y343      X                        Y199      
+ V  Y343      Y                        Y1        
+
+ V  X344      X                        X200      
+ V  X344      Y                        X16       
+ V  Y344      X                        Y200      
+ V  Y344      Y                        Y16       
+
+ V  X345      X                        X200      
+ V  X345      Y                        X199      
+ V  Y345      X                        Y200      
+ V  Y345      Y                        Y199      
+
+ V  X346      X                        X201      
+ V  X346      Y                        X22       
+ V  Y346      X                        Y201      
+ V  Y346      Y                        Y22       
+
+ V  X347      X                        X201      
+ V  X347      Y                        X199      
+ V  Y347      X                        Y201      
+ V  Y347      Y                        Y199      
+
+ V  X348      X                        X201      
+ V  X348      Y                        X200      
+ V  Y348      X                        Y201      
+ V  Y348      Y                        Y200      
+
+ V  X349      X                        X202      
+ V  X349      Y                        X2        
+ V  Y349      X                        Y202      
+ V  Y349      Y                        Y2        
+
+ V  X350      X                        X203      
+ V  X350      Y                        X17       
+ V  Y350      X                        Y203      
+ V  Y350      Y                        Y17       
+
+ V  X351      X                        X203      
+ V  X351      Y                        X202      
+ V  Y351      X                        Y203      
+ V  Y351      Y                        Y202      
+
+ V  X352      X                        X204      
+ V  X352      Y                        X23       
+ V  Y352      X                        Y204      
+ V  Y352      Y                        Y23       
+
+ V  X353      X                        X204      
+ V  X353      Y                        X202      
+ V  Y353      X                        Y204      
+ V  Y353      Y                        Y202      
+
+ V  X354      X                        X204      
+ V  X354      Y                        X203      
+ V  Y354      X                        Y204      
+ V  Y354      Y                        Y203      
+
+ V  X355      X                        X205      
+ V  X355      Y                        X3        
+ V  Y355      X                        Y205      
+ V  Y355      Y                        Y3        
+
+ V  X356      X                        X206      
+ V  X356      Y                        X18       
+ V  Y356      X                        Y206      
+ V  Y356      Y                        Y18       
+
+ V  X357      X                        X206      
+ V  X357      Y                        X205      
+ V  Y357      X                        Y206      
+ V  Y357      Y                        Y205      
+
+ V  X358      X                        X207      
+ V  X358      Y                        X24       
+ V  Y358      X                        Y207      
+ V  Y358      Y                        Y24       
+
+ V  X359      X                        X207      
+ V  X359      Y                        X205      
+ V  Y359      X                        Y207      
+ V  Y359      Y                        Y205      
+
+ V  X360      X                        X207      
+ V  X360      Y                        X206      
+ V  Y360      X                        Y207      
+ V  Y360      Y                        Y206      
+
+ V  X361      X                        X208      
+ V  X361      Y                        X2        
+ V  Y361      X                        Y208      
+ V  Y361      Y                        Y2        
+
+ V  X362      X                        X209      
+ V  X362      Y                        X10       
+ V  Y362      X                        Y209      
+ V  Y362      Y                        Y10       
+
+ V  X363      X                        X209      
+ V  X363      Y                        X208      
+ V  Y363      X                        Y209      
+ V  Y363      Y                        Y208      
+
+ V  X364      X                        X210      
+ V  X364      Y                        X21       
+ V  Y364      X                        Y210      
+ V  Y364      Y                        Y21       
+
+ V  X365      X                        X210      
+ V  X365      Y                        X208      
+ V  Y365      X                        Y210      
+ V  Y365      Y                        Y208      
+
+ V  X366      X                        X210      
+ V  X366      Y                        X209      
+ V  Y366      X                        Y210      
+ V  Y366      Y                        Y209      
+
+ V  X367      X                        X211      
+ V  X367      Y                        X5        
+ V  Y367      X                        Y211      
+ V  Y367      Y                        Y5        
+
+ V  X368      X                        X212      
+ V  X368      Y                        X13       
+ V  Y368      X                        Y212      
+ V  Y368      Y                        Y13       
+
+ V  X369      X                        X212      
+ V  X369      Y                        X211      
+ V  Y369      X                        Y212      
+ V  Y369      Y                        Y211      
+
+ V  X370      X                        X213      
+ V  X370      Y                        X24       
+ V  Y370      X                        Y213      
+ V  Y370      Y                        Y24       
+
+ V  X371      X                        X213      
+ V  X371      Y                        X211      
+ V  Y371      X                        Y213      
+ V  Y371      Y                        Y211      
+
+ V  X372      X                        X213      
+ V  X372      Y                        X212      
+ V  Y372      X                        Y213      
+ V  Y372      Y                        Y212      
+
+ V  X373      X                        X214      
+ V  X373      Y                        X8        
+ V  Y373      X                        Y214      
+ V  Y373      Y                        Y8        
+
+ V  X374      X                        X215      
+ V  X374      Y                        X16       
+ V  Y374      X                        Y215      
+ V  Y374      Y                        Y16       
+
+ V  X375      X                        X215      
+ V  X375      Y                        X214      
+ V  Y375      X                        Y215      
+ V  Y375      Y                        Y214      
+
+ V  X376      X                        X216      
+ V  X376      Y                        X27       
+ V  Y376      X                        Y216      
+ V  Y376      Y                        Y27       
+
+ V  X377      X                        X216      
+ V  X377      Y                        X214      
+ V  Y377      X                        Y216      
+ V  Y377      Y                        Y214      
+
+ V  X378      X                        X216      
+ V  X378      Y                        X215      
+ V  Y378      X                        Y216      
+ V  Y378      Y                        Y215      
+
+ V  X379      X                        X217      
+ V  X379      Y                        X5        
+ V  Y379      X                        Y217      
+ V  Y379      Y                        Y5        
+
+ V  X380      X                        X218      
+ V  X380      Y                        X10       
+ V  Y380      X                        Y218      
+ V  Y380      Y                        Y10       
+
+ V  X381      X                        X218      
+ V  X381      Y                        X217      
+ V  Y381      X                        Y218      
+ V  Y381      Y                        Y217      
+
+ V  X382      X                        X219      
+ V  X382      Y                        X27       
+ V  Y382      X                        Y219      
+ V  Y382      Y                        Y27       
+
+ V  X383      X                        X219      
+ V  X383      Y                        X217      
+ V  Y383      X                        Y219      
+ V  Y383      Y                        Y217      
+
+ V  X384      X                        X219      
+ V  X384      Y                        X218      
+ V  Y384      X                        Y219      
+ V  Y384      Y                        Y218      
+
+ V  X385      X                        X220      
+ V  X385      Y                        X6        
+ V  Y385      X                        Y220      
+ V  Y385      Y                        Y6        
+
+ V  X386      X                        X221      
+ V  X386      Y                        X10       
+ V  Y386      X                        Y221      
+ V  Y386      Y                        Y10       
+
+ V  X387      X                        X221      
+ V  X387      Y                        X220      
+ V  Y387      X                        Y221      
+ V  Y387      Y                        Y220      
+
+ V  X388      X                        X222      
+ V  X388      Y                        X26       
+ V  Y388      X                        Y222      
+ V  Y388      Y                        Y26       
+
+ V  X389      X                        X222      
+ V  X389      Y                        X220      
+ V  Y389      X                        Y222      
+ V  Y389      Y                        Y220      
+
+ V  X390      X                        X222      
+ V  X390      Y                        X221      
+ V  Y390      X                        Y222      
+ V  Y390      Y                        Y221      
+
+ V  X391      X                        X223      
+ V  X391      Y                        X4        
+ V  Y391      X                        Y223      
+ V  Y391      Y                        Y4        
+
+ V  X392      X                        X224      
+ V  X392      Y                        X11       
+ V  Y392      X                        Y224      
+ V  Y392      Y                        Y11       
+
+ V  X393      X                        X224      
+ V  X393      Y                        X223      
+ V  Y393      X                        Y224      
+ V  Y393      Y                        Y223      
+
+ V  X394      X                        X225      
+ V  X394      Y                        X27       
+ V  Y394      X                        Y225      
+ V  Y394      Y                        Y27       
+
+ V  X395      X                        X225      
+ V  X395      Y                        X223      
+ V  Y395      X                        Y225      
+ V  Y395      Y                        Y223      
+
+ V  X396      X                        X225      
+ V  X396      Y                        X224      
+ V  Y396      X                        Y225      
+ V  Y396      Y                        Y224      
+
+ V  X397      X                        X226      
+ V  X397      Y                        X6        
+ V  Y397      X                        Y226      
+ V  Y397      Y                        Y6        
+
+ V  X398      X                        X227      
+ V  X398      Y                        X11       
+ V  Y398      X                        Y227      
+ V  Y398      Y                        Y11       
+
+ V  X399      X                        X227      
+ V  X399      Y                        X226      
+ V  Y399      X                        Y227      
+ V  Y399      Y                        Y226      
+
+ V  X400      X                        X228      
+ V  X400      Y                        X25       
+ V  Y400      X                        Y228      
+ V  Y400      Y                        Y25       
+
+ V  X401      X                        X228      
+ V  X401      Y                        X226      
+ V  Y401      X                        Y228      
+ V  Y401      Y                        Y226      
+
+ V  X402      X                        X228      
+ V  X402      Y                        X227      
+ V  Y402      X                        Y228      
+ V  Y402      Y                        Y227      
+
+ V  X403      X                        X229      
+ V  X403      Y                        X4        
+ V  Y403      X                        Y229      
+ V  Y403      Y                        Y4        
+
+ V  X404      X                        X230      
+ V  X404      Y                        X12       
+ V  Y404      X                        Y230      
+ V  Y404      Y                        Y12       
+
+ V  X405      X                        X230      
+ V  X405      Y                        X229      
+ V  Y405      X                        Y230      
+ V  Y405      Y                        Y229      
+
+ V  X406      X                        X231      
+ V  X406      Y                        X26       
+ V  Y406      X                        Y231      
+ V  Y406      Y                        Y26       
+
+ V  X407      X                        X231      
+ V  X407      Y                        X229      
+ V  Y407      X                        Y231      
+ V  Y407      Y                        Y229      
+
+ V  X408      X                        X231      
+ V  X408      Y                        X230      
+ V  Y408      X                        Y231      
+ V  Y408      Y                        Y230      
+
+ V  X409      X                        X232      
+ V  X409      Y                        X5        
+ V  Y409      X                        Y232      
+ V  Y409      Y                        Y5        
+
+ V  X410      X                        X233      
+ V  X410      Y                        X12       
+ V  Y410      X                        Y233      
+ V  Y410      Y                        Y12       
+
+ V  X411      X                        X233      
+ V  X411      Y                        X232      
+ V  Y411      X                        Y233      
+ V  Y411      Y                        Y232      
+
+ V  X412      X                        X234      
+ V  X412      Y                        X25       
+ V  Y412      X                        Y234      
+ V  Y412      Y                        Y25       
+
+ V  X413      X                        X234      
+ V  X413      Y                        X232      
+ V  Y413      X                        Y234      
+ V  Y413      Y                        Y232      
+
+ V  X414      X                        X234      
+ V  X414      Y                        X233      
+ V  Y414      X                        Y234      
+ V  Y414      Y                        Y233      
+
+ V  X415      X                        X235      
+ V  X415      Y                        X4        
+ V  Y415      X                        Y235      
+ V  Y415      Y                        Y4        
+
+ V  X416      X                        X236      
+ V  X416      Y                        X10       
+ V  Y416      X                        Y236      
+ V  Y416      Y                        Y10       
+
+ V  X417      X                        X236      
+ V  X417      Y                        X235      
+ V  Y417      X                        Y236      
+ V  Y417      Y                        Y235      
+
+ V  X418      X                        X237      
+ V  X418      Y                        X25       
+ V  Y418      X                        Y237      
+ V  Y418      Y                        Y25       
+
+ V  X419      X                        X237      
+ V  X419      Y                        X235      
+ V  Y419      X                        Y237      
+ V  Y419      Y                        Y235      
+
+ V  X420      X                        X237      
+ V  X420      Y                        X236      
+ V  Y420      X                        Y237      
+ V  Y420      Y                        Y236      
+
+ V  X421      X                        X238      
+ V  X421      Y                        X5        
+ V  Y421      X                        Y238      
+ V  Y421      Y                        Y5        
+
+ V  X422      X                        X239      
+ V  X422      Y                        X11       
+ V  Y422      X                        Y239      
+ V  Y422      Y                        Y11       
+
+ V  X423      X                        X239      
+ V  X423      Y                        X238      
+ V  Y423      X                        Y239      
+ V  Y423      Y                        Y238      
+
+ V  X424      X                        X240      
+ V  X424      Y                        X26       
+ V  Y424      X                        Y240      
+ V  Y424      Y                        Y26       
+
+ V  X425      X                        X240      
+ V  X425      Y                        X238      
+ V  Y425      X                        Y240      
+ V  Y425      Y                        Y238      
+
+ V  X426      X                        X240      
+ V  X426      Y                        X239      
+ V  Y426      X                        Y240      
+ V  Y426      Y                        Y239      
+
+ V  X427      X                        X241      
+ V  X427      Y                        X6        
+ V  Y427      X                        Y241      
+ V  Y427      Y                        Y6        
+
+ V  X428      X                        X242      
+ V  X428      Y                        X12       
+ V  Y428      X                        Y242      
+ V  Y428      Y                        Y12       
+
+ V  X429      X                        X242      
+ V  X429      Y                        X241      
+ V  Y429      X                        Y242      
+ V  Y429      Y                        Y241      
+
+ V  X430      X                        X243      
+ V  X430      Y                        X27       
+ V  Y430      X                        Y243      
+ V  Y430      Y                        Y27       
+
+ V  X431      X                        X243      
+ V  X431      Y                        X241      
+ V  Y431      X                        Y243      
+ V  Y431      Y                        Y241      
+
+ V  X432      X                        X243      
+ V  X432      Y                        X242      
+ V  Y432      X                        Y243      
+ V  Y432      Y                        Y242      
+
+ V  X433      X                        X244      
+ V  X433      Y                        X2        
+ V  Y433      X                        Y244      
+ V  Y433      Y                        Y2        
+
+ V  X434      X                        X245      
+ V  X434      Y                        X12       
+ V  Y434      X                        Y245      
+ V  Y434      Y                        Y12       
+
+ V  X435      X                        X245      
+ V  X435      Y                        X244      
+ V  Y435      X                        Y245      
+ V  Y435      Y                        Y244      
+
+ V  X436      X                        X246      
+ V  X436      Y                        X19       
+ V  Y436      X                        Y246      
+ V  Y436      Y                        Y19       
+
+ V  X437      X                        X246      
+ V  X437      Y                        X244      
+ V  Y437      X                        Y246      
+ V  Y437      Y                        Y244      
+
+ V  X438      X                        X246      
+ V  X438      Y                        X245      
+ V  Y438      X                        Y246      
+ V  Y438      Y                        Y245      
+
+ V  X439      X                        X247      
+ V  X439      Y                        X5        
+ V  Y439      X                        Y247      
+ V  Y439      Y                        Y5        
+
+ V  X440      X                        X248      
+ V  X440      Y                        X15       
+ V  Y440      X                        Y248      
+ V  Y440      Y                        Y15       
+
+ V  X441      X                        X248      
+ V  X441      Y                        X247      
+ V  Y441      X                        Y248      
+ V  Y441      Y                        Y247      
+
+ V  X442      X                        X249      
+ V  X442      Y                        X22       
+ V  Y442      X                        Y249      
+ V  Y442      Y                        Y22       
+
+ V  X443      X                        X249      
+ V  X443      Y                        X247      
+ V  Y443      X                        Y249      
+ V  Y443      Y                        Y247      
+
+ V  X444      X                        X249      
+ V  X444      Y                        X248      
+ V  Y444      X                        Y249      
+ V  Y444      Y                        Y248      
+
+ V  X445      X                        X250      
+ V  X445      Y                        X8        
+ V  Y445      X                        Y250      
+ V  Y445      Y                        Y8        
+
+ V  X446      X                        X251      
+ V  X446      Y                        X18       
+ V  Y446      X                        Y251      
+ V  Y446      Y                        Y18       
+
+ V  X447      X                        X251      
+ V  X447      Y                        X250      
+ V  Y447      X                        Y251      
+ V  Y447      Y                        Y250      
+
+ V  X448      X                        X252      
+ V  X448      Y                        X25       
+ V  Y448      X                        Y252      
+ V  Y448      Y                        Y25       
+
+ V  X449      X                        X252      
+ V  X449      Y                        X250      
+ V  Y449      X                        Y252      
+ V  Y449      Y                        Y250      
+
+ V  X450      X                        X252      
+ V  X450      Y                        X251      
+ V  Y450      X                        Y252      
+ V  Y450      Y                        Y251      
+
+ V  X451      X                        X253      
+ V  X451      Y                        X5        
+ V  Y451      X                        Y253      
+ V  Y451      Y                        Y5        
+
+ V  X452      X                        X254      
+ V  X452      Y                        X18       
+ V  Y452      X                        Y254      
+ V  Y452      Y                        Y18       
+
+ V  X453      X                        X254      
+ V  X453      Y                        X253      
+ V  Y453      X                        Y254      
+ V  Y453      Y                        Y253      
+
+ V  X454      X                        X255      
+ V  X454      Y                        X19       
+ V  Y454      X                        Y255      
+ V  Y454      Y                        Y19       
+
+ V  X455      X                        X255      
+ V  X455      Y                        X253      
+ V  Y455      X                        Y255      
+ V  Y455      Y                        Y253      
+
+ V  X456      X                        X255      
+ V  X456      Y                        X254      
+ V  Y456      X                        Y255      
+ V  Y456      Y                        Y254      
+
+ V  X457      X                        X256      
+ V  X457      Y                        X6        
+ V  Y457      X                        Y256      
+ V  Y457      Y                        Y6        
+
+ V  X458      X                        X257      
+ V  X458      Y                        X17       
+ V  Y458      X                        Y257      
+ V  Y458      Y                        Y17       
+
+ V  X459      X                        X257      
+ V  X459      Y                        X256      
+ V  Y459      X                        Y257      
+ V  Y459      Y                        Y256      
+
+ V  X460      X                        X258      
+ V  X460      Y                        X19       
+ V  Y460      X                        Y258      
+ V  Y460      Y                        Y19       
+
+ V  X461      X                        X258      
+ V  X461      Y                        X256      
+ V  Y461      X                        Y258      
+ V  Y461      Y                        Y256      
+
+ V  X462      X                        X258      
+ V  X462      Y                        X257      
+ V  Y462      X                        Y258      
+ V  Y462      Y                        Y257      
+
+ V  X463      X                        X259      
+ V  X463      Y                        X4        
+ V  Y463      X                        Y259      
+ V  Y463      Y                        Y4        
+
+ V  X464      X                        X260      
+ V  X464      Y                        X18       
+ V  Y464      X                        Y260      
+ V  Y464      Y                        Y18       
+
+ V  X465      X                        X260      
+ V  X465      Y                        X259      
+ V  Y465      X                        Y260      
+ V  Y465      Y                        Y259      
+
+ V  X466      X                        X261      
+ V  X466      Y                        X20       
+ V  Y466      X                        Y261      
+ V  Y466      Y                        Y20       
+
+ V  X467      X                        X261      
+ V  X467      Y                        X259      
+ V  Y467      X                        Y261      
+ V  Y467      Y                        Y259      
+
+ V  X468      X                        X261      
+ V  X468      Y                        X260      
+ V  Y468      X                        Y261      
+ V  Y468      Y                        Y260      
+
+ V  X469      X                        X262      
+ V  X469      Y                        X6        
+ V  Y469      X                        Y262      
+ V  Y469      Y                        Y6        
+
+ V  X470      X                        X263      
+ V  X470      Y                        X16       
+ V  Y470      X                        Y263      
+ V  Y470      Y                        Y16       
+
+ V  X471      X                        X263      
+ V  X471      Y                        X262      
+ V  Y471      X                        Y263      
+ V  Y471      Y                        Y262      
+
+ V  X472      X                        X264      
+ V  X472      Y                        X20       
+ V  Y472      X                        Y264      
+ V  Y472      Y                        Y20       
+
+ V  X473      X                        X264      
+ V  X473      Y                        X262      
+ V  Y473      X                        Y264      
+ V  Y473      Y                        Y262      
+
+ V  X474      X                        X264      
+ V  X474      Y                        X263      
+ V  Y474      X                        Y264      
+ V  Y474      Y                        Y263      
+
+ V  X475      X                        X265      
+ V  X475      Y                        X4        
+ V  Y475      X                        Y265      
+ V  Y475      Y                        Y4        
+
+ V  X476      X                        X266      
+ V  X476      Y                        X17       
+ V  Y476      X                        Y266      
+ V  Y476      Y                        Y17       
+
+ V  X477      X                        X266      
+ V  X477      Y                        X265      
+ V  Y477      X                        Y266      
+ V  Y477      Y                        Y265      
+
+ V  X478      X                        X267      
+ V  X478      Y                        X21       
+ V  Y478      X                        Y267      
+ V  Y478      Y                        Y21       
+
+ V  X479      X                        X267      
+ V  X479      Y                        X265      
+ V  Y479      X                        Y267      
+ V  Y479      Y                        Y265      
+
+ V  X480      X                        X267      
+ V  X480      Y                        X266      
+ V  Y480      X                        Y267      
+ V  Y480      Y                        Y266      
+
+ V  X481      X                        X268      
+ V  X481      Y                        X5        
+ V  Y481      X                        Y268      
+ V  Y481      Y                        Y5        
+
+ V  X482      X                        X269      
+ V  X482      Y                        X16       
+ V  Y482      X                        Y269      
+ V  Y482      Y                        Y16       
+
+ V  X483      X                        X269      
+ V  X483      Y                        X268      
+ V  Y483      X                        Y269      
+ V  Y483      Y                        Y268      
+
+ V  X484      X                        X270      
+ V  X484      Y                        X21       
+ V  Y484      X                        Y270      
+ V  Y484      Y                        Y21       
+
+ V  X485      X                        X270      
+ V  X485      Y                        X268      
+ V  Y485      X                        Y270      
+ V  Y485      Y                        Y268      
+
+ V  X486      X                        X270      
+ V  X486      Y                        X269      
+ V  Y486      X                        Y270      
+ V  Y486      Y                        Y269      
+
+ V  X487      X                        X271      
+ V  X487      Y                        X4        
+ V  Y487      X                        Y271      
+ V  Y487      Y                        Y4        
+
+ V  X488      X                        X272      
+ V  X488      Y                        X16       
+ V  Y488      X                        Y272      
+ V  Y488      Y                        Y16       
+
+ V  X489      X                        X272      
+ V  X489      Y                        X271      
+ V  Y489      X                        Y272      
+ V  Y489      Y                        Y271      
+
+ V  X490      X                        X273      
+ V  X490      Y                        X19       
+ V  Y490      X                        Y273      
+ V  Y490      Y                        Y19       
+
+ V  X491      X                        X273      
+ V  X491      Y                        X271      
+ V  Y491      X                        Y273      
+ V  Y491      Y                        Y271      
+
+ V  X492      X                        X273      
+ V  X492      Y                        X272      
+ V  Y492      X                        Y273      
+ V  Y492      Y                        Y272      
+
+ V  X493      X                        X274      
+ V  X493      Y                        X5        
+ V  Y493      X                        Y274      
+ V  Y493      Y                        Y5        
+
+ V  X494      X                        X275      
+ V  X494      Y                        X17       
+ V  Y494      X                        Y275      
+ V  Y494      Y                        Y17       
+
+ V  X495      X                        X275      
+ V  X495      Y                        X274      
+ V  Y495      X                        Y275      
+ V  Y495      Y                        Y274      
+
+ V  X496      X                        X276      
+ V  X496      Y                        X20       
+ V  Y496      X                        Y276      
+ V  Y496      Y                        Y20       
+
+ V  X497      X                        X276      
+ V  X497      Y                        X274      
+ V  Y497      X                        Y276      
+ V  Y497      Y                        Y274      
+
+ V  X498      X                        X276      
+ V  X498      Y                        X275      
+ V  Y498      X                        Y276      
+ V  Y498      Y                        Y275      
+
+ V  X499      X                        X277      
+ V  X499      Y                        X6        
+ V  Y499      X                        Y277      
+ V  Y499      Y                        Y6        
+
+ V  X500      X                        X278      
+ V  X500      Y                        X18       
+ V  Y500      X                        Y278      
+ V  Y500      Y                        Y18       
+
+ V  X501      X                        X278      
+ V  X501      Y                        X277      
+ V  Y501      X                        Y278      
+ V  Y501      Y                        Y277      
+
+ V  X502      X                        X279      
+ V  X502      Y                        X21       
+ V  Y502      X                        Y279      
+ V  Y502      Y                        Y21       
+
+ V  X503      X                        X279      
+ V  X503      Y                        X277      
+ V  Y503      X                        Y279      
+ V  Y503      Y                        Y277      
+
+ V  X504      X                        X279      
+ V  X504      Y                        X278      
+ V  Y504      X                        Y279      
+ V  Y504      Y                        Y278      
+
+ V  X505      X                        X280      
+ V  X505      Y                        X3        
+ V  Y505      X                        Y280      
+ V  Y505      Y                        Y3        
+
+ V  X506      X                        X281      
+ V  X506      Y                        X10       
+ V  Y506      X                        Y281      
+ V  Y506      Y                        Y10       
+
+ V  X507      X                        X281      
+ V  X507      Y                        X280      
+ V  Y507      X                        Y281      
+ V  Y507      Y                        Y280      
+
+ V  X508      X                        X282      
+ V  X508      Y                        X20       
+ V  Y508      X                        Y282      
+ V  Y508      Y                        Y20       
+
+ V  X509      X                        X282      
+ V  X509      Y                        X280      
+ V  Y509      X                        Y282      
+ V  Y509      Y                        Y280      
+
+ V  X510      X                        X282      
+ V  X510      Y                        X281      
+ V  Y510      X                        Y282      
+ V  Y510      Y                        Y281      
+
+ V  X511      X                        X283      
+ V  X511      Y                        X6        
+ V  Y511      X                        Y283      
+ V  Y511      Y                        Y6        
+
+ V  X512      X                        X284      
+ V  X512      Y                        X13       
+ V  Y512      X                        Y284      
+ V  Y512      Y                        Y13       
+
+ V  X513      X                        X284      
+ V  X513      Y                        X283      
+ V  Y513      X                        Y284      
+ V  Y513      Y                        Y283      
+
+ V  X514      X                        X285      
+ V  X514      Y                        X23       
+ V  Y514      X                        Y285      
+ V  Y514      Y                        Y23       
+
+ V  X515      X                        X285      
+ V  X515      Y                        X283      
+ V  Y515      X                        Y285      
+ V  Y515      Y                        Y283      
+
+ V  X516      X                        X285      
+ V  X516      Y                        X284      
+ V  Y516      X                        Y285      
+ V  Y516      Y                        Y284      
+
+ V  X517      X                        X286      
+ V  X517      Y                        X9        
+ V  Y517      X                        Y286      
+ V  Y517      Y                        Y9        
+
+ V  X518      X                        X287      
+ V  X518      Y                        X16       
+ V  Y518      X                        Y287      
+ V  Y518      Y                        Y16       
+
+ V  X519      X                        X287      
+ V  X519      Y                        X286      
+ V  Y519      X                        Y287      
+ V  Y519      Y                        Y286      
+
+ V  X520      X                        X288      
+ V  X520      Y                        X26       
+ V  Y520      X                        Y288      
+ V  Y520      Y                        Y26       
+
+ V  X521      X                        X288      
+ V  X521      Y                        X286      
+ V  Y521      X                        Y288      
+ V  Y521      Y                        Y286      
+
+ V  X522      X                        X288      
+ V  X522      Y                        X287      
+ V  Y522      X                        Y288      
+ V  Y522      Y                        Y287      
+
+ V  X523      X                        X289      
+ V  X523      Y                        X9        
+ V  Y523      X                        Y289      
+ V  Y523      Y                        Y9        
+
+ V  X524      X                        X290      
+ V  X524      Y                        X10       
+ V  Y524      X                        Y290      
+ V  Y524      Y                        Y10       
+
+ V  X525      X                        X290      
+ V  X525      Y                        X289      
+ V  Y525      X                        Y290      
+ V  Y525      Y                        Y289      
+
+ V  X526      X                        X291      
+ V  X526      Y                        X23       
+ V  Y526      X                        Y291      
+ V  Y526      Y                        Y23       
+
+ V  X527      X                        X291      
+ V  X527      Y                        X289      
+ V  Y527      X                        Y291      
+ V  Y527      Y                        Y289      
+
+ V  X528      X                        X291      
+ V  X528      Y                        X290      
+ V  Y528      X                        Y291      
+ V  Y528      Y                        Y290      
+
+ V  X529      X                        X292      
+ V  X529      Y                        X8        
+ V  Y529      X                        Y292      
+ V  Y529      Y                        Y8        
+
+ V  X530      X                        X293      
+ V  X530      Y                        X10       
+ V  Y530      X                        Y293      
+ V  Y530      Y                        Y10       
+
+ V  X531      X                        X293      
+ V  X531      Y                        X292      
+ V  Y531      X                        Y293      
+ V  Y531      Y                        Y292      
+
+ V  X532      X                        X294      
+ V  X532      Y                        X24       
+ V  Y532      X                        Y294      
+ V  Y532      Y                        Y24       
+
+ V  X533      X                        X294      
+ V  X533      Y                        X292      
+ V  Y533      X                        Y294      
+ V  Y533      Y                        Y292      
+
+ V  X534      X                        X294      
+ V  X534      Y                        X293      
+ V  Y534      X                        Y294      
+ V  Y534      Y                        Y293      
+
+ V  X535      X                        X295      
+ V  X535      Y                        X9        
+ V  Y535      X                        Y295      
+ V  Y535      Y                        Y9        
+
+ V  X536      X                        X296      
+ V  X536      Y                        X11       
+ V  Y536      X                        Y296      
+ V  Y536      Y                        Y11       
+
+ V  X537      X                        X296      
+ V  X537      Y                        X295      
+ V  Y537      X                        Y296      
+ V  Y537      Y                        Y295      
+
+ V  X538      X                        X297      
+ V  X538      Y                        X22       
+ V  Y538      X                        Y297      
+ V  Y538      Y                        Y22       
+
+ V  X539      X                        X297      
+ V  X539      Y                        X295      
+ V  Y539      X                        Y297      
+ V  Y539      Y                        Y295      
+
+ V  X540      X                        X297      
+ V  X540      Y                        X296      
+ V  Y540      X                        Y297      
+ V  Y540      Y                        Y296      
+
+ V  X541      X                        X298      
+ V  X541      Y                        X7        
+ V  Y541      X                        Y298      
+ V  Y541      Y                        Y7        
+
+ V  X542      X                        X299      
+ V  X542      Y                        X11       
+ V  Y542      X                        Y299      
+ V  Y542      Y                        Y11       
+
+ V  X543      X                        X299      
+ V  X543      Y                        X298      
+ V  Y543      X                        Y299      
+ V  Y543      Y                        Y298      
+
+ V  X544      X                        X300      
+ V  X544      Y                        X24       
+ V  Y544      X                        Y300      
+ V  Y544      Y                        Y24       
+
+ V  X545      X                        X300      
+ V  X545      Y                        X298      
+ V  Y545      X                        Y300      
+ V  Y545      Y                        Y298      
+
+ V  X546      X                        X300      
+ V  X546      Y                        X299      
+ V  Y546      X                        Y300      
+ V  Y546      Y                        Y299      
+
+ V  X547      X                        X301      
+ V  X547      Y                        X8        
+ V  Y547      X                        Y301      
+ V  Y547      Y                        Y8        
+
+ V  X548      X                        X302      
+ V  X548      Y                        X12       
+ V  Y548      X                        Y302      
+ V  Y548      Y                        Y12       
+
+ V  X549      X                        X302      
+ V  X549      Y                        X301      
+ V  Y549      X                        Y302      
+ V  Y549      Y                        Y301      
+
+ V  X550      X                        X303      
+ V  X550      Y                        X22       
+ V  Y550      X                        Y303      
+ V  Y550      Y                        Y22       
+
+ V  X551      X                        X303      
+ V  X551      Y                        X301      
+ V  Y551      X                        Y303      
+ V  Y551      Y                        Y301      
+
+ V  X552      X                        X303      
+ V  X552      Y                        X302      
+ V  Y552      X                        Y303      
+ V  Y552      Y                        Y302      
+
+ V  X553      X                        X304      
+ V  X553      Y                        X7        
+ V  Y553      X                        Y304      
+ V  Y553      Y                        Y7        
+
+ V  X554      X                        X305      
+ V  X554      Y                        X12       
+ V  Y554      X                        Y305      
+ V  Y554      Y                        Y12       
+
+ V  X555      X                        X305      
+ V  X555      Y                        X304      
+ V  Y555      X                        Y305      
+ V  Y555      Y                        Y304      
+
+ V  X556      X                        X306      
+ V  X556      Y                        X23       
+ V  Y556      X                        Y306      
+ V  Y556      Y                        Y23       
+
+ V  X557      X                        X306      
+ V  X557      Y                        X304      
+ V  Y557      X                        Y306      
+ V  Y557      Y                        Y304      
+
+ V  X558      X                        X306      
+ V  X558      Y                        X305      
+ V  Y558      X                        Y306      
+ V  Y558      Y                        Y305      
+
+ V  X559      X                        X307      
+ V  X559      Y                        X7        
+ V  Y559      X                        Y307      
+ V  Y559      Y                        Y7        
+
+ V  X560      X                        X308      
+ V  X560      Y                        X10       
+ V  Y560      X                        Y308      
+ V  Y560      Y                        Y10       
+
+ V  X561      X                        X308      
+ V  X561      Y                        X307      
+ V  Y561      X                        Y308      
+ V  Y561      Y                        Y307      
+
+ V  X562      X                        X309      
+ V  X562      Y                        X22       
+ V  Y562      X                        Y309      
+ V  Y562      Y                        Y22       
+
+ V  X563      X                        X309      
+ V  X563      Y                        X307      
+ V  Y563      X                        Y309      
+ V  Y563      Y                        Y307      
+
+ V  X564      X                        X309      
+ V  X564      Y                        X308      
+ V  Y564      X                        Y309      
+ V  Y564      Y                        Y308      
+
+ V  X565      X                        X310      
+ V  X565      Y                        X8        
+ V  Y565      X                        Y310      
+ V  Y565      Y                        Y8        
+
+ V  X566      X                        X311      
+ V  X566      Y                        X11       
+ V  Y566      X                        Y311      
+ V  Y566      Y                        Y11       
+
+ V  X567      X                        X311      
+ V  X567      Y                        X310      
+ V  Y567      X                        Y311      
+ V  Y567      Y                        Y310      
+
+ V  X568      X                        X312      
+ V  X568      Y                        X23       
+ V  Y568      X                        Y312      
+ V  Y568      Y                        Y23       
+
+ V  X569      X                        X312      
+ V  X569      Y                        X310      
+ V  Y569      X                        Y312      
+ V  Y569      Y                        Y310      
+
+ V  X570      X                        X312      
+ V  X570      Y                        X311      
+ V  Y570      X                        Y312      
+ V  Y570      Y                        Y311      
+
+ V  X571      X                        X313      
+ V  X571      Y                        X9        
+ V  Y571      X                        Y313      
+ V  Y571      Y                        Y9        
+
+ V  X572      X                        X314      
+ V  X572      Y                        X12       
+ V  Y572      X                        Y314      
+ V  Y572      Y                        Y12       
+
+ V  X573      X                        X314      
+ V  X573      Y                        X313      
+ V  Y573      X                        Y314      
+ V  Y573      Y                        Y313      
+
+ V  X574      X                        X315      
+ V  X574      Y                        X24       
+ V  Y574      X                        Y315      
+ V  Y574      Y                        Y24       
+
+ V  X575      X                        X315      
+ V  X575      Y                        X313      
+ V  Y575      X                        Y315      
+ V  Y575      Y                        Y313      
+
+ V  X576      X                        X315      
+ V  X576      Y                        X314      
+ V  Y576      X                        Y315      
+ V  Y576      Y                        Y314      
+
+ V  X577      X                        X316      
+ V  X577      Y                        X3        
+ V  Y577      X                        Y316      
+ V  Y577      Y                        Y3        
+
+ V  X578      X                        X317      
+ V  X578      Y                        X11       
+ V  Y578      X                        Y317      
+ V  Y578      Y                        Y11       
+
+ V  X579      X                        X317      
+ V  X579      Y                        X316      
+ V  Y579      X                        Y317      
+ V  Y579      Y                        Y316      
+
+ V  X580      X                        X318      
+ V  X580      Y                        X19       
+ V  Y580      X                        Y318      
+ V  Y580      Y                        Y19       
+
+ V  X581      X                        X318      
+ V  X581      Y                        X316      
+ V  Y581      X                        Y318      
+ V  Y581      Y                        Y316      
+
+ V  X582      X                        X318      
+ V  X582      Y                        X317      
+ V  Y582      X                        Y318      
+ V  Y582      Y                        Y317      
+
+ V  X583      X                        X319      
+ V  X583      Y                        X6        
+ V  Y583      X                        Y319      
+ V  Y583      Y                        Y6        
+
+ V  X584      X                        X320      
+ V  X584      Y                        X14       
+ V  Y584      X                        Y320      
+ V  Y584      Y                        Y14       
+
+ V  X585      X                        X320      
+ V  X585      Y                        X319      
+ V  Y585      X                        Y320      
+ V  Y585      Y                        Y319      
+
+ V  X586      X                        X321      
+ V  X586      Y                        X22       
+ V  Y586      X                        Y321      
+ V  Y586      Y                        Y22       
+
+ V  X587      X                        X321      
+ V  X587      Y                        X319      
+ V  Y587      X                        Y321      
+ V  Y587      Y                        Y319      
+
+ V  X588      X                        X321      
+ V  X588      Y                        X320      
+ V  Y588      X                        Y321      
+ V  Y588      Y                        Y320      
+
+ V  X589      X                        X322      
+ V  X589      Y                        X9        
+ V  Y589      X                        Y322      
+ V  Y589      Y                        Y9        
+
+ V  X590      X                        X323      
+ V  X590      Y                        X17       
+ V  Y590      X                        Y323      
+ V  Y590      Y                        Y17       
+
+ V  X591      X                        X323      
+ V  X591      Y                        X322      
+ V  Y591      X                        Y323      
+ V  Y591      Y                        Y322      
+
+ V  X592      X                        X324      
+ V  X592      Y                        X25       
+ V  Y592      X                        Y324      
+ V  Y592      Y                        Y25       
+
+ V  X593      X                        X324      
+ V  X593      Y                        X322      
+ V  Y593      X                        Y324      
+ V  Y593      Y                        Y322      
+
+ V  X594      X                        X324      
+ V  X594      Y                        X323      
+ V  Y594      X                        Y324      
+ V  Y594      Y                        Y323      
+
+ V  X595      X                        X325      
+ V  X595      Y                        X9        
+ V  Y595      X                        Y325      
+ V  Y595      Y                        Y9        
+
+ V  X596      X                        X326      
+ V  X596      Y                        X14       
+ V  Y596      X                        Y326      
+ V  Y596      Y                        Y14       
+
+ V  X597      X                        X326      
+ V  X597      Y                        X325      
+ V  Y597      X                        Y326      
+ V  Y597      Y                        Y325      
+
+ V  X598      X                        X327      
+ V  X598      Y                        X19       
+ V  Y598      X                        Y327      
+ V  Y598      Y                        Y19       
+
+ V  X599      X                        X327      
+ V  X599      Y                        X325      
+ V  Y599      X                        Y327      
+ V  Y599      Y                        Y325      
+
+ V  X600      X                        X327      
+ V  X600      Y                        X326      
+ V  Y600      X                        Y327      
+ V  Y600      Y                        Y326      
+
+ V  X601      X                        X328      
+ V  X601      Y                        X8        
+ V  Y601      X                        Y328      
+ V  Y601      Y                        Y8        
+
+ V  X602      X                        X329      
+ V  X602      Y                        X15       
+ V  Y602      X                        Y329      
+ V  Y602      Y                        Y15       
+
+ V  X603      X                        X329      
+ V  X603      Y                        X328      
+ V  Y603      X                        Y329      
+ V  Y603      Y                        Y328      
+
+ V  X604      X                        X330      
+ V  X604      Y                        X19       
+ V  Y604      X                        Y330      
+ V  Y604      Y                        Y19       
+
+ V  X605      X                        X330      
+ V  X605      Y                        X328      
+ V  Y605      X                        Y330      
+ V  Y605      Y                        Y328      
+
+ V  X606      X                        X330      
+ V  X606      Y                        X329      
+ V  Y606      X                        Y330      
+ V  Y606      Y                        Y329      
+
+ V  X607      X                        X331      
+ V  X607      Y                        X9        
+ V  Y607      X                        Y331      
+ V  Y607      Y                        Y9        
+
+ V  X608      X                        X332      
+ V  X608      Y                        X13       
+ V  Y608      X                        Y332      
+ V  Y608      Y                        Y13       
+
+ V  X609      X                        X332      
+ V  X609      Y                        X331      
+ V  Y609      X                        Y332      
+ V  Y609      Y                        Y331      
+
+ V  X610      X                        X333      
+ V  X610      Y                        X20       
+ V  Y610      X                        Y333      
+ V  Y610      Y                        Y20       
+
+ V  X611      X                        X333      
+ V  X611      Y                        X331      
+ V  Y611      X                        Y333      
+ V  Y611      Y                        Y331      
+
+ V  X612      X                        X333      
+ V  X612      Y                        X332      
+ V  Y612      X                        Y333      
+ V  Y612      Y                        Y332      
+
+ V  X613      X                        X334      
+ V  X613      Y                        X7        
+ V  Y613      X                        Y334      
+ V  Y613      Y                        Y7        
+
+ V  X614      X                        X335      
+ V  X614      Y                        X15       
+ V  Y614      X                        Y335      
+ V  Y614      Y                        Y15       
+
+ V  X615      X                        X335      
+ V  X615      Y                        X334      
+ V  Y615      X                        Y335      
+ V  Y615      Y                        Y334      
+
+ V  X616      X                        X336      
+ V  X616      Y                        X20       
+ V  Y616      X                        Y336      
+ V  Y616      Y                        Y20       
+
+ V  X617      X                        X336      
+ V  X617      Y                        X334      
+ V  Y617      X                        Y336      
+ V  Y617      Y                        Y334      
+
+ V  X618      X                        X336      
+ V  X618      Y                        X335      
+ V  Y618      X                        Y336      
+ V  Y618      Y                        Y335      
+
+ V  X619      X                        X337      
+ V  X619      Y                        X8        
+ V  Y619      X                        Y337      
+ V  Y619      Y                        Y8        
+
+ V  X620      X                        X338      
+ V  X620      Y                        X13       
+ V  Y620      X                        Y338      
+ V  Y620      Y                        Y13       
+
+ V  X621      X                        X338      
+ V  X621      Y                        X337      
+ V  Y621      X                        Y338      
+ V  Y621      Y                        Y337      
+
+ V  X622      X                        X339      
+ V  X622      Y                        X21       
+ V  Y622      X                        Y339      
+ V  Y622      Y                        Y21       
+
+ V  X623      X                        X339      
+ V  X623      Y                        X337      
+ V  Y623      X                        Y339      
+ V  Y623      Y                        Y337      
+
+ V  X624      X                        X339      
+ V  X624      Y                        X338      
+ V  Y624      X                        Y339      
+ V  Y624      Y                        Y338      
+
+ V  X625      X                        X340      
+ V  X625      Y                        X7        
+ V  Y625      X                        Y340      
+ V  Y625      Y                        Y7        
+
+ V  X626      X                        X341      
+ V  X626      Y                        X14       
+ V  Y626      X                        Y341      
+ V  Y626      Y                        Y14       
+
+ V  X627      X                        X341      
+ V  X627      Y                        X340      
+ V  Y627      X                        Y341      
+ V  Y627      Y                        Y340      
+
+ V  X628      X                        X342      
+ V  X628      Y                        X21       
+ V  Y628      X                        Y342      
+ V  Y628      Y                        Y21       
+
+ V  X629      X                        X342      
+ V  X629      Y                        X340      
+ V  Y629      X                        Y342      
+ V  Y629      Y                        Y340      
+
+ V  X630      X                        X342      
+ V  X630      Y                        X341      
+ V  Y630      X                        Y342      
+ V  Y630      Y                        Y341      
+
+ V  X631      X                        X343      
+ V  X631      Y                        X7        
+ V  Y631      X                        Y343      
+ V  Y631      Y                        Y7        
+
+ V  X632      X                        X344      
+ V  X632      Y                        X13       
+ V  Y632      X                        Y344      
+ V  Y632      Y                        Y13       
+
+ V  X633      X                        X344      
+ V  X633      Y                        X343      
+ V  Y633      X                        Y344      
+ V  Y633      Y                        Y343      
+
+ V  X634      X                        X345      
+ V  X634      Y                        X19       
+ V  Y634      X                        Y345      
+ V  Y634      Y                        Y19       
+
+ V  X635      X                        X345      
+ V  X635      Y                        X343      
+ V  Y635      X                        Y345      
+ V  Y635      Y                        Y343      
+
+ V  X636      X                        X345      
+ V  X636      Y                        X344      
+ V  Y636      X                        Y345      
+ V  Y636      Y                        Y344      
+
+ V  X637      X                        X346      
+ V  X637      Y                        X8        
+ V  Y637      X                        Y346      
+ V  Y637      Y                        Y8        
+
+ V  X638      X                        X347      
+ V  X638      Y                        X14       
+ V  Y638      X                        Y347      
+ V  Y638      Y                        Y14       
+
+ V  X639      X                        X347      
+ V  X639      Y                        X346      
+ V  Y639      X                        Y347      
+ V  Y639      Y                        Y346      
+
+ V  X640      X                        X348      
+ V  X640      Y                        X20       
+ V  Y640      X                        Y348      
+ V  Y640      Y                        Y20       
+
+ V  X641      X                        X348      
+ V  X641      Y                        X346      
+ V  Y641      X                        Y348      
+ V  Y641      Y                        Y346      
+
+ V  X642      X                        X348      
+ V  X642      Y                        X347      
+ V  Y642      X                        Y348      
+ V  Y642      Y                        Y347      
+
+ V  X643      X                        X349      
+ V  X643      Y                        X9        
+ V  Y643      X                        Y349      
+ V  Y643      Y                        Y9        
+
+ V  X644      X                        X350      
+ V  X644      Y                        X15       
+ V  Y644      X                        Y350      
+ V  Y644      Y                        Y15       
+
+ V  X645      X                        X350      
+ V  X645      Y                        X349      
+ V  Y645      X                        Y350      
+ V  Y645      Y                        Y349      
+
+ V  X646      X                        X351      
+ V  X646      Y                        X21       
+ V  Y646      X                        Y351      
+ V  Y646      Y                        Y21       
+
+ V  X647      X                        X351      
+ V  X647      Y                        X349      
+ V  Y647      X                        Y351      
+ V  Y647      Y                        Y349      
+
+ V  X648      X                        X351      
+ V  X648      Y                        X350      
+ V  Y648      X                        Y351      
+ V  Y648      Y                        Y350      
+
+ V  X649      X                        X352      
+ V  X649      Y                        X1        
+ V  Y649      X                        Y352      
+ V  Y649      Y                        Y1        
+
+ V  X650      X                        X353      
+ V  X650      Y                        X10       
+ V  Y650      X                        Y353      
+ V  Y650      Y                        Y10       
+
+ V  X651      X                        X353      
+ V  X651      Y                        X352      
+ V  Y651      X                        Y353      
+ V  Y651      Y                        Y352      
+
+ V  X652      X                        X354      
+ V  X652      Y                        X19       
+ V  Y652      X                        Y354      
+ V  Y652      Y                        Y19       
+
+ V  X653      X                        X354      
+ V  X653      Y                        X352      
+ V  Y653      X                        Y354      
+ V  Y653      Y                        Y352      
+
+ V  X654      X                        X354      
+ V  X654      Y                        X353      
+ V  Y654      X                        Y354      
+ V  Y654      Y                        Y353      
+
+ V  X655      X                        X355      
+ V  X655      Y                        X2        
+ V  Y655      X                        Y355      
+ V  Y655      Y                        Y2        
+
+ V  X656      X                        X356      
+ V  X656      Y                        X11       
+ V  Y656      X                        Y356      
+ V  Y656      Y                        Y11       
+
+ V  X657      X                        X356      
+ V  X657      Y                        X355      
+ V  Y657      X                        Y356      
+ V  Y657      Y                        Y355      
+
+ V  X658      X                        X357      
+ V  X658      Y                        X20       
+ V  Y658      X                        Y357      
+ V  Y658      Y                        Y20       
+
+ V  X659      X                        X357      
+ V  X659      Y                        X355      
+ V  Y659      X                        Y357      
+ V  Y659      Y                        Y355      
+
+ V  X660      X                        X357      
+ V  X660      Y                        X356      
+ V  Y660      X                        Y357      
+ V  Y660      Y                        Y356      
+
+ V  X661      X                        X358      
+ V  X661      Y                        X3        
+ V  Y661      X                        Y358      
+ V  Y661      Y                        Y3        
+
+ V  X662      X                        X359      
+ V  X662      Y                        X12       
+ V  Y662      X                        Y359      
+ V  Y662      Y                        Y12       
+
+ V  X663      X                        X359      
+ V  X663      Y                        X358      
+ V  Y663      X                        Y359      
+ V  Y663      Y                        Y358      
+
+ V  X664      X                        X360      
+ V  X664      Y                        X21       
+ V  Y664      X                        Y360      
+ V  Y664      Y                        Y21       
+
+ V  X665      X                        X360      
+ V  X665      Y                        X358      
+ V  Y665      X                        Y360      
+ V  Y665      Y                        Y358      
+
+ V  X666      X                        X360      
+ V  X666      Y                        X359      
+ V  Y666      X                        Y360      
+ V  Y666      Y                        Y359      
+
+ V  X667      X                        X361      
+ V  X667      Y                        X4        
+ V  Y667      X                        Y361      
+ V  Y667      Y                        Y4        
+
+ V  X668      X                        X362      
+ V  X668      Y                        X13       
+ V  Y668      X                        Y362      
+ V  Y668      Y                        Y13       
+
+ V  X669      X                        X362      
+ V  X669      Y                        X361      
+ V  Y669      X                        Y362      
+ V  Y669      Y                        Y361      
+
+ V  X670      X                        X363      
+ V  X670      Y                        X22       
+ V  Y670      X                        Y363      
+ V  Y670      Y                        Y22       
+
+ V  X671      X                        X363      
+ V  X671      Y                        X361      
+ V  Y671      X                        Y363      
+ V  Y671      Y                        Y361      
+
+ V  X672      X                        X363      
+ V  X672      Y                        X362      
+ V  Y672      X                        Y363      
+ V  Y672      Y                        Y362      
+
+ V  X673      X                        X364      
+ V  X673      Y                        X5        
+ V  Y673      X                        Y364      
+ V  Y673      Y                        Y5        
+
+ V  X674      X                        X365      
+ V  X674      Y                        X14       
+ V  Y674      X                        Y365      
+ V  Y674      Y                        Y14       
+
+ V  X675      X                        X365      
+ V  X675      Y                        X364      
+ V  Y675      X                        Y365      
+ V  Y675      Y                        Y364      
+
+ V  X676      X                        X366      
+ V  X676      Y                        X23       
+ V  Y676      X                        Y366      
+ V  Y676      Y                        Y23       
+
+ V  X677      X                        X366      
+ V  X677      Y                        X364      
+ V  Y677      X                        Y366      
+ V  Y677      Y                        Y364      
+
+ V  X678      X                        X366      
+ V  X678      Y                        X365      
+ V  Y678      X                        Y366      
+ V  Y678      Y                        Y365      
+
+ V  X679      X                        X367      
+ V  X679      Y                        X6        
+ V  Y679      X                        Y367      
+ V  Y679      Y                        Y6        
+
+ V  X680      X                        X368      
+ V  X680      Y                        X15       
+ V  Y680      X                        Y368      
+ V  Y680      Y                        Y15       
+
+ V  X681      X                        X368      
+ V  X681      Y                        X367      
+ V  Y681      X                        Y368      
+ V  Y681      Y                        Y367      
+
+ V  X682      X                        X369      
+ V  X682      Y                        X24       
+ V  Y682      X                        Y369      
+ V  Y682      Y                        Y24       
+
+ V  X683      X                        X369      
+ V  X683      Y                        X367      
+ V  Y683      X                        Y369      
+ V  Y683      Y                        Y367      
+
+ V  X684      X                        X369      
+ V  X684      Y                        X368      
+ V  Y684      X                        Y369      
+ V  Y684      Y                        Y368      
+
+ V  X685      X                        X370      
+ V  X685      Y                        X7        
+ V  Y685      X                        Y370      
+ V  Y685      Y                        Y7        
+
+ V  X686      X                        X371      
+ V  X686      Y                        X16       
+ V  Y686      X                        Y371      
+ V  Y686      Y                        Y16       
+
+ V  X687      X                        X371      
+ V  X687      Y                        X370      
+ V  Y687      X                        Y371      
+ V  Y687      Y                        Y370      
+
+ V  X688      X                        X372      
+ V  X688      Y                        X25       
+ V  Y688      X                        Y372      
+ V  Y688      Y                        Y25       
+
+ V  X689      X                        X372      
+ V  X689      Y                        X370      
+ V  Y689      X                        Y372      
+ V  Y689      Y                        Y370      
+
+ V  X690      X                        X372      
+ V  X690      Y                        X371      
+ V  Y690      X                        Y372      
+ V  Y690      Y                        Y371      
+
+ V  X691      X                        X373      
+ V  X691      Y                        X8        
+ V  Y691      X                        Y373      
+ V  Y691      Y                        Y8        
+
+ V  X692      X                        X374      
+ V  X692      Y                        X17       
+ V  Y692      X                        Y374      
+ V  Y692      Y                        Y17       
+
+ V  X693      X                        X374      
+ V  X693      Y                        X373      
+ V  Y693      X                        Y374      
+ V  Y693      Y                        Y373      
+
+ V  X694      X                        X375      
+ V  X694      Y                        X26       
+ V  Y694      X                        Y375      
+ V  Y694      Y                        Y26       
+
+ V  X695      X                        X375      
+ V  X695      Y                        X373      
+ V  Y695      X                        Y375      
+ V  Y695      Y                        Y373      
+
+ V  X696      X                        X375      
+ V  X696      Y                        X374      
+ V  Y696      X                        Y375      
+ V  Y696      Y                        Y374      
+
+ V  X697      X                        X376      
+ V  X697      Y                        X9        
+ V  Y697      X                        Y376      
+ V  Y697      Y                        Y9        
+
+ V  X698      X                        X377      
+ V  X698      Y                        X18       
+ V  Y698      X                        Y377      
+ V  Y698      Y                        Y18       
+
+ V  X699      X                        X377      
+ V  X699      Y                        X376      
+ V  Y699      X                        Y377      
+ V  Y699      Y                        Y376      
+
+ V  X700      X                        X378      
+ V  X700      Y                        X27       
+ V  Y700      X                        Y378      
+ V  Y700      Y                        Y27       
+
+ V  X701      X                        X378      
+ V  X701      Y                        X376      
+ V  Y701      X                        Y378      
+ V  Y701      Y                        Y376      
+
+ V  X702      X                        X378      
+ V  X702      Y                        X377      
+ V  Y702      X                        Y378      
+ V  Y702      Y                        Y377      
+
+ DO I         1                        N
+ XT XS(I)     SQ
+ ZV XS(I)     Z                        X(I)
+ XT YS(I)     SQ
+ ZV YS(I)     Z                        Y(I)
+ ND
+
+GROUP TYPE
+
+ GV -L2       GVAR
+
+GROUP USES
+
+ XT O1        -L2
+ XT O2        -L2
+
+ DO I         1                        N
+ XE S         XS(I)                    YS(I)
+ ND
+
+ DO K         1                        E
+ XE C(K)      X(K)                     Y(K)
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLTN                0.0
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+
+ELEMENTS      MSS2    
+
+INDIVIDUALS
+
+ T  SQ
+ F                      Z * Z
+ G  Z                   Z + Z
+ H  Z         Z         2.0
+
+ T  PROD
+ F                      X * Y
+ G  X                   Y
+ G  Y                   X
+ H  X         Y         1.0
+
+ENDATA
+
+*********************
+* SET UP THE GROUPS *
+* ROUTINE           *
+*********************
+
+GROUPS        MSS2    
+
+INDIVIDUALS
+
+*   Least-square groups
+
+ T  -L2
+ F                      - GVAR * GVAR
+ G                      - GVAR - GVAR
+ H                      - 2.0
+
+ENDATA

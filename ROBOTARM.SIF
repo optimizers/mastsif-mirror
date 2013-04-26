@@ -1,0 +1,385 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          ROBOTARM
+
+*   Problem :
+*   *********
+
+*   Minimize the time taken for a robot arm to travel between two points.
+
+*   This is problem 8 in the COPS (Version 2) collection of 
+*   E. Dolan and J. More'
+*   see "Benchmarking Optimization Software with COPS"
+*   Argonne National Labs Technical Report ANL/MCS-246 (2000)
+
+*   SIF input: Nick Gould, December 2000
+
+*   classification OOR2-AN-V-V
+
+* The number of subintervals
+
+*IE NH                  50             $-PARAMETER
+*IE NH                  100            $-PARAMETER
+*IE NH                  200            $-PARAMETER
+ IE NH                  400            $-PARAMETER
+
+* approximation of pi
+
+ RF PI/4      ARCTAN    1.0
+ RM PI        PI/4      4.0
+
+* Total length of arm
+
+ RE L                   5.0
+
+* Upper bounds on the controls
+
+ RE MAXURHO             1.0
+ RE MAXUTHE             1.0
+ RE MAXUPHI             1.0
+
+*  Other useful values
+
+ IE 0                   0
+ IE 1                   1
+ RE ONE                 1.0
+ RE THREE               3.0
+ RI NH        NH
+ RD 1/NH      NH        1.0
+ RM -MAXURHO  MAXURHO   -1.0
+ RM -MAXUTHE  MAXUTHE   -1.0
+ RM -MAXUPHI  MAXUPHI   -1.0
+ RM -PI       PI        -1.0
+ RM 2PI       PI        2.0
+ R/ 2PI/3     2PI                      THREE           
+ RM 4PI/3     2PI/3     2.0
+ RD 0.5/L     L         0.5
+
+VARIABLES
+
+*  Step size
+
+ X  STEP
+
+ DO I         0                        NH
+
+* The length and the angles theta and phi for the robot arm
+
+ X  RHO(I)
+ X  THE(I)
+ X  PHI(I)
+
+* The derivatives of the length and the angles
+    
+ X  RHO.(I)
+ X  THE.(I)
+ X  PHI.(I)
+
+*  The controls
+
+ X  URHO(I)
+ X  UTHE(I)
+ X  UPHI(I)
+
+* The moments of inertia
+
+ X  ITHE(I)
+ X  IPHI(I)
+
+ ND
+
+GROUPS
+
+*  Objective function: minimize final time
+
+ ZN TF        STEP                     NH 
+
+* The linear parts of the x, y, vx, vy constraints {j in 1..nh}:
+
+ DO J         1                        NH
+ IA J-1       J         -1
+
+* linear part of rho constraint {j in 1..nh}:
+*     - rho[j] + rho[j-1] + 0.5*step*(rho_dot[j] + rho_dot[j-1]) = 0
+
+ XE RHO(J)    RHO(J-1)  1.0            RHO(J)    -1.0
+
+* linear part of the constraint {j in 1..nh}:
+*     - the[j] + the[j-1] + 0.5*step*(the_dot[j] + the_dot[j-1]) = 0
+
+ XE THE(J)    THE(J-1)  1.0            THE(J)    -1.0
+
+* linear part of phi constraint {j in 1..nh}:
+*     - phi[j] + phi[j-1] + 0.5*step*(phi_dot[j] + phi_dot[j-1]) = 0
+
+ XE PHI(J)    PHI(J-1)  1.0            PHI(J)    -1.0
+
+* linear part of u_rho constraint {j in 1..nh}:
+*     - rho_dot[j] + rho_dot[j-1] + (0.5/L)*step*(u_rho[j] + u_rho[j-1]) = 0
+
+ XE RHO.(J)   RHO.(J-1) 1.0            RHO.(J)   -1.0
+
+* linear part of u_the constraint {j in 1..nh}:
+*  - the_dot[j] + the_dot[j-1] + 
+*                 0.5*step*(u_the[j]/I_the[j] + u_the[j-1]/I_the[j-1]) = 0
+
+ XE THE.(J)   THE.(J-1) 1.0            THE.(J)   -1.0
+
+* linear part of u_phi constraint {j in 1..nh}:
+*  - phi_dot[j] + phi_dot[j-1] + 
+*                  0.5*step*(u_phi[j]/I_phi[j] + u_phi[j-1]/I_phi[j-1]) = 0
+
+ XE PHI.(J)   PHI.(J-1) 1.0            PHI.(J)   -1.0
+ ND
+
+* linear part of inertia constraints {i in 0..nh}:
+*   -I_the[i] + 1/3((L-rho[i])^3+rho[i]^3)*(sin(phi[i]))^2 = 0
+*   -I_phi[i] + 1/3((L-rho[i])^3+rho[i]^3)/ = 0
+
+ DO I         0                        NH
+ XE ITHE(I)   ITHE(I)   -1.0      
+ XE IPHI(I)   IPHI(I)   -1.0
+ ND
+
+CONSTANTS
+
+BOUNDS
+
+ XR ROBOTARM  'DEFAULT'
+ XL ROBOTARM  STEP      0.0
+
+ DO I         0                        NH
+ XL ROBOTARM  RHO(I)    0.0                
+ ZU ROBOTARM  RHO(I)                   L
+ ZL ROBOTARM  THE(I)                   -PI
+ ZU ROBOTARM  THE(I)                   PI
+ XL ROBOTARM  PHI(I)    0.0
+ ZU ROBOTARM  PHI(I)                   PI
+ ZL ROBOTARM  URHO(I)                  -MAXURHO
+ ZU ROBOTARM  URHO(I)                  MAXURHO
+ ZL ROBOTARM  UTHE(I)                  -MAXUTHE
+ ZU ROBOTARM  UTHE(I)                  MAXUTHE
+ ZL ROBOTARM  UPHI(I)                  -MAXUPHI
+ ZU ROBOTARM  UPHI(I)                  MAXUPHI
+ ND
+
+ XX ROBOTARM  RHO(0)    4.5
+ XX ROBOTARM  THE(0)    0.0
+ ZX ROBOTARM  PHI(0)                   PI/4
+ XX ROBOTARM  RHO(NH)   4.5
+ ZX ROBOTARM  THE(NH)                  2PI/3
+ ZX ROBOTARM  PHI(NH)                  PI/4
+
+ XX ROBOTARM  RHO.(0)   0.0
+ XX ROBOTARM  THE.(0)   0.0
+ XX ROBOTARM  PHI.(0)   0.0
+ XX ROBOTARM  RHO.(NH)  0.0
+ XX ROBOTARM  THE.(NH)  0.0
+ XX ROBOTARM  PHI.(NH)  0.0
+
+START POINT
+
+ Z  ROBOTARM  STEP                     1/NH
+
+ RE RHOI               4.5
+ DO I         0                        NH
+ RI I         I
+ R/ I/NH      I                        NH
+ R* (I/NH)^2  I/NH                     I/NH
+ R* THEI      2PI/3                    (I/NH)^2
+ R= PHII      PI/4
+ R* THE.I     4PI/3                    I/NH
+ R- T1        L                        RHOI
+ R* T1^2      T1                       T1
+ R* T1^3      T1^2                     T1
+ R* T2^2      RHOI                     RHOI
+ R* T2^3      T2^2                     RHOI
+ R+ IPHII     T1^2                     T2^2
+ R/ IPHII     IPHII                    THREE
+ R( SPHII     SIN                      PHII
+ R* ITHEI     IPHII                    SPHII
+ R* ITHEI     ITHEI                    SPHII
+
+* The length and the angles theta and phi for the robot arm
+
+ Z  ROBOTARM  RHO(I)                   RHOI
+ Z  ROBOTARM  THE(I)                   THEI
+ Z  ROBOTARM  PHI(I)                   PHII
+* The derivatives of the length and the angles
+    
+ X  ROBOTARM  RHO.(I)  0.0
+ Z  ROBOTARM  THE.(I)                  THE.I
+ X  ROBOTARM  PHI.(I)  0.0
+
+*  The controls
+
+ X  ROBOTARM  URHO(I)  0.0
+ X  ROBOTARM  UTHE(I)  0.0
+ X  ROBOTARM  UPHI(I)  0.0
+
+* The moments of inertia
+
+ Z  ROBOTARM  ITHE(I)                  ITHEI
+ Z  ROBOTARM  IPHI(I)                  IPHII
+
+ ND
+
+ELEMENT TYPE
+
+ EV PROD      X                        Y
+ EV RATIO     X                        Y 
+ EV RATIO     Z
+ EV PHI       RHO
+ EP PHI       L
+ EV THE       RHO                      PHI
+ EP THE       L
+
+ELEMENT USES
+
+ DO I         0                        NH
+ XT SRHO.(I)  PROD
+ ZV SRHO.(I)  X                        STEP
+ ZV SRHO.(I)  Y                        RHO.(I)
+ XT STHE.(I)  PROD
+ ZV STHE.(I)  X                        STEP
+ ZV STHE.(I)  Y                        THE.(I)
+ XT SPHI.(I)  PROD
+ ZV SPHI.(I)  X                        STEP
+ ZV SPHI.(I)  Y                        PHI.(I)
+ XT SURHO(I)  PROD
+ ZV SURHO(I)  X                        STEP
+ ZV SURHO(I)  Y                        URHO(I)
+ XT SUTHE(I)  RATIO
+ ZV SUTHE(I)  X                        STEP
+ ZV SUTHE(I)  Y                        UTHE(I)
+ ZV SUTHE(I)  Z                        ITHE(I)
+ XT SUPHI(I)  RATIO
+ ZV SUPHI(I)  X                        STEP
+ ZV SUPHI(I)  Y                        UPHI(I)
+ ZV SUPHI(I)  Z                        IPHI(I)
+ XT ITHE(I)   THE
+ ZV ITHE(I)   RHO                      RHO(I)
+ ZV ITHE(I)   PHI                      PHI(I)
+ ZP ITHE(I)   L                        L
+ XT IPHI(I)   PHI
+ ZV IPHI(I)   RHO                      RHO(I)
+ ZP IPHI(I)   L                        L
+ ND
+
+GROUP USES
+
+ DO J         1                        NH
+ IA J1        J         -1
+
+* nonlinear part of rho constraint {j in 1..nh}:
+*     - rho[j] + rho[j-1] + 0.5*step*(rho_dot[j] + rho_dot[j-1]) = 0
+
+ XE RHO(J)    SRHO.(J1) 0.5            SRHO.(J)  0.5
+
+* nonlinear part of the constraint {j in 1..nh}:
+*     - the[j] + the[j-1] + 0.5*step*(the_dot[j] + the_dot[j-1]) = 0
+
+ XE THE(J)    STHE.(J1) 0.5            STHE.(J)  0.5
+
+* nonlinear part of phi constraint {j in 1..nh}:
+*     - phi[j] + phi[j-1] + 0.5*step*(phi_dot[j] + phi_dot[j-1]) = 0
+
+ XE PHI(J)    SPHI.(J1) 0.5            SPHI.(J)  0.5
+
+* nonlinear part of u_rho constraint {j in 1..nh}:
+*     - rho_dot[j] + rho_dot[j-1] + (0.5/L)*step*(u_rho[j] + u_rho[j-1]) = 0
+
+ ZE RHO.(J)   SURHO(J1)                0.5/L
+ ZE RHO.(J)   SURHO(J)                 0.5/L
+
+* nonlinear part of u_the constraint {j in 1..nh}:
+*  - the_dot[j] + the_dot[j-1] + 
+*                 0.5*step*(u_the[j]/I_the[j] + u_the[j-1]/I_the[j-1]) = 0
+
+ XE THE.(J)   SUTHE(J1) 0.5            SUTHE(J)  0.5
+
+* nonlinear part of u_phi constraint {j in 1..nh}:
+*  - phi_dot[j] + phi_dot[j-1] + 
+*                  0.5*step*(u_phi[j]/I_phi[j] + u_phi[j-1]/I_phi[j-1]) = 0
+
+ XE PHI.(J)   SUPHI(J1) 0.5            SUPHI(J)  0.5
+ ND
+
+ DO I         0                        NH
+
+* nonlinear part of inertia constraints {i in 0..nh}:
+*   -I_the[i] + 1/3((L-rho[i])^3+rho[i]^3)*(sin(phi[i]))^2 = 0
+*   -I_phi[i] + 1/3((L-rho[i])^3+rho[i]^3) = 0
+
+ XE ITHE(I)   ITHE(I)   1.0      
+ XE IPHI(I)   IPHI(I)   1.0
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLUTION             9.14687D+00   $ (NH=50)
+*LO SOLUTION             9.14267D+00   $ (NH=100)
+*LO SOLUTION             9.14138D+00   $ (NH=200)
+*LO SOLUTION             9.14108D+00   $ (NH=400)
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      ROBOTARM
+
+TEMPORARIES
+
+ R  SINP
+ R  COSP
+ M  COS
+ M  SIN
+
+INDIVIDUALS
+
+ T  PROD
+ F                      X * Y
+ G  X                   Y
+ G  Y                   X
+ H  X         Y         1.0
+
+ T  RATIO
+ F                      X * Y / Z
+ G  X                   Y / Z
+ G  Y                   X / Z
+ G  Z                   - X * Y / Z ** 2
+ H  X         Y         1.0 / Z
+ H  X         Z         - Y / Z ** 2
+ H  Y         Z         - X / Z ** 2
+ H  Z         Z         2.0 * X * Y / Z ** 3
+
+ T  PHI
+ F                      ( ( L - RHO ) ** 3 + RHO ** 3 ) / 3.0
+ G  RHO                 RHO ** 2 - ( L - RHO ) ** 2
+ H  RHO       RHO       2.0 * L 
+
+ T  THE
+ A  SINP                SIN( PHI )
+ A  COSP                COS( PHI )
+ F                      SINP * SINP * 
+ F+                     ( ( L - RHO ) ** 3 + RHO ** 3 ) / 3.0
+ G  RHO                 SINP * SINP * 
+ G+                     ( RHO ** 2 - ( L - RHO ) ** 2 )
+ G  PHI                 2.0 * SINP * COSP * 
+ G+                     ( ( L - RHO ) ** 3 + RHO ** 3 ) / 3.0
+ H  RHO       RHO       SINP * SINP * 2.0 * L 
+ H  PHI       RHO       2.0 * SINP * COSP * 
+ H+                     RHO ** 2 - ( L - RHO ) ** 2
+ H  PHI       PHI       2.0 * ( COSP * COSP - SINP * SINP ) *
+ H+                     ( ( L - RHO ) ** 3 + RHO ** 3 ) / 3.0
+
+ENDATA
+
+

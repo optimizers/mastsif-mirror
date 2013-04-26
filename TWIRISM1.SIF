@@ -1,0 +1,889 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          TWIRISM1
+
+*   Problem:
+*   ********
+
+*   A relaxation of an nonlinear integer programming problem for finding
+*   optimal nuclear reactor core reload patterns (small size version).
+
+*   Source:
+*   A.J. Quist, E. de Klerk, C. Roos, T. Terlaky, R. van Geemert,
+*   J.E. Hoogenboom, T.Illes,
+*   "Finding Optimal Nuclear Reactor Core Reload Patterns Using Nonlinear
+*   Optimization and Search Heuristics",
+*   Delft University, January 1998.
+
+*   classification LOI2-RN-343-313
+
+*   SIF input: Arie Quist, Delft, 1998.
+
+* Some useful constants
+
+ IE 1                   1
+ IE 2                   2
+ IE 3                   3
+ IE 4                   4
+
+* Sizes
+
+ IE Nnod                14
+ IE Nred                12
+ IE Ndia                2
+ IE Ntim                6
+ IE Nage                4
+ RE D1,1                1
+ RE D2,1                11
+ RE D1,2                7
+ RE D2,2                14
+
+* Physical Data
+
+ RE -G1,1                 -0.828
+ RE -G2,1                 -0.079
+ RE -G3,1                      0
+ RE -G4,1                      0
+ RE -G5,1                      0
+ RE -G6,1                      0
+ RE -G7,1                 -0.014
+ RE -G8,1                      0
+ RE -G9,1                      0
+ RE -G10,1                     0
+ RE -G11,1                     0
+ RE -G12,1                     0
+ RE -G13,1                     0
+ RE -G14,1                     0
+ RE -G1,2                 -0.158
+ RE -G2,2                 -0.763
+ RE -G3,2                 -0.079
+ RE -G4,2                      0
+ RE -G5,2                      0
+ RE -G6,2                      0
+ RE -G7,2                  -0.13
+ RE -G8,2                 -0.014
+ RE -G9,2                      0
+ RE -G10,2                     0
+ RE -G11,2                     0
+ RE -G12,2                     0
+ RE -G13,2                     0
+ RE -G14,2                     0
+ RE -G1,3                      0
+ RE -G2,3                 -0.079
+ RE -G3,3                 -0.749
+ RE -G4,3                 -0.079
+ RE -G5,3                      0
+ RE -G6,3                      0
+ RE -G7,3                 -0.028
+ RE -G8,3                 -0.065
+ RE -G9,3                 -0.014
+ RE -G10,3                     0
+ RE -G11,3                     0
+ RE -G12,3                     0
+ RE -G13,3                     0
+ RE -G14,3                     0
+ RE -G1,4                      0
+ RE -G2,4                      0
+ RE -G3,4                 -0.079
+ RE -G4,4                 -0.749
+ RE -G5,4                 -0.079
+ RE -G6,4                      0
+ RE -G7,4                      0
+ RE -G8,4                 -0.014
+ RE -G9,4                 -0.065
+ RE -G10,4                -0.014
+ RE -G11,4                     0
+ RE -G12,4                     0
+ RE -G13,4                     0
+ RE -G14,4                     0
+ RE -G1,5                      0
+ RE -G2,5                      0
+ RE -G3,5                      0
+ RE -G4,5                 -0.079
+ RE -G5,5                 -0.749
+ RE -G6,5                 -0.079
+ RE -G7,5                      0
+ RE -G8,5                      0
+ RE -G9,5                 -0.014
+ RE -G10,5                -0.065
+ RE -G11,5                     0
+ RE -G12,5                     0
+ RE -G13,5                     0
+ RE -G14,5                     0
+ RE -G1,6                      0
+ RE -G2,6                      0
+ RE -G3,6                      0
+ RE -G4,6                      0
+ RE -G5,6                 -0.079
+ RE -G6,6                 -0.749
+ RE -G7,6                      0
+ RE -G8,6                      0
+ RE -G9,6                      0
+ RE -G10,6                -0.014
+ RE -G11,6                     0
+ RE -G12,6                     0
+ RE -G13,6                     0
+ RE -G14,6                     0
+ RE -G1,7                 -0.014
+ RE -G2,7                 -0.065
+ RE -G3,7                 -0.014
+ RE -G4,7                      0
+ RE -G5,7                      0
+ RE -G6,7                      0
+ RE -G7,7                 -0.684
+ RE -G8,7                 -0.065
+ RE -G9,7                      0
+ RE -G10,7                     0
+ RE -G11,7                -0.014
+ RE -G12,7                     0
+ RE -G13,7                     0
+ RE -G14,7                     0
+ RE -G1,8                      0
+ RE -G2,8                 -0.014
+ RE -G3,8                 -0.065
+ RE -G4,8                 -0.014
+ RE -G5,8                      0
+ RE -G6,8                      0
+ RE -G7,8                  -0.13
+ RE -G8,8                 -0.698
+ RE -G9,8                 -0.065
+ RE -G10,8                     0
+ RE -G11,8                 -0.13
+ RE -G12,8                -0.014
+ RE -G13,8                     0
+ RE -G14,8                     0
+ RE -G1,9                      0
+ RE -G2,9                      0
+ RE -G3,9                 -0.014
+ RE -G4,9                 -0.065
+ RE -G5,9                 -0.014
+ RE -G6,9                      0
+ RE -G7,9                      0
+ RE -G8,9                 -0.065
+ RE -G9,9                 -0.684
+ RE -G10,9                -0.065
+ RE -G11,9                -0.028
+ RE -G12,9                -0.065
+ RE -G13,9                -0.014
+ RE -G14,9                     0
+ RE -G1,10                     0
+ RE -G2,10                     0
+ RE -G3,10                     0
+ RE -G4,10                -0.014
+ RE -G5,10                -0.065
+ RE -G6,10                -0.014
+ RE -G7,10                     0
+ RE -G8,10                     0
+ RE -G9,10                -0.065
+ RE -G10,10               -0.684
+ RE -G11,10                    0
+ RE -G12,10               -0.014
+ RE -G13,10               -0.065
+ RE -G14,10                    0
+ RE -G1,11                     0
+ RE -G2,11                     0
+ RE -G3,11                     0
+ RE -G4,11                     0
+ RE -G5,11                     0
+ RE -G6,11                     0
+ RE -G7,11                -0.014
+ RE -G8,11                -0.065
+ RE -G9,11                -0.014
+ RE -G10,11                    0
+ RE -G11,11               -0.684
+ RE -G12,11               -0.065
+ RE -G13,11                    0
+ RE -G14,11               -0.014
+ RE -G1,12                     0
+ RE -G2,12                     0
+ RE -G3,12                     0
+ RE -G4,12                     0
+ RE -G5,12                     0
+ RE -G6,12                     0
+ RE -G7,12                     0
+ RE -G8,12                -0.014
+ RE -G9,12                -0.065
+ RE -G10,12               -0.014
+ RE -G11,12                -0.13
+ RE -G12,12               -0.698
+ RE -G13,12               -0.065
+ RE -G14,12                -0.13
+ RE -G1,13                     0
+ RE -G2,13                     0
+ RE -G3,13                     0
+ RE -G4,13                     0
+ RE -G5,13                     0
+ RE -G6,13                     0
+ RE -G7,13                     0
+ RE -G8,13                     0
+ RE -G9,13                -0.014
+ RE -G10,13               -0.065
+ RE -G11,13                    0
+ RE -G12,13               -0.065
+ RE -G13,13               -0.684
+ RE -G14,13               -0.028
+ RE -G1,14                     0
+ RE -G2,14                     0
+ RE -G3,14                     0
+ RE -G4,14                     0
+ RE -G5,14                     0
+ RE -G6,14                     0
+ RE -G7,14                     0
+ RE -G8,14                     0
+ RE -G9,14                     0
+ RE -G10,14                    0
+ RE -G11,14               -0.014
+ RE -G12,14               -0.065
+ RE -G13,14               -0.014
+ RE -G14,14               -0.684
+ RE alpha               6e-06
+ RE Pc                  364
+ RE CycLen              350
+ RE Kfresh              1.2
+ RE Flim                2
+ RE w1                  1
+ RE V1                  0.5
+ RE V2                  1
+ RE V3                  1
+ RE V4                  1
+ RE V5                  1
+ RE V6                  1
+ RE V7                  0.5
+ RE V8                  1
+ RE V9                  1
+ RE V10                 1
+ RE V11                 0.5
+ RE V12                 1
+ RE V13                 1
+ RE V14                 0.5
+
+ DO i         1                        Nnod
+ AM -V(i)     V(i)      -1.0
+ ND
+
+ RI RNnod     Nnod
+ RI RNtim     Ntim
+ RI RNred     Nred
+ RA RNtim-1   RNtim     -1.0
+ R/ Fl_Nred   Flim                     RNred
+ RM -Fl_Nred  Fl_Nred   -1.0
+ IA Ntim-1    Ntim      -1
+ R/ Dt        CycLen                   RNtim-1
+ R* alp_Pc    alpha                    Pc
+ R* alp_Pc_Dt alp_Pc                   Dt
+ RM -Kfresh   Kfresh    -1.0
+ I/ Ntra      Nred                     Nage
+
+VARIABLES
+
+ DO i         1                        Nnod
+ DO l         1                        Nage
+ DO m         1                        Ntra
+ X  x(i,l,m)
+ ND
+
+ DO i         1                        Nnod
+ DO t         1                        Ntim
+ X  k(i,t)
+ X  phi(i,t)
+ ND
+
+ DO t         1                        Ntim
+ X  keff(t)
+ ND
+
+    epsilon
+
+GROUPS
+
+* Objective
+
+ IM t         Ntim      1
+ XN Object    keff(t)   -1.0
+ ZN Object    epsilon                  w1
+
+* Sumi(l,m) and sumlm(i)
+
+ DO l         1                        Nage
+ DO m         1                        Ntra
+ DO i         1                        Nnod
+ ZE sumi(l,m) x(i,l,m)                 V(i)
+ XE sumlm(i)  x(i,l,m)  1.0
+ ND
+
+* Kern, peak and norm contain no linear elements.
+* Burn contains two
+* Kern, burn, norm: See section 3.1
+* Peak: See section 3.4 AND 4.4.3
+
+ DO t         1                        Ntim
+ XE Norm(t)
+ ND
+
+ DO i         1                        Nnod
+ DO t         1                        Ntim
+ XE Kern(i,t)
+ ZL Peak(i,t) epsilon                  -Fl_Nred
+ ND
+
+ DO i         1                        Nnod
+ DO t         1                        Ntim-1
+ IA t+1       t         1
+ XE Burn(i,t) k(i,t+1)  1.0            k(i,t)    -1.0
+ ND
+
+* Plac contains k(i,1) and -sum_m x(i,1,m)*kfresh (Section 3.3)
+
+ DO i         1                        Nnod
+ XE Plac(i)   k(i,1)    1.0
+ DO m         1                        Ntra
+ ZE Plac(i)   x(i,1,m)                 -Kfresh
+ ND
+
+* Kefford contains two linear terms.
+* This constraint is in section 4.4.2 of the paper
+
+ DO t         1                        Ntim-1
+ IA t+1       t         1
+ XL Kefford(t)keff(t+1) 1.0            keff(t)   -1.0
+ ND
+
+* Two adjacent diagonal positions contain the same fuel.
+* See section 3.6, although it is not explicitly stated.
+
+ DO d         1                        Ndia
+ AA d1        D(d,1)    0
+ AA d2        D(d,2)    0
+ IR d1        d1
+ IR d2        d2
+ DO l         1                        Nage
+ DO m         1                        Ntra
+ XE Dia(d,l,m)x(d1,l,m) 1.0            x(d2,l,m)  -1.0
+ ND
+
+CONSTANTS
+
+* Rhs of sum-constraints = 1
+
+ DO i         1                        Nnod
+ X            sumlm(i)  1.0
+ ND
+ DO l         1                        Nage
+ DO m         1                        Ntra
+ X            sumi(l,m) 1.0
+ ND
+
+* Rhs of Norm-constraints = 1
+
+ DO t         1                        Ntim
+ X            Norm(t)   1.0
+ ND
+
+* Rhs of peak constraints = Flim/Nnod
+
+ DO i         1                        Nnod
+ DO t         1                        Ntim
+ Z            Peak(i,t)                Fl_Nred
+ ND
+
+BOUNDS
+
+* X(i,l,m) variables between 0 en 1
+* k(i,t) en keff(t) between 0 en kfresh
+* phi(i,t) between 0.0001 (bijv?) en 1.0(bijv?)
+* Epsilon between 0 en 0.01. Currently between 0 and 100
+
+ DO i         1                        Nnod
+ DO l         1                        Nage
+ DO m         1                        Ntra
+ XU           x(i,l,m)  1.0
+*XL           x(i,l,m)  0.08333333
+*XU           x(i,l,m)  0.08333334
+ ND
+
+ DO i         1                        Nnod
+ DO t         1                        Ntim
+ ZU           k(i,t)                   Kfresh
+ XL           phi(i,t)  0.0001
+ XU           phi(i,t)  1.0
+ ND
+
+ DO t         1                        Ntim
+ ZU           keff(t)                  Kfresh
+ ND
+ XU           epsilon   100
+
+START POINT
+
+* See Section 4.4.1 of the paper cited as Source.
+
+ X            phi1,1    0.0855
+ X            phi1,2    0.0880
+ X            phi1,3    0.0903
+ X            phi1,4    0.0922
+ X            phi1,5    0.0939
+ X            phi1,6    0.0954
+ X            phi2,1    0.0997
+ X            phi2,2    0.1008
+ X            phi2,3    0.1016
+ X            phi2,4    0.1023
+ X            phi2,5    0.1028
+ X            phi2,6    0.1031
+ X            phi3,1    0.1206
+ X            phi3,2    0.1207
+ X            phi3,3    0.1205
+ X            phi3,4    0.1203
+ X            phi3,5    0.1199
+ X            phi3,6    0.1195
+ X            phi4,1    0.1008
+ X            phi4,2    0.1032
+ X            phi4,3    0.1054
+ X            phi4,4    0.1076
+ X            phi4,5    0.1095
+ X            phi4,6    0.1113
+ X            phi5,1    0.0534
+ X            phi5,2    0.0573
+ X            phi5,3    0.0612
+ X            phi5,4    0.0653
+ X            phi5,5    0.0695
+ X            phi5,6    0.0738
+ X            phi6,1    0.0147
+ X            phi6,2    0.0165
+ X            phi6,3    0.0184
+ X            phi6,4    0.0204
+ X            phi6,5    0.0227
+ X            phi6,6    0.0251
+ X            phi7,1    0.1194
+ X            phi7,2    0.1185
+ X            phi7,3    0.1176
+ X            phi7,4    0.1166
+ X            phi7,5    0.1156
+ X            phi7,6    0.1147
+ X            phi8,1    0.1505
+ X            phi8,2    0.1483
+ X            phi8,3    0.1461
+ X            phi8,4    0.1441
+ X            phi8,5    0.1422
+ X            phi8,6    0.1403
+ X            phi9,1    0.1151
+ X            phi9,2    0.1166
+ X            phi9,3    0.1180
+ X            phi9,4    0.1193
+ X            phi9,5    0.1206
+ X            phi9,6    0.1218
+ X            phi10,1   0.0409
+ X            phi10,2   0.0433
+ X            phi10,3   0.0458
+ X            phi10,4   0.0484
+ X            phi10,5   0.0511
+ X            phi10,6   0.0539
+ X            phi11,1   0.0980
+ X            phi11,2   0.0982
+ X            phi11,3   0.0985
+ X            phi11,4   0.0989
+ X            phi11,5   0.0993
+ X            phi11,6   0.0997
+ X            phi12,1   0.0559
+ X            phi12,2   0.0578
+ X            phi12,3   0.0598
+ X            phi12,4   0.0619
+ X            phi12,5   0.0641
+ X            phi12,6   0.0664
+ X            phi13,1   0.0207
+ X            phi13,2   0.0222
+ X            phi13,3   0.0238
+ X            phi13,4   0.0255
+ X            phi13,5   0.0273
+ X            phi13,6   0.0293
+ X            phi14,1   0.0245
+ X            phi14,2   0.0262
+ X            phi14,3   0.0280
+ X            phi14,4   0.0299
+ X            phi14,5   0.0320
+ X            phi14,6   0.0343
+ X            k1,1      1.0231
+ X            k1,2      1.0098
+ X            k1,3      0.9962
+ X            k1,4      0.9824
+ X            k1,5      0.9686
+ X            k1,6      0.9547
+ X            k2,1      1.0231
+ X            k2,2      1.0075
+ X            k2,3      0.9920
+ X            k2,4      0.9766
+ X            k2,5      0.9613
+ X            k2,6      0.9462
+ X            k3,1      1.0595
+ X            k3,2      1.0400
+ X            k3,3      1.0208
+ X            k3,4      1.0020
+ X            k3,5      0.9836
+ X            k3,6      0.9655
+ X            k4,1      1.0595
+ X            k4,2      1.0432
+ X            k4,3      1.0267
+ X            k4,4      1.0102
+ X            k4,5      0.9936
+ X            k4,6      0.9769
+ X            k5,1      1.0595
+ X            k5,2      1.0509
+ X            k5,3      1.0417
+ X            k5,4      1.0319
+ X            k5,5      1.0216
+ X            k5,6      1.0108
+ X            k6,1      0.9546
+ X            k6,2      0.9524
+ X            k6,3      0.9500
+ X            k6,4      0.9474
+ X            k6,5      0.9444
+ X            k6,6      0.9411
+ X            k7,1      1.0231
+ X            k7,2      1.0045
+ X            k7,3      0.9863
+ X            k7,4      0.9685
+ X            k7,5      0.9513
+ X            k7,6      0.9344
+ X            k8,1      1.1779
+ X            k8,2      1.1508
+ X            k8,3      1.1247
+ X            k8,4      1.0996
+ X            k8,5      1.0753
+ X            k8,6      1.0520
+ X            k9,1      1.1779
+ X            k9,2      1.1572
+ X            k9,3      1.1365
+ X            k9,4      1.1160
+ X            k9,5      1.0957
+ X            k9,6      1.0755
+ X            k10,1     0.9636
+ X            k10,2     0.9576
+ X            k10,3     0.9513
+ X            k10,4     0.9446
+ X            k10,5     0.9376
+ X            k10,6     0.9303
+ X            k11,1     1.0074
+ X            k11,2     0.9923
+ X            k11,3     0.9774
+ X            k11,4     0.9627
+ X            k11,5     0.9481
+ X            k11,6     0.9338
+ X            k12,1     0.9700
+ X            k12,2     0.9617
+ X            k12,3     0.9533
+ X            k12,4     0.9445
+ X            k12,5     0.9356
+ X            k12,6     0.9264
+ X            k13,1     0.9546
+ X            k13,2     0.9516
+ X            k13,3     0.9483
+ X            k13,4     0.9449
+ X            k13,5     0.9412
+ X            k13,6     0.9373
+ X            k14,1     1.0074
+ X            k14,2     1.0036
+ X            k14,3     0.9996
+ X            k14,4     0.9953
+ X            k14,5     0.9908
+ X            k14,6     0.9859
+ X            keff1     1.0558
+ X            keff2     1.0373
+ X            keff3     1.0193
+ X            keff4     1.0017
+ X            keff5     0.9846
+ X            keff6     0.9678
+ X            x2,1,1    0.0333
+ X            x2,1,2    0.0333
+ X            x2,1,3    0.0333
+ X            x2,2,1    0.1849
+ X            x2,2,2    0.1849
+ X            x2,2,3    0.1849
+ X            x2,3,1    0.1151
+ X            x2,3,2    0.1151
+ X            x2,3,3    0.1151
+ X            x2,4,1    0.0000
+ X            x2,4,2    0.0000
+ X            x2,4,3    0.0000
+ X            x3,1,1    0.1000
+ X            x3,1,2    0.1000
+ X            x3,1,3    0.1000
+ X            x3,2,1    0.1349
+ X            x3,2,2    0.1349
+ X            x3,2,3    0.1349
+ X            x3,3,1    0.0651
+ X            x3,3,2    0.0651
+ X            x3,3,3    0.0651
+ X            x3,4,1    0.0333
+ X            x3,4,2    0.0333
+ X            x3,4,3    0.0333
+ X            x4,1,1    0.1000
+ X            x4,1,2    0.1000
+ X            x4,1,3    0.1000
+ X            x4,2,1    0.1349
+ X            x4,2,2    0.1349
+ X            x4,2,3    0.1349
+ X            x4,3,1    0.0651
+ X            x4,3,2    0.0651
+ X            x4,3,3    0.0651
+ X            x4,4,1    0.0333
+ X            x4,4,2    0.0333
+ X            x4,4,3    0.0333
+ X            x5,1,1    0.1000
+ X            x5,1,2    0.1000
+ X            x5,1,3    0.1000
+ X            x5,2,1    0.1349
+ X            x5,2,2    0.1349
+ X            x5,2,3    0.1349
+ X            x5,3,1    0.0651
+ X            x5,3,2    0.0651
+ X            x5,3,3    0.0651
+ X            x5,4,1    0.0333
+ X            x5,4,2    0.0333
+ X            x5,4,3    0.0333
+ X            x6,1,1    0.0000
+ X            x6,1,2    0.0000
+ X            x6,1,3    0.0000
+ X            x6,2,1    0.0083
+ X            x6,2,2    0.0083
+ X            x6,2,3    0.0083
+ X            x6,3,1    0.0250
+ X            x6,3,2    0.0250
+ X            x6,3,3    0.0250
+ X            x6,4,1    0.3000
+ X            x6,4,2    0.3000
+ X            x6,4,3    0.3000
+ X            x8,1,1    0.3000
+ X            x8,1,2    0.3000
+ X            x8,1,3    0.3000
+ X            x8,2,1    0.0083
+ X            x8,2,2    0.0083
+ X            x8,2,3    0.0083
+ X            x8,3,1    0.0250
+ X            x8,3,2    0.0250
+ X            x8,3,3    0.0250
+ X            x8,4,1    0.0000
+ X            x8,4,2    0.0000
+ X            x8,4,3    0.0000
+ X            x9,1,1    0.3000
+ X            x9,1,2    0.3000
+ X            x9,1,3    0.3000
+ X            x9,2,1    0.0083
+ X            x9,2,2    0.0083
+ X            x9,2,3    0.0083
+ X            x9,3,1    0.0250
+ X            x9,3,2    0.0250
+ X            x9,3,3    0.0250
+ X            x9,4,1    0.0000
+ X            x9,4,2    0.0000
+ X            x9,4,3    0.0000
+ X            x10,1,1   0.0000
+ X            x10,1,2   0.0000
+ X            x10,1,3   0.0000
+ X            x10,2,1   0.0333
+ X            x10,2,2   0.0333
+ X            x10,2,3   0.0333
+ X            x10,3,1   0.1186
+ X            x10,3,2   0.1186
+ X            x10,3,3   0.1186
+ X            x10,4,1   0.1814
+ X            x10,4,2   0.1814
+ X            x10,4,3   0.1814
+ X            x12,1,1   0.0000
+ X            x12,1,2   0.0000
+ X            x12,1,3   0.0000
+ X            x12,2,1   0.0333
+ X            x12,2,2   0.0333
+ X            x12,2,3   0.0333
+ X            x12,3,1   0.3000
+ X            x12,3,2   0.3000
+ X            x12,3,3   0.3000
+ X            x12,4,1   0.0000
+ X            x12,4,2   0.0000
+ X            x12,4,3   0.0000
+ X            x13,1,1   0.0000
+ X            x13,1,2   0.0000
+ X            x13,1,3   0.0000
+ X            x13,2,1   0.0083
+ X            x13,2,2   0.0083
+ X            x13,2,3   0.0083
+ X            x13,3,1   0.0250
+ X            x13,3,2   0.0250
+ X            x13,3,3   0.0250
+ X            x13,4,1   0.3000
+ X            x13,4,2   0.3000
+ X            x13,4,3   0.3000
+ X            x1,1,1    0.0333
+ X            x7,1,1    0.0333
+ X            x1,1,2    0.0333
+ X            x7,1,2    0.0333
+ X            x1,1,3    0.0333
+ X            x7,1,3    0.0333
+ X            x1,2,1    0.1849
+ X            x7,2,1    0.1849
+ X            x1,2,2    0.1849
+ X            x7,2,2    0.1849
+ X            x1,2,3    0.1849
+ X            x7,2,3    0.1849
+ X            x1,3,1    0.1151
+ X            x7,3,1    0.1151
+ X            x1,3,2    0.1151
+ X            x7,3,2    0.1151
+ X            x1,3,3    0.1151
+ X            x7,3,3    0.1151
+ X            x1,4,1    0.0000
+ X            x7,4,1    0.0000
+ X            x1,4,2    0.0000
+ X            x7,4,2    0.0000
+ X            x1,4,3    0.0000
+ X            x7,4,3    0.0000
+ X            x11,1,1   0.0333
+ X            x14,1,1   0.0333
+ X            x11,1,2   0.0333
+ X            x14,1,2   0.0333
+ X            x11,1,3   0.0333
+ X            x14,1,3   0.0333
+ X            x11,2,1   0.1256
+ X            x14,2,1   0.1256
+ X            x11,2,2   0.1256
+ X            x14,2,2   0.1256
+ X            x11,2,3   0.1256
+ X            x14,2,3   0.1256
+ X            x11,3,1   0.0558
+ X            x14,3,1   0.0558
+ X            x11,3,2   0.0558
+ X            x14,3,2   0.0558
+ X            x11,3,3   0.0558
+ X            x14,3,3   0.0558
+ X            x11,4,1   0.1186
+ X            x14,4,1   0.1186
+ X            x11,4,2   0.1186
+ X            x14,4,2   0.1186
+ X            x11,4,3   0.1186
+ X            x14,4,3   0.1186
+ X            epsilon   0.01
+
+
+ELEMENT TYPE
+
+ EV BILIN     u                        v
+ EV TRILIN    u                        v
+ EV TRILIN    w
+
+ELEMENT USES
+
+* Elements k(i,t)*phi(i,t)
+
+ DO i         1                        Nnod
+ DO t         1                        Ntim
+ XT kphi(i,t) BILIN
+ ZV kphi(i,t) u                        k(i,t)
+ ZV kphi(i,t) v                        phi(i,t)
+ ND
+
+* Elements keff(t)*phi(i,t)
+
+ DO i         1                        Nnod
+ DO t         1                        Ntim
+ XT kefph(i,t)BILIN
+ ZV kefph(i,t)u                        keff(t)
+ ZV kefph(i,t)v                        phi(i,t)
+ ND
+
+* Elements x(i,l,m)*x(j,l-1,m)*k(j,EoC)
+
+ IM t         Ntim      1
+ DO i         1                        Nnod
+ DO j         1                        Nnod
+ DO m         1                        Ntra
+ XT xa(i,j,m) TRILIN
+ ZV xa(i,j,m) u                        x(i,2,m)
+ ZV xa(i,j,m) v                        x(j,1,m)
+ ZV xa(i,j,m) w                        k(j,t)
+
+ XT xb(i,j,m) TRILIN
+ ZV xb(i,j,m) u                        x(i,3,m)
+ ZV xb(i,j,m) v                        x(j,2,m)
+ ZV xb(i,j,m) w                        k(j,t)
+
+ XT xc(i,j,m) TRILIN
+ ZV xc(i,j,m) u                        x(i,4,m)
+ ZV xc(i,j,m) v                        x(j,3,m)
+ ZV xc(i,j,m) w                        k(j,t)
+
+ ND
+
+GROUP USES
+
+* Kern(i,t) contains groups kefph(i,t)  and  kphi(j,t) * -G(i,j)
+
+ DO i         1                        Nnod
+ DO t         1                        Ntim
+ XE Kern(i,t) kefph(i,t) 1.0
+ DO j         1                        Nnod
+ AA myg       -G(i,j)    -0.999
+ IR myintg    myg
+ IM myintg    myintg     -1
+ I* maxt      Ntim                     myintg
+ ZE Kern(i,t) kphi(j,t)                -G(i,j)
+ ND
+
+* Norm(t) contains groups kphi(i,t) with factor v(i)
+
+ DO i         1                        Nnod
+ DO t         1                        Ntim
+ ZE Norm(t)   kphi(i,t)                V(i)
+ ND
+
+* Burn(i,t) contains alpha*Pc*delta_t *kphi(i,t)
+
+ DO i         1                        Nnod
+ DO t         1                        Ntim-1
+ ZE Burn(i,t) kphi(i,t)                alp_Pc_Dt
+ ND
+
+* Peak(i,t) contains kphi(i,t)
+
+ DO i         1                        Nnod
+ DO t         1                        Ntim
+ XE Peak(i,t) kphi(i,t) 1.0
+ ND
+
+* Plac(i) contains xk2(i,j,m) ... xk4(i,j,m) with factor v(j)
+
+ DO i         1                        Nnod
+ DO j         1                        Nnod
+ DO m         1                        Ntra
+ ZE Plac(i)   xa(i,j,m)                -V(j)
+ ZE Plac(i)   xb(i,j,m)                -V(j)
+ ZE Plac(i)   xc(i,j,m)                -V(j)
+ ND
+
+ENDATA
+
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      TWIRISM1
+
+INDIVIDUALS
+
+ T  BILIN
+ F                      u*v
+ G  u                   v
+ G  v                   u
+ H  u         v         1.0
+
+ T  TRILIN
+ F                      u*v*w
+ G  u                   v*w
+ G  v                   u*w
+ G  w                   u*v
+ H  u         v         w
+ H  u         w         v
+ H  v         w         u
+
+ENDATA

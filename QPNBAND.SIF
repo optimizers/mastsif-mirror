@@ -1,0 +1,75 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+ 
+NAME          QPNBAND
+ 
+*   Problem :
+*   *********
+ 
+*   A banded non-convex QP
+*   SIF input: Nick Gould, January 2000.
+ 
+*   classification QLR2-AN-V-V
+
+*IE N                   10000          $-PARAMETER
+ IE N                   50000          $-PARAMETER
+*IE N                   100000         $-PARAMETER
+*IE N                   200000         $-PARAMETER
+*IE N                   400000         $-PARAMETER
+*IE N                   500000         $-PARAMETER
+
+ IE 1                   1
+ IE 2                   2
+ RI RN        N
+ RE ONE                 1.0    
+
+ I/ M         N                        2
+ I+ M+1       M                        1
+ I- N-1       N                        1
+
+VARIABLES
+ 
+ DO I         1                        N
+ X  X(I )
+ ND
+ 
+GROUPS
+ 
+ DO I         1                        N
+ RI RI        I
+ R/ RI/RN     RI                       RN
+ RM -RI/RN    RI/RN     -1.0
+ ZN OBJ       X(I )                    -RI/RN
+ ND
+
+ DO I         1                        M
+ I+ M+I       M                        I
+ XG C(I)      X(I)      1.0            X(M+I)    1.0
+ ND
+  
+CONSTANTS
+ 
+ DO I         1                        M
+ X  QPNBAND   C(I)      1.0
+ ND
+ 
+BOUNDS
+ 
+ LO QPNBAND   'DEFAULT' 0.0
+ UP QPNBAND   'DEFAULT' 2.0
+ 
+QUADRATIC
+
+ DO I         1                        M
+ I+ I+1       I                        1
+ X  X(I )     X(I)      -2.0           X(I+1)    -1.0
+ ND
+ DO I         M+1                      N-1
+ I+ I+1       I                        1
+ X  X(I )     X(I)      2.0            X(I+1)    -1.0
+ ND
+ X  X(N )     X(N)      2.0
+ 
+ENDATA
+ 

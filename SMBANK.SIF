@@ -1,0 +1,492 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          SMBANK
+
+*   Problem :
+*   *********
+
+*   The small Bank Balancing problem (Thai model).
+*   The problem is also named "MB64" in some references.
+*   This is a nonlinear network problem with  conditioning
+*   of the order of 10**4.
+
+*   Source:
+*   R. Dembo,
+*   private communication, 1986.
+
+*   SIF input: Ph. Toint, June 1990.
+
+*   classification ONR2-MN-117-64
+
+*   Number of arcs
+
+ IE NARCS                117
+
+*   Number of nodes
+
+ IE NODES                64
+
+*   Constants
+
+ IE 1                    1
+
+GROUPS
+
+*   Objective
+
+ N  OBJ
+
+*   Network constraints
+
+ DO I         1                        NODES
+ XE N(I)
+ ND
+
+VARIABLES
+
+*   Network arcs
+
+    X1        N1        -1.0           N44       1.0
+    X2        N2        -1.0           N45       1.0
+    X3        N3        -1.0           N46       1.0
+    X4        N4        -1.0           N47       1.0
+    X5        N5        -1.0           N36       1.0
+    X6        N5        -1.0           N35       1.0
+    X7        N5        -1.0           N34       1.0
+    X8        N5        -1.0           N33       1.0
+    X9        N6        -1.0           N64       1.0
+    X10       N6        -1.0           N40       1.0
+    X11       N6        -1.0           N39       1.0
+    X12       N6        -1.0           N37       1.0
+    X13       N7        -1.0           N40       1.0
+    X14       N7        -1.0           N38       1.0
+    X15       N7        -1.0           N37       1.0
+    X16       N8        -1.0           N64       1.0
+    X17       N8        -1.0           N63       1.0
+    X18       N8        -1.0           N39       1.0
+    X19       N8        -1.0           N38       1.0
+    X20       N8        -1.0           N37       1.0
+    X21       N9        -1.0           N38       1.0
+    X22       N10       -1.0           N40       1.0
+    X23       N11       -1.0           N64       1.0
+    X24       N11       -1.0           N40       1.0
+    X25       N11       -1.0           N39       1.0
+    X26       N11       -1.0           N38       1.0
+    X27       N12       -1.0           N60       1.0
+    X28       N12       -1.0           N48       1.0
+    X29       N13       -1.0           N61       1.0
+    X30       N13       -1.0           N49       1.0
+    X31       N14       -1.0           N50       1.0
+    X32       N15       -1.0           N62       1.0
+    X33       N15       -1.0           N51       1.0
+    X34       N16       -1.0           N52       1.0
+    X35       N17       -1.0           N53       1.0
+    X36       N18       -1.0           N54       1.0
+    X37       N19       -1.0           N55       1.0
+    X38       N20       -1.0           N47       1.0
+    X39       N20       -1.0           N45       1.0
+    X40       N20       -1.0           N44       1.0
+    X41       N20       -1.0           N43       1.0
+    X42       N20       -1.0           N41       1.0
+    X43       N21       -1.0           N47       1.0
+    X44       N21       -1.0           N46       1.0
+    X45       N21       -1.0           N45       1.0
+    X46       N21       -1.0           N44       1.0
+    X47       N21       -1.0           N43       1.0
+    X48       N21       -1.0           N42       1.0
+    X49       N21       -1.0           N41       1.0
+    X50       N22       -1.0           N47       1.0
+    X51       N22       -1.0           N46       1.0
+    X52       N22       -1.0           N45       1.0
+    X53       N22       -1.0           N44       1.0
+    X54       N22       -1.0           N43       1.0
+    X55       N22       -1.0           N42       1.0
+    X56       N22       -1.0           N41       1.0
+    X57       N23       -1.0           N47       1.0
+    X58       N23       -1.0           N46       1.0
+    X59       N23       -1.0           N45       1.0
+    X60       N23       -1.0           N44       1.0
+    X61       N23       -1.0           N42       1.0
+    X62       N23       -1.0           N41       1.0
+    X63       N24       -1.0           N52       1.0
+    X64       N25       -1.0           N53       1.0
+    X65       N26       -1.0           N54       1.0
+    X66       N27       -1.0           N55       1.0
+    X67       N28       -1.0           N64       1.0
+    X68       N29       -1.0           N64       1.0
+    X69       N30       -1.0           N64       1.0
+    X70       N31       -1.0           N61       1.0
+    X71       N31       -1.0           N60       1.0
+    X72       N31       -1.0           N58       1.0
+    X73       N31       -1.0           N57       1.0
+    X74       N31       -1.0           N56       1.0
+    X75       N31       -1.0           N51       1.0
+    X76       N31       -1.0           N50       1.0
+    X77       N31       -1.0           N49       1.0
+    X78       N31       -1.0           N48       1.0
+    X79       N32       -1.0           N59       1.0
+    X80       N32       -1.0           N58       1.0
+    X81       N32       -1.0           N57       1.0
+    X82       N32       -1.0           N56       1.0
+    X83       N32       -1.0           N40       1.0
+    X84       N32       -1.0           N38       1.0
+    X85       N33       -1.0           N1        1.0
+    X86       N34       -1.0           N2        1.0
+    X87       N35       -1.0           N3        1.0
+    X88       N36       -1.0           N4        1.0
+    X89       N37       -1.0           N5        1.0
+    X90       N38       -1.0           N6        1.0
+    X91       N39       -1.0           N7        1.0
+    X92       N40       -1.0           N8        1.0
+    X93       N41       -1.0           N9        1.0
+    X94       N42       -1.0           N10       1.0
+    X95       N43       -1.0           N11       1.0
+    X96       N44       -1.0           N12       1.0
+    X97       N45       -1.0           N13       1.0
+    X98       N46       -1.0           N14       1.0
+    X99       N47       -1.0           N15       1.0
+    X100      N48       -1.0           N16       1.0
+    X101      N49       -1.0           N17       1.0
+    X102      N50       -1.0           N18       1.0
+    X103      N51       -1.0           N19       1.0
+    X104      N52       -1.0           N20       1.0
+    X105      N53       -1.0           N21       1.0
+    X106      N54       -1.0           N22       1.0
+    X107      N55       -1.0           N23       1.0
+    X108      N56       -1.0           N24       1.0
+    X109      N57       -1.0           N25       1.0
+    X110      N58       -1.0           N26       1.0
+    X111      N59       -1.0           N27       1.0
+    X112      N60       -1.0           N28       1.0
+    X113      N61       -1.0           N29       1.0
+    X114      N62       -1.0           N30       1.0
+    X115      N63       -1.0           N31       1.0
+    X116      N64       -1.0           N32       1.0
+    X117      N64       -1.0           N5        1.0
+
+BOUNDS
+
+ XL SMBANK    'DEFAULT'  1.00000D-01
+ XU SMBANK    'DEFAULT'  9.99999D+05
+ LO SMBANK    X85       -9.99990D+04
+ LO SMBANK    X86       -9.99990D+04
+ LO SMBANK    X87       -9.99990D+04
+ LO SMBANK    X88       -9.99990D+04
+ LO SMBANK    X89       -9.99990D+04
+ LO SMBANK    X90       -9.99990D+04
+ LO SMBANK    X91       -9.99990D+04
+ LO SMBANK    X92       -9.99990D+04
+ LO SMBANK    X93       -9.99990D+04
+ LO SMBANK    X94       -9.99990D+04
+ LO SMBANK    X95       -9.99990D+04
+ LO SMBANK    X96       -9.99990D+04
+ LO SMBANK    X97       -9.99990D+04
+ LO SMBANK    X98       -9.99990D+04
+ LO SMBANK    X99       -9.99990D+04
+ LO SMBANK    X100      -9.99990D+04
+ LO SMBANK    X101      -9.99990D+04
+ LO SMBANK    X102      -9.99990D+04
+ LO SMBANK    X103      -9.99990D+04
+ LO SMBANK    X104      -9.99990D+04
+ LO SMBANK    X105      -9.99990D+04
+ LO SMBANK    X106      -9.99990D+04
+ LO SMBANK    X107      -9.99990D+04
+ LO SMBANK    X108      -9.99990D+04
+ LO SMBANK    X109      -9.99990D+04
+ LO SMBANK    X110      -9.99990D+04
+ LO SMBANK    X111      -9.99990D+04
+ LO SMBANK    X112      -9.99990D+04
+ LO SMBANK    X113      -9.99990D+04
+ LO SMBANK    X114      -9.99990D+04
+ LO SMBANK    X115      -9.99990D+04
+ LO SMBANK    X116      -9.99990D+04
+
+START POINT
+
+ XV SMBANK    'DEFAULT'  1.00000D-01
+    SMBANK    X4         7.00000D-01   X5         7.00000D-01
+    SMBANK    X12        7.00000D-01   X17        9.00000D-01
+    SMBANK    X21        6.00000D-01   X22        9.00000D-01
+    SMBANK    X28        4.00000D-01   X30        4.00000D-01
+    SMBANK    X31        4.00000D-01   X33        1.00000D+00
+    SMBANK    X34        5.00000D-01   X35        5.00000D-01
+    SMBANK    X36        5.00000D-01   X37        1.10000D+00
+    SMBANK    X42        3.00000D-01   X47        2.00000D-01
+    SMBANK    X61        7.00000D-01   X63        2.00000D-01
+    SMBANK    X64        3.00000D-01   X65        2.00000D-01
+    SMBANK    X67        2.00000D-01   X68        2.00000D-01
+    SMBANK    X81        2.00000D-01   X85        1.00000D-01
+    SMBANK    X86        1.00000D-01   X87        1.00000D-01
+    SMBANK    X88        7.00000D-01   X89        9.00000D-01
+    SMBANK    X90        1.00000D+00   X91        3.00000D-01
+    SMBANK    X92        1.30000D+00   X93        6.00000D-01
+    SMBANK    X94        9.00000D-01   X95        4.00000D-01
+    SMBANK    X96        5.00000D-01   X97        5.00000D-01
+    SMBANK    X98        4.00000D-01   X99        1.10000D+00
+    SMBANK    X100       5.00000D-01   X101       5.00000D-01
+    SMBANK    X102       5.00000D-01   X103       1.10000D+00
+    SMBANK    X104       7.00000D-01   X105       8.00000D-01
+    SMBANK    X106       7.00000D-01   X107       1.20000D+00
+    SMBANK    X108       2.00000D-01   X109       3.00000D-01
+    SMBANK    X110       2.00000D-01   X111       1.00000D-01
+    SMBANK    X112       2.00000D-01   X113       2.00000D-01
+    SMBANK    X114       1.00000D-01   X115       9.00000D-01
+    SMBANK    X116       7.00000D-01
+
+ELEMENT TYPE
+
+ EV T7        ARC
+ EP T7        C1
+
+ELEMENT USES
+
+ XT 'DEFAULT' T7
+
+ V  E1        ARC                      X1
+ P  E1        C1         1.75726D+05
+ V  E2        ARC                      X2
+ P  E2        C1         1.40841D+05
+ V  E3        ARC                      X3
+ P  E3        C1         1.28910D+04
+ V  E4        ARC                      X4
+ P  E4        C1         2.73191D+05
+ V  E5        ARC                      X5
+ P  E5        C1         2.73191D+05
+ V  E6        ARC                      X6
+ P  E6        C1         1.28910D+04
+ V  E7        ARC                      X7
+ P  E7        C1         1.40841D+05
+ V  E8        ARC                      X8
+ P  E8        C1         1.75726D+05
+ V  E9        ARC                      X9
+ P  E9        C1         4.75900D+03
+ V  E10       ARC                      X10
+ P  E10       C1         3.80000D+02
+ V  E11       ARC                      X11
+ P  E11       C1         3.85900D+03
+ V  E12       ARC                      X12
+ P  E12       C1         5.20758D+05
+ V  E13       ARC                      X13
+ P  E13       C1         9.94000D+03
+ V  E14       ARC                      X14
+ P  E14       C1         6.16400D+03
+ V  E15       ARC                      X15
+ P  E15       C1         6.31180D+04
+ V  E16       ARC                      X16
+ P  E16       C1         2.73800D+03
+ V  E17       ARC                      X17
+ P  E17       C1         7.10830D+04
+ V  E18       ARC                      X18
+ P  E18       C1         1.01530D+04
+ V  E19       ARC                      X19
+ P  E19       C1         9.29400D+03
+ V  E20       ARC                      X20
+ P  E20       C1         4.36700D+03
+ V  E21       ARC                      X21
+ P  E21       C1         4.42511D+05
+ V  E22       ARC                      X22
+ P  E22       C1         8.46680D+04
+ V  E23       ARC                      X23
+ P  E23       C1         4.85240D+04
+ V  E24       ARC                      X24
+ P  E24       C1         2.64500D+03
+ V  E25       ARC                      X25
+ P  E25       C1         6.52100D+04
+ V  E26       ARC                      X26
+ P  E26       C1         7.15280D+04
+ V  E27       ARC                      X27
+ P  E27       C1         7.43460D+04
+ V  E28       ARC                      X28
+ P  E28       C1         2.26846D+05
+ V  E29       ARC                      X29
+ P  E29       C1         5.87250D+04
+ V  E30       ARC                      X30
+ P  E30       C1         4.10017D+05
+ V  E31       ARC                      X31
+ P  E31       C1         5.27740D+04
+ V  E32       ARC                      X32
+ P  E32       C1         3.18470D+04
+ V  E33       ARC                      X33
+ P  E33       C1         4.16672D+05
+ V  E34       ARC                      X34
+ P  E34       C1         2.28906D+05
+ V  E35       ARC                      X35
+ P  E35       C1         4.37902D+05
+ V  E36       ARC                      X36
+ P  E36       C1         5.35200D+04
+ V  E37       ARC                      X37
+ P  E37       C1         4.34014D+05
+ V  E38       ARC                      X38
+ P  E38       C1         1.19280D+04
+ V  E39       ARC                      X39
+ P  E39       C1         4.67470D+04
+ V  E40       ARC                      X40
+ P  E40       C1         2.22840D+04
+ V  E41       ARC                      X41
+ P  E41       C1         1.90930D+04
+ V  E42       ARC                      X42
+ P  E42       C1         1.31949D+05
+ V  E43       ARC                      X43
+ P  E43       C1         2.99470D+04
+ V  E44       ARC                      X44
+ P  E44       C1         9.82000D+02
+ V  E45       ARC                      X45
+ P  E45       C1         1.75800D+05
+ V  E46       ARC                      X46
+ P  E46       C1         3.02740D+04
+ V  E47       ARC                      X47
+ P  E47       C1         1.61094D+05
+ V  E48       ARC                      X48
+ P  E48       C1         7.20300D+03
+ V  E49       ARC                      X49
+ P  E49       C1         1.73359D+05
+ V  E50       ARC                      X50
+ P  E50       C1         1.89710D+04
+ V  E51       ARC                      X51
+ P  E51       C1         3.29050D+04
+ V  E52       ARC                      X52
+ P  E52       C1         2.19780D+04
+ V  E53       ARC                      X53
+ P  E53       C1         9.61300D+03
+ V  E54       ARC                      X54
+ P  E54       C1         7.72000D+03
+ V  E55       ARC                      X55
+ P  E55       C1         2.84600D+03
+ V  E56       ARC                      X56
+ P  E56       C1         1.95220D+04
+ V  E57       ARC                      X57
+ P  E57       C1         1.14482D+05
+ V  E58       ARC                      X58
+ P  E58       C1         5.99600D+03
+ V  E59       ARC                      X59
+ P  E59       C1         8.33760D+04
+ V  E60       ARC                      X60
+ P  E60       C1         6.32950D+04
+ V  E61       ARC                      X61
+ P  E61       C1         7.46190D+04
+ V  E62       ARC                      X62
+ P  E62       C1         1.17681D+05
+ V  E63       ARC                      X63
+ P  E63       C1         3.09500D+03
+ V  E64       ARC                      X64
+ P  E64       C1         1.40757D+05
+ V  E65       ARC                      X65
+ P  E65       C1         6.00350D+04
+ V  E66       ARC                      X66
+ P  E66       C1         2.54350D+04
+ V  E67       ARC                      X67
+ P  E67       C1         7.75870D+04
+ V  E68       ARC                      X68
+ P  E68       C1         5.88840D+04
+ V  E69       ARC                      X69
+ P  E69       C1         3.18470D+04
+ V  E70       ARC                      X70
+ P  E70       C1         1.59000D+02
+ V  E71       ARC                      X71
+ P  E71       C1         3.24100D+03
+ V  E72       ARC                      X72
+ P  E72       C1         2.13800D+03
+ V  E73       ARC                      X73
+ P  E73       C1         1.65830D+04
+ V  E74       ARC                      X74
+ P  E74       C1         9.29000D+02
+ V  E75       ARC                      X75
+ P  E75       C1         1.73420D+04
+ V  E76       ARC                      X76
+ P  E76       C1         7.46000D+02
+ V  E77       ARC                      X77
+ P  E77       C1         2.78850D+04
+ V  E78       ARC                      X78
+ P  E78       C1         2.06000D+03
+ V  E79       ARC                      X79
+ P  E79       C1         2.54350D+04
+ V  E80       ARC                      X80
+ P  E80       C1         5.78970D+04
+ V  E81       ARC                      X81
+ P  E81       C1         1.24174D+05
+ V  E82       ARC                      X82
+ P  E82       C1         2.16600D+03
+ V  E83       ARC                      X83
+ P  E83       C1         2.00000D+00
+ V  E84       ARC                      X84
+ P  E84       C1         2.59000D+02
+ V  E117      ARC                      X117
+ P  E117      C1         1.44060D+04
+
+GROUP USES
+
+ E  OBJ       E1                       E2
+ E  OBJ       E3                       E4
+ E  OBJ       E5                       E6
+ E  OBJ       E7                       E8
+ E  OBJ       E9                       E10
+ E  OBJ       E11                      E12
+ E  OBJ       E13                      E14
+ E  OBJ       E15                      E16
+ E  OBJ       E17                      E18
+ E  OBJ       E19                      E20
+ E  OBJ       E21                      E22
+ E  OBJ       E23                      E24
+ E  OBJ       E25                      E26
+ E  OBJ       E27                      E28
+ E  OBJ       E29                      E30
+ E  OBJ       E31                      E32
+ E  OBJ       E33                      E34
+ E  OBJ       E35                      E36
+ E  OBJ       E37                      E38
+ E  OBJ       E39                      E40
+ E  OBJ       E41                      E42
+ E  OBJ       E43                      E44
+ E  OBJ       E45                      E46
+ E  OBJ       E47                      E48
+ E  OBJ       E49                      E50
+ E  OBJ       E51                      E52
+ E  OBJ       E53                      E54
+ E  OBJ       E55                      E56
+ E  OBJ       E57                      E58
+ E  OBJ       E59                      E60
+ E  OBJ       E61                      E62
+ E  OBJ       E63                      E64
+ E  OBJ       E65                      E66
+ E  OBJ       E67                      E68
+ E  OBJ       E69                      E70
+ E  OBJ       E71                      E72
+ E  OBJ       E73                      E74
+ E  OBJ       E75                      E76
+ E  OBJ       E77                      E78
+ E  OBJ       E79                      E80
+ E  OBJ       E81                      E82
+ E  OBJ       E83                      E84
+ E  OBJ       E117
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLTN                -7.129292D+6
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      SMBANK
+
+TEMPORARIES
+
+ R  LG
+ M  LOG
+
+INDIVIDUALS
+
+ T  T7
+ A  LG                  LOG( ARC / C1 )
+ F                      ARC * ( LG - 1.0 )
+ G  ARC                 LG
+ H  ARC       ARC       1.0 / ARC
+
+ENDATA

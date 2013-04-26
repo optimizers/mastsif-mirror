@@ -1,0 +1,431 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          STEENBRE
+
+*   Problem :
+*   *********
+
+*   A totally separable nonconvex multi-commodity network problem
+
+*   Source: p. 120 of
+*   P.A. Steenbrink,
+*   "Optimization of Transport Networks",
+*   Wiley, 1974.
+
+*   Note that Steenbrink does not give values for TZERO, CCR and alpha.
+*   The problem has also been slightly perturbed by making NONZ >0, in
+*   order to avoid undefined values for some elements and infinite
+*   slope for others at the solution.
+
+*   SIF input: Ph. Toint, June 1990.
+
+*   classification ONR2-MY-540-126
+
+*   The network has the following structure
+
+*                           4
+*                 4 ----------------- 2
+*               / | \               / | \
+*              /  |  \             /  |  \
+*             /   |   \           /   |   \
+*         10 /    |    \ 11    6 /    |    \ 1
+*           /     |12   \       /     |5    \
+*          /      |      \     /      |      \
+*         /   16  |   18  \   /  17   |    3  \
+*       6 ------- 9 ------- 8 ------- 7 ------- 1
+*         \       |       /   \       |       /
+*          \      |      /     \      |      /
+*           \     |     /       \     |     /
+*            \    |15  /         \    |8   / 2
+*          13 \   |   / 14      9 \   |   /
+*              \  |  /             \  |  /
+*               \ | /               \ | /
+*                 5 ----------------- 3
+*                           7
+
+*   Arcs appear in both directions.  The flows using the arc from the
+*   lower numbered node to the higher numbred node are direct (D),
+*   the flows in the other direction reverse (R)
+*   The problem has 540 variables and 126 linear equality constraints.
+
+*   The commodities are determined from the "trip-matrix" and are
+*   numbered as as follows:
+
+*     commodity 1 : flow of  2000 from 2 to 3
+*     commodity 2 : flow of  2000 from 2 to 4
+*     commodity 3 : flow of  1000 from 2 to 5
+*     commodity 4 : flow of  1000 from 3 to 4
+*     commodity 5 : flow of  2000 from 3 to 5
+*     commodity 6 : flow of  1000 from 4 to 5
+*     commodity 7 : flow of   200 from 3 to 2
+*     commodity 8 : flow of   200 from 4 to 2
+*     commodity 9 : flow of   100 from 5 to 2
+*     commodity 10: flow of   100 from 4 to 3
+*     commodity 11: flow of   200 from 5 to 3
+*     commodity 12: flow of   100 from 5 to 4
+*     commodity 13: flow of 10000 from 1 to 6
+*     commodity 14: flow of  1000 from 6 to 1
+
+*   Number of bi-directional arcs
+
+ IE NARCS               18
+
+*   Number of trips (commodities)
+
+ IE NTRIPS              14
+
+*   Lengths of the arcs
+
+ RE COST1               35.0
+ RE COST2               40.0
+ RE COST3               30.0
+ RE COST4               100.0
+ RE COST5               15.0
+ RE COST6               55.0
+ RE COST7               100.0
+ RE COST8               25.0
+ RE COST9               60.0
+ RE COST10              35.0
+ RE COST11              55.0
+ RE COST12              15.0
+ RE COST13              40.0
+ RE COST14              60.0
+ RE COST15              25.0
+ RE COST16              30.0
+ RE COST17              50.0
+ RE COST18              50.0
+
+*   Other parameters
+
+ RE ALPH                0.01
+ RE TZERO               0.01
+ RE CCR                 0.01
+ RE NONZ                0.01
+ RM MNONZ     NONZ      -1.0
+
+*   Constants
+
+ IE 1                   1
+ IE 2                   2
+ IE 3                   3
+ IE 4                   4
+ IE 5                   5
+ IE 6                   6
+ IE 7                   7
+ IE 8                   8
+ IE 9                   9
+ IE 10                  10
+ IE 11                  11
+ IE 12                  12
+ IE 13                  13
+ IE 14                  14
+ IE 15                  15
+ IE 16                  16
+ IE 17                  17
+ IE 18                  18
+
+*   Arc parameters
+
+ DO I         1                        NARCS
+
+*   Minimal capacities
+
+ AE CMD(I)              0.0
+ A+ CMD(I)    CMD(I)                   NONZ
+ AE CMR(I)              0.0
+ A+ CMR(I)    CMR(I)                   NONZ
+
+*   Coefficients
+
+ A* LA(I)     COST(I)                  ALPH
+ A* LT(I)     COST(I)                  TZERO
+ A* LC(I)     COST(I)                  CCR
+
+ ND
+
+*   Raise minimal capacity for arc 4 (D and R)
+
+ AE CMD(4)              2000.0
+ AE CMR(4)              2000.0
+
+VARIABLES
+
+ DO K         1                        NARCS
+ X  CD(K)
+ X  CR(K)
+ DO I         1                        NTRIPS
+ X  D(I,K)
+ X  R(I,K)
+ ND
+
+GROUPS
+
+*   Objective function
+
+ N  OBJ
+
+*   Flow conservation constraints
+
+ DO I         1                        NTRIPS
+
+*   Node 1
+
+ XE N1(I)     D(I,1)    -1.0           R(I,1)    1.0
+ XE N1(I)     D(I,2)    -1.0           R(I,2)    1.0
+ XE N1(I)     D(I,3)    -1.0           R(I,3)    1.0
+
+*   Node 2
+
+ XE N2(I)     D(I,4)    -1.0           R(I,4)    1.0
+ XE N2(I)     D(I,5)    -1.0           R(I,5)    1.0
+ XE N2(I)     D(I,6)    -1.0           R(I,6)    1.0
+ XE N2(I)     D(I,1)    1.0            R(I,1)    -1.0
+
+*   Node 3
+
+ XE N3(I)     D(I,7)    -1.0           R(I,7)    1.0
+ XE N3(I)     D(I,8)    -1.0           R(I,8)    1.0
+ XE N3(I)     D(I,9)    -1.0           R(I,9)    1.0
+ XE N3(I)     D(I,2)    1.0            R(I,2)    -1.0
+
+*   Node 4
+
+ XE N4(I)     D(I,10)   -1.0           R(I,10)   1.0
+ XE N4(I)     D(I,11)   -1.0           R(I,11)   1.0
+ XE N4(I)     D(I,12)   -1.0           R(I,12)   1.0
+ XE N4(I)     D(I,4)    1.0            R(I,4)    -1.0
+
+*   Node 5
+
+ XE N5(I)     D(I,13)   -1.0           R(I,13)   1.0
+ XE N5(I)     D(I,14)   -1.0           R(I,14)   1.0
+ XE N5(I)     D(I,15)   -1.0           R(I,15)   1.0
+ XE N5(I)     D(I,7)    1.0            R(I,7)    -1.0
+
+*   Node 6
+
+ XE N6(I)     D(I,16)   -1.0           R(I,16)   1.0
+ XE N6(I)     D(I,10)   1.0            R(I,10)   -1.0
+ XE N6(I)     D(I,13)   1.0            R(I,13)   -1.0
+
+*   Node 7
+
+ XE N7(I)     D(I,17)   -1.0           R(I,17)   1.0
+ XE N7(I)     D(I,3)    1.0            R(I,3)    -1.0
+ XE N7(I)     D(I,5)    1.0            R(I,5)    -1.0
+ XE N7(I)     D(I,8)    1.0            R(I,8)    -1.0
+
+*   Node 8
+
+ XE N8(I)     D(I,18)   -1.0           R(I,18)   1.0
+ XE N8(I)     D(I,6)    1.0            R(I,6)    -1.0
+ XE N8(I)     D(I,9)    1.0            R(I,9)    -1.0
+ XE N8(I)     D(I,11)   1.0            R(I,11)   -1.0
+ XE N8(I)     D(I,14)   1.0            R(I,14)   -1.0
+ XE N8(I)     D(I,17)   1.0            R(I,17)   -1.0
+
+*   Node 9
+
+ XE N9(I)     D(I,12)   1.0            R(I,12)   -1.0
+ XE N9(I)     D(I,15)   1.0            R(I,15)   -1.0
+ XE N9(I)     D(I,16)   1.0            R(I,16)   -1.0
+ XE N9(I)     D(I,18)   1.0            R(I,18)   -1.0
+
+*   End of the flow conservation constraints
+
+ ND
+
+CONSTANTS
+
+ X  STEENBRE  N2(1)     -2000.0
+ X  STEENBRE  N3(1)     2000.0
+
+ X  STEENBRE  N2(2)     -2000.0
+ X  STEENBRE  N4(2)     2000.0
+
+ X  STEENBRE  N2(3)     -1000.0
+ X  STEENBRE  N5(3)     1000.0
+
+ X  STEENBRE  N3(4)     -1000.0
+ X  STEENBRE  N4(4)     1000.0
+
+ X  STEENBRE  N3(5)     -2000.0
+ X  STEENBRE  N5(5)     2000.0
+
+ X  STEENBRE  N4(6)     -1000.0
+ X  STEENBRE  N5(6)     1000.0
+
+ X  STEENBRE  N3(7)     -200.0
+ X  STEENBRE  N2(7)     200.0
+
+ X  STEENBRE  N4(8)     -200.0
+ X  STEENBRE  N2(8)     200.0
+
+ X  STEENBRE  N5(9)     -100.0
+ X  STEENBRE  N2(9)     100.0
+
+ X  STEENBRE  N4(10)    -100.0
+ X  STEENBRE  N3(10)    100.0
+
+ X  STEENBRE  N5(11)    -200.0
+ X  STEENBRE  N3(11)    200.0
+
+ X  STEENBRE  N5(12)    -100.0
+ X  STEENBRE  N4(12)    100.0
+
+ X  STEENBRE  N1(13)    -10000.0
+ X  STEENBRE  N6(13)    10000.0
+
+ X  STEENBRE  N6(14)    -1000.0
+ X  STEENBRE  N1(14)    1000.0
+
+BOUNDS
+
+ DO I         1                        NARCS
+ ZL STEENBRE  CD(I)                    CMD(I)
+ ZL STEENBRE  CR(I)                    CMR(I)
+ ND
+
+START POINT
+
+ XV STEENBRE  'DEFAULT' 0.1
+
+ELEMENT TYPE
+
+ EV XT        X1                       X2
+ EV XT        X3                       X4
+ EV XT        X5                       X6
+ EV XT        X7                       X8
+ EV XT        X9                       X10
+ EV XT        X11                      X12
+ EV XT        X13                      X14
+ EV XT        C
+ IV XT        FLOW                     CAP
+ EP XT        LT                       LC
+
+ EV IIJ       C
+ EP IIJ       CMIN
+
+ELEMENT USES
+
+ DO I         1                        NARCS
+
+ XT AD(I)     XT
+ ZV AD(I)     X1                       D(1,I)
+ ZV AD(I)     X2                       D(2,I)
+ ZV AD(I)     X3                       D(3,I)
+ ZV AD(I)     X4                       D(4,I)
+ ZV AD(I)     X5                       D(5,I)
+ ZV AD(I)     X6                       D(6,I)
+ ZV AD(I)     X7                       D(7,I)
+ ZV AD(I)     X8                       D(8,I)
+ ZV AD(I)     X9                       D(9,I)
+ ZV AD(I)     X10                      D(10,I)
+ ZV AD(I)     X11                      D(11,I)
+ ZV AD(I)     X12                      D(12,I)
+ ZV AD(I)     X13                      D(13,I)
+ ZV AD(I)     X14                      D(14,I)
+ ZV AD(I)     C                        CD(I)
+ ZP AD(I)     LT                       LT(I)
+ ZP AD(I)     LC                       LC(I)
+
+ XT BD(I)     IIJ
+ ZV BD(I)     C                        CD(I)
+ A+ SHIFT     CMD(I)                   MNONZ
+ ZP BD(I)     CMIN                     SHIFT
+
+ XT AR(I)     XT
+ ZV AR(I)     X1                       R(1,I)
+ ZV AR(I)     X2                       R(2,I)
+ ZV AR(I)     X3                       R(3,I)
+ ZV AR(I)     X4                       R(4,I)
+ ZV AR(I)     X5                       R(5,I)
+ ZV AR(I)     X6                       R(6,I)
+ ZV AR(I)     X7                       R(7,I)
+ ZV AR(I)     X8                       R(8,I)
+ ZV AR(I)     X9                       R(9,I)
+ ZV AR(I)     X10                      R(10,I)
+ ZV AR(I)     X11                      R(11,I)
+ ZV AR(I)     X12                      R(12,I)
+ ZV AR(I)     X13                      R(13,I)
+ ZV AR(I)     X14                      R(14,I)
+ ZV AR(I)     C                        CR(I)
+ ZP AR(I)     LT                       LT(I)
+ ZP AR(I)     LC                       LC(I)
+
+ XT BR(I)     IIJ
+ ZV BR(I)     C                        CR(I)
+ A+ SHIFT     CMR(I)                   MNONZ
+ ZP BR(I)     CMIN                     SHIFT
+
+ ND
+
+GROUP USES
+
+ DO I         1                        NARCS
+ XE OBJ       AD(I)                    AR(I)
+ ZE OBJ       BD(I)                    LA(I)
+ ZE OBJ       BR(I)                    LA(I)
+ ND
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLTN               ???
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      STEENBRE
+
+TEMPORARIES
+
+ R  F2
+ R  F3
+ R  C2
+ R  C3
+ R  C4
+ R  SIXLC
+ R  SQR
+ R  CMCMIN
+ M  SQRT
+
+INDIVIDUALS
+
+ T  XT
+ R  FLOW      X1        1.0            X2        1.0
+ R  FLOW      X3        1.0            X4        1.0
+ R  FLOW      X5        1.0            X6        1.0
+ R  FLOW      X7        1.0            X8        1.0
+ R  FLOW      X9        1.0            X10       1.0
+ R  FLOW      X11       1.0            X12       1.0
+ R  FLOW      X13       1.0            X14       1.0
+ R  CAP       C         1.0
+ A  F2                  FLOW * FLOW
+ A  F3                  FLOW * F2
+ A  C2                  CAP * CAP
+ A  C3                  CAP * C2
+ A  C4                  C2 * C2
+ A  SIXLC               6.0 * LC
+ F                      LT * FLOW + LC * F3 / C2
+ G  FLOW                LT + 3.0 * LC * F2 / C2
+ G  CAP                 - 2.0 * LC * F3 / C3
+ H  FLOW      FLOW      SIXLC * FLOW / C2
+ H  FLOW      CAP       - SIXLC * F2 / C3
+ H  CAP       CAP       SIXLC * F3 / C4
+
+ T  IIJ
+ A  CMCMIN              C - CMIN
+ A  SQR                 SQRT( CMCMIN )
+ F                      SQR
+ G  C                   0.5 / SQR
+ H  C         C         -0.25 / ( SQR * CMCMIN )
+
+ENDATA

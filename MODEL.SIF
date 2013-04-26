@@ -1,0 +1,518 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+ 
+NAME          MODEL
+ 
+*   Problem : 
+*   *********
+
+*   ?? One of Andy's ??
+ 
+*   SIF input: A. Conn (presumably), 1992.
+
+*   classification LLR2-AN-1557-38
+ 
+*   useful parameter definitions.
+ 
+ IE 0                   0
+ IE 1                   1
+ IE 2                   2
+ IE 3                   3
+ IE 4                   4
+ IE 5                   5
+ IE 6                   6
+ IE 7                   7
+ IE 8                   8
+ IE 9                   9
+ IE 11                  11
+ IE 12                  12
+ IE 13                  13
+ IE 14                  14
+ IE 15                  15
+ IE -1                  -1
+ 
+*
+*
+ IE M                   3
+*
+*
+ IE N                   15
+*
+*
+ IE NALT                4
+*
+*
+ IE T                   1
+ 
+ IA T-1       T         -1
+ 
+*
+*
+ RE NPROF               0.3
+ 
+*
+*
+ 
+ 
+ DO K         1                        M
+ DO I         1                        NALT
+ IA I-1       I         -1
+ DO J         1                        I-1
+ AE D(J,I,K)            0.0
+ ND
+ 
+ RE D1,2,1              -500.0D+3
+ RE D1,3,1              -1500.0D+3
+ RE D1,4,1              2000.0D+3
+ RE D2,3,1              -2000.0D+3
+ RE D2,4,1              3000.0D+3
+ RE D3,4,1              4000.0D+3
+ 
+ RE D1,2,2              -1500.0D+3
+ RE D1,3,2              100.0D+3
+ RE D2,3,2              1000.0D+3
+ 
+ RE D1,2,3              500.0D+3
+ RE D1,3,3              500.0D+3
+ RE D1,4,3              -1500.0D+3
+ RE D2,3,3              -200.0D+3
+ RE D2,4,3              -300.0D+3
+ RE D3,4,3              -1500.0D+3
+ 
+ 
+ 
+ 
+ 
+ 
+ DO K         1                        T
+ DO J         -1                       N
+ DO I         -1                       N
+*
+*
+ AE C(J,K)              0.0
+*
+*
+ AE C(I,J,K)            0.0
+ 
+ ND
+ 
+ 
+ DO K         1                        T
+ AE C-1,K               10600.0D+3
+ AE C6,K                13900.0D+3
+ AE C7,K                15400.0D+3
+ AE C12,K               24650.0D+3
+ AE C14,K               16450.0D+3
+ AE C15,K               23400.0D+3
+ AE C13,K               12900.0D+3
+ AE C3,5,K              1700.0D+3
+ AE C4,11,K             3400.0D+3
+ AE C5,13,K             4100.0D+3
+ AE C7,11,K             2400.0D+3
+ AE C8,15,K             8000.0D+3
+ AE C3,9,K              2700.0D+3
+ ND
+ 
+ 
+ DO K         1                        T
+ DO J         -1                       N
+ A* L(J,K)    C(J,K)                   NPROF
+ DO I         -1                       N
+ A* L(I,J,K)  C(I,J,K)                 NPROF
+ ND
+ 
+ 
+ 
+ DO K         1                        T
+ DO J         -1                       N
+ AE G(J,K)              5.0
+ DO I         -1                       N
+ AE G(I,J,K)            5.0
+ AE PI(J,K)             5.0
+ ND
+ 
+ 
+ 
+VARIABLES
+ 
+ DO K         1                        T
+ DO J         -1                       N
+ 
+ 
+ X  Y(J,K)
+ 
+ 
+ X  R(J,K)
+ 
+ 
+ X  S(J,K)
+ 
+ 
+ X  P(J,K)
+ 
+ DO I         -1                       N
+ 
+ 
+ X  Y(I,J,K)
+ 
+ 
+ X  S(I,J,K)
+ 
+ 
+ X  B(I,J,K)
+ 
+ 
+ X  O(I,J,K)
+ 
+ ND
+ DO J         -1                       N
+ IA U         T         1
+ X  S(J,U)
+ DO I         -1                       N
+ X  S(I,J,U)
+ ND
+*
+*
+ DO K         1                        M
+ DO J         1                        NALT
+ X  X(J,K)
+ ND
+ 
+GROUPS
+ 
+ 
+* objective function
+ 
+ DO K         1                        T
+ DO J         -1                       N
+ ZN OBJ       Y(J,K)                   L(J,K)
+ DO I         -1                       N
+ ZN OBJ       Y(I,J,K)                 L(I,J,K)
+ ND
+ 
+ 
+ E  C2P15     X2,2      1.0            Y8,15,1   -1.0
+ 
+ 
+ E  C1P14     X3,1      1.0            Y7,14,1   -1.0
+ 
+ 
+ E  C3P14     X4,3      1.0            Y4,14,1   -1.0
+ E  C3X14     X4,3      1.0            R4,1      -1.0
+ 
+ 
+ 
+ E  C1P13     X2,1      1.0            Y5,13,1   -1.0
+ 
+ 
+ 
+ E  C3P12     X2,3      1.0            Y12,1     -1.0
+ E  C3X12     X2,3      1.0            R4,1      -1.0
+ 
+ 
+ E  C3P11     X1,3      1.0            Y4,11,1   -1.0
+ E  C1P11     X1,1      1.0            Y7,11,1   -1.0
+ 
+ 
+ E  C1P9      X4,1      1.0            Y3,9,1    -1.0
+ 
+ 
+ E  B2P6      X3,2      1.0            Y7,1      -1.0
+ E  B2X6      X3,2      1.0            R0,1      -1.0
+ 
+ 
+ E  C2P6      X1,2      1.0            Y6,1      -1.0
+ E  C2X6      X1,2      1.0            R0,1      -1.0
+ 
+ 
+ E  C1P5      X2,1      1.0            Y3,5,1    -1.0
+ 
+ 
+ E  C3P-      X3,3      1.0            Y-1,1     -1.0
+ 
+ 
+*
+ 
+ DO I         1                        M
+ XE UC(I)     X(1,I)    1.0            X(2,I)    1.0
+ XE UC(I)     X(3,I)    1.0            X(4,I)    1.0
+ ND
+ 
+*
+*
+ 
+ R- M1        C3,5,1                   C7,11,1
+ R+ M1        M1                       C5,13,1
+ R- M1        M1                       D1,2,1
+ RM MM1       M1        -1.0
+ ZL DC1       X1,1                     M1
+ ZL DC1       X2,1                     MM1
+ 
+ 
+ R- M2        C7,14,1                  C7,11,1
+ R- M2        M2                       D1,3,1
+ RM MM2       M2        -1.0
+ ZL DC2       X1,1                     M2
+ ZL DC2       X3,1                     MM2
+ 
+ R- M3        C3,9,1                   C7,11,1
+ R- M3        M3                       D1,4,1
+ RM MM3       M3        -1.0
+ ZL DC3       X1,1                     M3
+ ZL DC3       X4,1                     MM3
+ 
+ R- M4        C7,14,1                  C3,5,1
+ R- M4        M4                       C5,13,1
+ R- M4        M4                       D2,3,1
+ RM MM4       M4        -1.0
+ ZL DC4       X2,1                     M4
+ ZL DC4       X3,1                     MM4
+ 
+ R- M5        C3,9,1                   C3,5,1
+ R- M5        M5                       C5,13,1
+ R- M5        M5                       D2,4,1
+ RM MM5       M5        -1.0
+ ZL DC5       X2,1                     M5
+ ZL DC5       X4,1                     MM5
+ 
+ R- M6        C3,9,1                   C7,14,1
+ R- M6        M6                       D3,4,1
+ RM MM6       M6        -1.0
+ ZL DC6       X3,1                     M6
+ ZL DC6       X4,1                     MM6
+ 
+*
+ 
+ R- M11       C8,15,1                  C6,1
+ R- M11       M11                      D1,2,2
+ RM MM11      M11       -1.0
+ ZL DC11      X1,2                     M11
+ ZL DC11      X2,2                     MM11
+ 
+ 
+ R- M12       C7,1                     C6,1
+ R- M12       C7,1                     C6,1
+ R- M12       M12                      D1,3,2
+ RM MM12      M12       -1.0
+ ZL DC12      X1,2                     M12
+ ZL DC12      X3,2                     MM12
+ 
+ R- M13       C7,1                     C8,15,1
+ R- M13       M13                      D2,3,2
+ RM MM13      M13       -1.0
+ ZL DC13      X2,2                     M13
+ ZL DC13      X3,2                     MM13
+ 
+*
+ 
+ R- M21       C12,1                    C4,11,1
+ R- M21       M21                      D1,2,3
+ RM MM21      M21       -1.0
+ ZL DC21      X1,3                     M21
+ ZL DC21      X2,3                     MM21
+ 
+ R- M22       C-1,1                    C4,11,1
+ R- M22       M22                      D1,3,3
+ RM MM22      M22       -1.0
+ ZL DC22      X1,3                     M22
+ ZL DC22      X3,3                     MM22
+ 
+ 
+ R- M23       C14,1                    C4,11,1
+ R- M23       M23                      D1,4,3
+ RM MM23      M23       -1.0
+ ZL DC23      X1,3                     M23
+ ZL DC23      X4,3                     MM23
+ 
+ R- M24       C-1,1                    C12,1
+ R- M24       M24                      D2,3,3
+ RM MM24      M24       -1.0
+ ZL DC24      X2,3                     M24
+ ZL DC24      X3,3                     MM24
+ 
+ R- M25       C14,1                    C12,1
+ R- M25       M25                      D2,4,3
+ RM MM25      M25       -1.0
+ ZL DC25      X2,3                     M25
+ ZL DC25      X4,3                     MM25
+ 
+ R- M26       C14,1                    C-1,1
+ R- M26       M26                      D3,4,3
+ RM MM26      M26       -1.0
+ ZL DC26      X3,3                     M26
+ ZL DC26      X4,3                     MM26
+ 
+ 
+ 
+*
+*
+ 
+ DO K         1                        T
+ IA K+1       K         1
+*DO I         -1                       N
+ DO I         -1                       1
+ XE IC(I,K+1) S(I,K+1)  -1.0           S(I,K)    1.0
+ XE IC(I,K+1) P(I,K)    1.0            Y(I,K)    -1.0
+ XE IC(I,K+1) R(I,K)    1.0
+*DO J         -1                       N
+ DO J         -1                       1
+ XE IC(I,K+1) Y(J,I,K)  1.0            Y(I,J,K)  -1.0
+ XE IC(I,K+1) B(I,J,K)  -1.0           O(I,J,K)  1.0
+ ND
+ 
+*DO K         1                        T
+*IA L         K         1
+*DO I         -1                       N
+*DO J         -1                       N
+*XE IC(J,I,L) S(J,I,L)  -1.0           S(J,I,K)  1.0
+*XE IC(J,I,L) Y(J,I,K)  1.0            Y(I,J,K)  -1.0
+*ND
+ 
+ DO K         1                        T
+ XE IB1(K)    O(3,12,K) 1.0            B(12,3,K) -3.0
+ ND
+ 
+ 
+ 
+ 
+CONSTANTS
+ 
+ DO I         1                        M
+ X  MODEL     UC(I)     1.0
+ ND
+ 
+ R+ M1        M1                       D1,2,1
+ R+ M1        M1                       M1
+ Z  MODEL     DC1                      M1
+ 
+ R+ M2        M2                       D1,3,1
+ R+ M2        M2                       M2
+ Z  MODEL     DC2                      M2
+ 
+ R+ M3        M3                       D1,4,1
+ R+ M3        M3                       M3
+ Z  MODEL     DC3                      M3
+ 
+ R+ M4        M4                       D2,3,1
+ R+ M4        M4                       M4
+ Z  MODEL     DC4                      M4
+ 
+ R+ M5        M5                       D2,4,1
+ R+ M5        M5                       M5
+ Z  MODEL     DC5                      M5
+ 
+ R+ M6        M6                       D3,4,1
+ R+ M6        M6                       M6
+ Z  MODEL     DC6                      M6
+ 
+*
+ 
+ R+ M11       M11                      D1,2,2
+ R+ M11       M11                      M11
+ Z  MODEL     DC11                     M11
+ 
+ R+ M12       M12                      D1,3,2
+ R+ M12       M12                      M12
+ Z  MODEL     DC12                     M12
+ 
+ R+ M13       M13                      D2,3,2
+ R+ M13       M13                      M13
+ Z  MODEL     DC13                     M13
+ 
+*
+ 
+ R+ M21       M21                      D1,2,3
+ R+ M21       M21                      M21
+ Z  MODEL     DC21                     M21
+ 
+ R+ M22       M22                      D1,3,3
+ R+ M22       M22                      M22
+ Z  MODEL     DC22                     M22
+ 
+ R+ M23       M23                      D1,4,3
+ R+ M23       M23                      M23
+ Z  MODEL     DC23                     M23
+ 
+ R+ M24       M24                      D2,3,3
+ R+ M24       M24                      M24
+ Z  MODEL     DC24                     M24
+ 
+ R+ M25       M25                      D2,4,3
+ R+ M25       M25                      M25
+ Z  MODEL     DC25                     M25
+ 
+ R+ M26       M26                      D3,4,3
+ R+ M26       M26                      M26
+ Z  MODEL     DC26                     M26
+ 
+ 
+BOUNDS
+ 
+ FX MODEL     'DEFAULT' 0.0
+ 
+ XU MODEL     Y(12,1)   1.0
+ XU MODEL     Y(14,1)   1.0
+ XU MODEL     Y(6,1)    1.0
+ XU MODEL     Y(7,1)    1.0
+ XU MODEL     R(4,1)    2.0
+ XU MODEL     R(0,1)    2.0
+ XU MODEL     P(12,1)   1.0
+ XU MODEL     P(14,1)   1.0
+ XU MODEL     P(6,1)    1.0
+ XU MODEL     P(7,1)    1.0
+ XU MODEL     Y(7,11,1) 1.0
+ XU MODEL     Y(3,5,1)  1.0
+ XU MODEL     Y(5,13,1) 1.0
+ XU MODEL     Y(7,14,1) 1.0
+ XU MODEL     Y(3,9,1)  1.0
+ XU MODEL     Y(8,15,1) 1.0
+ XU MODEL     Y(4,11,1) 1.0
+ XU MODEL     Y(4,12,1) 1.0
+ XU MODEL     Y(4,14,1) 1.0
+ XU MODEL     S(-1,1)   10.0
+ XU MODEL     S(0,1)    10.0
+ XU MODEL     S(14,1)   10.0
+ XU MODEL     S(6,1)    10.0
+ XU MODEL     S(7,1)    10.0
+*XU MODEL     S(7,11,1) 10.0
+*XU MODEL     S(3,5,1)  10.0
+*XU MODEL     S(5,13,1) 10.0
+*XU MODEL     S(7,14,1) 10.0
+*XU MODEL     S(3,9,1)  10.0
+*XU MODEL     S(8,15,1) 10.0
+*XU MODEL     S(4,11,1) 10.0
+*XU MODEL     S(4,12,1) 10.0
+*XU MODEL     S(4,14,1) 10.0
+ XU MODEL     S(-1,2)   10.0
+ XU MODEL     S(0,2)    10.0
+ XU MODEL     S(14,2)   10.0
+ XU MODEL     S(6,2)    10.0
+ XU MODEL     S(7,2)    10.0
+*XU MODEL     S(7,11,2) 10.0
+*XU MODEL     S(3,5,2)  10.0
+*XU MODEL     S(5,13,2) 10.0
+*XU MODEL     S(7,14,2) 10.0
+*XU MODEL     S(3,9,2)  10.0
+*XU MODEL     S(8,15,2) 10.0
+*XU MODEL     S(4,11,2) 10.0
+*XU MODEL     S(4,12,2) 10.0
+*XU MODEL     S(4,14,2) 10.0
+ 
+ XU MODEL     O(3,12,K) 3.0
+ XU MODEL     B(12,3,K) 3.0
+ 
+ DO K         1                        M
+ DO J         1                        NALT
+ XU MODEL     X(J,K)    1.0
+ ND
+ XX MODEL     X(4,2)    0.0
+ 
+ 
+START POINT
+ 
+ XV MODEL     'DEFAULT' 1.0
+ 
+ 
+ 
+ENDATA

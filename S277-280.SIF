@@ -1,0 +1,119 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          S277-280
+
+*   Problem :
+*   *********
+
+*   An LP based on the Hilbert matrix.
+
+*   Source: problems 277 to 280 in
+*   K. Schittkowski,
+*   " More Test Problems for Nonlinear Programming Codes",
+*   Springer Verlag, Berlin, 1987.
+
+*   SIF input: Ph. Toint, May 1990.
+
+*   classification LLR2-AN-V-V
+
+*   Dimension of the problem
+
+ IE N                   4              $-PARAMETER problem 277
+*IE N                   6              $-PARAMETER problem 278
+*IE N                   8              $-PARAMETER problem 279
+*IE N                   10             $-PARAMETER problem 280
+
+*   Conditioning parameter
+
+ RE D                   0.0
+
+*   Other parameters
+
+ IE 1                   1
+
+VARIABLES
+
+ DO I         1                        N
+ X  X(I)
+ ND
+
+GROUPS
+
+*   Objective
+
+ DO I         1                        N
+
+ RI RI        I
+ RA RI-1      RI        -1.0
+ RE CI                  0.0
+
+ DO J         1                        N
+
+ RI RJ        J
+ R+ I+J-1     RJ                       RI-1
+ RD HIJ       I+J-1     1.0
+ R+ CI        CI                       HIJ
+
+ OD J
+
+ ZN OBJ       X(I)                     CI
+
+ ND
+
+*   Constraints
+
+ DO I         1                        N
+
+ RI RI        I
+ RA RI-1      RI        -1.0
+
+ DO J         1                        N
+
+ RI RJ        J
+ R+ I+J-1     RJ                       RI-1
+ RD HIJ       I+J-1     1.0
+
+ ZG C(I)      X(J)                     HIJ
+
+ ND
+
+CONSTANTS
+
+ DO I         1                        N
+
+ RI RI        I
+ RA RI-1      RI        -1.0
+ RE BI                  0.0
+
+ DO J         1                        N
+
+ RI RJ        J
+ R+ I+J-1     RJ                       RI-1
+ RD HIJ       I+J-1     1.0
+ R+ BI        BI                       HIJ
+
+ OD J
+
+ Z  S277      C(I)                     BI
+
+ ND
+
+START POINT
+
+ XV S277      'DEFAULT' 0.0
+
+OBJECT BOUND
+
+*   Solution
+
+*LO SOLTN(4)           5.076190464
+*LO SOLTN(6)           7.83853
+*LO SOLTN(8)           10.6059
+*LO SOLTN(10)          13.3754
+
+ENDATA
+
+
+

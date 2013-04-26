@@ -1,0 +1,499 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          GRIDNETH
+
+*   Problem :
+*   *********
+
+*   The nonlinear network problem by Toint and Tuyttens,
+
+*   Source:
+*   Ph.L. Toint and D. Tuyttens,
+*   "On large scale nonlinear network optimization",
+*   Mathematical Programming B, vol. 48(1), pp.125-159, 1990.
+
+*   This version has 60 variables and has bounds corresponding
+*   to i = 0 and a = 1 and r = 0.1.
+
+*   The number of variables is N = 2*NS*(NS-1), where NS = 2*L+2.
+
+*   SIF input: Ph. Toint, May 1990.
+*              minor correction by Ph. Shott, Jan 1995.
+
+*   classification ONR2-AY-V-V
+
+*   Problem parameters
+
+*IE L                   2              $-PARAMETER number of vert/horiz. cycles
+*IE L                   10             $-PARAMETER number of vert/horiz. cycles
+*IE L                   20             $-PARAMETER number of vert/horiz. cycles
+ IE L                   30             $-PARAMETER number of vert/horiz. cycles
+*IE L                   40             $-PARAMETER number of vert/horiz. cycles
+ RE C                   2.0            $-PARAMETER log of condition number
+ RE R                   0.1            $-PARAMETER bound parameter
+ RE A                   1.0            $-PARAMETER amount of non-quadraticity
+
+*   Constants
+
+ IE 1                   1
+ IE 2                   2
+ IE 3                   3
+ IE 4                   4
+
+ RE LN10                2.302585093
+
+*   Computed parameters
+
+ IA L-1       L         -1
+ IM 2L        L         2
+ IA NS        2L        2
+ IA NS-1      NS        -1
+ IM 2NS       NS        2
+ IA P         2NS       -1
+ IM 2P        P         2
+ IM -P        P         -1
+ IA P-1       P         -1
+ IA P-2       P         -2
+
+ RI RL-1      L-1
+ RD 1/L-1     RL-1      1.0
+ R* CLN10     LN10                     C
+ R* BETA      CLN10                    1/L-1
+ RM A/100     A         0.01
+ RM SMALLA    A/100     0.0008333333333
+
+VARIABLES
+
+*   Define two variables per node in the grid.
+*   The first corresponds to flow from the current node to the
+*   node on the right; the second corresponds to that to the node
+*   above.
+
+ IE N                   0
+
+ DO I         1                        NS-1
+
+ DO J         1                        NS-1
+ IA N         N         1
+ X  X(N)                               $ flow to the right
+ IA N         N         1
+ X  X(N)                               $ flow to above
+ OD J
+
+ IA N         N         1
+ X  X(N)                               $ flow to above
+
+ ND
+
+ DO J         1                        NS-1
+ IA N         N         1
+ X  X(N)                               $ flow to the right
+ ND
+
+ IA N-1       N         -1
+
+GROUPS
+
+*   Objective is nonlinear
+
+ N  OBJ
+
+*   Network constraints for the bottom row
+
+ XE C(1,1)    X(1)      1.0            X(2)      1.0
+ IE K                   2
+
+ DO J         2                        NS-1
+ IA K         K         2
+ IA K-1       K         -1
+ IA K-3       K         -3
+ XE C(1,J)    X(K-1)    1.0            X(K)      1.0
+ XE C(1,J)    X(K-3)    -1.0
+ OD J
+
+ IA K         K         1
+ IA K-2       K         -2
+ XE C(1,NS)   X(K)      1.0
+ XE C(1,NS)   X(K-2)    -1.0
+
+*   Network constraints for the middle rows
+
+ DO I         2                        NS-1
+
+ IA K         K         2
+ IA K-1       K         -1
+ I+ K-P       K                        -P
+ XE C(I,1)    X(K-1)    1.0            X(K)      1.0
+ XE C(I,1)    X(K-P)    -1.0
+
+ DO J         2                        NS-1
+ IA K         K         2
+ IA K-1       K         -1
+ IA K-3       K         -3
+ I+ K-P       K                        -P
+ XE C(I,J)    X(K-1)    1.0            X(K)      1.0
+ XE C(I,J)    X(K-3)    -1.0           X(K-P)    -1.0
+ OD J
+
+ IA K         K         1
+ IA K-2       K         -2
+ I+ K-P       K                        -P
+ XE C(I,NS)   X(K)      1.0
+ XE C(I,NS)   X(K-2)    -1.0           X(K-P)    -1.0
+
+ ND
+
+*   Network constraints for the top row
+
+ IA K         K         1
+ IA K-1       K         -1
+ IA -Q        -P        1
+ I+ TW        K                        -Q
+ XE C(NS,1)   X(K)      1.0
+ XE C(NS,1)   X(TW)     -1.0
+
+ DO J         2                        NS-1
+ IA K         K         1
+ IA K-1       K         -1
+ IA -Q        -Q        1
+ I+ K-Q       K                        -Q
+ XE C(NS,J)   X(K)      1.0
+ XE C(NS,J)   X(K-1)    -1.0           X(K-Q)    -1.0
+ ND
+
+ IA K         K         1
+ IA K-1       K         -1
+ I+ TE        K                        -Q
+ XE C(NS,NS)  X(K-1)    -1.0           X(TE)     -1.0
+
+CONSTANTS
+
+ X  GRIDNETH  C(1,1)    10.0
+ X  GRIDNETH  C(NS,NS)  -10.0
+
+BOUNDS
+
+ FR GRIDNETH  'DEFAULT'
+
+START POINT
+
+ XV GRIDNETH  'DEFAULT' 0.0
+
+ELEMENT TYPE
+
+ EV SQ        X
+
+ EV SQR       X                        Y
+
+ EV DENSE     V1                       V2
+ EV DENSE     V3                       V4
+ EV DENSE     V5                       V6
+ EV DENSE     V7                       V8
+ EV DENSE     V9                       V10
+ EV DENSE     V11                      V12
+ EV DENSE     V13                      V14
+ EV DENSE     V15                      V16
+ EV DENSE     V17                      V18
+ EV DENSE     V19                      V20
+ EV DENSE     V21                      V22
+ EV DENSE     V23                      V24
+ EV DENSE     V25                      V26
+ EV DENSE     V27                      V28
+ EV DENSE     V29                      V30
+ EV DENSE     V31                      V32
+ EV DENSE     V33                      V34
+ EV DENSE     V35                      V36
+ EV DENSE     V37                      V38
+ EV DENSE     V39                      V40
+ EV DENSE     V41                      V42
+ EV DENSE     V43                      V44
+ EV DENSE     V45                      V46
+ EV DENSE     V47                      V48
+ EV DENSE     V49                      V50
+ EV DENSE     V51                      V52
+ EV DENSE     V53                      V54
+ EV DENSE     V55                      V56
+ EV DENSE     V57                      V58
+ EV DENSE     V59                      V60
+ IV DENSE     U
+
+ELEMENT USES
+
+ DO K         1                        N
+ XT E(K)      SQ
+ ZV E(K)      X                        X(K)
+ ND
+
+ DO K         1                        N-1
+ IA K+1       K         1
+ XT B(K)      SQR
+ ZV B(K)      X                        X(K)
+ ZV B(K)      Y                        X(K+1)
+ ND
+
+ T  BIG       DENSE
+ V  BIG       V1                       X1
+ V  BIG       V2                       X2
+ V  BIG       V3                       X3
+ V  BIG       V4                       X4
+ V  BIG       V5                       X5
+ V  BIG       V6                       X6
+ V  BIG       V7                       X7
+ V  BIG       V8                       X8
+ V  BIG       V9                       X9
+ V  BIG       V10                      X10
+ V  BIG       V11                      X11
+ V  BIG       V12                      X12
+ V  BIG       V13                      X13
+ V  BIG       V14                      X14
+ V  BIG       V15                      X15
+ V  BIG       V16                      X16
+ V  BIG       V17                      X17
+ V  BIG       V18                      X18
+ V  BIG       V19                      X19
+ V  BIG       V20                      X20
+ V  BIG       V21                      X21
+ V  BIG       V22                      X22
+ V  BIG       V23                      X23
+ V  BIG       V24                      X24
+ V  BIG       V25                      X25
+ V  BIG       V26                      X26
+ V  BIG       V27                      X27
+ V  BIG       V28                      X28
+ V  BIG       V29                      X29
+ V  BIG       V30                      X30
+ V  BIG       V31                      X31
+ V  BIG       V32                      X32
+ V  BIG       V33                      X33
+ V  BIG       V34                      X34
+ V  BIG       V35                      X35
+ V  BIG       V36                      X36
+ V  BIG       V37                      X37
+ V  BIG       V38                      X38
+ V  BIG       V39                      X39
+ V  BIG       V40                      X40
+ V  BIG       V41                      X41
+ V  BIG       V42                      X42
+ V  BIG       V43                      X43
+ V  BIG       V44                      X44
+ V  BIG       V45                      X45
+ V  BIG       V46                      X46
+ V  BIG       V47                      X47
+ V  BIG       V48                      X48
+ V  BIG       V49                      X49
+ V  BIG       V50                      X50
+ V  BIG       V51                      X51
+ V  BIG       V52                      X52
+ V  BIG       V53                      X53
+ V  BIG       V54                      X54
+ V  BIG       V55                      X55
+ V  BIG       V56                      X56
+ V  BIG       V57                      X57
+ V  BIG       V58                      X58
+ V  BIG       V59                      X59
+ V  BIG       V60                      X60
+
+GROUP USES
+
+*   Bottom row outside the cycles
+
+ DO J         1                        P-2
+ DI J         4
+ XE OBJ       E(J)      0.01
+ ND
+
+*   Side rows outside the cycles
+
+ DO IW        2                        TW
+ DI IW        2P
+ I+ IE        IW                       P-2
+ XE OBJ       E(IE)     0.01           E(IW)     0.01
+ ND
+
+*   Top row outside the cycles
+
+ I+ HTW       TW                       P-1
+
+ DO J         HTW                      N
+ DI J         2
+ XE OBJ       E(J)      0.01
+ ND
+
+*   Cycles
+
+ DO JK        1                        L
+
+*             Compute the cycle coefficient
+
+ IA JK-1      JK        -1
+ RI RJK-1     JK-1
+ R* EX        RJK-1                    BETA
+ R( AK        EXP                      EX
+ RM AS        AK        0.01
+
+*             Set starting arcs for the vertical and horizontal cycles
+
+ IM VW        JK        4
+ IA IW        VW        0
+
+ IM 2JK       JK        2
+ IA 2JK-1     2JK       -1
+ I* P2JK-1    2JK-1                    P
+ IA HB        P2JK-1    1
+ IA IB        HB        0
+
+*             Loop on the long sides of both cycles
+
+ DO K         1                        NS-1
+
+*             West side of the JKth vertical cycle
+
+ ZE OBJ       E(IW)                    AS
+
+*             East side of the JKth vertical cycle
+
+ IA IE        IW        2
+ ZE OBJ       E(IE)                    AS
+
+*             Bottom side of the JKth horizontal cycle
+
+ ZE OBJ       E(IB)                    AS
+
+*             Top side of the JKth horizontal cycle
+
+ I+ IT        IB                       P
+ ZE OBJ       E(IT)                    AS
+
+*             Increment
+
+ I+ IW        IW                       P
+ IA IB        IB        2
+
+*             End the loop on the long sides
+
+ OD K
+
+*             Bottom side of the JKth vertical cycle
+
+ IA VW-1      VW        -1
+ ZE OBJ       E(VW-1)                  AS
+
+*             Top side of the JKth vertical cycle
+
+ IA TE        HTW       -1
+ I+ TS        TE                       2JK
+ ZE OBJ       E(TS)                    AS
+
+*             West side of the JKth horizontal cycle
+
+ IA KW        HB        1
+ ZE OBJ       E(KW)                    AS
+
+*             East side of the JKth horizontal cycle
+
+ I+ KE        P2JK-1                   P
+ ZE OBJ       E(KE)                    AS
+
+ ND
+
+*   Non quadratic terms
+
+ DO K         1                        N-1
+ ZE OBJ       B(K)                     A/100
+ ND
+
+*   Dense term
+
+ ZE OBJ       BIG                      SMALLA
+
+OBJECT BOUND
+
+ LO GRIDNETH            0.0
+
+*   Solution
+
+*LO SOLTN               39.609245
+
+ENDATA
+
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      GRIDNETH
+
+TEMPORARIES
+
+ R  A
+ R  SQRA
+ R  ASQRA
+ R  ISQRA
+ R  B
+ R  C
+ R  TENPU
+ M  SQRT
+
+INDIVIDUALS
+
+ T  SQ
+ F                      X * X
+ G  X                   X + X
+ H  X         X         2.0
+
+ T  SQR
+ A  A                   1.0 + 2.0 * X * ( X - Y) + Y * Y
+ A  SQRA                SQRT( A )
+ A  ASQRA               A * SQRA
+ A  ISQRA               1.0 / SQRA
+ A  B                   X + X - Y
+ A  C                   Y - X
+ F                      SQRA
+ G  X                   B / SQRA
+ G  Y                   C / SQRA
+ H  X         X         - B * B / ASQRA + ISQRA + ISQRA
+ H  X         Y         - B * C / ASQRA - ISQRA
+ H  Y         Y         - C * C / ASQRA + ISQRA
+
+ T  DENSE
+ R  U         V1        -1.0           V2        1.0
+ R  U         V3        -1.0           V4        1.0
+ R  U         V5        -1.0           V6        1.0
+ R  U         V7        -1.0           V8        1.0
+ R  U         V9        -1.0           V10       1.0
+ R  U         V11       -1.0           V12       1.0
+ R  U         V13       -1.0           V14       1.0
+ R  U         V15       -1.0           V16       1.0
+ R  U         V17       -1.0           V18       1.0
+ R  U         V19       -1.0           V20       1.0
+ R  U         V21       -1.0           V22       1.0
+ R  U         V23       -1.0           V24       1.0
+ R  U         V25       -1.0           V26       1.0
+ R  U         V27       -1.0           V28       1.0
+ R  U         V29       -1.0           V30       1.0
+ R  U         V31       -1.0           V32       1.0
+ R  U         V33       -1.0           V34       1.0
+ R  U         V35       -1.0           V36       1.0
+ R  U         V37       -1.0           V38       1.0
+ R  U         V39       -1.0           V40       1.0
+ R  U         V41       -1.0           V42       1.0
+ R  U         V43       -1.0           V44       1.0
+ R  U         V45       -1.0           V46       1.0
+ R  U         V47       -1.0           V48       1.0
+ R  U         V49       -1.0           V50       1.0
+ R  U         V51       -1.0           V52       1.0
+ R  U         V53       -1.0           V54       1.0
+ R  U         V55       -1.0           V56       1.0
+ R  U         V57       -1.0           V58       1.0
+ R  U         V59       -1.0           V60       1.0
+
+ A  TENPU               10.0 + U
+
+ F                      TENPU**4
+ G  U                   4.0 * TENPU**3
+ H  U         U         12.0 * TENPU**2
+
+ENDATA

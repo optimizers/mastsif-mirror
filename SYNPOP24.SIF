@@ -1,0 +1,3024 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          SYNPOP24
+
+*   Problem :
+*   *********
+
+*   A version of the synthetic population problem for the district Mons.
+
+*   The problem is to determine the number of individuals in each of the 536
+*   classes (characterized by household type, sex, age, activity type, diploma
+*   and driving licence ownership) for the district Mons (Belgium),
+*   given disaggregate sums on population types (household type, sex, age) 
+*   from the Belgian national census and further aggregate data on activity 
+*   level and diploma. 
+
+*   This is a linearly constrained linear least-squares 
+*   problems with bounds.
+
+*   6968 variables and 385 constraints
+
+*   Source: 
+*   the SAMBA project for the Belgian Federal Government, 2004.
+
+*   SIF input: Ph. Toint and L. Legrain, winter 2005.
+
+*   classification SOR2-RN-16080-16896
+
+********************************************************************************
+****************************  NOTATIONS  ***************************************
+********************************************************************************
+*
+*   The name of each variable, constant and objective group describes its
+*   meaning according to the following conventions:
+
+*   Character 1: household type
+*   ---------------------------
+*
+*   I : isolated without children       N : isolated with children
+*   C : couple without children         F : couple with children
+*
+*   Character 2 : sex
+*   -----------------
+*
+*   H : male         F : female
+*
+*   Character 3 : activity class
+*   ----------------------------
+*
+*   A : active      I : inactive        E : student
+*
+*   NOTE: no active or inactive in age class 1 (because school is mandatory in
+*         that age class), no student in age class 4 (this is an approximation)
+*
+*   Character 4 : diploma type
+*   --------------------------
+*
+*   O : none        P : primary         S : secundary      U : higher education
+*
+*   NOTE: no higher education diploma in age class 1 (higher education can
+*         only be acquired froma age class 2 and up)
+
+*   Character 5 : driving licence ownership
+*   ---------------------------------------
+*
+*   O : no          P : yes             
+*
+*   NOTE: no driving licence in age class 1 (legal minimum age for driving)
+*
+*   First index : age classes
+*   -------------------------
+*
+*   1 : 6 - 17      2 : 18 - 39         3 : 40 - 59        4 : >= 60
+*
+*   Second index: municipality
+*   ---------------------
+
+*  Index  INS code     Name 
+*
+*  53000 District MONS
+*
+*  333      53014      BOUSSU
+*  334      53020      DOUR
+*  335      53028      FRAMERIES
+*  336      53039      HENSIES
+*  337      53044      JURBISE
+*  338      53046      LENS
+*  339      53053      MONS
+*  340      53065      QUAREGNON
+*  341      53068      QUIEVRAIN
+*  342      53070      SAINT-GHISLAIN
+*  343      53082      COLFONTAINE
+*  344      53083      HONNELLES
+*  345      53084      QUEVY
+
+
+********************************************************************************
+*******************************  DATA  *****************************************
+********************************************************************************
+
+*   A few useful numbers
+
+ IE 1                   1
+ IE 2                   2
+ IE 3                   3
+ IE 4                   4
+
+*   mons = arrondissement numero 24
+
+ IE 24                  24
+
+*   Number of age classes
+
+ IE NA                  4 
+
+*   indices pour les boucles permis de conduire - commune 344 n a pas de
+*   donnees permis  
+
+ IE 343                 343
+ IE 345                 345
+
+*   Indices pour le nombre de communes comprises dans l arrondissement
+
+*   (pour facilite l exportation des resultats les boucles sont
+*   construites en gardant les numeros de communes -
+*   ici de 333 a 345 et le numero de l arrondissement - ici 24
+
+
+*   Number of municipalities = 13
+*   NC= nombre de communes - 1
+
+ IE NC                  12
+
+*   numero premiere commune
+
+ IE PC                  333
+
+*   numero derniere commune
+
+ I+ DC        NC                       PC
+
+* ainsi losrque une boucle sur les communes est necessaire
+* elle sera de la forme 
+* DO J         PC                       DC
+* equivalente a 
+* DO J         333                      345
+
+
+
+*             ------------------------------------------
+*               Town/city  populations by sex and age
+*             ------------------------------------------
+
+* mons
+
+ RE POPTH1,333              1689.0
+ RE POPTH2,333              3206.0
+ RE POPTH3,333              2620.0
+ RE POPTH4,333              1647.0
+ RE POPTF1,333              1636.0
+ RE POPTF2,333              3117.0
+ RE POPTF3,333              2826.0
+ RE POPTF4,333              2644.0
+ RE POPTH1,334              1347.0
+ RE POPTH2,334              2654.0
+ RE POPTH3,334              2232.0
+ RE POPTH4,334              1482.0
+ RE POPTF1,334              1272.0
+ RE POPTF2,334              2545.0
+ RE POPTF3,334              2205.0
+ RE POPTF4,334              2373.0
+ RE POPTH1,335              1591.0
+ RE POPTH2,335              3269.0
+ RE POPTH3,335              2744.0
+ RE POPTH4,335              1776.0
+ RE POPTF1,335              1578.0
+ RE POPTF2,335              3313.0
+ RE POPTF3,335              2901.0
+ RE POPTF4,335              2833.0
+ RE POPTH1,336               543.0
+ RE POPTH2,336              1146.0
+ RE POPTH3,336               913.0
+ RE POPTH4,336               548.0
+ RE POPTF1,336               544.0
+ RE POPTF2,336              1037.0
+ RE POPTF3,336               933.0
+ RE POPTF4,336               824.0
+ RE POPTH1,337               815.0
+ RE POPTH2,337              1384.0
+ RE POPTH3,337              1352.0
+ RE POPTH4,337               717.0
+ RE POPTF1,337               822.0
+ RE POPTF2,337              1512.0
+ RE POPTF3,337              1400.0
+ RE POPTF4,337               998.0
+ RE POPTH1,338               335.0
+ RE POPTH2,338               557.0
+ RE POPTH3,338               534.0
+ RE POPTH4,338               366.0
+ RE POPTF1,338               316.0
+ RE POPTF2,338               573.0
+ RE POPTF3,338               539.0
+ RE POPTF4,338               483.0
+ RE POPTH1,339              7202.0
+ RE POPTH2,339             15252.0
+ RE POPTH3,339             11893.0
+ RE POPTH4,339              7410.0
+ RE POPTF1,339              6883.0
+ RE POPTF2,339             14993.0
+ RE POPTF3,339             12754.0
+ RE POPTF4,339             11416.0
+ RE POPTH1,340              1653.0
+ RE POPTH2,340              3062.0
+ RE POPTH3,340              2462.0
+ RE POPTH4,340              1605.0
+ RE POPTF1,340              1486.0
+ RE POPTF2,340              3069.0
+ RE POPTF3,340              2620.0
+ RE POPTF4,340              2423.0
+ RE POPTH1,341               559.0
+ RE POPTH2,341              1064.0
+ RE POPTH3,341               873.0
+ RE POPTH4,341               587.0
+ RE POPTF1,341               484.0
+ RE POPTF2,341              1070.0
+ RE POPTF3,341               890.0
+ RE POPTF4,341               931.0
+ RE POPTH1,342              1749.0
+ RE POPTH2,342              3399.0
+ RE POPTH3,342              3035.0
+ RE POPTH4,342              1958.0
+ RE POPTF1,342              1635.0
+ RE POPTF2,342              3433.0
+ RE POPTF3,342              3266.0
+ RE POPTF4,342              3003.0
+ RE POPTH1,343              1733.0
+ RE POPTH2,343              3167.0
+ RE POPTH3,343              2737.0
+ RE POPTH4,343              1576.0
+ RE POPTF1,343              1615.0
+ RE POPTF2,343              3172.0
+ RE POPTF3,343              2863.0
+ RE POPTF4,343              2517.0
+ RE POPTH1,344               403.0
+ RE POPTH2,344               793.0
+ RE POPTH3,344               744.0
+ RE POPTH4,344               477.0
+ RE POPTF1,344               404.0
+ RE POPTF2,344               719.0
+ RE POPTF3,344               707.0
+ RE POPTF4,344               622.0
+ RE POPTH1,345               616.0
+ RE POPTH2,345              1235.0
+ RE POPTH3,345              1035.0
+ RE POPTH4,345               671.0
+ RE POPTF1,345               565.0
+ RE POPTF2,345              1213.0
+ RE POPTF3,345              1047.0
+ RE POPTF4,345               989.0
+
+*     -------------------------------------------------------------
+*     Number of driving licences (2004) per age and sex and town
+*     (except towns 72, 149, 263, 288, 344, 412, 497 for which data
+*      is unavailable)
+*     -------------------------------------------------------------
+
+* mons
+
+ RE DRLH2,333             1858.0
+ RE DRLH3,333             2919.0
+ RE DRLH4,333             1640.0
+ RE DRLF2,333             1457.0
+ RE DRLF3,333             1997.0
+ RE DRLF4,333              995.0
+
+ RE DRLH2,334             1533.0
+ RE DRLH3,334             2343.0
+ RE DRLH4,334             1604.0
+ RE DRLF2,334             1133.0
+ RE DRLF3,334             1577.0
+ RE DRLF4,334              873.0
+
+ RE DRLH2,335             1860.0
+ RE DRLH3,335             2774.0
+ RE DRLH4,335             1848.0
+ RE DRLF2,335             1530.0
+ RE DRLF3,335             1904.0
+ RE DRLF4,335              949.0
+
+ RE DRLH2,336              682.0
+ RE DRLH3,336              970.0
+ RE DRLH4,336              680.0
+ RE DRLF2,336              511.0
+ RE DRLF3,336              635.0
+ RE DRLF4,336              340.0
+
+ RE DRLH2,337              779.0
+ RE DRLH3,337             1155.0
+ RE DRLH4,337              789.0
+ RE DRLF2,337              643.0
+ RE DRLF3,337              931.0
+ RE DRLF4,337              651.0
+
+ RE DRLH2,338              329.0
+ RE DRLH3,338              523.0
+ RE DRLH4,338              436.0
+ RE DRLF2,338              298.0
+ RE DRLF3,338              410.0
+ RE DRLF4,338              311.0
+
+ RE DRLH2,339             8370.0
+ RE DRLH3,339            12529.0
+ RE DRLH4,339             7770.0
+ RE DRLF2,339             6697.0
+ RE DRLF3,339             9785.0
+ RE DRLF4,339             5519.0
+
+ RE DRLH2,340             1687.0
+ RE DRLH3,340             2533.0
+ RE DRLH4,340             1779.0
+ RE DRLF2,340             1343.0
+ RE DRLF3,340             1689.0
+ RE DRLF4,340              840.0
+
+ RE DRLH2,341              612.0
+ RE DRLH3,341              909.0
+ RE DRLH4,341              661.0
+ RE DRLF2,341              435.0
+ RE DRLF3,341              710.0
+ RE DRLF4,341              465.0
+
+ RE DRLH2,342             1914.0
+ RE DRLH3,342             3007.0
+ RE DRLH4,342             2199.0
+ RE DRLF2,342             1688.0
+ RE DRLF3,342             2496.0
+ RE DRLF4,342             1481.0
+
+ RE DRLH2,343             1858.0
+ RE DRLH3,343             2737.0
+ RE DRLH4,343             1915.0
+ RE DRLF2,343             1511.0
+ RE DRLF3,343             1899.0
+ RE DRLF4,343              971.0
+
+ RE DRLH2,345              327.0
+ RE DRLH3,345             1300.0
+ RE DRLH4,345             1208.0
+ RE DRLF2,345              286.0
+ RE DRLF3,345              981.0
+ RE DRLF4,345              781.0
+
+* ----------------------------------
+*     Household type by town/city
+* ----------------------------------
+
+* mons
+
+ RE POPMN333               2885.0
+ RE POPMI333               2336.0
+ RE POPMF333               9235.0
+ RE POPMC333               3616.0
+
+ RE POPMN334               1979.0
+ RE POPMI334               2061.0
+ RE POPMF334               7712.0
+ RE POPMC334               3280.0
+
+ RE POPMN335               2818.0
+ RE POPMI335               2742.0
+ RE POPMF335               9280.0
+ RE POPMC335               4080.0
+
+ RE POPMN336                761.0
+ RE POPMI336                655.0
+ RE POPMF336               3380.0
+ RE POPMC336               1124.0
+
+ RE POPMN337               1111.0
+ RE POPMI337                793.0
+ RE POPMF337               4683.0
+ RE POPMC337               1716.0
+
+ RE POPMN338                377.0
+ RE POPMI338                380.0
+ RE POPMF338               1884.0
+ RE POPMC338                788.0
+
+ RE POPMN339              14444.0
+ RE POPMI339              15938.0
+ RE POPMF339              36074.0
+ RE POPMC339              17454.0
+
+ RE POPMN340               2624.0
+ RE POPMI340               2166.0
+ RE POPMF340               8900.0
+ RE POPMC340               3404.0
+
+ RE POPMN341                764.0
+ RE POPMI341                792.0
+ RE POPMF341               3177.0
+ RE POPMC341               1270.0
+
+ RE POPMC342               4182.0
+ RE POPMI342               2646.0
+ RE POPMF342              10092.0
+ RE POPMN342               2793.0
+
+ RE POPMN343               2980.0
+ RE POPMF343               9261.0
+ RE POPMI343               2535.0
+ RE POPMC343               3586.0
+
+ RE POPMN344                531.0
+ RE POPMI344                555.0
+ RE POPMF344               2470.0
+ RE POPMC344                984.0
+
+ RE POPMI345                756.0
+ RE POPMC345               1466.0
+ RE POPMF345               3823.0
+ RE POPMN345                710.0
+
+* -----------------------------------------
+* professionnal activity by city/town
+* -----------------------------------------
+
+ RE POPAI333              8734.0
+ RE POPAE333              4559.0
+ RE POPAA333              6041.0
+
+ RE POPAI334              7629.0
+ RE POPAE334              3794.0
+ RE POPAA334              4562.0
+
+ RE POPAI335              9180.0
+ RE POPAE335              4533.0
+ RE POPAA335              6101.0
+
+ RE POPAI336              2764.0
+ RE POPAE336              1720.0
+ RE POPAA336              2003.0
+
+ RE POPAI337              2687.0
+ RE POPAE337              1933.0
+ RE POPAA337              2977.0
+
+ RE POPAI338              1351.0
+ RE POPAE338               799.0
+ RE POPAA338              1335.0
+
+ RE POPAI339             34679.0
+ RE POPAE339             20337.0
+ RE POPAA339             26807.0
+
+ RE POPAI340              8603.0
+ RE POPAE340              4435.0
+ RE POPAA340              5373.0
+
+ RE POPAI341              2827.0
+ RE POPAE341              1525.0
+ RE POPAA341              2077.0
+
+ RE POPAI342              8177.0
+ RE POPAE342              4527.0
+ RE POPAA342              6526.0
+
+ RE POPAI343              9735.0
+ RE POPAE343              4882.0
+ RE POPAA343              5711.0
+
+ RE POPAI344              2034.0
+ RE POPAE344              1071.0
+ RE POPAA344              1588.0
+
+ RE POPAI345              2741.0
+ RE POPAE345              1589.0
+ RE POPAA345              2575.0
+
+* ------------------------------------
+*  Diploma type by town/city
+* ------------------------------------
+
+ RE POPDU333               1356.0
+ RE POPDS333               6319.0
+ RE POPDP333               2935.0
+ RE POPDO333              10066.0
+
+ RE POPDU334               1353.0
+ RE POPDS334               5085.0
+ RE POPDP334               2378.0
+ RE POPDO334               8525.0
+
+ RE POPDU335               1486.0
+ RE POPDS335               6696.0
+ RE POPDP335               3015.0
+ RE POPDO335              10073.0
+
+ RE POPDU336                534.0
+ RE POPDS336               2087.0
+ RE POPDP336               1067.0
+ RE POPDO336               3216.0
+
+ RE POPDU337               1022.0
+ RE POPDS337               2497.0
+ RE POPDP337                717.0
+ RE POPDO337               4057.0
+
+ RE POPDU338                352.0
+ RE POPDS338               1162.0
+ RE POPDP338                402.0
+ RE POPDO338               1809.0
+
+ RE POPDU339              10190.0
+ RE POPDS339              25300.0
+ RE POPDP339               8472.0
+ RE POPDO339              47764.0
+
+ RE POPDU340               1249.0
+ RE POPDS340               5821.0
+ RE POPDP340               2453.0
+ RE POPDO340              10049.0
+
+ RE POPDU341                530.0
+ RE POPDS341               2178.0
+ RE POPDP341                763.0
+ RE POPDO341               3457.0
+
+ RE POPDU342               2146.0
+ RE POPDS342               5891.0
+ RE POPDP342               2151.0
+ RE POPDO342              11910.0
+
+ RE POPDU343               1215.0
+ RE POPDS343               6259.0
+ RE POPDP343               2888.0
+ RE POPDO343              11168.0
+
+ RE POPDU344                572.0
+ RE POPDS344               1454.0
+ RE POPDP344                584.0
+ RE POPDO344               2305.0
+
+ RE POPDU345                760.0
+ RE POPDS345               2211.0
+ RE POPDP345                780.0
+ RE POPDO345               3556.0
+
+* ------------------------------------------------------------------------
+*  Distribution of the individuals by age and household
+*  type by district 
+* --------------------------------------------------------------------------
+
+ RE POHC1,24                  0.0
+ RE POHC2,24               8017.0
+ RE POHC3,24              14294.0
+ RE POHC4,24              24639.0
+
+ RE POHF1,24              24417.0
+ RE POHF2,24              39167.0
+ RE POHF3,24              31831.0
+ RE POHF4,24               4747.0
+
+ RE POHI1,24                109.0
+ RE POHI2,24               9145.0
+ RE POHI3,24               9505.0
+ RE POHI4,24              15557.0
+
+ RE POHN1,24               9489.0
+ RE POHN2,24              11404.0
+ RE POHN3,24               7785.0
+ RE POHN4,24               2939.0
+
+* ----------------------------------------------------
+* Distribution of the individuals by age and diploma
+* by district
+* ----------------------------------------------------
+
+ RE POPO1,24              37783.0
+ RE POPO2,24              28759.0
+ RE POPO3,24              18009.0
+ RE POPO4,24              27400.0
+
+ RE POPP1,24                 25.0
+ RE POPP2,24               5826.0
+ RE POPP3,24               8471.0
+ RE POPP4,24              14283.0
+
+ RE POPS1,24                 12.0
+ RE POPS2,24              36817.0
+ RE POPS3,24              23209.0
+ RE POPS4,24              12922.0
+
+ RE POPU1,24                  1.0
+ RE POPU2,24              11613.0
+ RE POPU3,24               8174.0
+ RE POPU4,24               2977.0
+
+* ------------------------------------------------------------------------
+* Distribution of the individuals by age and professionnal status
+* by district
+* -------------------------------------------------------------------------
+
+ RE POPA2,24              42560.0
+ RE POPA3,24              29139.0
+ RE POPA4,24               1892.0
+
+ RE POPE1,24              36808.0
+ RE POPE2,24              12683.0
+ RE POPE3,24                  2.0
+
+ RE POPI2,24              21281.0
+ RE POPI3,24              24946.0
+ RE POPI4,24              54829.0
+
+* --------------------------------------------------------------------
+* Distribution of the individuals by diploma and professionnal status
+* by district
+* --------------------------------------------------------------------
+
+ RE POPAO24                9004.0
+ RE POPEO24               55644.0
+ RE POPIO24               42656.0
+
+ RE POPAP24                6708.0
+ RE POPEP24                  12.0
+ RE POPIP24               21564.0
+
+ RE POPAS24               40385.0
+ RE POPES24                  41.0
+ RE POPIS24               31825.0
+
+ RE POPAU24               17579.0
+ RE POPEU24                   7.0
+ RE POPIU24                5096.0
+
+* -----------------------------------------------------
+* Distribution of the individuals by sex and diploma
+* by district
+* -----------------------------------------------------
+
+ RE POPFU24               12072.0
+ RE POPHU24               10678.0
+
+ RE POPFS24               36424.0
+ RE POPHS24               36512.0
+
+ RE POPFP24               16111.0
+ RE POPHP24               12479.0
+
+ RE POPFO24               67133.0
+ RE POPHO24               60604.0
+
+* ----------------------------------------------------------------
+* Distribution of the individuals by sex and professionnal status
+* by district
+* -----------------------------------------------------------------
+
+ RE POPHA24               44739.0
+ RE POPFA24               28911.0
+
+ RE POPHE24               28504.0
+ RE POPFE24               27119.0
+
+ RE POPHI24               35745.0
+ RE POPFI24               65313.0
+
+********************************************************************************
+*******************************  PROBLEM  **************************************
+********************************************************************************
+
+VARIABLES
+
+*   Individuals in age class 1 to 3 only
+
+ DO I         1                        3
+
+* boucle sur les communes 333 à 345
+
+ DO J         PC                       DC
+
+ X  IHEOO(I,J)
+ X  IHEPO(I,J)
+ X  IHESO(I,J)
+ X  IFEOO(I,J)
+ X  IFEPO(I,J)
+ X  IFESO(I,J)
+ X  NHEOO(I,J)
+ X  NHEPO(I,J)
+ X  NHESO(I,J)
+ X  NFEOO(I,J)
+ X  NFEPO(I,J)
+ X  NFESO(I,J)
+ X  FHEOO(I,J)
+ X  FHEPO(I,J)
+ X  FHESO(I,J)
+ X  FFEOO(I,J)
+ X  FFEPO(I,J)
+ X  FFESO(I,J)
+ X  CHEOO(I,J)
+ X  CHEPO(I,J)
+ X  CHESO(I,J)
+ X  CFEOO(I,J)
+ X  CFEPO(I,J)
+ X  CFESO(I,J)
+
+ ND
+
+*   Individuals in age classes 2 and 3 only
+
+ DO I         2                        3
+ DO J         PC                       DC
+
+ X  IHEOP(I,J)
+ X  IHEPP(I,J)
+ X  IHESP(I,J)
+ X  IHEUP(I,J)
+ X  IFEOP(I,J)
+ X  IFEPP(I,J)
+ X  IFESP(I,J)
+ X  IFEUP(I,J)
+ X  NHEOP(I,J)
+ X  NHEPP(I,J)
+ X  NHESP(I,J)
+ X  NHEUP(I,J)
+ X  NFEOP(I,J)
+ X  NFEPP(I,J)
+ X  NFESP(I,J)
+ X  NFEUP(I,J)
+ X  FHEOP(I,J)
+ X  FHEPP(I,J)
+ X  FHESP(I,J)
+ X  FHEUP(I,J)
+ X  FFEOP(I,J)
+ X  FFEPP(I,J)
+ X  FFESP(I,J)
+ X  FFEUP(I,J)
+ X  CHEOP(I,J)
+ X  CHEPP(I,J)
+ X  CHESP(I,J)
+ X  CHEUP(I,J)
+ X  CFEOP(I,J)
+ X  CFEPP(I,J)
+ X  CFESP(I,J)
+ X  CFEUP(I,J)
+ X  IHEUO(I,J)
+ X  IFEUO(I,J)
+ X  NHEUO(I,J)
+ X  NFEUO(I,J)
+ X  FHEUO(I,J)
+ X  FFEUO(I,J)
+ X  CHEUO(I,J)
+ X  CFEUO(I,J)
+
+ ND
+
+*   Individuals in age classes 2, 3 and 4
+
+ DO I         2                        4
+ DO J         PC                       DC
+
+ X  IHAOP(I,J)
+ X  IHAPP(I,J)
+ X  IHASP(I,J)
+ X  IHAUP(I,J)
+ X  IHIOP(I,J)
+ X  IHIPP(I,J)
+ X  IHISP(I,J)
+ X  IHIUP(I,J)
+ X  IFAOP(I,J)
+ X  IFAPP(I,J)
+ X  IFASP(I,J)
+ X  IFAUP(I,J)
+ X  IFIOP(I,J)
+ X  IFIPP(I,J)
+ X  IFISP(I,J)
+ X  IFIUP(I,J)
+ X  NHAOP(I,J)
+ X  NHAPP(I,J)
+ X  NHASP(I,J)
+ X  NHAUP(I,J)
+ X  NHIOP(I,J)
+ X  NHIPP(I,J)
+ X  NHISP(I,J)
+ X  NHIUP(I,J)
+ X  NFAOP(I,J)
+ X  NFAPP(I,J)
+ X  NFASP(I,J)
+ X  NFAUP(I,J)
+ X  NFIOP(I,J)
+ X  NFIPP(I,J)
+ X  NFISP(I,J)
+ X  NFIUP(I,J)
+ X  FHAOP(I,J)
+ X  FHAPP(I,J)
+ X  FHASP(I,J)
+ X  FHAUP(I,J)
+ X  FHIOP(I,J)
+ X  FHIPP(I,J)
+ X  FHISP(I,J)
+ X  FHIUP(I,J)
+ X  FFAOP(I,J)
+ X  FFAPP(I,J)
+ X  FFASP(I,J)
+ X  FFAUP(I,J)
+ X  FFIOP(I,J)
+ X  FFIPP(I,J)
+ X  FFISP(I,J)
+ X  FFIUP(I,J)
+ X  CHAOP(I,J)
+ X  CHAPP(I,J)
+ X  CHASP(I,J)
+ X  CHAUP(I,J)
+ X  CHIOP(I,J)
+ X  CHIPP(I,J)
+ X  CHISP(I,J)
+ X  CHIUP(I,J)
+ X  CFAOP(I,J)
+ X  CFAPP(I,J)
+ X  CFASP(I,J)
+ X  CFAUP(I,J)
+ X  CFIOP(I,J)
+ X  CFIPP(I,J)
+ X  CFISP(I,J)
+ X  CFIUP(I,J)
+ X  IHAOO(I,J)
+ X  IHAPO(I,J)
+ X  IHASO(I,J)
+ X  IHAUO(I,J)
+ X  IHIOO(I,J)
+ X  IHIPO(I,J)
+ X  IHISO(I,J)
+ X  IHIUO(I,J)
+ X  IFAOO(I,J)
+ X  IFAPO(I,J)
+ X  IFASO(I,J)
+ X  IFAUO(I,J)
+ X  IFIOO(I,J)
+ X  IFIPO(I,J)
+ X  IFISO(I,J)
+ X  IFIUO(I,J)
+ X  NHAOO(I,J)
+ X  NHAPO(I,J)
+ X  NHASO(I,J)
+ X  NHAUO(I,J)
+ X  NHIOO(I,J)
+ X  NHIPO(I,J)
+ X  NHISO(I,J)
+ X  NHIUO(I,J)
+ X  NFAOO(I,J)
+ X  NFAPO(I,J)
+ X  NFASO(I,J)
+ X  NFAUO(I,J)
+ X  NFIOO(I,J)
+ X  NFIPO(I,J)
+ X  NFISO(I,J)
+ X  NFIUO(I,J)
+ X  FHAOO(I,J)
+ X  FHAPO(I,J)
+ X  FHASO(I,J)
+ X  FHAUO(I,J)
+ X  FHIOO(I,J)
+ X  FHIPO(I,J)
+ X  FHISO(I,J)
+ X  FHIUO(I,J)
+ X  FFAOO(I,J)
+ X  FFAPO(I,J)
+ X  FFASO(I,J)
+ X  FFAUO(I,J)
+ X  FFIOO(I,J)
+ X  FFIPO(I,J)
+ X  FFISO(I,J)
+ X  FFIUO(I,J)
+ X  CHAOO(I,J)
+ X  CHAPO(I,J)
+ X  CHASO(I,J)
+ X  CHAUO(I,J)
+ X  CHIOO(I,J)
+ X  CHIPO(I,J)
+ X  CHISO(I,J)
+ X  CHIUO(I,J)
+ X  CFAOO(I,J)
+ X  CFAPO(I,J)
+ X  CFASO(I,J)
+ X  CFAUO(I,J)
+ X  CFIOO(I,J)
+ X  CFIPO(I,J)
+ X  CFISO(I,J)
+ X  CFIUO(I,J)
+
+ ND
+
+GROUPS
+
+*   Objective groups: 1 ) minimize the size of each individual class
+
+* poids associe aux variables (=10 000)
+
+ RE OBJ-SCAL            0.0001
+
+*   Individuals in age class 1 to 3 only
+
+ DO I         1                        3
+ DO J         PC                       DC
+
+ ZE IHEOO(I,J)IHEOO(I,J)               OBJ-SCAL
+ ZE IHEPO(I,J)IHEPO(I,J)               OBJ-SCAL
+ ZE IHESO(I,J)IHESO(I,J)               OBJ-SCAL
+ ZE IFEOO(I,J)IFEOO(I,J)               OBJ-SCAL
+ ZE IFEPO(I,J)IFEPO(I,J)               OBJ-SCAL
+ ZE IFESO(I,J)IFESO(I,J)               OBJ-SCAL
+ ZE NHEOO(I,J)NHEOO(I,J)               OBJ-SCAL
+ ZE NHEPO(I,J)NHEPO(I,J)               OBJ-SCAL
+ ZE NHESO(I,J)NHESO(I,J)               OBJ-SCAL
+ ZE NFEOO(I,J)NFEOO(I,J)               OBJ-SCAL
+ ZE NFEPO(I,J)NFEPO(I,J)               OBJ-SCAL
+ ZE NFESO(I,J)NFESO(I,J)               OBJ-SCAL
+ ZE FHEOO(I,J)FHEOO(I,J)               OBJ-SCAL
+ ZE FHEPO(I,J)FHEPO(I,J)               OBJ-SCAL
+ ZE FHESO(I,J)FHESO(I,J)               OBJ-SCAL
+ ZE FFEOO(I,J)FFEOO(I,J)               OBJ-SCAL
+ ZE FFEPO(I,J)FFEPO(I,J)               OBJ-SCAL
+ ZE FFESO(I,J)FFESO(I,J)               OBJ-SCAL
+ ZE CHEOO(I,J)CHEOO(I,J)               OBJ-SCAL
+ ZE CHEPO(I,J)CHEPO(I,J)               OBJ-SCAL
+ ZE CHESO(I,J)CHESO(I,J)               OBJ-SCAL
+ ZE CFEOO(I,J)CFEOO(I,J)               OBJ-SCAL
+ ZE CFEPO(I,J)CFEPO(I,J)               OBJ-SCAL
+ ZE CFESO(I,J)CFESO(I,J)               OBJ-SCAL
+
+ ND
+
+*   Individuals in age classes 2 and 3 only
+
+ DO I         2                        3
+ DO J         PC                       DC
+
+ ZE IHEOP(I,J)IHEOP(I,J)               OBJ-SCAL
+ ZE IHEPP(I,J)IHEPP(I,J)               OBJ-SCAL
+ ZE IHESP(I,J)IHESP(I,J)               OBJ-SCAL
+ ZE IHEUP(I,J)IHEUP(I,J)               OBJ-SCAL
+ ZE IFEOP(I,J)IFEOP(I,J)               OBJ-SCAL
+ ZE IFEPP(I,J)IFEPP(I,J)               OBJ-SCAL
+ ZE IFESP(I,J)IFESP(I,J)               OBJ-SCAL
+ ZE IFEUP(I,J)IFEUP(I,J)               OBJ-SCAL
+ ZE NHEOP(I,J)NHEOP(I,J)               OBJ-SCAL
+ ZE NHEPP(I,J)NHEPP(I,J)               OBJ-SCAL
+ ZE NHESP(I,J)NHESP(I,J)               OBJ-SCAL
+ ZE NHEUP(I,J)NHEUP(I,J)               OBJ-SCAL
+ ZE NFEOP(I,J)NFEOP(I,J)               OBJ-SCAL
+ ZE NFEPP(I,J)NFEPP(I,J)               OBJ-SCAL
+ ZE NFESP(I,J)NFESP(I,J)               OBJ-SCAL
+ ZE NFEUP(I,J)NFEUP(I,J)               OBJ-SCAL
+ ZE FHEOP(I,J)FHEOP(I,J)               OBJ-SCAL
+ ZE FHEPP(I,J)FHEPP(I,J)               OBJ-SCAL
+ ZE FHESP(I,J)FHESP(I,J)               OBJ-SCAL
+ ZE FHEUP(I,J)FHEUP(I,J)               OBJ-SCAL
+ ZE FFEOP(I,J)FFEOP(I,J)               OBJ-SCAL
+ ZE FFEPP(I,J)FFEPP(I,J)               OBJ-SCAL
+ ZE FFESP(I,J)FFESP(I,J)               OBJ-SCAL
+ ZE FFEUP(I,J)FFEUP(I,J)               OBJ-SCAL
+ ZE CHEOP(I,J)CHEOP(I,J)               OBJ-SCAL
+ ZE CHEPP(I,J)CHEPP(I,J)               OBJ-SCAL
+ ZE CHESP(I,J)CHESP(I,J)               OBJ-SCAL
+ ZE CHEUP(I,J)CHEUP(I,J)               OBJ-SCAL
+ ZE CFEOP(I,J)CFEOP(I,J)               OBJ-SCAL
+ ZE CFEPP(I,J)CFEPP(I,J)               OBJ-SCAL
+ ZE CFESP(I,J)CFESP(I,J)               OBJ-SCAL
+ ZE CFEUP(I,J)CFEUP(I,J)               OBJ-SCAL
+ ZE IHEUO(I,J)IHEUO(I,J)               OBJ-SCAL
+ ZE IFEUO(I,J)IFEUO(I,J)               OBJ-SCAL
+ ZE NHEUO(I,J)NHEUO(I,J)               OBJ-SCAL
+ ZE NFEUO(I,J)NFEUO(I,J)               OBJ-SCAL
+ ZE FHEUO(I,J)FHEUO(I,J)               OBJ-SCAL
+ ZE FFEUO(I,J)FFEUO(I,J)               OBJ-SCAL
+ ZE CHEUO(I,J)CHEUO(I,J)               OBJ-SCAL
+ ZE CFEUO(I,J)CFEUO(I,J)               OBJ-SCAL
+
+ ND
+
+*   Individuals in age classes 2, 3 and 4
+
+ DO I         2                        4
+ DO J         PC                       DC
+
+ ZE IHAOP(I,J)IHAOP(I,J)               OBJ-SCAL
+ ZE IHAPP(I,J)IHAPP(I,J)               OBJ-SCAL
+ ZE IHASP(I,J)IHASP(I,J)               OBJ-SCAL
+ ZE IHAUP(I,J)IHAUP(I,J)               OBJ-SCAL
+ ZE IHIOP(I,J)IHIOP(I,J)               OBJ-SCAL
+ ZE IHIPP(I,J)IHIPP(I,J)               OBJ-SCAL
+ ZE IHISP(I,J)IHISP(I,J)               OBJ-SCAL
+ ZE IHIUP(I,J)IHIUP(I,J)               OBJ-SCAL
+ ZE IFAOP(I,J)IFAOP(I,J)               OBJ-SCAL
+ ZE IFAPP(I,J)IFAPP(I,J)               OBJ-SCAL
+ ZE IFASP(I,J)IFASP(I,J)               OBJ-SCAL
+ ZE IFAUP(I,J)IFAUP(I,J)               OBJ-SCAL
+ ZE IFIOP(I,J)IFIOP(I,J)               OBJ-SCAL
+ ZE IFIPP(I,J)IFIPP(I,J)               OBJ-SCAL
+ ZE IFISP(I,J)IFISP(I,J)               OBJ-SCAL
+ ZE IFIUP(I,J)IFIUP(I,J)               OBJ-SCAL
+ ZE NHAOP(I,J)NHAOP(I,J)               OBJ-SCAL
+ ZE NHAPP(I,J)NHAPP(I,J)               OBJ-SCAL
+ ZE NHASP(I,J)NHASP(I,J)               OBJ-SCAL
+ ZE NHAUP(I,J)NHAUP(I,J)               OBJ-SCAL
+ ZE NHIOP(I,J)NHIOP(I,J)               OBJ-SCAL
+ ZE NHIPP(I,J)NHIPP(I,J)               OBJ-SCAL
+ ZE NHISP(I,J)NHISP(I,J)               OBJ-SCAL
+ ZE NHIUP(I,J)NHIUP(I,J)               OBJ-SCAL
+ ZE NFAOP(I,J)NFAOP(I,J)               OBJ-SCAL
+ ZE NFAPP(I,J)NFAPP(I,J)               OBJ-SCAL
+ ZE NFASP(I,J)NFASP(I,J)               OBJ-SCAL
+ ZE NFAUP(I,J)NFAUP(I,J)               OBJ-SCAL
+ ZE NFIOP(I,J)NFIOP(I,J)               OBJ-SCAL
+ ZE NFIPP(I,J)NFIPP(I,J)               OBJ-SCAL
+ ZE NFISP(I,J)NFISP(I,J)               OBJ-SCAL
+ ZE NFIUP(I,J)NFIUP(I,J)               OBJ-SCAL
+ ZE FHAOP(I,J)FHAOP(I,J)               OBJ-SCAL
+ ZE FHAPP(I,J)FHAPP(I,J)               OBJ-SCAL
+ ZE FHASP(I,J)FHASP(I,J)               OBJ-SCAL
+ ZE FHAUP(I,J)FHAUP(I,J)               OBJ-SCAL
+ ZE FHIOP(I,J)FHIOP(I,J)               OBJ-SCAL
+ ZE FHIPP(I,J)FHIPP(I,J)               OBJ-SCAL
+ ZE FHISP(I,J)FHISP(I,J)               OBJ-SCAL
+ ZE FHIUP(I,J)FHIUP(I,J)               OBJ-SCAL
+ ZE FFAOP(I,J)FFAOP(I,J)               OBJ-SCAL
+ ZE FFAPP(I,J)FFAPP(I,J)               OBJ-SCAL
+ ZE FFASP(I,J)FFASP(I,J)               OBJ-SCAL
+ ZE FFAUP(I,J)FFAUP(I,J)               OBJ-SCAL
+ ZE FFIOP(I,J)FFIOP(I,J)               OBJ-SCAL
+ ZE FFIPP(I,J)FFIPP(I,J)               OBJ-SCAL
+ ZE FFISP(I,J)FFISP(I,J)               OBJ-SCAL
+ ZE FFIUP(I,J)FFIUP(I,J)               OBJ-SCAL
+ ZE CHAOP(I,J)CHAOP(I,J)               OBJ-SCAL
+ ZE CHAPP(I,J)CHAPP(I,J)               OBJ-SCAL
+ ZE CHASP(I,J)CHASP(I,J)               OBJ-SCAL
+ ZE CHAUP(I,J)CHAUP(I,J)               OBJ-SCAL
+ ZE CHIOP(I,J)CHIOP(I,J)               OBJ-SCAL
+ ZE CHIPP(I,J)CHIPP(I,J)               OBJ-SCAL
+ ZE CHISP(I,J)CHISP(I,J)               OBJ-SCAL
+ ZE CHIUP(I,J)CHIUP(I,J)               OBJ-SCAL
+ ZE CFAOP(I,J)CFAOP(I,J)               OBJ-SCAL
+ ZE CFAPP(I,J)CFAPP(I,J)               OBJ-SCAL
+ ZE CFASP(I,J)CFASP(I,J)               OBJ-SCAL
+ ZE CFAUP(I,J)CFAUP(I,J)               OBJ-SCAL
+ ZE CFIOP(I,J)CFIOP(I,J)               OBJ-SCAL
+ ZE CFIPP(I,J)CFIPP(I,J)               OBJ-SCAL
+ ZE CFISP(I,J)CFISP(I,J)               OBJ-SCAL
+ ZE CFIUP(I,J)CFIUP(I,J)               OBJ-SCAL
+ ZE IHAOO(I,J)IHAOO(I,J)               OBJ-SCAL
+ ZE IHAPO(I,J)IHAPO(I,J)               OBJ-SCAL
+ ZE IHASO(I,J)IHASO(I,J)               OBJ-SCAL
+ ZE IHAUO(I,J)IHAUO(I,J)               OBJ-SCAL
+ ZE IHIOO(I,J)IHIOO(I,J)               OBJ-SCAL
+ ZE IHIPO(I,J)IHIPO(I,J)               OBJ-SCAL
+ ZE IHISO(I,J)IHISO(I,J)               OBJ-SCAL
+ ZE IHIUO(I,J)IHIUO(I,J)               OBJ-SCAL
+ ZE IFAOO(I,J)IFAOO(I,J)               OBJ-SCAL
+ ZE IFAPO(I,J)IFAPO(I,J)               OBJ-SCAL
+ ZE IFASO(I,J)IFASO(I,J)               OBJ-SCAL
+ ZE IFAUO(I,J)IFAUO(I,J)               OBJ-SCAL
+ ZE IFIOO(I,J)IFIOO(I,J)               OBJ-SCAL
+ ZE IFIPO(I,J)IFIPO(I,J)               OBJ-SCAL
+ ZE IFISO(I,J)IFISO(I,J)               OBJ-SCAL
+ ZE IFIUO(I,J)IFIUO(I,J)               OBJ-SCAL
+ ZE NHAOO(I,J)NHAOO(I,J)               OBJ-SCAL
+ ZE NHAPO(I,J)NHAPO(I,J)               OBJ-SCAL
+ ZE NHASO(I,J)NHASO(I,J)               OBJ-SCAL
+ ZE NHAUO(I,J)NHAUO(I,J)               OBJ-SCAL
+ ZE NHIOO(I,J)NHIOO(I,J)               OBJ-SCAL
+ ZE NHIPO(I,J)NHIPO(I,J)               OBJ-SCAL
+ ZE NHISO(I,J)NHISO(I,J)               OBJ-SCAL
+ ZE NHIUO(I,J)NHIUO(I,J)               OBJ-SCAL
+ ZE NFAOO(I,J)NFAOO(I,J)               OBJ-SCAL
+ ZE NFAPO(I,J)NFAPO(I,J)               OBJ-SCAL
+ ZE NFASO(I,J)NFASO(I,J)               OBJ-SCAL
+ ZE NFAUO(I,J)NFAUO(I,J)               OBJ-SCAL
+ ZE NFIOO(I,J)NFIOO(I,J)               OBJ-SCAL
+ ZE NFIPO(I,J)NFIPO(I,J)               OBJ-SCAL
+ ZE NFISO(I,J)NFISO(I,J)               OBJ-SCAL
+ ZE NFIUO(I,J)NFIUO(I,J)               OBJ-SCAL
+ ZE FHAOO(I,J)FHAOO(I,J)               OBJ-SCAL
+ ZE FHAPO(I,J)FHAPO(I,J)               OBJ-SCAL
+ ZE FHASO(I,J)FHASO(I,J)               OBJ-SCAL
+ ZE FHAUO(I,J)FHAUO(I,J)               OBJ-SCAL
+ ZE FHIOO(I,J)FHIOO(I,J)               OBJ-SCAL
+ ZE FHIPO(I,J)FHIPO(I,J)               OBJ-SCAL
+ ZE FHISO(I,J)FHISO(I,J)               OBJ-SCAL
+ ZE FHIUO(I,J)FHIUO(I,J)               OBJ-SCAL
+ ZE FFAOO(I,J)FFAOO(I,J)               OBJ-SCAL
+ ZE FFAPO(I,J)FFAPO(I,J)               OBJ-SCAL
+ ZE FFASO(I,J)FFASO(I,J)               OBJ-SCAL
+ ZE FFAUO(I,J)FFAUO(I,J)               OBJ-SCAL
+ ZE FFIOO(I,J)FFIOO(I,J)               OBJ-SCAL
+ ZE FFIPO(I,J)FFIPO(I,J)               OBJ-SCAL
+ ZE FFISO(I,J)FFISO(I,J)               OBJ-SCAL
+ ZE FFIUO(I,J)FFIUO(I,J)               OBJ-SCAL
+ ZE CHAOO(I,J)CHAOO(I,J)               OBJ-SCAL
+ ZE CHAPO(I,J)CHAPO(I,J)               OBJ-SCAL
+ ZE CHASO(I,J)CHASO(I,J)               OBJ-SCAL
+ ZE CHAUO(I,J)CHAUO(I,J)               OBJ-SCAL
+ ZE CHIOO(I,J)CHIOO(I,J)               OBJ-SCAL
+ ZE CHIPO(I,J)CHIPO(I,J)               OBJ-SCAL
+ ZE CHISO(I,J)CHISO(I,J)               OBJ-SCAL
+ ZE CHIUO(I,J)CHIUO(I,J)               OBJ-SCAL
+ ZE CFAOO(I,J)CFAOO(I,J)               OBJ-SCAL
+ ZE CFAPO(I,J)CFAPO(I,J)               OBJ-SCAL
+ ZE CFASO(I,J)CFASO(I,J)               OBJ-SCAL
+ ZE CFAUO(I,J)CFAUO(I,J)               OBJ-SCAL
+ ZE CFIOO(I,J)CFIOO(I,J)               OBJ-SCAL
+ ZE CFIPO(I,J)CFIPO(I,J)               OBJ-SCAL
+ ZE CFISO(I,J)CFISO(I,J)               OBJ-SCAL
+ ZE CFIUO(I,J)CFIUO(I,J)               OBJ-SCAL
+
+ ND
+
+*   ***************
+*   * CONSTRAINTS *
+*   ***************
+
+
+*   CONSTRAINTS DUE TO THE MUNICIPALITY MARGINALS
+
+*   Constraints of age and sex: the sum of the individuals for of all
+*   household types, professionnal activity, education level and driving licence
+*   ownership in each municipality must be equal to its reported value.
+
+* Poids
+
+ RE ASH-SCAL            0.0001
+ RE ASF-SCAL            0.0001
+
+ DO J         PC                       DC
+
+ ZE ASH(1,J)  'SCALE'                  ASH-SCAL
+ ZE ASH(2,J)  'SCALE'                  ASH-SCAL
+ ZE ASH(3,J)  'SCALE'                  ASH-SCAL
+ ZE ASH(4,J)  'SCALE'                  ASH-SCAL
+ ZE ASF(1,J)  'SCALE'                  ASF-SCAL
+ ZE ASF(2,J)  'SCALE'                  ASF-SCAL
+ ZE ASF(3,J)  'SCALE'                  ASF-SCAL
+ ZE ASF(4,J)  'SCALE'                  ASF-SCAL
+
+*   Individuals in age class 1 to 3 only
+
+ DO I         1                        3
+
+ XE ASH(I,J)  IHEOO(I,J)1.0            IHEPO(I,J)1.0
+ XE ASH(I,J)  IHESO(I,J)1.0            NHEOO(I,J)1.0
+ XE ASH(I,J)  NHEPO(I,J)1.0            NHESO(I,J)1.0
+ XE ASH(I,J)  FHEOO(I,J)1.0            FHEPO(I,J)1.0
+ XE ASH(I,J)  FHESO(I,J)1.0            CHEOO(I,J)1.0
+ XE ASH(I,J)  CHEPO(I,J)1.0            CHESO(I,J)1.0
+
+ XE ASF(I,J)  IFEOO(I,J)1.0            IFEPO(I,J)1.0
+ XE ASF(I,J)  IFESO(I,J)1.0            NFEOO(I,J)1.0
+ XE ASF(I,J)  NFEPO(I,J)1.0            NFESO(I,J)1.0
+ XE ASF(I,J)  FFEOO(I,J)1.0            FFEPO(I,J)1.0
+ XE ASF(I,J)  FFESO(I,J)1.0            CFEOO(I,J)1.0
+ XE ASF(I,J)  CFEPO(I,J)1.0            CFESO(I,J)1.0
+
+ OD I
+
+*   Individuals in age classes 2 and 3 only
+
+ DO I         2                        3
+
+ XE ASH(I,J)  IHEOP(I,J)1.0            IHEPP(I,J)1.0
+ XE ASH(I,J)  IHESP(I,J)1.0            IHEUP(I,J)1.0
+ XE ASH(I,J)  IHEUO(I,J)1.0            NHEOP(I,J)1.0 
+ XE ASH(I,J)  NHEPP(I,J)1.0            NHESP(I,J)1.0
+ XE ASH(I,J)  NHEUP(I,J)1.0            NHEUO(I,J)1.0
+ XE ASH(I,J)  FHEOP(I,J)1.0            FHEPP(I,J)1.0
+ XE ASH(I,J)  FHESP(I,J)1.0            FHEUP(I,J)1.0
+ XE ASH(I,J)  FHEUO(I,J)1.0            CHEOP(I,J)1.0
+ XE ASH(I,J)  CHEPP(I,J)1.0            CHESP(I,J)1.0
+ XE ASH(I,J)  CHEUP(I,J)1.0            CHEUO(I,J)1.0
+
+ XE ASF(I,J)  IFEOP(I,J)1.0            IFEPP(I,J)1.0
+ XE ASF(I,J)  IFESP(I,J)1.0            IFEUP(I,J)1.0
+ XE ASF(I,J)  IFEUO(I,J)1.0            NFEOP(I,J)1.0 
+ XE ASF(I,J)  NFEPP(I,J)1.0            NFESP(I,J)1.0
+ XE ASF(I,J)  NFEUP(I,J)1.0            NFEUO(I,J)1.0
+ XE ASF(I,J)  FFEOP(I,J)1.0            FFEPP(I,J)1.0
+ XE ASF(I,J)  FFESP(I,J)1.0            FFEUP(I,J)1.0
+ XE ASF(I,J)  FFEUO(I,J)1.0            CFEOP(I,J)1.0
+ XE ASF(I,J)  CFEPP(I,J)1.0            CFESP(I,J)1.0
+ XE ASF(I,J)  CFEUP(I,J)1.0            CFEUO(I,J)1.0
+
+ OD I
+
+*   Individuals in age classes 2, 3 and 4
+
+ DO I         2                        4
+
+ XE ASH(I,J)  IHAOP(I,J)1.0            IHAPP(I,J)1.0
+ XE ASH(I,J)  IHASP(I,J)1.0            IHAUP(I,J)1.0
+ XE ASH(I,J)  IHIOP(I,J)1.0            IHIPP(I,J)1.0
+ XE ASH(I,J)  IHISP(I,J)1.0            IHIUP(I,J)1.0
+ XE ASH(I,J)  NHAOP(I,J)1.0            NHAPP(I,J)1.0
+ XE ASH(I,J)  NHASP(I,J)1.0            NHAUP(I,J)1.0
+ XE ASH(I,J)  NHIOP(I,J)1.0            NHIPP(I,J)1.0
+ XE ASH(I,J)  NHISP(I,J)1.0            NHIUP(I,J)1.0
+ XE ASH(I,J)  FHAOP(I,J)1.0            FHAPP(I,J)1.0
+ XE ASH(I,J)  FHASP(I,J)1.0            FHAUP(I,J)1.0
+ XE ASH(I,J)  FHIOP(I,J)1.0            FHIPP(I,J)1.0
+ XE ASH(I,J)  FHISP(I,J)1.0            FHIUP(I,J)1.0
+ XE ASH(I,J)  CHAOP(I,J)1.0            CHAPP(I,J)1.0
+ XE ASH(I,J)  CHASP(I,J)1.0            CHAUP(I,J)1.0
+ XE ASH(I,J)  CHIOP(I,J)1.0            CHIPP(I,J)1.0
+ XE ASH(I,J)  CHISP(I,J)1.0            CHIUP(I,J)1.0
+ XE ASH(I,J)  IHAOO(I,J)1.0            IHAPO(I,J)1.0
+ XE ASH(I,J)  IHASO(I,J)1.0            IHAUO(I,J)1.0
+ XE ASH(I,J)  IHIOO(I,J)1.0            IHIPO(I,J)1.0
+ XE ASH(I,J)  IHISO(I,J)1.0            IHIUO(I,J)1.0
+ XE ASH(I,J)  NHAOO(I,J)1.0            NHAPO(I,J)1.0
+ XE ASH(I,J)  NHASO(I,J)1.0            NHAUO(I,J)1.0
+ XE ASH(I,J)  NHIOO(I,J)1.0            NHIPO(I,J)1.0
+ XE ASH(I,J)  NHISO(I,J)1.0            NHIUO(I,J)1.0
+ XE ASH(I,J)  FHAOO(I,J)1.0            FHAPO(I,J)1.0
+ XE ASH(I,J)  FHASO(I,J)1.0            FHAUO(I,J)1.0
+ XE ASH(I,J)  FHIOO(I,J)1.0            FHIPO(I,J)1.0
+ XE ASH(I,J)  FHISO(I,J)1.0            FHIUO(I,J)1.0
+ XE ASH(I,J)  CHAOO(I,J)1.0            CHAPO(I,J)1.0
+ XE ASH(I,J)  CHASO(I,J)1.0            CHAUO(I,J)1.0
+ XE ASH(I,J)  CHIOO(I,J)1.0            CHIPO(I,J)1.0
+ XE ASH(I,J)  CHISO(I,J)1.0            CHIUO(I,J)1.0
+
+ XE ASF(I,J)  IFAOP(I,J)1.0            IFAPP(I,J)1.0
+ XE ASF(I,J)  IFASP(I,J)1.0            IFAUP(I,J)1.0
+ XE ASF(I,J)  IFIOP(I,J)1.0            IFIPP(I,J)1.0
+ XE ASF(I,J)  IFISP(I,J)1.0            IFIUP(I,J)1.0
+ XE ASF(I,J)  NFAOP(I,J)1.0            NFAPP(I,J)1.0
+ XE ASF(I,J)  NFASP(I,J)1.0            NFAUP(I,J)1.0
+ XE ASF(I,J)  NFIOP(I,J)1.0            NFIPP(I,J)1.0
+ XE ASF(I,J)  NFISP(I,J)1.0            NFIUP(I,J)1.0
+ XE ASF(I,J)  FFAOP(I,J)1.0            FFAPP(I,J)1.0
+ XE ASF(I,J)  FFASP(I,J)1.0            FFAUP(I,J)1.0
+ XE ASF(I,J)  FFIOP(I,J)1.0            FFIPP(I,J)1.0
+ XE ASF(I,J)  FFISP(I,J)1.0            FFIUP(I,J)1.0
+ XE ASF(I,J)  CFAOP(I,J)1.0            CFAPP(I,J)1.0
+ XE ASF(I,J)  CFASP(I,J)1.0            CFAUP(I,J)1.0
+ XE ASF(I,J)  CFIOP(I,J)1.0            CFIPP(I,J)1.0
+ XE ASF(I,J)  CFISP(I,J)1.0            CFIUP(I,J)1.0
+ XE ASF(I,J)  IFAOO(I,J)1.0            IFAPO(I,J)1.0
+ XE ASF(I,J)  IFASO(I,J)1.0            IFAUO(I,J)1.0
+ XE ASF(I,J)  IFIOO(I,J)1.0            IFIPO(I,J)1.0
+ XE ASF(I,J)  IFISO(I,J)1.0            IFIUO(I,J)1.0
+ XE ASF(I,J)  NFAOO(I,J)1.0            NFAPO(I,J)1.0
+ XE ASF(I,J)  NFASO(I,J)1.0            NFAUO(I,J)1.0
+ XE ASF(I,J)  NFIOO(I,J)1.0            NFIPO(I,J)1.0
+ XE ASF(I,J)  NFISO(I,J)1.0            NFIUO(I,J)1.0
+ XE ASF(I,J)  FFAOO(I,J)1.0            FFAPO(I,J)1.0
+ XE ASF(I,J)  FFASO(I,J)1.0            FFAUO(I,J)1.0
+ XE ASF(I,J)  FFIOO(I,J)1.0            FFIPO(I,J)1.0
+ XE ASF(I,J)  FFISO(I,J)1.0            FFIUO(I,J)1.0
+ XE ASF(I,J)  CFAOO(I,J)1.0            CFAPO(I,J)1.0
+ XE ASF(I,J)  CFASO(I,J)1.0            CFAUO(I,J)1.0
+ XE ASF(I,J)  CFIOO(I,J)1.0            CFIPO(I,J)1.0
+ XE ASF(I,J)  CFISO(I,J)1.0            CFIUO(I,J)1.0
+
+ ND
+
+
+*   Constraints of driving licence ownership by age and sex: 
+*   the sum of the individuals for of all household types, 
+*   professionnal activity and education level in each municipality
+*    must be equal to its reported value.
+
+* Poids 
+
+ RE DSH-SCAL            0.00001
+ RE DSF-SCAL            0.00001
+
+ DO J         PC                       343
+
+ ZE DSH(2,J)  'SCALE'                  DSH-SCAL
+ ZE DSH(3,J)  'SCALE'                  DSH-SCAL
+ ZE DSH(4,J)  'SCALE'                  DSH-SCAL
+ ZE DSF(2,J)  'SCALE'                  DSH-SCAL
+ ZE DSF(3,J)  'SCALE'                  DSH-SCAL
+ ZE DSF(4,J)  'SCALE'                  DSH-SCAL
+
+*   Active and inactive individuals in age class 2, 3 and 4
+
+ DO I         2                        4
+
+ XE DSH(I,J)  IHAOP(I,J)1.0            IHAPP(I,J)1.0
+ XE DSH(I,J)  IHASP(I,J)1.0            IHAUP(I,J)1.0
+ XE DSH(I,J)  IHIOP(I,J)1.0            IHIPP(I,J)1.0
+ XE DSH(I,J)  IHISP(I,J)1.0            IHIUP(I,J)1.0
+ XE DSH(I,J)  NHAOP(I,J)1.0            NHAPP(I,J)1.0
+ XE DSH(I,J)  NHASP(I,J)1.0            NHAUP(I,J)1.0
+ XE DSH(I,J)  NHIOP(I,J)1.0            NHIPP(I,J)1.0
+ XE DSH(I,J)  NHISP(I,J)1.0            NHIUP(I,J)1.0
+ XE DSH(I,J)  CHAOP(I,J)1.0            CHAPP(I,J)1.0
+ XE DSH(I,J)  CHASP(I,J)1.0            CHAUP(I,J)1.0
+ XE DSH(I,J)  CHIOP(I,J)1.0            CHIPP(I,J)1.0
+ XE DSH(I,J)  CHISP(I,J)1.0            CHIUP(I,J)1.0
+ XE DSH(I,J)  FHAOP(I,J)1.0            FHAPP(I,J)1.0
+ XE DSH(I,J)  FHASP(I,J)1.0            FHAUP(I,J)1.0
+ XE DSH(I,J)  FHIOP(I,J)1.0            FHIPP(I,J)1.0
+ XE DSH(I,J)  FHISP(I,J)1.0            FHIUP(I,J)1.0
+ XE DSF(I,J)  IFAOP(I,J)1.0            IFAPP(I,J)1.0
+ XE DSF(I,J)  IFASP(I,J)1.0            IFAUP(I,J)1.0
+ XE DSF(I,J)  IFIOP(I,J)1.0            IFIPP(I,J)1.0
+ XE DSF(I,J)  IFISP(I,J)1.0            IFIUP(I,J)1.0
+ XE DSF(I,J)  NFAOP(I,J)1.0            NFAPP(I,J)1.0
+ XE DSF(I,J)  NFASP(I,J)1.0            NFAUP(I,J)1.0
+ XE DSF(I,J)  NFIOP(I,J)1.0            NFIPP(I,J)1.0
+ XE DSF(I,J)  NFISP(I,J)1.0            NFIUP(I,J)1.0
+ XE DSF(I,J)  CFAOP(I,J)1.0            CFAPP(I,J)1.0
+ XE DSF(I,J)  CFASP(I,J)1.0            CFAUP(I,J)1.0
+ XE DSF(I,J)  CFIOP(I,J)1.0            CFIPP(I,J)1.0
+ XE DSF(I,J)  CFISP(I,J)1.0            CFIUP(I,J)1.0
+ XE DSF(I,J)  FFAOP(I,J)1.0            FFAPP(I,J)1.0
+ XE DSF(I,J)  FFASP(I,J)1.0            FFAUP(I,J)1.0
+ XE DSF(I,J)  FFIOP(I,J)1.0            FFIPP(I,J)1.0
+ XE DSF(I,J)  FFISP(I,J)1.0            FFIUP(I,J)1.0
+
+ OD I
+
+*   Student individuals in age class 2 and 3
+
+ DO I         2                        3
+
+ XE DSH(I,J)  IHEOP(I,J)1.0            IHEPP(I,J)1.0
+ XE DSH(I,J)  IHESP(I,J)1.0            IHEUP(I,J)1.0
+ XE DSH(I,J)  NHEOP(I,J)1.0            NHEPP(I,J)1.0
+ XE DSH(I,J)  NHESP(I,J)1.0            NHEUP(I,J)1.0
+ XE DSH(I,J)  CHEOP(I,J)1.0            CHEPP(I,J)1.0
+ XE DSH(I,J)  CHESP(I,J)1.0            CHEUP(I,J)1.0
+ XE DSH(I,J)  FHEOP(I,J)1.0            FHEPP(I,J)1.0
+ XE DSH(I,J)  FHESP(I,J)1.0            FHEUP(I,J)1.0
+ XE DSF(I,J)  IFEOP(I,J)1.0            IFEPP(I,J)1.0
+ XE DSF(I,J)  IFESP(I,J)1.0            IFEUP(I,J)1.0
+ XE DSF(I,J)  NFEOP(I,J)1.0            NFEPP(I,J)1.0
+ XE DSF(I,J)  NFESP(I,J)1.0            NFEUP(I,J)1.0
+ XE DSF(I,J)  CFEOP(I,J)1.0            CFEPP(I,J)1.0
+ XE DSF(I,J)  CFESP(I,J)1.0            CFEUP(I,J)1.0
+ XE DSF(I,J)  FFEOP(I,J)1.0            FFEPP(I,J)1.0
+ XE DSF(I,J)  FFESP(I,J)1.0            FFEUP(I,J)1.0
+
+ ND
+
+
+ DO J         345                      DC
+
+ ZE DSH(2,J)  'SCALE'                  DSH-SCAL
+ ZE DSH(3,J)  'SCALE'                  DSH-SCAL
+ ZE DSH(4,J)  'SCALE'                  DSH-SCAL
+ ZE DSF(2,J)  'SCALE'                  DSH-SCAL
+ ZE DSF(3,J)  'SCALE'                  DSH-SCAL
+ ZE DSF(4,J)  'SCALE'                  DSH-SCAL
+
+*   Active and inactive individuals in age class 2, 3 and 4
+
+ DO I         2                        4
+
+ XE DSH(I,J)  IHAOP(I,J)1.0            IHAPP(I,J)1.0
+ XE DSH(I,J)  IHASP(I,J)1.0            IHAUP(I,J)1.0
+ XE DSH(I,J)  IHIOP(I,J)1.0            IHIPP(I,J)1.0
+ XE DSH(I,J)  IHISP(I,J)1.0            IHIUP(I,J)1.0
+ XE DSH(I,J)  NHAOP(I,J)1.0            NHAPP(I,J)1.0
+ XE DSH(I,J)  NHASP(I,J)1.0            NHAUP(I,J)1.0
+ XE DSH(I,J)  NHIOP(I,J)1.0            NHIPP(I,J)1.0
+ XE DSH(I,J)  NHISP(I,J)1.0            NHIUP(I,J)1.0
+ XE DSH(I,J)  CHAOP(I,J)1.0            CHAPP(I,J)1.0
+ XE DSH(I,J)  CHASP(I,J)1.0            CHAUP(I,J)1.0
+ XE DSH(I,J)  CHIOP(I,J)1.0            CHIPP(I,J)1.0
+ XE DSH(I,J)  CHISP(I,J)1.0            CHIUP(I,J)1.0
+ XE DSH(I,J)  FHAOP(I,J)1.0            FHAPP(I,J)1.0
+ XE DSH(I,J)  FHASP(I,J)1.0            FHAUP(I,J)1.0
+ XE DSH(I,J)  FHIOP(I,J)1.0            FHIPP(I,J)1.0
+ XE DSH(I,J)  FHISP(I,J)1.0            FHIUP(I,J)1.0
+ XE DSF(I,J)  IFAOP(I,J)1.0            IFAPP(I,J)1.0
+ XE DSF(I,J)  IFASP(I,J)1.0            IFAUP(I,J)1.0
+ XE DSF(I,J)  IFIOP(I,J)1.0            IFIPP(I,J)1.0
+ XE DSF(I,J)  IFISP(I,J)1.0            IFIUP(I,J)1.0
+ XE DSF(I,J)  NFAOP(I,J)1.0            NFAPP(I,J)1.0
+ XE DSF(I,J)  NFASP(I,J)1.0            NFAUP(I,J)1.0
+ XE DSF(I,J)  NFIOP(I,J)1.0            NFIPP(I,J)1.0
+ XE DSF(I,J)  NFISP(I,J)1.0            NFIUP(I,J)1.0
+ XE DSF(I,J)  CFAOP(I,J)1.0            CFAPP(I,J)1.0
+ XE DSF(I,J)  CFASP(I,J)1.0            CFAUP(I,J)1.0
+ XE DSF(I,J)  CFIOP(I,J)1.0            CFIPP(I,J)1.0
+ XE DSF(I,J)  CFISP(I,J)1.0            CFIUP(I,J)1.0
+ XE DSF(I,J)  FFAOP(I,J)1.0            FFAPP(I,J)1.0
+ XE DSF(I,J)  FFASP(I,J)1.0            FFAUP(I,J)1.0
+ XE DSF(I,J)  FFIOP(I,J)1.0            FFIPP(I,J)1.0
+ XE DSF(I,J)  FFISP(I,J)1.0            FFIUP(I,J)1.0
+
+ OD I
+
+*   Student individuals in age class 2 and 3
+
+ DO I         2                        3
+
+ XE DSH(I,J)  IHEOP(I,J)1.0            IHEPP(I,J)1.0
+ XE DSH(I,J)  IHESP(I,J)1.0            IHEUP(I,J)1.0
+ XE DSH(I,J)  NHEOP(I,J)1.0            NHEPP(I,J)1.0
+ XE DSH(I,J)  NHESP(I,J)1.0            NHEUP(I,J)1.0
+ XE DSH(I,J)  CHEOP(I,J)1.0            CHEPP(I,J)1.0
+ XE DSH(I,J)  CHESP(I,J)1.0            CHEUP(I,J)1.0
+ XE DSH(I,J)  FHEOP(I,J)1.0            FHEPP(I,J)1.0
+ XE DSH(I,J)  FHESP(I,J)1.0            FHEUP(I,J)1.0
+ XE DSF(I,J)  IFEOP(I,J)1.0            IFEPP(I,J)1.0
+ XE DSF(I,J)  IFESP(I,J)1.0            IFEUP(I,J)1.0
+ XE DSF(I,J)  NFEOP(I,J)1.0            NFEPP(I,J)1.0
+ XE DSF(I,J)  NFESP(I,J)1.0            NFEUP(I,J)1.0
+ XE DSF(I,J)  CFEOP(I,J)1.0            CFEPP(I,J)1.0
+ XE DSF(I,J)  CFESP(I,J)1.0            CFEUP(I,J)1.0
+ XE DSF(I,J)  FFEOP(I,J)1.0            FFEPP(I,J)1.0
+ XE DSF(I,J)  FFESP(I,J)1.0            FFEUP(I,J)1.0
+
+ ND
+
+*   Constraints of household type: the sum of individuals for all
+*   sex, professionnal activity, education level, driving licence
+*   ownership and age in each municipality must be equal 
+*   to its reported value
+
+
+* poids 
+
+ RE HHI-SCAL            0.0001
+ RE HHN-SCAL            0.0001
+ RE HHC-SCAL            0.0001
+ RE HHF-SCAL            0.0001
+
+ DO J         PC                       DC
+
+ 
+ ZE HHI(J)    'SCALE'                  HHI-SCAL
+ ZE HHN(J)    'SCALE'                  HHN-SCAL
+ ZE HHC(J)    'SCALE'                  HHC-SCAL
+ ZE HHF(J)    'SCALE'                  HHF-SCAL
+
+ 
+*   Individuals in age class 1,2 and 3
+
+ DO I         1                        3
+
+ XE HHI(J)    IHEOO(I,J)1.0            IHEPO(I,J)1.0
+ XE HHI(J)    IHESO(I,J)1.0            IFEOO(I,J)1.0            
+ XE HHI(J)    IFEPO(I,J)1.0            IFESO(I,J)1.0             
+
+ XE HHN(J)    NHEOO(I,J)1.0            NHEPO(I,J)1.0
+ XE HHN(J)    NHESO(I,J)1.0            NFEOO(I,J)1.0            
+ XE HHN(J)    NFEPO(I,J)1.0            NFESO(I,J)1.0
+
+ XE HHC(J)    CHEOO(I,J)1.0            CHEPO(I,J)1.0
+ XE HHC(J)    CHESO(I,J)1.0            CFEOO(I,J)1.0
+ XE HHC(J)    CFEPO(I,J)1.0            CFESO(I,J)1.0
+
+ XE HHF(J)    FHEOO(I,J)1.0            FHEPO(I,J)1.0
+ XE HHF(J)    FHESO(I,J)1.0            FFEOO(I,J)1.0
+ XE HHF(J)    FFEPO(I,J)1.0            FFESO(I,J)1.0
+
+ OD I
+ 
+*   Individuals in age class 2 and 3
+
+ DO I         2                        3
+
+ XE HHI(J)    IHEOP(I,J)1.0            IFEOP(I,J)1.0
+ XE HHI(J)    IHEPP(I,J)1.0            IFEPP(I,J)1.0
+ XE HHI(J)    IHESP(I,J)1.0            IFESP(I,J)1.0 
+ XE HHI(J)    IHEUP(I,J)1.0            IFEUP(I,J)1.0
+ XE HHI(J)    IHEUO(I,J)1.0            IFEUO(I,J)1.0
+
+ XE HHN(J)    NHEOP(I,J)1.0            NFEOP(I,J)1.0
+ XE HHN(J)    NHEPP(I,J)1.0            NFEPP(I,J)1.0
+ XE HHN(J)    NHESP(I,J)1.0            NFESP(I,J)1.0 
+ XE HHN(J)    NHEUP(I,J)1.0            NFEUP(I,J)1.0
+ XE HHN(J)    NHEUO(I,J)1.0            NFEUO(I,J)1.0
+
+ XE HHC(J)    CHEOP(I,J)1.0            CFEOP(I,J)1.0
+ XE HHC(J)    CHEPP(I,J)1.0            CFEPP(I,J)1.0
+ XE HHC(J)    CHESP(I,J)1.0            CFESP(I,J)1.0 
+ XE HHC(J)    CHEUP(I,J)1.0            CFEUP(I,J)1.0
+ XE HHC(J)    CHEUO(I,J)1.0            CFEUO(I,J)1.0
+
+ XE HHF(J)    FHEOP(I,J)1.0            FFEOP(I,J)1.0
+ XE HHF(J)    FHEPP(I,J)1.0            FFEPP(I,J)1.0
+ XE HHF(J)    FHESP(I,J)1.0            FFESP(I,J)1.0 
+ XE HHF(J)    FHEUP(I,J)1.0            FFEUP(I,J)1.0
+ XE HHF(J)    FHEUO(I,J)1.0            FFEUO(I,J)1.0
+
+ OD I
+
+*   Individuals in age class 2,3 and 4
+
+ DO I         2                        4
+
+ XE HHI(J)    IHAOP(I,J)1.0            IHAOO(I,J)1.0
+ XE HHI(J)    IHAPP(I,J)1.0            IHAPO(I,J)1.0
+ XE HHI(J)    IHASP(I,J)1.0            IHASO(I,J)1.0
+ XE HHI(J)    IHAUP(I,J)1.0            IHAUO(I,J)1.0
+ XE HHI(J)    IHIOP(I,J)1.0            IHIOO(I,J)1.0
+ XE HHI(J)    IHIPP(I,J)1.0            IHIPO(I,J)1.0
+ XE HHI(J)    IHISP(I,J)1.0            IHISO(I,J)1.0
+ XE HHI(J)    IHIUP(I,J)1.0            IHIUO(I,J)1.0
+ XE HHI(J)    IFAOP(I,J)1.0            IFAOO(I,J)1.0
+ XE HHI(J)    IFAPP(I,J)1.0            IFAPO(I,J)1.0
+ XE HHI(J)    IFASP(I,J)1.0            IFASO(I,J)1.0
+ XE HHI(J)    IFAUP(I,J)1.0            IFAUO(I,J)1.0
+ XE HHI(J)    IFIOP(I,J)1.0            IFIOO(I,J)1.0
+ XE HHI(J)    IFIPP(I,J)1.0            IFIPO(I,J)1.0
+ XE HHI(J)    IFISP(I,J)1.0            IFISO(I,J)1.0
+ XE HHI(J)    IFIUP(I,J)1.0            IFIUO(I,J)1.0
+
+ XE HHN(J)    NHAOP(I,J)1.0            NHAOO(I,J)1.0
+ XE HHN(J)    NHAPP(I,J)1.0            NHAPO(I,J)1.0
+ XE HHN(J)    NHASP(I,J)1.0            NHASO(I,J)1.0
+ XE HHN(J)    NHAUP(I,J)1.0            NHAUO(I,J)1.0
+ XE HHN(J)    NHIOP(I,J)1.0            NHIOO(I,J)1.0
+ XE HHN(J)    NHIPP(I,J)1.0            NHIPO(I,J)1.0
+ XE HHN(J)    NHISP(I,J)1.0            NHISO(I,J)1.0
+ XE HHN(J)    NHIUP(I,J)1.0            NHIUO(I,J)1.0
+ XE HHN(J)    NFAOP(I,J)1.0            NFAOO(I,J)1.0
+ XE HHN(J)    NFAPP(I,J)1.0            NFAPO(I,J)1.0
+ XE HHN(J)    NFASP(I,J)1.0            NFASO(I,J)1.0
+ XE HHN(J)    NFAUP(I,J)1.0            NFAUO(I,J)1.0
+ XE HHN(J)    NFIOP(I,J)1.0            NFIOO(I,J)1.0
+ XE HHN(J)    NFIPP(I,J)1.0            NFIPO(I,J)1.0
+ XE HHN(J)    NFISP(I,J)1.0            NFISO(I,J)1.0
+ XE HHN(J)    NFIUP(I,J)1.0            NFIUO(I,J)1.0
+
+ XE HHC(J)    CHAOP(I,J)1.0            CHAOO(I,J)1.0
+ XE HHC(J)    CHAPP(I,J)1.0            CHAPO(I,J)1.0
+ XE HHC(J)    CHASP(I,J)1.0            CHASO(I,J)1.0
+ XE HHC(J)    CHAUP(I,J)1.0            CHAUO(I,J)1.0
+ XE HHC(J)    CHIOP(I,J)1.0            CHIOO(I,J)1.0
+ XE HHC(J)    CHIPP(I,J)1.0            CHIPO(I,J)1.0
+ XE HHC(J)    CHISP(I,J)1.0            CHISO(I,J)1.0
+ XE HHC(J)    CHIUP(I,J)1.0            CHIUO(I,J)1.0
+ XE HHC(J)    CFAOP(I,J)1.0            CFAOO(I,J)1.0
+ XE HHC(J)    CFAPP(I,J)1.0            CFAPO(I,J)1.0
+ XE HHC(J)    CFASP(I,J)1.0            CFASO(I,J)1.0
+ XE HHC(J)    CFAUP(I,J)1.0            CFAUO(I,J)1.0
+ XE HHC(J)    CFIOP(I,J)1.0            CFIOO(I,J)1.0
+ XE HHC(J)    CFIPP(I,J)1.0            CFIPO(I,J)1.0
+ XE HHC(J)    CFISP(I,J)1.0            CFISO(I,J)1.0
+ XE HHC(J)    CFIUP(I,J)1.0            CFIUO(I,J)1.0
+
+ XE HHF(J)    FHAOP(I,J)1.0            FHAOO(I,J)1.0
+ XE HHF(J)    FHAPP(I,J)1.0            FHAPO(I,J)1.0
+ XE HHF(J)    FHASP(I,J)1.0            FHASO(I,J)1.0
+ XE HHF(J)    FHAUP(I,J)1.0            FHAUO(I,J)1.0
+ XE HHF(J)    FHIOP(I,J)1.0            FHIOO(I,J)1.0
+ XE HHF(J)    FHIPP(I,J)1.0            FHIPO(I,J)1.0
+ XE HHF(J)    FHISP(I,J)1.0            FHISO(I,J)1.0
+ XE HHF(J)    FHIUP(I,J)1.0            FHIUO(I,J)1.0
+ XE HHF(J)    FFAOP(I,J)1.0            FFAOO(I,J)1.0
+ XE HHF(J)    FFAPP(I,J)1.0            FFAPO(I,J)1.0
+ XE HHF(J)    FFASP(I,J)1.0            FFASO(I,J)1.0
+ XE HHF(J)    FFAUP(I,J)1.0            FFAUO(I,J)1.0
+ XE HHF(J)    FFIOP(I,J)1.0            FFIOO(I,J)1.0
+ XE HHF(J)    FFIPP(I,J)1.0            FFIPO(I,J)1.0
+ XE HHF(J)    FFISP(I,J)1.0            FFISO(I,J)1.0
+ XE HHF(J)    FFIUP(I,J)1.0            FFIUO(I,J)1.0
+
+ ND 
+
+*   Constraints of education level: the sum of the individuals
+*   for all household type, sex, professionnal activity, driving
+*   licence ownership and age in each municipality  must be equal 
+*   to its reported value.
+
+* Poids
+
+ RE ELO-SCAL            0.0001
+ RE ELP-SCAL            0.0001
+ RE ELS-SCAL            0.0001
+ RE ELU-SCAL            0.0001
+
+ DO J         PC                       DC
+
+
+ ZE ELO(J)    'SCALE'                  ELO-SCAL
+ ZE ELP(J)    'SCALE'                  ELP-SCAL
+ ZE ELS(J)    'SCALE'                  ELS-SCAL
+ ZE ELU(J)    'SCALE'                  ELU-SCAL
+
+*   Individuals in age class 1, 2 and 3
+
+ DO I         1                        3 
+
+ XE ELO(J)    IHEOO(I,J)1.0            NHEOO(I,J)1.0
+ XE ELO(J)    CHEOO(I,J)1.0            FHEOO(I,J)1.0
+ XE ELO(J)    IFEOO(I,J)1.0            NFEOO(I,J)1.0
+ XE ELO(J)    CFEOO(I,J)1.0            FFEOO(I,J)1.0
+
+ XE ELP(J)    IHEPO(I,J)1.0            NHEPO(I,J)1.0
+ XE ELP(J)    CHEPO(I,J)1.0            FHEPO(I,J)1.0
+ XE ELP(J)    IFEPO(I,J)1.0            NFEPO(I,J)1.0
+ XE ELP(J)    CFEPO(I,J)1.0            FFEPO(I,J)1.0
+
+ XE ELS(J)    IHESO(I,J)1.0            NHESO(I,J)1.0
+ XE ELS(J)    CHESO(I,J)1.0            FHESO(I,J)1.0
+ XE ELS(J)    IFESO(I,J)1.0            NFESO(I,J)1.0
+ XE ELS(J)    CFESO(I,J)1.0            FFESO(I,J)1.0
+
+ OD I
+
+*   Individuals in age class 2 and 3
+
+ DO I         2                        3
+
+ XE ELO(J)    IHEOP(I,J)1.0            IFEOP(I,J)1.0
+ XE ELO(J)    NHEOP(I,J)1.0            NFEOP(I,J)1.0
+ XE ELO(J)    CHEOP(I,J)1.0            CFEOP(I,J)1.0
+ XE ELO(J)    FHEOP(I,J)1.0            FFEOP(I,J)1.0
+
+ XE ELP(J)    IHEPP(I,J)1.0            IFEPP(I,J)1.0
+ XE ELP(J)    NHEPP(I,J)1.0            NFEPP(I,J)1.0
+ XE ELP(J)    CHEPP(I,J)1.0            CFEPP(I,J)1.0
+ XE ELP(J)    FHEPP(I,J)1.0            FFEPP(I,J)1.0
+
+ XE ELS(J)    IHESP(I,J)1.0            IFESP(I,J)1.0
+ XE ELS(J)    NHESP(I,J)1.0            NFESP(I,J)1.0
+ XE ELS(J)    CHESP(I,J)1.0            CFESP(I,J)1.0
+ XE ELS(J)    FHESP(I,J)1.0            FFESP(I,J)1.0
+
+ XE ELU(J)    IHEUP(I,J)1.0            IHEUO(I,J)1.0
+ XE ELU(J)    NHEUP(I,J)1.0            NHEUO(I,J)1.0
+ XE ELU(J)    CHEUP(I,J)1.0            CHEUO(I,J)1.0
+ XE ELU(J)    FHEUP(I,J)1.0            FHEUO(I,J)1.0
+ XE ELU(J)    IFEUP(I,J)1.0            IFEUO(I,J)1.0
+ XE ELU(J)    NFEUP(I,J)1.0            NFEUO(I,J)1.0
+ XE ELU(J)    CFEUP(I,J)1.0            CFEUO(I,J)1.0
+ XE ELU(J)    FFEUP(I,J)1.0            FFEUO(I,J)1.0
+ 
+ OD I
+  
+*   Individuals in age class 2,3 and 4
+
+ DO I         2                        4
+ 
+ XE ELO(J)    IHAOP(I,J)1.0            IHAOO(I,J)1.0
+ XE ELO(J)    IHIOP(I,J)1.0            IHIOO(I,J)1.0
+ XE ELO(J)    NHAOP(I,J)1.0            NHAOO(I,J)1.0
+ XE ELO(J)    NHIOP(I,J)1.0            NHIOO(I,J)1.0
+ XE ELO(J)    CHAOP(I,J)1.0            CHAOO(I,J)1.0
+ XE ELO(J)    CHIOP(I,J)1.0            CHIOO(I,J)1.0
+ XE ELO(J)    FHAOP(I,J)1.0            FHAOO(I,J)1.0
+ XE ELO(J)    FHIOP(I,J)1.0            FHIOO(I,J)1.0
+ XE ELO(J)    IFAOP(I,J)1.0            IFAOO(I,J)1.0
+ XE ELO(J)    IFIOP(I,J)1.0            IFIOO(I,J)1.0
+ XE ELO(J)    NFAOP(I,J)1.0            NFAOO(I,J)1.0
+ XE ELO(J)    NFIOP(I,J)1.0            NFIOO(I,J)1.0
+ XE ELO(J)    CFAOP(I,J)1.0            CFAOO(I,J)1.0
+ XE ELO(J)    CFIOP(I,J)1.0            CFIOO(I,J)1.0
+ XE ELO(J)    FFAOP(I,J)1.0            FFAOO(I,J)1.0
+ XE ELO(J)    FFIOP(I,J)1.0            FFIOO(I,J)1.0
+
+ XE ELP(J)    IHAPP(I,J)1.0            IHAPO(I,J)1.0
+ XE ELP(J)    IHIPP(I,J)1.0            IHIPO(I,J)1.0
+ XE ELP(J)    NHAPP(I,J)1.0            NHAPO(I,J)1.0
+ XE ELP(J)    NHIPP(I,J)1.0            NHIPO(I,J)1.0
+ XE ELP(J)    CHAPP(I,J)1.0            CHAPO(I,J)1.0
+ XE ELP(J)    CHIPP(I,J)1.0            CHIPO(I,J)1.0
+ XE ELP(J)    FHAPP(I,J)1.0            FHAPO(I,J)1.0
+ XE ELP(J)    FHIPP(I,J)1.0            FHIPO(I,J)1.0
+ XE ELP(J)    IFAPP(I,J)1.0            IFAPO(I,J)1.0
+ XE ELP(J)    IFIPP(I,J)1.0            IFIPO(I,J)1.0
+ XE ELP(J)    NFAPP(I,J)1.0            NFAPO(I,J)1.0
+ XE ELP(J)    NFIPP(I,J)1.0            NFIPO(I,J)1.0
+ XE ELP(J)    CFAPP(I,J)1.0            CFAPO(I,J)1.0
+ XE ELP(J)    CFIPP(I,J)1.0            CFIPO(I,J)1.0
+ XE ELP(J)    FFAPP(I,J)1.0            FFAPO(I,J)1.0
+ XE ELP(J)    FFIPP(I,J)1.0            FFIPO(I,J)1.0
+
+ XE ELS(J)    IHASP(I,J)1.0            IHASO(I,J)1.0
+ XE ELS(J)    IHISP(I,J)1.0            IHISO(I,J)1.0
+ XE ELS(J)    NHASP(I,J)1.0            NHASO(I,J)1.0
+ XE ELS(J)    NHISP(I,J)1.0            NHISO(I,J)1.0
+ XE ELS(J)    CHASP(I,J)1.0            CHASO(I,J)1.0
+ XE ELS(J)    CHISP(I,J)1.0            CHISO(I,J)1.0
+ XE ELS(J)    FHASP(I,J)1.0            FHASO(I,J)1.0
+ XE ELS(J)    FHISP(I,J)1.0            FHISO(I,J)1.0
+ XE ELS(J)    IFASP(I,J)1.0            IFASO(I,J)1.0
+ XE ELS(J)    IFISP(I,J)1.0            IFISO(I,J)1.0
+ XE ELS(J)    NFASP(I,J)1.0            NFASO(I,J)1.0
+ XE ELS(J)    NFISP(I,J)1.0            NFISO(I,J)1.0
+ XE ELS(J)    CFASP(I,J)1.0            CFASO(I,J)1.0
+ XE ELS(J)    CFISP(I,J)1.0            CFISO(I,J)1.0
+ XE ELS(J)    FFASP(I,J)1.0            FFASO(I,J)1.0
+ XE ELS(J)    FFISP(I,J)1.0            FFISO(I,J)1.0
+
+ XE ELU(J)    IHAUP(I,J)1.0            IHAUO(I,J)1.0
+ XE ELU(J)    IHIUP(I,J)1.0            IHIUO(I,J)1.0
+ XE ELU(J)    NHAUP(I,J)1.0            NHAUO(I,J)1.0
+ XE ELU(J)    NHIUP(I,J)1.0            NHIUO(I,J)1.0
+ XE ELU(J)    CHAUP(I,J)1.0            CHAUO(I,J)1.0
+ XE ELU(J)    CHIUP(I,J)1.0            CHIUO(I,J)1.0
+ XE ELU(J)    FHAUP(I,J)1.0            FHAUO(I,J)1.0
+ XE ELU(J)    FHIUP(I,J)1.0            FHIUO(I,J)1.0
+ XE ELU(J)    IFAUP(I,J)1.0            IFAUO(I,J)1.0
+ XE ELU(J)    IFIUP(I,J)1.0            IFIUO(I,J)1.0
+ XE ELU(J)    NFAUP(I,J)1.0            NFAUO(I,J)1.0
+ XE ELU(J)    NFIUP(I,J)1.0            NFIUO(I,J)1.0
+ XE ELU(J)    CFAUP(I,J)1.0            CFAUO(I,J)1.0
+ XE ELU(J)    CFIUP(I,J)1.0            CFIUO(I,J)1.0
+ XE ELU(J)    FFAUP(I,J)1.0            FFAUO(I,J)1.0
+ XE ELU(J)    FFIUP(I,J)1.0            FFIUO(I,J)1.0
+
+ ND
+
+*   Constraints of professionnal activity: the sum of the individuals
+*   for all household type, sex, education level, driving licence
+*   ownership and age in each municipality must be equal to 
+*   its reported value
+
+* Poids
+
+ RE PAE-SCAL            0.0001
+ RE PAA-SCAL            0.0001
+ RE PAI-SCAL            0.0001
+
+ DO J         PC                       DC
+
+
+ ZE PAE(J)    'SCALE'                  PAE-SCAL
+ ZE PAA(J)    'SCALE'                  PAA-SCAL
+ ZE PAI(J)    'SCALE'                  PAI-SCAL
+
+*   Individuals in age class 1,2 and 3
+
+ DO I         1                        3
+
+ XE PAE(J)    IHEOO(I,J)1.0            NHEOO(I,J)1.0
+ XE PAE(J)    CHEOO(I,J)1.0            FHEOO(I,J)1.0
+ XE PAE(J)    IFEOO(I,J)1.0            NFEOO(I,J)1.0
+ XE PAE(J)    CFEOO(I,J)1.0            FFEOO(I,J)1.0
+ XE PAE(J)    IHEPO(I,J)1.0            NHEPO(I,J)1.0
+ XE PAE(J)    CHEPO(I,J)1.0            FHEPO(I,J)1.0
+ XE PAE(J)    IFEPO(I,J)1.0            NFEPO(I,J)1.0
+ XE PAE(J)    CFEPO(I,J)1.0            FFEPO(I,J)1.0
+ XE PAE(J)    IHESO(I,J)1.0            NHESO(I,J)1.0
+ XE PAE(J)    CHESO(I,J)1.0            FHESO(I,J)1.0
+ XE PAE(J)    IFESO(I,J)1.0            NFESO(I,J)1.0
+ XE PAE(J)    CFESO(I,J)1.0            FFESO(I,J)1.0
+            
+ OD I
+
+*   Individuals in age class 2 and 3
+
+ DO I         2                        3
+
+
+ XE PAE(J)    IHEOP(I,J)1.0            IFEOP(I,J)1.0
+ XE PAE(J)    NHEOP(I,J)1.0            NFEOP(I,J)1.0
+ XE PAE(J)    CHEOP(I,J)1.0            CFEOP(I,J)1.0
+ XE PAE(J)    FHEOP(I,J)1.0            FFEOP(I,J)1.0
+ XE PAE(J)    IHEPP(I,J)1.0            IFEPP(I,J)1.0
+ XE PAE(J)    NHEPP(I,J)1.0            NFEPP(I,J)1.0
+ XE PAE(J)    CHEPP(I,J)1.0            CFEPP(I,J)1.0
+ XE PAE(J)    FHEPP(I,J)1.0            FFEPP(I,J)1.0
+ XE PAE(J)    IHESP(I,J)1.0            IFESP(I,J)1.0
+ XE PAE(J)    NHESP(I,J)1.0            NFESP(I,J)1.0
+ XE PAE(J)    CHESP(I,J)1.0            CFESP(I,J)1.0
+ XE PAE(J)    FHESP(I,J)1.0            FFESP(I,J)1.0
+ XE PAE(J)    IHEUP(I,J)1.0            IHEUO(I,J)1.0
+ XE PAE(J)    NHEUP(I,J)1.0            NHEUO(I,J)1.0
+ XE PAE(J)    CHEUP(I,J)1.0            CHEUO(I,J)1.0
+ XE PAE(J)    FHEUP(I,J)1.0            FHEUO(I,J)1.0
+ XE PAE(J)    IFEUP(I,J)1.0            IFEUO(I,J)1.0
+ XE PAE(J)    NFEUP(I,J)1.0            NFEUO(I,J)1.0
+ XE PAE(J)    CFEUP(I,J)1.0            CFEUO(I,J)1.0
+ XE PAE(J)    FFEUP(I,J)1.0            FFEUO(I,J)1.0
+
+
+ OD I
+
+*   Individuals in age class 2,3 and 4
+
+* active people
+
+ DO I         2                        4
+
+ XE PAA(J)    IHAOP(I,J)1.0            IHAOO(I,J)1.0
+ XE PAA(J)    NHAOP(I,J)1.0            NHAOO(I,J)1.0
+ XE PAA(J)    CHAOP(I,J)1.0            CHAOO(I,J)1.0
+ XE PAA(J)    FHAOP(I,J)1.0            FHAOO(I,J)1.0
+ XE PAA(J)    IFAOP(I,J)1.0            IFAOO(I,J)1.0
+ XE PAA(J)    NFAOP(I,J)1.0            NFAOO(I,J)1.0
+ XE PAA(J)    CFAOP(I,J)1.0            CFAOO(I,J)1.0
+ XE PAA(J)    FFAOP(I,J)1.0            FFAOO(I,J)1.0
+ XE PAA(J)    IHAPP(I,J)1.0            IHAPO(I,J)1.0
+ XE PAA(J)    NHAPP(I,J)1.0            NHAPO(I,J)1.0
+ XE PAA(J)    CHAPP(I,J)1.0            CHAPO(I,J)1.0
+ XE PAA(J)    FHAPP(I,J)1.0            FHAPO(I,J)1.0
+ XE PAA(J)    IFAPP(I,J)1.0            IFAPO(I,J)1.0
+ XE PAA(J)    NFAPP(I,J)1.0            NFAPO(I,J)1.0
+ XE PAA(J)    CFAPP(I,J)1.0            CFAPO(I,J)1.0
+ XE PAA(J)    FFAPP(I,J)1.0            FFAPO(I,J)1.0
+ XE PAA(J)    IHASP(I,J)1.0            IHASO(I,J)1.0
+ XE PAA(J)    NHASP(I,J)1.0            NHASO(I,J)1.0
+ XE PAA(J)    CHASP(I,J)1.0            CHASO(I,J)1.0
+ XE PAA(J)    FHASP(I,J)1.0            FHASO(I,J)1.0
+ XE PAA(J)    IFASP(I,J)1.0            IFASO(I,J)1.0
+ XE PAA(J)    NFASP(I,J)1.0            NFASO(I,J)1.0
+ XE PAA(J)    CFASP(I,J)1.0            CFASO(I,J)1.0
+ XE PAA(J)    FFASP(I,J)1.0            FFASO(I,J)1.0
+ XE PAA(J)    IHAUP(I,J)1.0            IHAUO(I,J)1.0
+ XE PAA(J)    NHAUP(I,J)1.0            NHAUO(I,J)1.0
+ XE PAA(J)    CHAUP(I,J)1.0            CHAUO(I,J)1.0
+ XE PAA(J)    FHAUP(I,J)1.0            FHAUO(I,J)1.0
+ XE PAA(J)    IFAUP(I,J)1.0            IFAUO(I,J)1.0
+ XE PAA(J)    NFAUP(I,J)1.0            NFAUO(I,J)1.0
+ XE PAA(J)    CFAUP(I,J)1.0            CFAUO(I,J)1.0
+ XE PAA(J)    FFAUP(I,J)1.0            FFAUO(I,J)1.0
+
+* inactive people
+
+ XE PAI(J)    IHIOP(I,J)1.0            IHIOO(I,J)1.0
+ XE PAI(J)    NHIOP(I,J)1.0            NHIOO(I,J)1.0
+ XE PAI(J)    CHIOP(I,J)1.0            CHIOO(I,J)1.0
+ XE PAI(J)    FHIOP(I,J)1.0            FHIOO(I,J)1.0
+ XE PAI(J)    IFIOP(I,J)1.0            IFIOO(I,J)1.0
+ XE PAI(J)    NFIOP(I,J)1.0            NFIOO(I,J)1.0
+ XE PAI(J)    CFIOP(I,J)1.0            CFIOO(I,J)1.0
+ XE PAI(J)    FFIOP(I,J)1.0            FFIOO(I,J)1.0
+ XE PAI(J)    IHIPP(I,J)1.0            IHIPO(I,J)1.0
+ XE PAI(J)    NHIPP(I,J)1.0            NHIPO(I,J)1.0
+ XE PAI(J)    CHIPP(I,J)1.0            CHIPO(I,J)1.0
+ XE PAI(J)    FHIPP(I,J)1.0            FHIPO(I,J)1.0
+ XE PAI(J)    IFIPP(I,J)1.0            IFIPO(I,J)1.0
+ XE PAI(J)    NFIPP(I,J)1.0            NFIPO(I,J)1.0
+ XE PAI(J)    CFIPP(I,J)1.0            CFIPO(I,J)1.0
+ XE PAI(J)    FFIPP(I,J)1.0            FFIPO(I,J)1.0
+ XE PAI(J)    IHISP(I,J)1.0            IHISO(I,J)1.0
+ XE PAI(J)    NHISP(I,J)1.0            NHISO(I,J)1.0
+ XE PAI(J)    CHISP(I,J)1.0            CHISO(I,J)1.0
+ XE PAI(J)    FHISP(I,J)1.0            FHISO(I,J)1.0
+ XE PAI(J)    IFISP(I,J)1.0            IFISO(I,J)1.0
+ XE PAI(J)    NFISP(I,J)1.0            NFISO(I,J)1.0
+ XE PAI(J)    CFISP(I,J)1.0            CFISO(I,J)1.0
+ XE PAI(J)    FFISP(I,J)1.0            FFISO(I,J)1.0
+ XE PAI(J)    IHIUP(I,J)1.0            IHIUO(I,J)1.0
+ XE PAI(J)    NHIUP(I,J)1.0            NHIUO(I,J)1.0
+ XE PAI(J)    CHIUP(I,J)1.0            CHIUO(I,J)1.0
+ XE PAI(J)    FHIUP(I,J)1.0            FHIUO(I,J)1.0
+ XE PAI(J)    IFIUP(I,J)1.0            IFIUO(I,J)1.0
+ XE PAI(J)    NFIUP(I,J)1.0            NFIUO(I,J)1.0
+ XE PAI(J)    CFIUP(I,J)1.0            CFIUO(I,J)1.0
+ XE PAI(J)    FFIUP(I,J)1.0            FFIUO(I,J)1.0
+
+ ND
+
+*   CONSTRAINTS DUE TO THE DISTRICT MARGINALS
+ 
+*   Constraints of age and household type: the sum of the individuals for all
+*   sex, professionnal activity, education level, driving licence ownership
+*   and all municipalities included in each district must be equal to its
+*   reported value for the corresponding district.
+
+* Poids
+
+ RE AHI-SCAL            0.0001
+ RE AHN-SCAL            0.0001
+ RE AHC-SCAL            0.0001
+ RE AHF-SCAL            0.0001
+
+ ZE AHI(1,24) 'SCALE'                  AHI-SCAL
+ ZE AHI(2,24) 'SCALE'                  AHI-SCAL
+ ZE AHI(3,24) 'SCALE'                  AHI-SCAL
+ ZE AHI(4,24) 'SCALE'                  AHI-SCAL
+
+ ZE AHN(1,24) 'SCALE'                  AHN-SCAL
+ ZE AHN(2,24) 'SCALE'                  AHN-SCAL
+ ZE AHN(3,24) 'SCALE'                  AHN-SCAL
+ ZE AHN(4,24) 'SCALE'                  AHN-SCAL
+
+ ZE AHF(1,24) 'SCALE'                  AHF-SCAL
+ ZE AHF(2,24) 'SCALE'                  AHF-SCAL
+ ZE AHF(3,24) 'SCALE'                  AHF-SCAL
+ ZE AHF(4,24) 'SCALE'                  AHF-SCAL
+
+ ZE AHC(1,24) 'SCALE'                  AHC-SCAL
+ ZE AHC(2,24) 'SCALE'                  AHC-SCAL
+ ZE AHC(3,24) 'SCALE'                  AHC-SCAL
+ ZE AHC(4,24) 'SCALE'                  AHC-SCAL
+
+
+*   Individuals in age class 1,2 and 3
+
+ DO I         1                        3
+ DO J         PC                       DC
+
+ XE AHI(I,24) IHEOO(I,J)1.0            IHEPO(I,J)1.0
+ XE AHI(I,24) IHESO(I,J)1.0            IFEOO(I,J)1.0            
+ XE AHI(I,24) IFEPO(I,J)1.0            IFESO(I,J)1.0             
+
+ XE AHN(I,24) NHEOO(I,J)1.0            NHEPO(I,J)1.0
+ XE AHN(I,24) NHESO(I,J)1.0            NFEOO(I,J)1.0            
+ XE AHN(I,24) NFEPO(I,J)1.0            NFESO(I,J)1.0
+
+ XE AHF(I,24) FHEOO(I,J)1.0            FHEPO(I,J)1.0
+ XE AHF(I,24) FHESO(I,J)1.0            FFEOO(I,J)1.0
+ XE AHF(I,24) FFEPO(I,J)1.0            FFESO(I,J)1.0
+
+ XE AHC(I,24) CHEOO(I,J)1.0            CHEPO(I,J)1.0
+ XE AHC(I,24) CHESO(I,J)1.0            CFEOO(I,J)1.0
+ XE AHC(I,24) CFEPO(I,J)1.0            CFESO(I,J)1.0
+
+ OD J
+ OD I
+
+*   Individuals in age class 2 and 3
+
+ DO I         2                        3
+ DO J         PC                       DC
+ 
+ XE AHI(I,24) IHEOP(I,J)1.0            IFEOP(I,J)1.0
+ XE AHI(I,24) IHEPP(I,J)1.0            IFEPP(I,J)1.0
+ XE AHI(I,24) IHESP(I,J)1.0            IFESP(I,J)1.0 
+ XE AHI(I,24) IHEUP(I,J)1.0            IFEUP(I,J)1.0
+ XE AHI(I,24) IHEUO(I,J)1.0            IFEUO(I,J)1.0
+
+ XE AHN(I,24) NHEOP(I,J)1.0            NFEOP(I,J)1.0
+ XE AHN(I,24) NHEPP(I,J)1.0            NFEPP(I,J)1.0
+ XE AHN(I,24) NHESP(I,J)1.0            NFESP(I,J)1.0 
+ XE AHN(I,24) NHEUP(I,J)1.0            NFEUP(I,J)1.0
+ XE AHN(I,24) NHEUO(I,J)1.0            NFEUO(I,J)1.0
+
+ XE AHC(I,24) CHEOP(I,J)1.0            CFEOP(I,J)1.0
+ XE AHC(I,24) CHEPP(I,J)1.0            CFEPP(I,J)1.0
+ XE AHC(I,24) CHESP(I,J)1.0            CFESP(I,J)1.0 
+ XE AHC(I,24) CHEUP(I,J)1.0            CFEUP(I,J)1.0
+ XE AHC(I,24) CHEUO(I,J)1.0            CFEUO(I,J)1.0
+
+ XE AHF(I,24) FHEOP(I,J)1.0            FFEOP(I,J)1.0
+ XE AHF(I,24) FHEPP(I,J)1.0            FFEPP(I,J)1.0
+ XE AHF(I,24) FHESP(I,J)1.0            FFESP(I,J)1.0 
+ XE AHF(I,24) FHEUP(I,J)1.0            FFEUP(I,J)1.0
+ XE AHF(I,24) FHEUO(I,J)1.0            FFEUO(I,J)1.0
+
+ OD J
+ OD I
+
+*   Individuals in age class 2,3 and 4
+
+ DO I         2                        4
+ DO J         PC                       DC
+
+ XE AHI(I,24) IHAOP(I,J)1.0            IHAOO(I,J)1.0
+ XE AHI(I,24) IHAPP(I,J)1.0            IHAPO(I,J)1.0
+ XE AHI(I,24) IHASP(I,J)1.0            IHASO(I,J)1.0
+ XE AHI(I,24) IHAUP(I,J)1.0            IHAUO(I,J)1.0
+ XE AHI(I,24) IHIOP(I,J)1.0            IHIOO(I,J)1.0
+ XE AHI(I,24) IHIPP(I,J)1.0            IHIPO(I,J)1.0
+ XE AHI(I,24) IHISP(I,J)1.0            IHISO(I,J)1.0
+ XE AHI(I,24) IHIUP(I,J)1.0            IHIUO(I,J)1.0
+ XE AHI(I,24) IFAOP(I,J)1.0            IFAOO(I,J)1.0
+ XE AHI(I,24) IFAPP(I,J)1.0            IFAPO(I,J)1.0
+ XE AHI(I,24) IFASP(I,J)1.0            IFASO(I,J)1.0
+ XE AHI(I,24) IFAUP(I,J)1.0            IFAUO(I,J)1.0
+ XE AHI(I,24) IFIOP(I,J)1.0            IFIOO(I,J)1.0
+ XE AHI(I,24) IFIPP(I,J)1.0            IFIPO(I,J)1.0
+ XE AHI(I,24) IFISP(I,J)1.0            IFISO(I,J)1.0
+ XE AHI(I,24) IFIUP(I,J)1.0            IFIUO(I,J)1.0
+
+ XE AHN(I,24) NHAOP(I,J)1.0            NHAOO(I,J)1.0
+ XE AHN(I,24) NHAPP(I,J)1.0            NHAPO(I,J)1.0
+ XE AHN(I,24) NHASP(I,J)1.0            NHASO(I,J)1.0
+ XE AHN(I,24) NHAUP(I,J)1.0            NHAUO(I,J)1.0
+ XE AHN(I,24) NHIOP(I,J)1.0            NHIOO(I,J)1.0
+ XE AHN(I,24) NHIPP(I,J)1.0            NHIPO(I,J)1.0
+ XE AHN(I,24) NHISP(I,J)1.0            NHISO(I,J)1.0
+ XE AHN(I,24) NHIUP(I,J)1.0            NHIUO(I,J)1.0
+ XE AHN(I,24) NFAOP(I,J)1.0            NFAOO(I,J)1.0
+ XE AHN(I,24) NFAPP(I,J)1.0            NFAPO(I,J)1.0
+ XE AHN(I,24) NFASP(I,J)1.0            NFASO(I,J)1.0
+ XE AHN(I,24) NFAUP(I,J)1.0            NFAUO(I,J)1.0
+ XE AHN(I,24) NFIOP(I,J)1.0            NFIOO(I,J)1.0
+ XE AHN(I,24) NFIPP(I,J)1.0            NFIPO(I,J)1.0
+ XE AHN(I,24) NFISP(I,J)1.0            NFISO(I,J)1.0
+ XE AHN(I,24) NFIUP(I,J)1.0            NFIUO(I,J)1.0
+
+ XE AHC(I,24) CHAOP(I,J)1.0            CHAOO(I,J)1.0
+ XE AHC(I,24) CHAPP(I,J)1.0            CHAPO(I,J)1.0
+ XE AHC(I,24) CHASP(I,J)1.0            CHASO(I,J)1.0
+ XE AHC(I,24) CHAUP(I,J)1.0            CHAUO(I,J)1.0
+ XE AHC(I,24) CHIOP(I,J)1.0            CHIOO(I,J)1.0
+ XE AHC(I,24) CHIPP(I,J)1.0            CHIPO(I,J)1.0
+ XE AHC(I,24) CHISP(I,J)1.0            CHISO(I,J)1.0
+ XE AHC(I,24) CHIUP(I,J)1.0            CHIUO(I,J)1.0
+ XE AHC(I,24) CFAOP(I,J)1.0            CFAOO(I,J)1.0
+ XE AHC(I,24) CFAPP(I,J)1.0            CFAPO(I,J)1.0
+ XE AHC(I,24) CFASP(I,J)1.0            CFASO(I,J)1.0
+ XE AHC(I,24) CFAUP(I,J)1.0            CFAUO(I,J)1.0
+ XE AHC(I,24) CFIOP(I,J)1.0            CFIOO(I,J)1.0
+ XE AHC(I,24) CFIPP(I,J)1.0            CFIPO(I,J)1.0
+ XE AHC(I,24) CFISP(I,J)1.0            CFISO(I,J)1.0
+ XE AHC(I,24) CFIUP(I,J)1.0            CFIUO(I,J)1.0
+
+ XE AHF(I,24) FHAOP(I,J)1.0            FHAOO(I,J)1.0
+ XE AHF(I,24) FHAPP(I,J)1.0            FHAPO(I,J)1.0
+ XE AHF(I,24) FHASP(I,J)1.0            FHASO(I,J)1.0
+ XE AHF(I,24) FHAUP(I,J)1.0            FHAUO(I,J)1.0
+ XE AHF(I,24) FHIOP(I,J)1.0            FHIOO(I,J)1.0
+ XE AHF(I,24) FHIPP(I,J)1.0            FHIPO(I,J)1.0
+ XE AHF(I,24) FHISP(I,J)1.0            FHISO(I,J)1.0
+ XE AHF(I,24) FHIUP(I,J)1.0            FHIUO(I,J)1.0
+ XE AHF(I,24) FFAOP(I,J)1.0            FFAOO(I,J)1.0
+ XE AHF(I,24) FFAPP(I,J)1.0            FFAPO(I,J)1.0
+ XE AHF(I,24) FFASP(I,J)1.0            FFASO(I,J)1.0
+ XE AHF(I,24) FFAUP(I,J)1.0            FFAUO(I,J)1.0
+ XE AHF(I,24) FFIOP(I,J)1.0            FFIOO(I,J)1.0
+ XE AHF(I,24) FFIPP(I,J)1.0            FFIPO(I,J)1.0
+ XE AHF(I,24) FFISP(I,J)1.0            FFISO(I,J)1.0
+ XE AHF(I,24) FFIUP(I,J)1.0            FFIUO(I,J)1.0
+
+ OD J
+ OD I
+
+*   Constraints of age and diploma: the sum of the individuals for all
+*   household type, sex, activity status, driving licence
+*   and all municipalities included in each district must be equal to its
+*   reported value for the corresponding district.
+
+* Poids
+
+ RE ADO-SCAL            0.0001
+ RE ADP-SCAL            0.0001
+ RE ADS-SCAL            0.0001
+ RE ADU-SCAL            0.0001
+
+ ZE ADO(1,24) 'SCALE'                  ADO-SCAL
+ ZE ADO(2,24) 'SCALE'                  ADO-SCAL
+ ZE ADO(3,24) 'SCALE'                  ADO-SCAL
+ ZE ADO(4,24) 'SCALE'                  ADO-SCAL
+
+ ZE ADP(1,24) 'SCALE'                  ADP-SCAL
+ ZE ADP(2,24) 'SCALE'                  ADP-SCAL
+ ZE ADP(3,24) 'SCALE'                  ADP-SCAL
+ ZE ADP(4,24) 'SCALE'                  ADP-SCAL
+
+ ZE ADS(1,24) 'SCALE'                  ADS-SCAL
+ ZE ADS(2,24) 'SCALE'                  ADS-SCAL
+ ZE ADS(3,24) 'SCALE'                  ADS-SCAL
+ ZE ADS(4,24) 'SCALE'                  ADS-SCAL
+
+ ZE ADU(2,24) 'SCALE'                  ADU-SCAL
+ ZE ADU(3,24) 'SCALE'                  ADU-SCAL
+ ZE ADU(4,24) 'SCALE'                  ADU-SCAL
+
+
+*   Individuals in age class 1,2 and 3
+
+ DO I         1                        3 
+ DO J         PC                       DC
+
+ XE ADO(I,24) IHEOO(I,J)1.0            NHEOO(I,J)1.0
+ XE ADO(I,24) CHEOO(I,J)1.0            FHEOO(I,J)1.0
+ XE ADO(I,24) IFEOO(I,J)1.0            NFEOO(I,J)1.0
+ XE ADO(I,24) CFEOO(I,J)1.0            FFEOO(I,J)1.0
+
+ XE ADP(I,24) IHEPO(I,J)1.0            NHEPO(I,J)1.0
+ XE ADP(I,24) CHEPO(I,J)1.0            FHEPO(I,J)1.0
+ XE ADP(I,24) IFEPO(I,J)1.0            NFEPO(I,J)1.0
+ XE ADP(I,24) CFEPO(I,J)1.0            FFEPO(I,J)1.0
+
+ XE ADS(I,24) IHESO(I,J)1.0            NHESO(I,J)1.0
+ XE ADS(I,24) CHESO(I,J)1.0            FHESO(I,J)1.0
+ XE ADS(I,24) IFESO(I,J)1.0            NFESO(I,J)1.0
+ XE ADS(I,24) CFESO(I,J)1.0            FFESO(I,J)1.0
+
+ OD J
+ OD I
+
+*   Individuals in age class 2 and 3
+
+ DO I         2                        3
+ DO J         PC                       DC
+
+ XE ADO(I,24) IHEOP(I,J)1.0            IFEOP(I,J)1.0
+ XE ADO(I,24) NHEOP(I,J)1.0            NFEOP(I,J)1.0
+ XE ADO(I,24) CHEOP(I,J)1.0            CFEOP(I,J)1.0
+ XE ADO(I,24) FHEOP(I,J)1.0            FFEOP(I,J)1.0
+
+ XE ADP(I,24) IHEPP(I,J)1.0            IFEPP(I,J)1.0
+ XE ADP(I,24) NHEPP(I,J)1.0            NFEPP(I,J)1.0
+ XE ADP(I,24) CHEPP(I,J)1.0            CFEPP(I,J)1.0
+ XE ADP(I,24) FHEPP(I,J)1.0            FFEPP(I,J)1.0
+
+ XE ADS(I,24) IHESP(I,J)1.0            IFESP(I,J)1.0
+ XE ADS(I,24) NHESP(I,J)1.0            NFESP(I,J)1.0
+ XE ADS(I,24) CHESP(I,J)1.0            CFESP(I,J)1.0
+ XE ADS(I,24) FHESP(I,J)1.0            FFESP(I,J)1.0
+
+ XE ADU(I,24) IHEUP(I,J)1.0            IHEUO(I,J)1.0
+ XE ADU(I,24) NHEUP(I,J)1.0            NHEUO(I,J)1.0
+ XE ADU(I,24) CHEUP(I,J)1.0            CHEUO(I,J)1.0
+ XE ADU(I,24) FHEUP(I,J)1.0            FHEUO(I,J)1.0
+ XE ADU(I,24) IFEUP(I,J)1.0            IFEUO(I,J)1.0
+ XE ADU(I,24) NFEUP(I,J)1.0            NFEUO(I,J)1.0
+ XE ADU(I,24) CFEUP(I,J)1.0            CFEUO(I,J)1.0
+ XE ADU(I,24) FFEUP(I,J)1.0            FFEUO(I,J)1.0
+
+ OD J 
+ OD I
+  
+*   Individuals in age class 2,3 and 4
+
+ DO I         2                        4
+ DO J         PC                       DC
+ 
+ XE ADO(I,24) IHAOP(I,J)1.0            IHAOO(I,J)1.0
+ XE ADO(I,24) IHIOP(I,J)1.0            IHIOO(I,J)1.0
+ XE ADO(I,24) NHAOP(I,J)1.0            NHAOO(I,J)1.0
+ XE ADO(I,24) NHIOP(I,J)1.0            NHIOO(I,J)1.0
+ XE ADO(I,24) CHAOP(I,J)1.0            CHAOO(I,J)1.0
+ XE ADO(I,24) CHIOP(I,J)1.0            CHIOO(I,J)1.0
+ XE ADO(I,24) FHAOP(I,J)1.0            FHAOO(I,J)1.0
+ XE ADO(I,24) FHIOP(I,J)1.0            FHIOO(I,J)1.0
+ XE ADO(I,24) IFAOP(I,J)1.0            IFAOO(I,J)1.0
+ XE ADO(I,24) IFIOP(I,J)1.0            IFIOO(I,J)1.0
+ XE ADO(I,24) NFAOP(I,J)1.0            NFAOO(I,J)1.0
+ XE ADO(I,24) NFIOP(I,J)1.0            NFIOO(I,J)1.0
+ XE ADO(I,24) CFAOP(I,J)1.0            CFAOO(I,J)1.0
+ XE ADO(I,24) CFIOP(I,J)1.0            CFIOO(I,J)1.0
+ XE ADO(I,24) FFAOP(I,J)1.0            FFAOO(I,J)1.0
+ XE ADO(I,24) FFIOP(I,J)1.0            FFIOO(I,J)1.0
+
+ XE ADP(I,24) IHAPP(I,J)1.0            IHAPO(I,J)1.0
+ XE ADP(I,24) IHIPP(I,J)1.0            IHIPO(I,J)1.0
+ XE ADP(I,24) NHAPP(I,J)1.0            NHAPO(I,J)1.0
+ XE ADP(I,24) NHIPP(I,J)1.0            NHIPO(I,J)1.0
+ XE ADP(I,24) CHAPP(I,J)1.0            CHAPO(I,J)1.0
+ XE ADP(I,24) CHIPP(I,J)1.0            CHIPO(I,J)1.0
+ XE ADP(I,24) FHAPP(I,J)1.0            FHAPO(I,J)1.0
+ XE ADP(I,24) FHIPP(I,J)1.0            FHIPO(I,J)1.0
+ XE ADP(I,24) IFAPP(I,J)1.0            IFAPO(I,J)1.0
+ XE ADP(I,24) IFIPP(I,J)1.0            IFIPO(I,J)1.0
+ XE ADP(I,24) NFAPP(I,J)1.0            NFAPO(I,J)1.0
+ XE ADP(I,24) NFIPP(I,J)1.0            NFIPO(I,J)1.0
+ XE ADP(I,24) CFAPP(I,J)1.0            CFAPO(I,J)1.0
+ XE ADP(I,24) CFIPP(I,J)1.0            CFIPO(I,J)1.0
+ XE ADP(I,24) FFAPP(I,J)1.0            FFAPO(I,J)1.0
+ XE ADP(I,24) FFIPP(I,J)1.0            FFIPO(I,J)1.0
+
+ XE ADS(I,24) IHASP(I,J)1.0            IHASO(I,J)1.0
+ XE ADS(I,24) IHISP(I,J)1.0            IHISO(I,J)1.0
+ XE ADS(I,24) NHASP(I,J)1.0            NHASO(I,J)1.0
+ XE ADS(I,24) NHISP(I,J)1.0            NHISO(I,J)1.0
+ XE ADS(I,24) CHASP(I,J)1.0            CHASO(I,J)1.0
+ XE ADS(I,24) CHISP(I,J)1.0            CHISO(I,J)1.0
+ XE ADS(I,24) FHASP(I,J)1.0            FHASO(I,J)1.0
+ XE ADS(I,24) FHISP(I,J)1.0            FHISO(I,J)1.0
+ XE ADS(I,24) IFASP(I,J)1.0            IFASO(I,J)1.0
+ XE ADS(I,24) IFISP(I,J)1.0            IFISO(I,J)1.0
+ XE ADS(I,24) NFASP(I,J)1.0            NFASO(I,J)1.0
+ XE ADS(I,24) NFISP(I,J)1.0            NFISO(I,J)1.0
+ XE ADS(I,24) CFASP(I,J)1.0            CFASO(I,J)1.0
+ XE ADS(I,24) CFISP(I,J)1.0            CFISO(I,J)1.0
+ XE ADS(I,24) FFASP(I,J)1.0            FFASO(I,J)1.0
+ XE ADS(I,24) FFISP(I,J)1.0            FFISO(I,J)1.0
+
+ XE ADU(I,24) IHAUP(I,J)1.0            IHAUO(I,J)1.0
+ XE ADU(I,24) IHIUP(I,J)1.0            IHIUO(I,J)1.0
+ XE ADU(I,24) NHAUP(I,J)1.0            NHAUO(I,J)1.0
+ XE ADU(I,24) NHIUP(I,J)1.0            NHIUO(I,J)1.0
+ XE ADU(I,24) CHAUP(I,J)1.0            CHAUO(I,J)1.0
+ XE ADU(I,24) CHIUP(I,J)1.0            CHIUO(I,J)1.0
+ XE ADU(I,24) FHAUP(I,J)1.0            FHAUO(I,J)1.0
+ XE ADU(I,24) FHIUP(I,J)1.0            FHIUO(I,J)1.0
+ XE ADU(I,24) IFAUP(I,J)1.0            IFAUO(I,J)1.0
+ XE ADU(I,24) IFIUP(I,J)1.0            IFIUO(I,J)1.0
+ XE ADU(I,24) NFAUP(I,J)1.0            NFAUO(I,J)1.0
+ XE ADU(I,24) NFIUP(I,J)1.0            NFIUO(I,J)1.0
+ XE ADU(I,24) CFAUP(I,J)1.0            CFAUO(I,J)1.0
+ XE ADU(I,24) CFIUP(I,J)1.0            CFIUO(I,J)1.0
+ XE ADU(I,24) FFAUP(I,J)1.0            FFAUO(I,J)1.0
+ XE ADU(I,24) FFIUP(I,J)1.0            FFIUO(I,J)1.0
+
+ OD J
+ OD I
+
+
+*   Constraints of age and professionnal status: the sum of the individuals for all
+*   household type, sex, education level, driving licence ownership
+*   and all municipalities included in each district must be equal to its
+*   reported value for the corresponding district.
+
+* Poids
+
+ RE AAE-SCAL            0.0001
+ RE AAA-SCAL            0.0001
+ RE AAI-SCAL            0.0001
+
+ ZE AAE(1,24) 'SCALE'                  AAE-SCAL
+ ZE AAE(2,24) 'SCALE'                  AAE-SCAL
+ ZE AAE(3,24) 'SCALE'                  AAE-SCAL
+
+ ZE AAA(2,24) 'SCALE'                  AAA-SCAL
+ ZE AAA(3,24) 'SCALE'                  AAA-SCAL
+ ZE AAA(4,24) 'SCALE'                  AAA-SCAL
+
+ ZE AAI(2,24) 'SCALE'                  AAI-SCAL
+ ZE AAI(3,24) 'SCALE'                  AAI-SCAL
+ ZE AAI(4,24) 'SCALE'                  AAI-SCAL
+ 
+
+*   Individuals in age class 1,2 and 3
+
+ DO I         1                        3
+ DO J         PC                       DC
+ 
+ XE AAE(I,24) IHEOO(I,J)1.0            NHEOO(I,J)1.0
+ XE AAE(I,24) CHEOO(I,J)1.0            FHEOO(I,J)1.0
+ XE AAE(I,24) IFEOO(I,J)1.0            NFEOO(I,J)1.0
+ XE AAE(I,24) CFEOO(I,J)1.0            FFEOO(I,J)1.0
+ XE AAE(I,24) IHEPO(I,J)1.0            NHEPO(I,J)1.0
+ XE AAE(I,24) CHEPO(I,J)1.0            FHEPO(I,J)1.0
+ XE AAE(I,24) IFEPO(I,J)1.0            NFEPO(I,J)1.0
+ XE AAE(I,24) CFEPO(I,J)1.0            FFEPO(I,J)1.0
+ XE AAE(I,24) IHESO(I,J)1.0            NHESO(I,J)1.0
+ XE AAE(I,24) CHESO(I,J)1.0            FHESO(I,J)1.0
+ XE AAE(I,24) IFESO(I,J)1.0            NFESO(I,J)1.0
+ XE AAE(I,24) CFESO(I,J)1.0            FFESO(I,J)1.0
+
+ OD J           
+ OD I
+ 
+*   Individuals in age class 2 and 3
+
+ DO I         2                        3
+ DO J         PC                       DC
+
+ XE AAE(I,24) IHEOP(I,J)1.0            IFEOP(I,J)1.0
+ XE AAE(I,24) NHEOP(I,J)1.0            NFEOP(I,J)1.0
+ XE AAE(I,24) CHEOP(I,J)1.0            CFEOP(I,J)1.0
+ XE AAE(I,24) FHEOP(I,J)1.0            FFEOP(I,J)1.0
+ XE AAE(I,24) IHEPP(I,J)1.0            IFEPP(I,J)1.0
+ XE AAE(I,24) NHEPP(I,J)1.0            NFEPP(I,J)1.0
+ XE AAE(I,24) CHEPP(I,J)1.0            CFEPP(I,J)1.0
+ XE AAE(I,24) FHEPP(I,J)1.0            FFEPP(I,J)1.0
+ XE AAE(I,24) IHESP(I,J)1.0            IFESP(I,J)1.0
+ XE AAE(I,24) NHESP(I,J)1.0            NFESP(I,J)1.0
+ XE AAE(I,24) CHESP(I,J)1.0            CFESP(I,J)1.0
+ XE AAE(I,24) FHESP(I,J)1.0            FFESP(I,J)1.0
+ XE AAE(I,24) IHEUP(I,J)1.0            IHEUO(I,J)1.0
+ XE AAE(I,24) NHEUP(I,J)1.0            NHEUO(I,J)1.0
+ XE AAE(I,24) CHEUP(I,J)1.0            CHEUO(I,J)1.0
+ XE AAE(I,24) FHEUP(I,J)1.0            FHEUO(I,J)1.0
+ XE AAE(I,24) IFEUP(I,J)1.0            IFEUO(I,J)1.0
+ XE AAE(I,24) NFEUP(I,J)1.0            NFEUO(I,J)1.0
+ XE AAE(I,24) CFEUP(I,J)1.0            CFEUO(I,J)1.0
+ XE AAE(I,24) FFEUP(I,J)1.0            FFEUO(I,J)1.0
+ 
+ OD J
+ OD I
+
+*   Individuals in age class 2,3 and 4
+
+* active people
+
+ DO I         2                        4
+ DO J         PC                       DC
+
+ XE AAA(I,24) IHAOP(I,J)1.0            IHAOO(I,J)1.0
+ XE AAA(I,24) NHAOP(I,J)1.0            NHAOO(I,J)1.0
+ XE AAA(I,24) CHAOP(I,J)1.0            CHAOO(I,J)1.0
+ XE AAA(I,24) FHAOP(I,J)1.0            FHAOO(I,J)1.0
+ XE AAA(I,24) IFAOP(I,J)1.0            IFAOO(I,J)1.0
+ XE AAA(I,24) NFAOP(I,J)1.0            NFAOO(I,J)1.0
+ XE AAA(I,24) CFAOP(I,J)1.0            CFAOO(I,J)1.0
+ XE AAA(I,24) FFAOP(I,J)1.0            FFAOO(I,J)1.0
+ XE AAA(I,24) IHAPP(I,J)1.0            IHAPO(I,J)1.0
+ XE AAA(I,24) NHAPP(I,J)1.0            NHAPO(I,J)1.0
+ XE AAA(I,24) CHAPP(I,J)1.0            CHAPO(I,J)1.0
+ XE AAA(I,24) FHAPP(I,J)1.0            FHAPO(I,J)1.0
+ XE AAA(I,24) IFAPP(I,J)1.0            IFAPO(I,J)1.0
+ XE AAA(I,24) NFAPP(I,J)1.0            NFAPO(I,J)1.0
+ XE AAA(I,24) CFAPP(I,J)1.0            CFAPO(I,J)1.0
+ XE AAA(I,24) FFAPP(I,J)1.0            FFAPO(I,J)1.0
+ XE AAA(I,24) IHASP(I,J)1.0            IHASO(I,J)1.0
+ XE AAA(I,24) NHASP(I,J)1.0            NHASO(I,J)1.0
+ XE AAA(I,24) CHASP(I,J)1.0            CHASO(I,J)1.0
+ XE AAA(I,24) FHASP(I,J)1.0            FHASO(I,J)1.0
+ XE AAA(I,24) IFASP(I,J)1.0            IFASO(I,J)1.0
+ XE AAA(I,24) NFASP(I,J)1.0            NFASO(I,J)1.0
+ XE AAA(I,24) CFASP(I,J)1.0            CFASO(I,J)1.0
+ XE AAA(I,24) FFASP(I,J)1.0            FFASO(I,J)1.0
+ XE AAA(I,24) IHAUP(I,J)1.0            IHAUO(I,J)1.0
+ XE AAA(I,24) NHAUP(I,J)1.0            NHAUO(I,J)1.0
+ XE AAA(I,24) CHAUP(I,J)1.0            CHAUO(I,J)1.0
+ XE AAA(I,24) FHAUP(I,J)1.0            FHAUO(I,J)1.0
+ XE AAA(I,24) IFAUP(I,J)1.0            IFAUO(I,J)1.0
+ XE AAA(I,24) NFAUP(I,J)1.0            NFAUO(I,J)1.0
+ XE AAA(I,24) CFAUP(I,J)1.0            CFAUO(I,J)1.0
+ XE AAA(I,24) FFAUP(I,J)1.0            FFAUO(I,J)1.0
+
+* inactive people
+
+ XE AAI(I,24) IHIOP(I,J)1.0            IHIOO(I,J)1.0
+ XE AAI(I,24) NHIOP(I,J)1.0            NHIOO(I,J)1.0
+ XE AAI(I,24) CHIOP(I,J)1.0            CHIOO(I,J)1.0
+ XE AAI(I,24) FHIOP(I,J)1.0            FHIOO(I,J)1.0
+ XE AAI(I,24) IFIOP(I,J)1.0            IFIOO(I,J)1.0
+ XE AAI(I,24) NFIOP(I,J)1.0            NFIOO(I,J)1.0
+ XE AAI(I,24) CFIOP(I,J)1.0            CFIOO(I,J)1.0
+ XE AAI(I,24) FFIOP(I,J)1.0            FFIOO(I,J)1.0
+ XE AAI(I,24) IHIPP(I,J)1.0            IHIPO(I,J)1.0
+ XE AAI(I,24) NHIPP(I,J)1.0            NHIPO(I,J)1.0
+ XE AAI(I,24) CHIPP(I,J)1.0            CHIPO(I,J)1.0
+ XE AAI(I,24) FHIPP(I,J)1.0            FHIPO(I,J)1.0
+ XE AAI(I,24) IFIPP(I,J)1.0            IFIPO(I,J)1.0
+ XE AAI(I,24) NFIPP(I,J)1.0            NFIPO(I,J)1.0
+ XE AAI(I,24) CFIPP(I,J)1.0            CFIPO(I,J)1.0
+ XE AAI(I,24) FFIPP(I,J)1.0            FFIPO(I,J)1.0
+ XE AAI(I,24) IHISP(I,J)1.0            IHISO(I,J)1.0
+ XE AAI(I,24) NHISP(I,J)1.0            NHISO(I,J)1.0
+ XE AAI(I,24) CHISP(I,J)1.0            CHISO(I,J)1.0
+ XE AAI(I,24) FHISP(I,J)1.0            FHISO(I,J)1.0
+ XE AAI(I,24) IFISP(I,J)1.0            IFISO(I,J)1.0
+ XE AAI(I,24) NFISP(I,J)1.0            NFISO(I,J)1.0
+ XE AAI(I,24) CFISP(I,J)1.0            CFISO(I,J)1.0
+ XE AAI(I,24) FFISP(I,J)1.0            FFISO(I,J)1.0
+ XE AAI(I,24) IHIUP(I,J)1.0            IHIUO(I,J)1.0
+ XE AAI(I,24) NHIUP(I,J)1.0            NHIUO(I,J)1.0
+ XE AAI(I,24) CHIUP(I,J)1.0            CHIUO(I,J)1.0
+ XE AAI(I,24) FHIUP(I,J)1.0            FHIUO(I,J)1.0
+ XE AAI(I,24) IFIUP(I,J)1.0            IFIUO(I,J)1.0
+ XE AAI(I,24) NFIUP(I,J)1.0            NFIUO(I,J)1.0
+ XE AAI(I,24) CFIUP(I,J)1.0            CFIUO(I,J)1.0
+ XE AAI(I,24) FFIUP(I,J)1.0            FFIUO(I,J)1.0
+
+ OD J
+ OD I
+
+
+*   Constraints of diploma and professionnal status: the sum of the individuals for all
+*   household type, sex, age, driving licence ownership
+*   and all municipalities included in each district must be equal to its
+*   reported value for the corresponding district.
+
+* Poids
+
+ RE EO-SCAL             0.0001
+ RE EP-SCAL             0.0001
+ RE ES-SCAL             0.0001
+ RE EU-SCAL             0.0001
+
+ RE AO-SCAL             0.0001
+ RE AP-SCAL             0.0001
+ RE AS-SCAL             0.0001
+ RE AU-SCAL             0.0001
+
+ RE IO-SCAL             0.0001
+ RE IP-SCAL             0.0001
+ RE IS-SCAL             0.0001
+ RE IU-SCAL             0.0001
+
+ ZE EO(24)    'SCALE'                  EO-SCAL
+ ZE EP(24)    'SCALE'                  EP-SCAL
+ ZE ES(24)    'SCALE'                  ES-SCAL
+ ZE EU(24)    'SCALE'                  EU-SCAL
+
+ ZE AO(24)    'SCALE'                  AO-SCAL
+ ZE AP(24)    'SCALE'                  AP-SCAL
+ ZE AS(24)    'SCALE'                  AS-SCAL
+ ZE AU(24)    'SCALE'                  AU-SCAL
+
+ ZE IO(24)    'SCALE'                  IO-SCAL
+ ZE IP(24)    'SCALE'                  IP-SCAL
+ ZE IS(24)    'SCALE'                  IS-SCAL
+ ZE IU(24)    'SCALE'                  IU-SCAL
+
+
+*   Individuals in age class 1, 2 and 3
+  
+ DO I         1                        3
+ DO J         PC                       DC
+
+ XE EO(24)    IHEOO(I,J)1.0            NHEOO(I,J)1.0
+ XE EO(24)    CHEOO(I,J)1.0            FHEOO(I,J)1.0
+ XE EO(24)    IFEOO(I,J)1.0            NFEOO(I,J)1.0
+ XE EO(24)    CFEOO(I,J)1.0            FFEOO(I,J)1.0
+
+ XE EP(24)    IHEPO(I,J)1.0            NHEPO(I,J)1.0
+ XE EP(24)    CHEPO(I,J)1.0            FHEPO(I,J)1.0
+ XE EP(24)    IFEPO(I,J)1.0            NFEPO(I,J)1.0
+ XE EP(24)    CFEPO(I,J)1.0            FFEPO(I,J)1.0
+
+ XE ES(24)    IHESO(I,J)1.0            NHESO(I,J)1.0
+ XE ES(24)    CHESO(I,J)1.0            FHESO(I,J)1.0
+ XE ES(24)    IFESO(I,J)1.0            NFESO(I,J)1.0
+ XE ES(24)    CFESO(I,J)1.0            FFESO(I,J)1.0
+
+ OD J
+ OD I
+
+*   Individuals in age class 2 and 3
+
+ DO I         2                        3
+ DO J         PC                       DC
+
+ XE EO(24)    IHEOP(I,J)1.0            IFEOP(I,J)1.0
+ XE EO(24)    NHEOP(I,J)1.0            NFEOP(I,J)1.0
+ XE EO(24)    CHEOP(I,J)1.0            CFEOP(I,J)1.0
+ XE EO(24)    FHEOP(I,J)1.0            FFEOP(I,J)1.0
+ 
+ XE EP(24)    IHEPP(I,J)1.0            IFEPP(I,J)1.0
+ XE EP(24)    NHEPP(I,J)1.0            NFEPP(I,J)1.0
+ XE EP(24)    CHEPP(I,J)1.0            CFEPP(I,J)1.0
+ XE EP(24)    FHEPP(I,J)1.0            FFEPP(I,J)1.0
+
+ XE ES(24)    IHESP(I,J)1.0            IFESP(I,J)1.0
+ XE ES(24)    NHESP(I,J)1.0            NFESP(I,J)1.0
+ XE ES(24)    CHESP(I,J)1.0            CFESP(I,J)1.0
+ XE ES(24)    FHESP(I,J)1.0            FFESP(I,J)1.0
+
+ XE EU(24)    IHEUP(I,J)1.0            IHEUO(I,J)1.0
+ XE EU(24)    NHEUP(I,J)1.0            NHEUO(I,J)1.0
+ XE EU(24)    CHEUP(I,J)1.0            CHEUO(I,J)1.0
+ XE EU(24)    FHEUP(I,J)1.0            FHEUO(I,J)1.0
+ XE EU(24)    IFEUP(I,J)1.0            IFEUO(I,J)1.0
+ XE EU(24)    NFEUP(I,J)1.0            NFEUO(I,J)1.0
+ XE EU(24)    CFEUP(I,J)1.0            CFEUO(I,J)1.0
+ XE EU(24)    FFEUP(I,J)1.0            FFEUO(I,J)1.0
+
+ OD J
+ OD I
+
+*   Individuals in age class 2, 3 and 4
+
+ DO I         2                        4
+ DO J         PC                       DC
+
+* diploma for active people
+
+ XE AO(24)    IHAOP(I,J)1.0            IHAOO(I,J)1.0
+ XE AO(24)    NHAOP(I,J)1.0            NHAOO(I,J)1.0
+ XE AO(24)    CHAOP(I,J)1.0            CHAOO(I,J)1.0
+ XE AO(24)    FHAOP(I,J)1.0            FHAOO(I,J)1.0
+ XE AO(24)    IFAOP(I,J)1.0            IFAOO(I,J)1.0
+ XE AO(24)    NFAOP(I,J)1.0            NFAOO(I,J)1.0
+ XE AO(24)    CFAOP(I,J)1.0            CFAOO(I,J)1.0
+ XE AO(24)    FFAOP(I,J)1.0            FFAOO(I,J)1.0
+
+ XE AP(24)    IHAPP(I,J)1.0            IHAPO(I,J)1.0
+ XE AP(24)    NHAPP(I,J)1.0            NHAPO(I,J)1.0
+ XE AP(24)    CHAPP(I,J)1.0            CHAPO(I,J)1.0
+ XE AP(24)    FHAPP(I,J)1.0            FHAPO(I,J)1.0
+ XE AP(24)    IFAPP(I,J)1.0            IFAPO(I,J)1.0
+ XE AP(24)    NFAPP(I,J)1.0            NFAPO(I,J)1.0
+ XE AP(24)    CFAPP(I,J)1.0            CFAPO(I,J)1.0
+ XE AP(24)    FFAPP(I,J)1.0            FFAPO(I,J)1.0
+
+ XE AS(24)    IHASP(I,J)1.0            IHASO(I,J)1.0
+ XE AS(24)    NHASP(I,J)1.0            NHASO(I,J)1.0
+ XE AS(24)    CHASP(I,J)1.0            CHASO(I,J)1.0
+ XE AS(24)    FHASP(I,J)1.0            FHASO(I,J)1.0
+ XE AS(24)    IFASP(I,J)1.0            IFASO(I,J)1.0
+ XE AS(24)    NFASP(I,J)1.0            NFASO(I,J)1.0
+ XE AS(24)    CFASP(I,J)1.0            CFASO(I,J)1.0
+ XE AS(24)    FFASP(I,J)1.0            FFASO(I,J)1.0
+
+ XE AU(24)    IHAUP(I,J)1.0            IHAUO(I,J)1.0
+ XE AU(24)    NHAUP(I,J)1.0            NHAUO(I,J)1.0
+ XE AU(24)    CHAUP(I,J)1.0            CHAUO(I,J)1.0
+ XE AU(24)    FHAUP(I,J)1.0            FHAUO(I,J)1.0
+ XE AU(24)    IFAUP(I,J)1.0            IFAUO(I,J)1.0
+ XE AU(24)    NFAUP(I,J)1.0            NFAUO(I,J)1.0
+ XE AU(24)    CFAUP(I,J)1.0            CFAUO(I,J)1.0
+ XE AU(24)    FFAUP(I,J)1.0            FFAUO(I,J)1.0
+
+* diploma for inactive people
+
+ XE IO(24)    IHIOP(I,J)1.0            IHIOO(I,J)1.0
+ XE IO(24)    NHIOP(I,J)1.0            NHIOO(I,J)1.0
+ XE IO(24)    CHIOP(I,J)1.0            CHIOO(I,J)1.0
+ XE IO(24)    FHIOP(I,J)1.0            FHIOO(I,J)1.0
+ XE IO(24)    IFIOP(I,J)1.0            IFIOO(I,J)1.0
+ XE IO(24)    NFIOP(I,J)1.0            NFIOO(I,J)1.0
+ XE IO(24)    CFIOP(I,J)1.0            CFIOO(I,J)1.0
+ XE IO(24)    FFIOP(I,J)1.0            FFIOO(I,J)1.0
+
+ XE IP(24)    IHIPP(I,J)1.0            IHIPO(I,J)1.0
+ XE IP(24)    NHIPP(I,J)1.0            NHIPO(I,J)1.0
+ XE IP(24)    CHIPP(I,J)1.0            CHIPO(I,J)1.0
+ XE IP(24)    FHIPP(I,J)1.0            FHIPO(I,J)1.0
+ XE IP(24)    IFIPP(I,J)1.0            IFIPO(I,J)1.0
+ XE IP(24)    NFIPP(I,J)1.0            NFIPO(I,J)1.0
+ XE IP(24)    CFIPP(I,J)1.0            CFIPO(I,J)1.0
+ XE IP(24)    FFIPP(I,J)1.0            FFIPO(I,J)1.0
+
+ XE IS(24)    IHISP(I,J)1.0            IHISO(I,J)1.0
+ XE IS(24)    NHISP(I,J)1.0            NHISO(I,J)1.0
+ XE IS(24)    CHISP(I,J)1.0            CHISO(I,J)1.0
+ XE IS(24)    FHISP(I,J)1.0            FHISO(I,J)1.0
+ XE IS(24)    IFISP(I,J)1.0            IFISO(I,J)1.0
+ XE IS(24)    NFISP(I,J)1.0            NFISO(I,J)1.0
+ XE IS(24)    CFISP(I,J)1.0            CFISO(I,J)1.0
+ XE IS(24)    FFISP(I,J)1.0            FFISO(I,J)1.0
+
+ XE IU(24)    IHIUP(I,J)1.0            IHIUO(I,J)1.0
+ XE IU(24)    NHIUP(I,J)1.0            NHIUO(I,J)1.0
+ XE IU(24)    CHIUP(I,J)1.0            CHIUO(I,J)1.0
+ XE IU(24)    FHIUP(I,J)1.0            FHIUO(I,J)1.0
+ XE IU(24)    IFIUP(I,J)1.0            IFIUO(I,J)1.0
+ XE IU(24)    NFIUP(I,J)1.0            NFIUO(I,J)1.0
+ XE IU(24)    CFIUP(I,J)1.0            CFIUO(I,J)1.0
+ XE IU(24)    FFIUP(I,J)1.0            FFIUO(I,J)1.0
+
+ OD J
+ OD I
+
+
+*   Constraints of diploma and sex: the sum of the individuals for all
+*   household type,  age, professionnal status, driving licence ownership
+*   and all towns included in each district must be equal to its
+*   reported value for the corresponding district.
+
+* Poids
+
+ RE FO-SCAL             0.0001
+ RE FP-SCAL             0.0001
+ RE FS-SCAL             0.0001
+ RE FU-SCAL             0.0001
+
+ RE HO-SCAL             0.0001
+ RE HP-SCAL             0.0001
+ RE HS-SCAL             0.0001
+ RE HU-SCAL             0.0001
+
+ ZE FO(24)    'SCALE'                  FO-SCAL
+ ZE FP(24)    'SCALE'                  FP-SCAL
+ ZE FS(24)    'SCALE'                  FS-SCAL
+ ZE FU(24)    'SCALE'                  FU-SCAL
+
+ ZE HO(24)    'SCALE'                  HO-SCAL
+ ZE HP(24)    'SCALE'                  HP-SCAL
+ ZE HS(24)    'SCALE'                  HS-SCAL
+ ZE HU(24)    'SCALE'                  HU-SCAL
+
+
+*   Individuals in age class 1,2 and 3
+
+ DO I         1                        3
+ DO J         PC                       DC
+ 
+ XE HO(24)    IHEOO(I,J)1.0            NHEOO(I,J)1.0
+ XE HO(24)    CHEOO(I,J)1.0            FHEOO(I,J)1.0
+ XE FO(24)    IFEOO(I,J)1.0            NFEOO(I,J)1.0
+ XE FO(24)    CFEOO(I,J)1.0            FFEOO(I,J)1.0
+
+ XE HP(24)    IHEPO(I,J)1.0            NHEPO(I,J)1.0
+ XE HP(24)    CHEPO(I,J)1.0            FHEPO(I,J)1.0
+ XE FP(24)    IFEPO(I,J)1.0            NFEPO(I,J)1.0
+ XE FP(24)    CFEPO(I,J)1.0            FFEPO(I,J)1.0
+
+ XE HS(24)    IHESO(I,J)1.0            NHESO(I,J)1.0
+ XE HS(24)    CHESO(I,J)1.0            FHESO(I,J)1.0
+ XE FS(24)    IFESO(I,J)1.0            NFESO(I,J)1.0
+ XE FS(24)    CFESO(I,J)1.0            FFESO(I,J)1.0
+
+ OD J
+ OD I
+
+*   Individuals in age class 2 and 3
+
+ DO I         2                        3
+ DO J         PC                       DC
+
+ XE HO(24)    IHEOP(I,J)1.0            NHEOP(I,J)1.0
+ XE HO(24)    CHEOP(I,J)1.0            FHEOP(I,J)1.0 
+ XE FO(24)    IFEOP(I,J)1.0            NFEOP(I,J)1.0
+ XE FO(24)    CFEOP(I,J)1.0            FFEOP(I,J)1.0
+
+ XE HP(24)    IHEPP(I,J)1.0            NHEPP(I,J)1.0
+ XE HP(24)    CHEPP(I,J)1.0            FHEPP(I,J)1.0
+ XE FP(24)    IFEPP(I,J)1.0            NFEPP(I,J)1.0
+ XE FP(24)    CFEPP(I,J)1.0            FFEPP(I,J)1.0
+
+ XE HS(24)    IHESP(I,J)1.0            NHESP(I,J)1.0
+ XE HS(24)    CHESP(I,J)1.0            FHESP(I,J)1.0
+ XE FS(24)    IFESP(I,J)1.0            NFESP(I,J)1.0
+ XE FS(24)    CFESP(I,J)1.0            FFESP(I,J)1.0
+
+ XE HU(24)    IHEUP(I,J)1.0            IHEUO(I,J)1.0
+ XE HU(24)    NHEUP(I,J)1.0            NHEUO(I,J)1.0
+ XE HU(24)    CHEUP(I,J)1.0            CHEUO(I,J)1.0
+ XE HU(24)    FHEUP(I,J)1.0            FHEUO(I,J)1.0
+ XE FU(24)    IFEUP(I,J)1.0            IFEUO(I,J)1.0
+ XE FU(24)    NFEUP(I,J)1.0            NFEUO(I,J)1.0
+ XE FU(24)    CFEUP(I,J)1.0            CFEUO(I,J)1.0
+ XE FU(24)    FFEUP(I,J)1.0            FFEUO(I,J)1.0
+ 
+ OD J
+ OD I
+
+*   Individuals in age class 2,3 and 4
+
+ DO I         2                        4
+ DO J         PC                       DC
+
+* Homme 
+
+ XE HO(24)    IHAOP(I,J)1.0            IHAOO(I,J)1.0
+ XE HO(24)    NHAOP(I,J)1.0            NHAOO(I,J)1.0
+ XE HO(24)    CHAOP(I,J)1.0            CHAOO(I,J)1.0
+ XE HO(24)    FHAOP(I,J)1.0            FHAOO(I,J)1.0
+ XE HO(24)    IHIOP(I,J)1.0            IHIOO(I,J)1.0
+ XE HO(24)    NHIOP(I,J)1.0            NHIOO(I,J)1.0
+ XE HO(24)    CHIOP(I,J)1.0            CHIOO(I,J)1.0
+ XE HO(24)    FHIOP(I,J)1.0            FHIOO(I,J)1.0
+
+ XE HP(24)    IHAPP(I,J)1.0            IHAPO(I,J)1.0
+ XE HP(24)    NHAPP(I,J)1.0            NHAPO(I,J)1.0
+ XE HP(24)    CHAPP(I,J)1.0            CHAPO(I,J)1.0
+ XE HP(24)    FHAPP(I,J)1.0            FHAPO(I,J)1.0
+ XE HP(24)    IHIPP(I,J)1.0            IHIPO(I,J)1.0
+ XE HP(24)    NHIPP(I,J)1.0            NHIPO(I,J)1.0
+ XE HP(24)    CHIPP(I,J)1.0            CHIPO(I,J)1.0
+ XE HP(24)    FHIPP(I,J)1.0            FHIPO(I,J)1.0
+
+ XE HS(24)    IHASP(I,J)1.0            IHASO(I,J)1.0
+ XE HS(24)    NHASP(I,J)1.0            NHASO(I,J)1.0
+ XE HS(24)    CHASP(I,J)1.0            CHASO(I,J)1.0
+ XE HS(24)    FHASP(I,J)1.0            FHASO(I,J)1.0
+ XE HS(24)    IHISP(I,J)1.0            IHISO(I,J)1.0
+ XE HS(24)    NHISP(I,J)1.0            NHISO(I,J)1.0
+ XE HS(24)    CHISP(I,J)1.0            CHISO(I,J)1.0
+ XE HS(24)    FHISP(I,J)1.0            FHISO(I,J)1.0
+
+ XE HU(24)    IHAUP(I,J)1.0            IHAUO(I,J)1.0
+ XE HU(24)    NHAUP(I,J)1.0            NHAUO(I,J)1.0
+ XE HU(24)    CHAUP(I,J)1.0            CHAUO(I,J)1.0
+ XE HU(24)    FHAUP(I,J)1.0            FHAUO(I,J)1.0
+ XE HU(24)    IHIUP(I,J)1.0            IHIUO(I,J)1.0
+ XE HU(24)    NHIUP(I,J)1.0            NHIUO(I,J)1.0
+ XE HU(24)    CHIUP(I,J)1.0            CHIUO(I,J)1.0
+ XE HU(24)    FHIUP(I,J)1.0            FHIUO(I,J)1.0
+
+* Femme 
+
+ XE FO(24)    IFAOP(I,J)1.0            IFAOO(I,J)1.0
+ XE FO(24)    NFAOP(I,J)1.0            NFAOO(I,J)1.0
+ XE FO(24)    CFAOP(I,J)1.0            CFAOO(I,J)1.0
+ XE FO(24)    FFAOP(I,J)1.0            FFAOO(I,J)1.0
+ XE FO(24)    IFIOP(I,J)1.0            IFIOO(I,J)1.0
+ XE FO(24)    NFIOP(I,J)1.0            NFIOO(I,J)1.0
+ XE FO(24)    CFIOP(I,J)1.0            CFIOO(I,J)1.0
+ XE FO(24)    FFIOP(I,J)1.0            FFIOO(I,J)1.0
+
+ XE FP(24)    IFAPP(I,J)1.0            IFAPO(I,J)1.0
+ XE FP(24)    NFAPP(I,J)1.0            NFAPO(I,J)1.0
+ XE FP(24)    CFAPP(I,J)1.0            CFAPO(I,J)1.0
+ XE FP(24)    FFAPP(I,J)1.0            FFAPO(I,J)1.0
+ XE FP(24)    IFIPP(I,J)1.0            IFIPO(I,J)1.0
+ XE FP(24)    NFIPP(I,J)1.0            NFIPO(I,J)1.0
+ XE FP(24)    CFIPP(I,J)1.0            CFIPO(I,J)1.0
+ XE FP(24)    FFIPP(I,J)1.0            FFIPO(I,J)1.0
+
+ XE FS(24)    IFASP(I,J)1.0            IFASO(I,J)1.0
+ XE FS(24)    NFASP(I,J)1.0            NFASO(I,J)1.0
+ XE FS(24)    CFASP(I,J)1.0            CFASO(I,J)1.0
+ XE FS(24)    FFASP(I,J)1.0            FFASO(I,J)1.0
+ XE FS(24)    IFISP(I,J)1.0            IFISO(I,J)1.0
+ XE FS(24)    NFISP(I,J)1.0            NFISO(I,J)1.0
+ XE FS(24)    CFISP(I,J)1.0            CFISO(I,J)1.0
+ XE FS(24)    FFISP(I,J)1.0            FFISO(I,J)1.0
+
+ XE FU(24)    IFAUP(I,J)1.0            IFAUO(I,J)1.0
+ XE FU(24)    NFAUP(I,J)1.0            NFAUO(I,J)1.0
+ XE FU(24)    CFAUP(I,J)1.0            CFAUO(I,J)1.0
+ XE FU(24)    FFAUP(I,J)1.0            FFAUO(I,J)1.0
+ XE FU(24)    IFIUP(I,J)1.0            IFIUO(I,J)1.0
+ XE FU(24)    NFIUP(I,J)1.0            NFIUO(I,J)1.0
+ XE FU(24)    CFIUP(I,J)1.0            CFIUO(I,J)1.0
+ XE FU(24)    FFIUP(I,J)1.0            FFIUO(I,J)1.0
+
+ OD J
+ OD I
+
+
+*   Constraints of sex and professionnal status: the sum of the individuals for all
+*   household type, diploma, age, driving licence ownership
+*   and all municipalities included in each district must be equal to its
+*   reported value for the corresponding district.
+
+* Poids
+
+ RE HE-SCAL             0.0001
+ RE HI-SCAL             0.0001
+ RE HA-SCAL             0.0001
+
+ RE FE-SCAL             0.0001
+ RE FI-SCAL             0.0001
+ RE FA-SCAL             0.0001
+
+ ZE HA(24)    'SCALE'                  HA-SCAL
+ ZE HE(24)    'SCALE'                  HE-SCAL
+ ZE HI(24)    'SCALE'                  HI-SCAL
+
+ ZE FA(24)    'SCALE'                  FA-SCAL
+ ZE FE(24)    'SCALE'                  FE-SCAL
+ ZE FI(24)    'SCALE'                  FI-SCAL
+
+
+*   Individuals in age class 1,2 and 3
+
+ DO I         1                        3
+ DO J         PC                       DC
+
+ XE HE(24)    IHEOO(I,J)1.0            NHEOO(I,J)1.0
+ XE HE(24)    CHEOO(I,J)1.0            FHEOO(I,J)1.0
+ XE HE(24)    IHEPO(I,J)1.0            NHEPO(I,J)1.0
+ XE HE(24)    CHEPO(I,J)1.0            FHEPO(I,J)1.0
+ XE HE(24)    IHESO(I,J)1.0            NHESO(I,J)1.0
+ XE HE(24)    CHESO(I,J)1.0            FHESO(I,J)1.0
+
+ XE FE(24)    IFEOO(I,J)1.0            NFEOO(I,J)1.0
+ XE FE(24)    CFEOO(I,J)1.0            FFEOO(I,J)1.0
+ XE FE(24)    IFEPO(I,J)1.0            NFEPO(I,J)1.0
+ XE FE(24)    CFEPO(I,J)1.0            FFEPO(I,J)1.0
+ XE FE(24)    IFESO(I,J)1.0            NFESO(I,J)1.0
+ XE FE(24)    CFESO(I,J)1.0            FFESO(I,J)1.0
+
+ OD J
+ OD I
+
+*   Individuals in age class 2 and 3
+
+ DO I         2                        3
+ DO J         PC                       DC
+
+ XE HE(24)    IHEOP(I,J)1.0            NHEOP(I,J)1.0
+ XE HE(24)    CHEOP(I,J)1.0            FHEOP(I,J)1.0 
+ XE HE(24)    IHEPP(I,J)1.0            NHEPP(I,J)1.0
+ XE HE(24)    CHEPP(I,J)1.0            FHEPP(I,J)1.0
+ XE HE(24)    IHESP(I,J)1.0            NHESP(I,J)1.0
+ XE HE(24)    CHESP(I,J)1.0            FHESP(I,J)1.0
+ XE HE(24)    IHEUP(I,J)1.0            IHEUO(I,J)1.0
+ XE HE(24)    NHEUP(I,J)1.0            NHEUO(I,J)1.0
+ XE HE(24)    CHEUP(I,J)1.0            CHEUO(I,J)1.0
+ XE HE(24)    FHEUP(I,J)1.0            FHEUO(I,J)1.0
+
+ XE FE(24)    IFEOP(I,J)1.0            NFEOP(I,J)1.0
+ XE FE(24)    CFEOP(I,J)1.0            FFEOP(I,J)1.0
+ XE FE(24)    IFEPP(I,J)1.0            NFEPP(I,J)1.0
+ XE FE(24)    CFEPP(I,J)1.0            FFEPP(I,J)1.0
+ XE FE(24)    IFESP(I,J)1.0            NFESP(I,J)1.0
+ XE FE(24)    CFESP(I,J)1.0            FFESP(I,J)1.0
+ XE FE(24)    IFEUP(I,J)1.0            IFEUO(I,J)1.0
+ XE FE(24)    NFEUP(I,J)1.0            NFEUO(I,J)1.0
+ XE FE(24)    CFEUP(I,J)1.0            CFEUO(I,J)1.0
+ XE FE(24)    FFEUP(I,J)1.0            FFEUO(I,J)1.0
+
+ OD J
+ OD I
+
+*   Individuals in age class 2,3 and 4
+
+ DO I         2                        4
+ DO J         PC                       DC
+
+* Active male
+
+ XE HA(24)    IHAOP(I,J)1.0            IHAOO(I,J)1.0
+ XE HA(24)    NHAOP(I,J)1.0            NHAOO(I,J)1.0
+ XE HA(24)    CHAOP(I,J)1.0            CHAOO(I,J)1.0
+ XE HA(24)    FHAOP(I,J)1.0            FHAOO(I,J)1.0
+ XE HA(24)    IHAPP(I,J)1.0            IHAPO(I,J)1.0
+ XE HA(24)    NHAPP(I,J)1.0            NHAPO(I,J)1.0
+ XE HA(24)    CHAPP(I,J)1.0            CHAPO(I,J)1.0
+ XE HA(24)    FHAPP(I,J)1.0            FHAPO(I,J)1.0
+ XE HA(24)    IHASP(I,J)1.0            IHASO(I,J)1.0
+ XE HA(24)    NHASP(I,J)1.0            NHASO(I,J)1.0
+ XE HA(24)    CHASP(I,J)1.0            CHASO(I,J)1.0
+ XE HA(24)    FHASP(I,J)1.0            FHASO(I,J)1.0
+ XE HA(24)    IHAUP(I,J)1.0            IHAUO(I,J)1.0
+ XE HA(24)    NHAUP(I,J)1.0            NHAUO(I,J)1.0
+ XE HA(24)    CHAUP(I,J)1.0            CHAUO(I,J)1.0
+ XE HA(24)    FHAUP(I,J)1.0            FHAUO(I,J)1.0
+
+* Inactive male
+
+ XE HI(24)    IHIOP(I,J)1.0            IHIOO(I,J)1.0
+ XE HI(24)    NHIOP(I,J)1.0            NHIOO(I,J)1.0
+ XE HI(24)    CHIOP(I,J)1.0            CHIOO(I,J)1.0
+ XE HI(24)    FHIOP(I,J)1.0            FHIOO(I,J)1.0
+ XE HI(24)    IHIPP(I,J)1.0            IHIPO(I,J)1.0
+ XE HI(24)    NHIPP(I,J)1.0            NHIPO(I,J)1.0
+ XE HI(24)    CHIPP(I,J)1.0            CHIPO(I,J)1.0
+ XE HI(24)    FHIPP(I,J)1.0            FHIPO(I,J)1.0
+ XE HI(24)    IHISP(I,J)1.0            IHISO(I,J)1.0
+ XE HI(24)    NHISP(I,J)1.0            NHISO(I,J)1.0
+ XE HI(24)    CHISP(I,J)1.0            CHISO(I,J)1.0
+ XE HI(24)    FHISP(I,J)1.0            FHISO(I,J)1.0
+ XE HI(24)    IHIUP(I,J)1.0            IHIUO(I,J)1.0
+ XE HI(24)    NHIUP(I,J)1.0            NHIUO(I,J)1.0
+ XE HI(24)    CHIUP(I,J)1.0            CHIUO(I,J)1.0
+ XE HI(24)    FHIUP(I,J)1.0            FHIUO(I,J)1.0
+
+* Active female
+
+ XE FA(24)    IFAOP(I,J)1.0            IFAOO(I,J)1.0
+ XE FA(24)    NFAOP(I,J)1.0            NFAOO(I,J)1.0
+ XE FA(24)    CFAOP(I,J)1.0            CFAOO(I,J)1.0
+ XE FA(24)    FFAOP(I,J)1.0            FFAOO(I,J)1.0
+ XE FA(24)    IFAPP(I,J)1.0            IFAPO(I,J)1.0
+ XE FA(24)    NFAPP(I,J)1.0            NFAPO(I,J)1.0
+ XE FA(24)    CFAPP(I,J)1.0            CFAPO(I,J)1.0
+ XE FA(24)    FFAPP(I,J)1.0            FFAPO(I,J)1.0
+ XE FA(24)    IFASP(I,J)1.0            IFASO(I,J)1.0
+ XE FA(24)    NFASP(I,J)1.0            NFASO(I,J)1.0
+ XE FA(24)    CFASP(I,J)1.0            CFASO(I,J)1.0
+ XE FA(24)    FFASP(I,J)1.0            FFASO(I,J)1.0
+ XE FA(24)    IFAUP(I,J)1.0            IFAUO(I,J)1.0
+ XE FA(24)    NFAUP(I,J)1.0            NFAUO(I,J)1.0
+ XE FA(24)    CFAUP(I,J)1.0            CFAUO(I,J)1.0
+ XE FA(24)    FFAUP(I,J)1.0            FFAUO(I,J)1.0
+
+* Inactive female
+
+ XE FI(24)    IFIOP(I,J)1.0            IFIOO(I,J)1.0
+ XE FI(24)    NFIOP(I,J)1.0            NFIOO(I,J)1.0
+ XE FI(24)    CFIOP(I,J)1.0            CFIOO(I,J)1.0
+ XE FI(24)    FFIOP(I,J)1.0            FFIOO(I,J)1.0
+ XE FI(24)    IFIPP(I,J)1.0            IFIPO(I,J)1.0
+ XE FI(24)    NFIPP(I,J)1.0            NFIPO(I,J)1.0
+ XE FI(24)    CFIPP(I,J)1.0            CFIPO(I,J)1.0
+ XE FI(24)    FFIPP(I,J)1.0            FFIPO(I,J)1.0
+ XE FI(24)    IFISP(I,J)1.0            IFISO(I,J)1.0
+ XE FI(24)    NFISP(I,J)1.0            NFISO(I,J)1.0
+ XE FI(24)    CFISP(I,J)1.0            CFISO(I,J)1.0
+ XE FI(24)    FFISP(I,J)1.0            FFISO(I,J)1.0
+ XE FI(24)    IFIUP(I,J)1.0            IFIUO(I,J)1.0
+ XE FI(24)    NFIUP(I,J)1.0            NFIUO(I,J)1.0
+ XE FI(24)    CFIUP(I,J)1.0            CFIUO(I,J)1.0
+ XE FI(24)    FFIUP(I,J)1.0            FFIUO(I,J)1.0
+
+ OD J
+ OD I
+
+* *************
+* * CONSTANTS * 
+* *************
+
+CONSTANTS
+
+
+*  driving license constants: the population by age and sex and
+*  driving licence ownership by town
+*  missing values: municipality 344
+
+
+ DO J         PC                       343
+ DO I         2                        4
+
+ Z  SYNPOP24  DSH(I,J)                 DRLH(I,J)
+ Z  SYNPOP24  DSF(I,J)                 DRLF(I,J)
+
+ ND
+
+
+ DO J         345                      DC
+ DO I         2                        4
+
+ Z  SYNPOP24  DSH(I,J)                 DRLH(I,J)
+ Z  SYNPOP24  DSF(I,J)                 DRLF(I,J)
+
+ ND
+
+* age and sex constraints constants: the population by age and sex and
+* town
+ 
+ DO J         PC                       DC
+ DO I         1                        4
+
+ Z  SYNPOP24  ASH(I,J)                 POPTH(I,J)
+ Z  SYNPOP24  ASF(I,J)                 POPTF(I,J)
+
+ ND
+
+
+* household type constraints constants (no age index)
+
+ DO J         PC                       DC
+ 
+ Z  SYNPOP24  HHI(J)                   POPMI(J)
+ Z  SYNPOP24  HHN(J)                   POPMN(J)
+ Z  SYNPOP24  HHC(J)                   POPMC(J)
+ Z  SYNPOP24  HHF(J)                   POPMF(J)
+
+ OD J 
+ 
+* diploma constraints constants (no age index)
+
+ DO J         PC                       DC
+ 
+ Z  SYNPOP24  ELO(J)                   POPDO(J)
+ Z  SYNPOP24  ELP(J)                   POPDP(J)
+ Z  SYNPOP24  ELS(J)                   POPDS(J)
+ Z  SYNPOP24  ELU(J)                   POPDU(J)
+
+ OD J
+
+* professionnal activity constraints constants (no age index)
+
+ DO J         PC                       DC
+
+ Z  SYNPOP24  PAE(J)                   POPAE(J)
+ Z  SYNPOP24  PAA(J)                   POPAA(J)
+ Z  SYNPOP24  PAI(J)                   POPAI(J)
+
+ OD J
+
+* age and household type constraints constants: the population
+* by household type, age and district
+
+ DO I         1                        4
+
+ Z  SYNPOP24  AHI(I,24)                POHI(I,24)
+ Z  SYNPOP24  AHN(I,24)                POHN(I,24)
+ Z  SYNPOP24  AHF(I,24)                POHF(I,24)
+ Z  SYNPOP24  AHC(I,24)                POHC(I,24)
+
+ OD I
+
+* age and diploma constraints constants: the population
+* by diploma, age and district
+
+
+ Z  SYNPOP24  ADO(1,24)                POPO(1,24)
+ Z  SYNPOP24  ADP(1,24)                POPP(1,24)
+ Z  SYNPOP24  ADS(1,24)                POPS(1,24)
+
+ DO I         2                        4
+ 
+ Z  SYNPOP24  ADO(I,24)                POPO(I,24)
+ Z  SYNPOP24  ADP(I,24)                POPP(I,24)
+ Z  SYNPOP24  ADS(I,24)                POPS(I,24)
+ Z  SYNPOP24  ADU(I,24)                POPU(I,24)
+
+ OD I
+
+* age and professionnal status constraints constants: the population
+* by professionnal status, age and district
+
+
+ DO I         2                        4
+ Z  SYNPOP24  AAA(I,24)                POPA(I,24)
+ Z  SYNPOP24  AAI(I,24)                POPI(I,24)
+ OD I
+
+ DO I         1                        3
+ Z  SYNPOP24  AAE(I,24)                POPE(I,24)
+ OD I
+
+* diploma by professionnal status constraints constants: the population
+* by diploma, professionnal status and district (no age index)
+
+ 
+ Z  SYNPOP24  EO(24)                   POPEO(24)
+ Z  SYNPOP24  EP(24)                   POPEP(24)
+ Z  SYNPOP24  ES(24)                   POPES(24)
+ Z  SYNPOP24  EU(24)                   POPEU(24)
+
+ Z  SYNPOP24  AO(24)                   POPAO(24)
+ Z  SYNPOP24  AP(24)                   POPAP(24)
+ Z  SYNPOP24  AS(24)                   POPAS(24)
+ Z  SYNPOP24  AU(24)                   POPAU(24)
+
+ Z  SYNPOP24  IO(24)                   POPIO(24)
+ Z  SYNPOP24  IP(24)                   POPIP(24)
+ Z  SYNPOP24  IS(24)                   POPIS(24)
+ Z  SYNPOP24  IU(24)                   POPIU(24)
+
+
+* diploma by sex constraints constants: the population
+* by sex, professionnal status and district (no age index)
+
+ 
+ Z  SYNPOP24  HO(24)                   POPHO(24)
+ Z  SYNPOP24  HP(24)                   POPHP(24)
+ Z  SYNPOP24  HS(24)                   POPHS(24)
+ Z  SYNPOP24  HU(24)                   POPHU(24)
+
+ Z  SYNPOP24  FO(24)                   POPFO(24)
+ Z  SYNPOP24  FP(24)                   POPFP(24)
+ Z  SYNPOP24  FS(24)                   POPFS(24)
+ Z  SYNPOP24  FU(24)                   POPFU(24)
+
+
+* professionnal status by sex constraints constants: the population
+* by professionnal status, sex and district (no age index)
+
+ 
+ Z  SYNPOP24  HA(24)                   POPHA(24)
+ Z  SYNPOP24  HI(24)                   POPHI(24)
+ Z  SYNPOP24  HE(24)                   POPHE(24)
+
+ Z  SYNPOP24  FA(24)                   POPFA(24)
+ Z  SYNPOP24  FI(24)                   POPFI(24)
+ Z  SYNPOP24  FE(24)                   POPFE(24)
+
+
+ 
+START POINT
+
+*   Start with equal populations cells.
+
+ XV SYNPOP24  'DEFAULT'    100.0
+
+OBJECT BOUND
+
+ LO SYNPOP24               0.0
+
+*   Solution
+
+*LO SOLTN                  5.87163672655E+05
+
+ENDATA
+

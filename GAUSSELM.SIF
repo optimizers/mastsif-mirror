@@ -1,0 +1,204 @@
+***************************
+* SET UP THE INITIAL DATA *
+***************************
+
+NAME          GAUSSELM
+*   Problem :
+*   *********
+
+*   Maximum pivot growth in Gaussian elimination with
+*   complete pivoting.
+
+*   SIF input: Ph.Toint and N. Gould, Dec 1989.
+
+*   classification LOR2-AN-V-V
+
+*   Size of the matrices = n
+
+*IE N                   11             $-PARAMETER matrix dimension
+*IE N                   12             $-PARAMETER matrix dimension
+*IE N                   13             $-PARAMETER matrix dimension
+*IE N                   14             $-PARAMETER matrix dimension
+*IE N                   15             $-PARAMETER matrix dimension
+*IE N                   16             $-PARAMETER matrix dimension
+*IE N                   20             $-PARAMETER matrix dimension
+*IE N                   25             $-PARAMETER matrix dimension
+*IE N                   30             $-PARAMETER matrix dimension
+*IE N                   35             $-PARAMETER matrix dimension
+ IE N                   40             $-PARAMETER matrix dimension
+*IE N                   45             $-PARAMETER matrix dimension
+*IE N                   50             $-PARAMETER matrix dimension
+
+*   other parameter definitions
+
+ IE 1                   1
+ IE 2                   2
+ IA N-1       N         -1
+ RI RN        N
+ RM 6RN       RN        6
+
+VARIABLES
+
+ DO K         1                        N
+ DO J         K                        N
+ DO I         K                        N
+ X  X(I,J,K)
+ ND
+
+GROUPS
+
+*  objective function
+
+ DO K         N                        N
+ XN OBJ       X(K,K,K)  -1.0
+ ND
+
+*   elimination constraints
+
+ DO K         1                        N-1
+ IA L         K         1
+ DO I         L                        N
+ DO J         L                        N
+ XE E(I,J,K)  X(I,J,L)  1.0            X(I,J,K)  -1.0
+ ND
+
+*   complete pivoting constraints (submatrices 2 to n-1)
+
+ DO K         2                        N-1
+ IA L         K         1
+ DO I         L                        N
+ XL M(I,K,K)  X(I,K,K)  1.0            X(K,K,K)  -1.0
+ XG P(I,K,K)  X(I,K,K)  1.0            X(K,K,K)  1.0
+ XL M(K,I,K)  X(K,I,K)  1.0            X(K,K,K)  -1.0
+ XG P(K,I,K)  X(K,I,K)  1.0            X(K,K,K)  1.0
+ DO J         L                        N
+ XL M(I,J,K)  X(I,J,K)  1.0            X(K,K,K)  -1.0
+ XG P(I,J,K)  X(I,J,K)  1.0            X(K,K,K)  1.0
+ ND
+
+BOUNDS
+
+ FR GAUSSELM  'DEFAULT'
+
+*   complete pivoting constraints (submatrix 1)
+
+ DO I         1                        N
+ DO J         1                        N
+ XL GAUSSELM  X(I,J,1)  -1.0
+ XU GAUSSELM  X(I,J,1)  1.0
+ ND
+
+*   ensure pivotal elements are nonnegative
+
+ DO K         1                        N
+ XL GAUSSELM  X(K,K,K)  0.0
+ ND
+
+*   normalize first pivot
+
+ FX GAUSSELM  X1,1,1    1.0
+
+START POINT
+
+*   default value for starting point component
+
+ V  GAUSSELM  'DEFAULT' 0.1
+
+ DO K         1                        N
+ DO J         K                        N
+ DO I         K                        N
+ I+ I+J       I                        J
+ I+ I+J+K     I+J                      K
+ RI RI+J+K    I+J+K
+ RM RI+J+K    RI+J+K    0.95
+ R/ R         RI+J+K                   6RN
+ Z  GAUSSELM  X(I,J,K)                 R
+ ND
+
+ELEMENT TYPE
+
+ EV ELIM      V1                       V2
+ EV ELIM      V3
+
+ELEMENT USES
+
+ T  'DEFAULT' ELIM
+
+ DO K         1                        N-1
+ IA L         K         1
+ DO I         L                        N
+ DO J         L                        N
+ ZV A(I,J,K)  V1                       X(I,K,K)
+ ZV A(I,J,K)  V2                       X(K,J,K)
+ ZV A(I,J,K)  V3                       X(K,K,K)
+ ND
+
+GROUP USES
+
+ DO K         1                        N-1
+ IA L         K         1
+ DO I         L                        N
+ DO J         L                        N
+ XE E(I,J,K)  A(I,J,K)
+ ND
+
+OBJECT BOUND
+
+*   Solutions (may be local!)
+
+*LO SOLTN11             -1.06974D+01
+*LO SOLTN12             -1.18817D+01
+*LO SOLTN13             -1.30205D+01
+*LO SOLTN14             -1.45949D+01
+*LO SOLTN15             -1.61109D+01
+*LO SOLTN16             -1.80598D+01
+*LO SOLTN20             -2.42518D+01
+*LO SOLTN25             -3.29890D+01
+*LO SOLTN30             -4.27435D+01 
+*LO SOLTN35             -4.58208D+01
+*LO SOLTN40             -6.60516D+01
+*LO SOLTN45             -7.67437D+01
+*LO SOLTN50             -9.46545D+01
+
+ENDATA
+
+***********************
+* SET UP THE FUNCTION *
+* AND RANGE ROUTINES  *
+***********************
+
+ELEMENTS      GAUSSELM
+
+TEMPORARIES
+
+ R  VALUE
+ R  V3SQ
+ R  V3VAL
+ R  V3VAL2
+ L  V3NE0
+
+INDIVIDUALS
+
+ T  ELIM
+
+ A  V3NE0               V3 .NE. 0.0
+ A  V3SQ                V3 * V3
+ I  V3NE0     VALUE     V1 * V2 / V3
+ E  V3NE0     VALUE     1.0D+10
+ I  V3NE0     V3VAL     V3
+ E  V3NE0     V3VAL     1.0D-10
+ I  V3NE0     V3VAL2    V3SQ
+ E  V3NE0     V3VAL2    1.0D-10
+
+ F                      VALUE
+
+ G  V1                  V2 / V3VAL
+ G  V2                  V1 / V3VAL
+ G  V3                  - VALUE / V3VAL
+
+ H  V1        V2        1.0 / V3VAL
+ H  V1        V3        - V2 / V3VAL2
+ H  V2        V3        - V1 / V3VAL2
+ H  V3        V3        2.0 * VALUE / V3VAL2
+
+ENDATA
