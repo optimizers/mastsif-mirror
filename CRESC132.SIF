@@ -2,7 +2,7 @@
 * SET UP THE INITIAL DATA *
 ***************************
 
-NAME          CRESC1327
+NAME          CRESC132
 
 *   Problem :
 *   *********
@@ -4052,23 +4052,23 @@ GROUPS
 
 BOUNDS
 
- XR CRESC1327 V1
- XR CRESC1327 W1
+ XR CRESC132  V1
+ XR CRESC132  W1
 
- XL CRESC1327 R          0.39
- XL CRESC1327 A          1.0
- XL CRESC1327 T          0.0
- XU CRESC1327 T          6.2831852
- XL CRESC1327 D          1.0D-8
+ XL CRESC132  R          0.39
+ XL CRESC132  A          1.0
+ XL CRESC132  T          0.0
+ XU CRESC132  T          6.2831852
+ XL CRESC132  D          1.0D-8
 
 START POINT
 
- XV CRESC1327 V1         -40.0
- XV CRESC1327 W1         5.0
- XV CRESC1327 R          0.75
- XV CRESC1327 A          2.0
- XV CRESC1327 T          1.5
- XV CRESC1327 D          1.0
+ XV CRESC132  V1         -40.0
+ XV CRESC132  W1         5.0
+ XV CRESC132  R          0.75
+ XV CRESC132  A          2.0
+ XV CRESC132  T          1.5
+ XV CRESC132  D          1.0
 
 ELEMENT TYPE
 
@@ -4159,7 +4159,7 @@ ENDATA
 * AND RANGE ROUTINES  *
 ***********************
 
-ELEMENTS      CRESC1327
+ELEMENTS      CRESC132 
 
 TEMPORARIES
 
