@@ -591,7 +591,7 @@ INDIVIDUALS
  T  3P
  F                      X * Y * Z + 2.0 * Z * Z
  G  X                   Y * Z
- G  Y                   Z * Z
+ G  Y                   X * Z
  G  Z                   X * Y + 4.0 * Z
  H  X         Y         Z
  H  X         Z         Y
