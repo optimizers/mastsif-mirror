@@ -33,9 +33,8 @@ NAME          SSCOSINE
 *IE N                   1000           $-PARAMETER    original value
  IE N                   5000           $-PARAMETER
 *IE N                   10000          $-PARAMETER
- IE N                   100000         $-PARAMETER
+*IE N                   100000         $-PARAMETER
 *IE N                   1000000        $-PARAMETER
- IE N                   10             $-PARAMETER
 
 *  ratio of smallest to largest scale factors will be exp(scal)
 

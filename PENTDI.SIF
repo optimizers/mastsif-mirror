@@ -31,6 +31,8 @@ NAME          PENTDI
 *IE N                   500            $-PARAMETER
 *IE N                   1000           $-PARAMETER  original value
  IE N                   5000           $-PARAMETER
+*IE N                   10000          $-PARAMETER
+*IE N                   50000          $-PARAMETER
 
 *   constants
 

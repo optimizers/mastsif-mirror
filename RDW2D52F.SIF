@@ -51,7 +51,6 @@ NAME          RDW2D52F
 *IE N                   4096          $-PARAMETER
 *IE N                   8192          $-PARAMETER
 *IE N                   16384         $-PARAMETER
- IE N                   8             $-PARAMETER
 
 *   Regularisation
 

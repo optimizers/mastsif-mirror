@@ -31,6 +31,8 @@ NAME          ORTHREGA
 *IE LEVELS              4              $-PARAMETER n = 517
 *IE LEVELS              5              $-PARAMETER n = 2053
  IE LEVELS              6              $-PARAMETER n = 8197
+*IE LEVELS              7              $-PARAMETER n = 32773
+*IE LEVELS              8              $-PARAMETER n = 131077
 
 *   Parameters for the generation of the data points
 

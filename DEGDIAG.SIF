@@ -20,7 +20,7 @@ NAME          DEGDIAG
 *IE N                   50
 *IE N                   100
 *IE N                   1000
- IE N                   10000
+*IE N                   10000
  IE N                   100000
 
 *  Other useful values.

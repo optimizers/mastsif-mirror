@@ -37,18 +37,21 @@ NAME          AUG3D
 *IE NX                  3              $-PARAMETER
 *IE NX                  10             $-PARAMETER
  IE NX                  20             $-PARAMETER
+*IE NX                  30             $-PARAMETER
 
 *   Number of nodes in y direction
 
 *IE NY                  3              $-PARAMETER
 *IE NY                  10             $-PARAMETER 
  IE NY                  20             $-PARAMETER
+*IE NY                  30             $-PARAMETER
 
 *   Number of nodes in z direction
 
 *IE NZ                  3              $-PARAMETER
 *IE NZ                  10             $-PARAMETER 
  IE NZ                  20             $-PARAMETER
+*IE NZ                  30             $-PARAMETER
 
 *   Other useful parameters
 

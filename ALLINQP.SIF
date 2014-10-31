@@ -12,14 +12,14 @@ NAME          ALLINQP
  
 *   classification QLR2-AN-V-V
 
-*IE N                   10
-*IE N                   100
-*IE N                   10000
- IE N                   50000
-*IE N                   100000
-*IE N                   200000
-*IE N                   400000
-*IE N                   500000
+*IE N                   10             $-PARAMETER
+*IE N                   100            $-PARAMETER
+*IE N                   10000          $-PARAMETER
+ IE N                   50000          $-PARAMETER     original value
+*IE N                   100000         $-PARAMETER
+*IE N                   200000         $-PARAMETER
+*IE N                   400000         $-PARAMETER
+*IE N                   500000         $-PARAMETER
 
  IE 1                   1
  IE 2                   2

@@ -33,6 +33,8 @@ NAME          ORTHREGC
 *IE NPTS                500            $-PARAMETER n= 1005
  IE NPTS                2500           $-PARAMETER n= 5005
 *IE NPTS                5000           $-PARAMETER n= 10005
+*IE NPTS                10000          $-PARAMETER n= 20005
+*IE NPTS                50000          $-PARAMETER n= 100005
 
 *   True ellipse parameters (centered at the origin)
 

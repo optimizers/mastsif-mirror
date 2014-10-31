@@ -35,6 +35,8 @@ NAME          CHENHARK
 *IE N                   100            $-PARAMETER
 *IE N                   1000           $-PARAMETER     original value
  IE N                   5000           $-PARAMETER
+*IE N                   10000          $-PARAMETER
+*IE N                   50000          $-PARAMETER
 
 *   Number of variables free from their bounds at the solution
 
@@ -42,6 +44,8 @@ NAME          CHENHARK
 *IE NFREE               50             $-PARAMETER
 *IE NFREE               500            $-PARAMETER     original value
  IE NFREE               2500           $-PARAMETER
+*IE NFREE               5000           $-PARAMETER
+*IE NFREE               10000          $-PARAMETER
 
 *   Number of degenerate variables at the solution
 
@@ -49,6 +53,8 @@ NAME          CHENHARK
 *IE NDEGEN              20             $-PARAMETER
 *IE NDEGEN              200            $-PARAMETER     original value
  IE NDEGEN              500            $-PARAMETER
+*IE NDEGEN              1000           $-PARAMETER
+*IE NDEGEN              2000           $-PARAMETER
 
 *   other parameter definitions
 

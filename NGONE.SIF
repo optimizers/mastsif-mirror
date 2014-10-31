@@ -38,6 +38,7 @@ NAME          NGONE
 *IE HNS                 49             $-PARAMETER   n = 100
  IE HNS                 99             $-PARAMETER   n = 200
 *IE HNS                 249            $-PARAMETER   n = 500
+*IE HNS                 999            $-PARAMETER   n = 2000
 
 *   Constants
 

@@ -40,6 +40,8 @@ NAME          OPTMASS
 *IE N                   100            $-PARAMETER n = 610
 *IE N                   200            $-PARAMETER n = 1210
  IE N                   500            $-PARAMETER n = 3010
+*IE N                   1000           $-PARAMETER n = 6010
+ IE N                   5000           $-PARAMETER n = 30010
 
 *   Initial speed (as in reference)
 

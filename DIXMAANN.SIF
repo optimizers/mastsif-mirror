@@ -36,7 +36,6 @@ NAME          DIXMAANN
 *IE M                   500            $-PARAMETER n = 1500
  IE M                   1000           $-PARAMETER n = 3000
 *IE M                   3000           $-PARAMETER n = 9000
- IE M                   5              $-PARAMETER n = 15  original value 
 
 *   N is the number of variables
 

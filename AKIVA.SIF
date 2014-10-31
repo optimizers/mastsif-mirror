@@ -130,7 +130,9 @@ C
       DOUBLE PRECISION LIKE
       DOUBLE PRECISION GR(NCOEF)
       DOUBLE PRECISION HESS(NCOEF,NCOEF)
-      SAVE COMPG,COMPH,BETA,LIKE,GR,HESS
+
+      COMMON /COEF/BETA,COMPG,COMPH 
+      SAVE /COEF/
 C      
       BETA(1) = B1
       BETA(2) = B2
@@ -157,11 +159,11 @@ C
       DOUBLE PRECISION LIKE
       DOUBLE PRECISION GR(NCOEF)
       DOUBLE PRECISION HESS(NCOEF,NCOEF)
+
+      COMMON /COEF/BETA,COMPG,COMPH 
+      SAVE /COEF/
 C
-C      DATA COMPG/.TRUE./
-      SAVE COMPH,LIKE,HESS
-      COMMON /SHARE/BETA,GR,COMPG
-      COMPG = .TRUE.
+C     DATA COMPG/.TRUE./
 C
 C     Check if the gradient has been evaluated at the same point
 C    
@@ -196,12 +198,11 @@ C
       DOUBLE PRECISION LIKE
       DOUBLE PRECISION GR(NCOEF)
       DOUBLE PRECISION HESS(NCOEF,NCOEF)
+
+      COMMON /COEF/BETA,COMPG,COMPH 
+      SAVE /COEF/
 C
-C      DATA COMPH/.TRUE./
-      SAVE COMPH,LIKE,HESS
-C
-      COMMON /SHARE/BETA,GR,COMPG
-      COMPH = .TRUE. 
+C     DATA COMPH/.TRUE./
 C      
 C     Check if the hessian has been evaluated at the same point
 C    
@@ -254,8 +255,7 @@ C
       DOUBLE PRECISION GR(NC)
       DOUBLE PRECISION HESS(NC,NC)
 C
-C     INTEGER NNOEUD, NMAXUT, NDATA, NOBS, NCARAC, NCOEF, NELEM, NTOT
-      INTEGER NNOEUD, NMAXUT, NOBS, NCARAC, NCOEF, NTOT
+      INTEGER NNOEUD, NMAXUT, NDATA, NOBS, NCARAC, NCOEF, NELEM, NTOT
 C
       DOUBLE PRECISION ZERO,GRAND,LOGGRA 
 C
@@ -266,8 +266,7 @@ C
      +     NCOEF    = 2,
      +     NTOT    = NOBS*NNOEUD)
 C      
-      PARAMETER (ZERO = 0.0D0 , GRAND = 1.0D308 , LOGGRA = 308.0D0)
-C     PARAMETER (ZERO = 0.0 , GRAND = 1.0D308)
+      PARAMETER (ZERO = 0.0 , GRAND = 1.0D308)
 C      
       INTEGER ARBRE(NNOEUD)
       INTEGER UTCOEF(NNOEUD,NMAXUT)
@@ -281,11 +280,9 @@ C
       DOUBLE PRECISION EXPUTI(NNOEUD),LOGIT(NNOEUD)
       DOUBLE PRECISION DERIV(NNOEUD,NCOEF),DERLOG(NNOEUD,NCOEF)
       DOUBLE PRECISION L1IJ(NNOEUD),L2IJ(NNOEUD),VIJ(NNOEUD)
-C     DOUBLE PRECISION F,G(NCOEF)
-      SAVE ARBRE,UTCOEF,UTCARA,UTLENG,THETA,CHOSEN,DISP,CARACT,UTIL
-      SAVE SOMEXP,LOGAR,EXPUTI,LOGIT,DERIV,DERLOG,L1IJ,L2IJ,VIJ
+      DOUBLE PRECISION F,G(NCOEF)
       INTEGER I,J,OBS,NOEUD
-C     LOGICAL ERREUR
+      LOGICAL ERREUR
 C
 C     Tree structure description
 C     ARBRE(I) = J  <==> Node J is the father of node I
@@ -482,7 +479,7 @@ C     Function computation
 C
 C     Initialize
 C
-C     LOGGRA = LOG(GRAND)
+      LOGGRA = LOG(GRAND)
       LIKE = ZERO
       IF (CGRAD .OR. CHESS) THEN
          DO 900 I = 1, NCOEF
@@ -705,4 +702,14 @@ C
  2000       CONTINUE
          ENDIF
  1000 CONTINUE
+      END
+      BLOCK DATA BLKDAT
+      INTEGER NCOEF                                                     
+      LOGICAL COMPG,COMPH      
+      PARAMETER (NCOEF = 2)                                            
+      DOUBLE PRECISION BETA(NCOEF)    
+      COMMON /COEF/BETA,COMPG,COMPH 
+      SAVE /COEF/
+      DATA COMPG/.TRUE./                                                
+      DATA COMPH/.TRUE./                                                
       END

@@ -34,6 +34,8 @@ NAME          OPTCTRL6
 *IE T                   100            $-PARAMETER  n =  302
 *IE T                   400            $-PARAMETER  n = 1202
  IE T                   1500           $-PARAMETER  n = 4502
+*IE T                   10000          $-PARAMETER  n = 30002
+*IE T                   50000          $-PARAMETER  n = 150002
 
  IA T-1       T         -1
 

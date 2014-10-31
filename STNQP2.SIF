@@ -38,6 +38,8 @@ NAME          STNQP2
 *IE P                   12             $-PARAMETER n = 4097     original value
  IE P                   13             $-PARAMETER n = 8193
 *IE P                   14             $-PARAMETER n = 16395
+*IE P                   15             $-PARAMETER n = 32769
+*IE P                   16             $-PARAMETER n = 65537
 
 *  Other useful values.
 

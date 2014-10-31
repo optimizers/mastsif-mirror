@@ -18,10 +18,13 @@ NAME          QUDLIN
 *IE N                   120            $-PARAMETER
 *IE N                   1200           $-PARAMETER
  IE N                   5000           $-PARAMETER
+*IE N                   10000          $-PARAMETER
+
 *IE M                   6              $-PARAMETER     original value
 *IE M                   60             $-PARAMETER
 *IE M                   600            $-PARAMETER
  IE M                   2500           $-PARAMETER
+*IE M                   5000           $-PARAMETER
 
 *   Define constants
 

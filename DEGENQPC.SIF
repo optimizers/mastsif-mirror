@@ -20,6 +20,7 @@ NAME          DEGENQPC
 *IE N                   10             $-PARAMETER
 *IE N                   20             $-PARAMETER     original value
  IE N                   50             $-PARAMETER
+*IE N                   100            $-PARAMETER
 
 *   Other useful parameters
 

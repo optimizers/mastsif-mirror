@@ -31,6 +31,7 @@ NAME          UBH1
 *IE N                   100            $-PARAMETER n=900, m=600
  IE N                   1000           $-PARAMETER n=9000, m=6000
 *IE N                   2000           $-PARAMETER n=18000, m=12000
+*IE N                   5000           $-PARAMETER n=90000, m=60000
 
 *   Initial and final times (guessed)
 

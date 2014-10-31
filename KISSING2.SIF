@@ -50,10 +50,12 @@ NAME          KISSING2
 
 *IE m                   24             $-PARAMETER  number of points
  IE m                   25             $-PARAMETER  number of points
+*IE m                   100            $-PARAMETER  number of points
 
 *   Dimension: n
 
  IE n                    4             $-PARAMETER  dimension of sphere
+*IE n                    8             $-PARAMETER  dimension of sphere
 
 *   Other useful parameters.
 

@@ -19,6 +19,7 @@ NAME          AUG2DCQP
 *IE NX                  10             $-PARAMETER
 *IE NX                  40             $-PARAMETER
  IE NX                  100            $-PARAMETER
+*IE NX                  200            $-PARAMETER
 
 *   Number of nodes in y direction
 
@@ -26,6 +27,7 @@ NAME          AUG2DCQP
 *IE NY                  10             $-PARAMETER 
 *IE NY                  40             $-PARAMETER
  IE NY                  100            $-PARAMETER
+*IE NY                  200            $-PARAMETER
 
 *   Other useful parameters
 

@@ -28,6 +28,7 @@ NAME          EIGENC2
 *IE M                   2              $-PARAMETER
 *IE M                   10             $-PARAMETER     original value
  IE M                   25             $-PARAMETER
+*IE M                   50             $-PARAMETER
 
 *   other parameter definitions
 

@@ -34,12 +34,14 @@ NAME          DTOC5
 *   The problem has 2N-1  variables (of which 1 is fixed),
 *   and N-1 constraints
 
-*IE N                   10             $-PARAMETER n =   19, m =    9
-*IE N                   50             $-PARAMETER n =   99, m =   49
-*IE N                   100            $-PARAMETER n =  199, m =   99
-*IE N                   500            $-PARAMETER n =  999, m =  499
-*IE N                   1000           $-PARAMETER n = 1999, m =  999
- IE N                   5000           $-PARAMETER n = 9999, m = 4999
+*IE N                   10             $-PARAMETER n =    19, m =     9
+*IE N                   50             $-PARAMETER n =    99, m =    49
+*IE N                   100            $-PARAMETER n =   199, m =    99
+*IE N                   500            $-PARAMETER n =   999, m =   499
+*IE N                   1000           $-PARAMETER n =  1999, m =   999
+ IE N                   5000           $-PARAMETER n =  9999, m =  4999
+*IE N                   10000          $-PARAMETER n = 19999, m =  9999
+*IE N                   50000          $-PARAMETER n = 99999, m = 49999
 
 *   Constants
 

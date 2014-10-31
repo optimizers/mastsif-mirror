@@ -44,6 +44,7 @@ NAME          TRAINF
 *IE N                   501            $-PARAMETER
  IE N                   1001           $-PARAMETER
 *IE N                   5001           $-PARAMETER
+*IE N                   10001          $-PARAMETER
 
 *   Mesh
 

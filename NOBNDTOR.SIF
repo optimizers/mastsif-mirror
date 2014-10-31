@@ -43,6 +43,7 @@ NAME          NOBNDTOR
  IE Q                   37             $-PARAMETER  n= 5476
 *IE Q                   50             $-PARAMETER  n= 10000
 *IE Q                   61             $-PARAMETER  n= 14884
+*IE Q                   100            $-PARAMETER  n= 40000
 
 *   The force constant
 
