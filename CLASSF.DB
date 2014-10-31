@@ -369,6 +369,7 @@ GAUSSELM   LOR2-AN-        V-        V
 GENHS28    QLR2-AY-       10-        8
 GENHUMPS   SUR2-AN-        V-        0
 GENROSE    SUR2-AN-        V-        0
+GENROSEB   SBR2-AN-        V-        0
 GIGOMEZ1   LQR2-AN-        3-        3
 GIGOMEZ2   LOR2-AY-        3-        3
 GIGOMEZ3   LOR2-AY-        3-        3
