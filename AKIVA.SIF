@@ -17,6 +17,7 @@ NAME          AKIVA
 *   SIF input: automatically produced by HieLoW
 *              Hierarchical Logit for Windows, written by Michel Bierlaire
 *              Mon Jan 30 12:12:18 1995
+*              SAVEs removed December 3rd 2014
 
 *   classification OUR2-AN-2-0
 
@@ -120,7 +121,6 @@ C
       DOUBLE PRECISION FUNCTION F(B1,B2)
 C      
       INTEGER NCOEF, NC 
-      LOGICAL COMPG,COMPH
 C
       PARAMETER (NCOEF = 2)
 C
@@ -130,17 +130,12 @@ C
       DOUBLE PRECISION LIKE
       DOUBLE PRECISION GR(NCOEF)
       DOUBLE PRECISION HESS(NCOEF,NCOEF)
-
-      COMMON /COEF/BETA,COMPG,COMPH 
-      SAVE /COEF/
 C      
       BETA(1) = B1
       BETA(2) = B2
 C     
       NC = NCOEF 
-      CALL HIELOW(.FALSE.,.FALSE.,BETA,COMPG,COMPH,LIKE,GR,HESS,NC)
-      COMPG = .TRUE.
-      COMPH = .TRUE.
+      CALL HIELOW(.FALSE.,.FALSE.,BETA,LIKE,GR,HESS,NC)
       F = LIKE
       RETURN
       END
@@ -148,7 +143,6 @@ C===============================================
       DOUBLE PRECISION FUNCTION G(B1,B2,I)
 C      
       INTEGER NCOEF 
-      LOGICAL COMPG,COMPH
 C
       DOUBLE PRECISION B1,B2
       INTEGER I,NC
@@ -159,27 +153,10 @@ C
       DOUBLE PRECISION LIKE
       DOUBLE PRECISION GR(NCOEF)
       DOUBLE PRECISION HESS(NCOEF,NCOEF)
-
-      COMMON /COEF/BETA,COMPG,COMPH 
-      SAVE /COEF/
-C
-C     DATA COMPG/.TRUE./
-C
-C     Check if the gradient has been evaluated at the same point
-C    
-      IF (.NOT. COMPG) THEN
-         IF (BETA(1) .NE. B1) GOTO 5000
-         IF (BETA(2) .NE. B2) GOTO 5000
-         G = GR(I)
-         RETURN
-      ENDIF
- 5000 CONTINUE
       BETA(1) = B1
       BETA(2) = B2
       NC = NCOEF 
-      CALL HIELOW(.TRUE.,.FALSE.,BETA,COMPG,COMPH,LIKE,GR,HESS,NC)
-      COMPG = .FALSE.
-      COMPH = .TRUE.      
+      CALL HIELOW(.TRUE.,.FALSE.,BETA,LIKE,GR,HESS,NC)
       G = GR(I)
       RETURN
       END
@@ -187,7 +164,6 @@ C===============================================
       DOUBLE PRECISION FUNCTION H(B1,B2,I,J)
 C      
       INTEGER NCOEF 
-      LOGICAL COMPG,COMPH
 C
       DOUBLE PRECISION B1,B2
       INTEGER I,J,NC
@@ -198,31 +174,10 @@ C
       DOUBLE PRECISION LIKE
       DOUBLE PRECISION GR(NCOEF)
       DOUBLE PRECISION HESS(NCOEF,NCOEF)
-
-      COMMON /COEF/BETA,COMPG,COMPH 
-      SAVE /COEF/
-C
-C     DATA COMPH/.TRUE./
-C      
-C     Check if the hessian has been evaluated at the same point
-C    
-      IF (.NOT. COMPH) THEN
-         IF (BETA(1) .NE. B1) GOTO 5000
-         IF (BETA(2) .NE. B2) GOTO 5000
-         IF (J .GE. I) THEN
-            H = HESS(I,J)
-         ELSE
-            H = HESS(J,I)
-         ENDIF
-         RETURN
-      ENDIF
- 5000 CONTINUE
       BETA(1) = B1
       BETA(2) = B2
       NC = NCOEF 
-      CALL HIELOW(.FALSE.,.TRUE.,BETA,COMPG,COMPH,LIKE,GR,HESS,NC)
-      COMPG = .TRUE.
-      COMPH = .FALSE.      
+      CALL HIELOW(.FALSE.,.TRUE.,BETA,LIKE,GR,HESS,NC)
       IF (J .GE. I) THEN
          H = HESS(I,J)
       ELSE
@@ -238,7 +193,7 @@ C
 C     Author : Michel Bierlaire
 C     Creation  : January 1995
 C     
-      SUBROUTINE HIELOW(CGRAD,CHESS,BETA,COMPG,COMPH,LIKE,GR,HESS,NC)
+      SUBROUTINE HIELOW(CGRAD,CHESS,BETA,LIKE,GR,HESS,NC)
 C     
 C     Computation of the loglikelihood function of a hierarchical logit model
 C     
@@ -249,7 +204,6 @@ C
 C
       INTEGER NC
       LOGICAL CGRAD,CHESS
-      LOGICAL COMPG,COMPH
       DOUBLE PRECISION BETA(NC)
       DOUBLE PRECISION LIKE
       DOUBLE PRECISION GR(NC)
@@ -702,14 +656,4 @@ C
  2000       CONTINUE
          ENDIF
  1000 CONTINUE
-      END
-      BLOCK DATA BLKDAT
-      INTEGER NCOEF                                                     
-      LOGICAL COMPG,COMPH      
-      PARAMETER (NCOEF = 2)                                            
-      DOUBLE PRECISION BETA(NCOEF)    
-      COMMON /COEF/BETA,COMPG,COMPH 
-      SAVE /COEF/
-      DATA COMPG/.TRUE./                                                
-      DATA COMPH/.TRUE./                                                
       END

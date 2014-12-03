@@ -16,6 +16,7 @@ NAME          HS89
 *   Verlag, Heidelberg, 1981.
 
 *   SIF input: Nick Gould, September 1991.
+*     SAVEs removed December 3rd 2014
 
 *   classification QOR2-MN-3-1
 
@@ -160,18 +161,18 @@ ENDATA
       DOUBLE PRECISION G( 3 ), H( 3, 3 )
       INTEGER          I , J , K , N , NP1, L
       PARAMETER        ( N = 3, NP1 = N + 1 )
-      LOGICAL          CALC
+C     LOGICAL          CALC
       DOUBLE PRECISION ALPHA , MUJ2  , T, MUI, MUJ   , SMUI , U, SI ,
      *                 RIJ   , RHOI  , RHOJ  , EU, AI, AIMUI2, CMUI
       DOUBLE PRECISION X  ( N  ), P( NP1 ),
      *                 MU ( 30 ), A( 30 ), R( 30, 30 ), S( 30 ),
      *                 RHO( 30 ), DRHO( 30, N ), D2RHO( 30, N, N )
       INTRINSIC        SIN   , COS   , EXP
-      SAVE             A, AI, AIMUI2, CMUI, MUI, MUJ, R, S, SMUI, T
+C     SAVE             A, AI, AIMUI2, CMUI, MUI, MUJ, R, S, SMUI, T
 C
 C  Set data.
 C
-      DATA CALC / .TRUE. /
+C     DATA CALC / .TRUE. /
       DATA MU / 8.6033358901938017D-01,  3.4256184594817283D+00,
      *          6.4372981791719468D+00,  9.5293344053619631D+00,
      *          1.2645287223856643D+01,  1.5771284874815882D+01,
@@ -190,7 +191,7 @@ C
 C
 C  Calculate integration constants.
 C
-      IF ( CALC ) THEN
+C     IF ( CALC ) THEN
          T         = 2.0D+0 / 1.5D+1
          DO 20 I   = 1, 30
             MUI    = MU( I )
@@ -215,8 +216,8 @@ C
                END IF
    10       CONTINUE
    20    CONTINUE
-         CALC = .FALSE.
-      END IF
+C        CALC = .FALSE.
+C     END IF
 C
 C  Assign values to variables.
 C

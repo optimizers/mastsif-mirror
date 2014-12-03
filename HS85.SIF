@@ -18,6 +18,7 @@ NAME          HS85
 *   Verlag, Heidelberg, 1981.
 
 *   SIF input: Nick Gould, September 1991.
+*     SAVEs removed December 3rd 2014
 
 *   classification OOI2-MN-5-21
 
@@ -352,9 +353,9 @@ ENDATA
      *                 Y25(20), Y35(20), Y45(20), Y55(20)
       DOUBLE PRECISION A, B, D, E, F, TWO
       PARAMETER ( TWO = 2.0D+0 )
-      SAVE
+C     SAVE
       IFUN85 = 0
-      IF ( EVAL ) RETURN
+C     IF ( EVAL ) RETURN
 C
 C  Compute the function and derivative values in sequence.
 C
@@ -1772,6 +1773,6 @@ C
 C
 C  Wind up the calculation.
 C
-      EVAL = .TRUE.
+C     EVAL = .TRUE.
       RETURN
       END

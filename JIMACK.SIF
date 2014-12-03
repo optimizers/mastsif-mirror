@@ -12,6 +12,7 @@ NAME          JIMACK
 *   U. of Leeds, report 91.22, July 1991.
 
 *   SIF input: Nick Gould, September 1991.
+*     SAVEs removed December 3rd 2014
 
 *   classification OUR2-AN-3549-0
 
@@ -24,11 +25,11 @@ NAME          JIMACK
 *   parameter statement in the INTEGER FUNCTION IENT which follows the
 *   ELEMENTS file.
 
-*IE N                   2
-*IE M                   2
+*IE M                   2              $-PARAMETER
+*IE N                   2              $-PARAMETER
 
- IE M                   6
- IE N                   12
+ IE M                   6              $-PARAMETER
+ IE N                   12             $-PARAMETER
 
 *   Problem data
 
@@ -658,7 +659,7 @@ C     PARAMETER      ( M = 2, N = 2 )
       PARAMETER      ( MM1 = M - 1, NM1 = N - 1 )
       PARAMETER      ( NTOT = 8 * N * N * M )
       DOUBLE PRECISION G( 24, 8, 0: NM1, 0: NM1, 0: MM1 )
-      LOGICAL          EV( 8, 0: NM1, 0: NM1, 0: MM1 )
+C     LOGICAL          EV( 8, 0: NM1, 0: NM1, 0: MM1 )
       INTEGER          I1, J1, K1, I2, J2, K2, L1, LL, L2, L3
       DOUBLE PRECISION XL, XU, YL, YU, ZL, ZU, XMID, YMID, ZMID,
      *                 ONE, HALF, SXL, SXU, SYL, SYU, SZL, SZU,
@@ -680,8 +681,8 @@ C     PARAMETER      ( M = 2, N = 2 )
       PARAMETER      ( ZERO = 0.0D+0, ONE  = 1.0D+0, HALF = 5.0D-1 )
       INTEGER          IPHI
       EXTERNAL         IPHI
-      DATA             EV / NTOT * .TRUE. /
-      SAVE
+C     DATA             EV / NTOT * .TRUE. /
+C     SAVE
 C
 C  Calculate the vertices of the 3-D rectangular box element.
 C
@@ -731,7 +732,8 @@ C
      *                 AYULL, AYULU, AYUUL, AYUUU,
      *                 AZLLL, AZLLU, AZLUL, AZLUU,
      *                 AZULL, AZULU, AZUUL, AZUUU,
-     *                 G( 1, L1, I, J, K ), EV( L1, I, J, K ),
+     *                 G( 1, L1, I, J, K ), 
+C    *                 EV( L1, I, J, K ),
      *                 P( L1 ), DPX( 1, 1, 1, L1 ),
      *                 DPY( 1, 1, 1, L1 ), DPZ( 1, 1, 1, L1 ),
      *                 DPXX( 1, 1, 1, 1, 1, 1, L1 ),
@@ -812,7 +814,9 @@ C
      *                       AYULL, AYULU, AYUUL, AYUUU,
      *                       AZLLL, AZLLU, AZLUL, AZLUU,
      *                       AZULL, AZULU, AZUUL, AZUUU,
-     *                       G, EV, P, DPX, DPY, DPZ,
+     *                       G, 
+C    *                       EV, 
+     *                       P, DPX, DPY, DPZ,
      *                       DPXX, DPXY, DPXZ, DPYY, DPYZ, DPZZ )
       DOUBLE PRECISION X, Y, Z, EPS, DELTA,
      *                 DX, DY, DZ, SXL, SXU, SYL, SYU, SZL, SZU,
@@ -830,7 +834,7 @@ C
       DOUBLE PRECISION DPYY( 2, 2, 2, 2, 2, 2 )
       DOUBLE PRECISION DPYZ( 2, 2, 2, 2, 2, 2 )
       DOUBLE PRECISION DPZZ( 2, 2, 2, 2, 2, 2 )
-      LOGICAL          EV
+C     LOGICAL          EV
 C
 C  Calculate the pointwise energy of an isotropic nonlinear elastic
 C  material within a 3-D rectangular finite element.
@@ -876,7 +880,7 @@ C
 C  The function u is represented as the sum of eight trilinear
 C  shape functions, one for each vertex of the 3-D rectangular box.
 C
-      IF ( EV ) THEN
+C     IF ( EV ) THEN
 C
 C  Evalutate the shape function at vertex LLL
 C
@@ -928,8 +932,8 @@ C
 C
 C  Calculate the inner product of all the components.
 C
-         EV = .FALSE.
-      END IF
+C        EV = .FALSE.
+C      END IF
 C
 C  Calculate the components of the matrix grad u.
 C

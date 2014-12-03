@@ -71,6 +71,7 @@ NAME          ORBIT2
 *   SIF input: Thomas Felici, Universite de Nancy, France, 
 *              October 1993, with modifications to compute derivatives
 *              by Nick Gould
+*     SAVEs removed December 3rd 2014
 
 *   classification LOR1-RN-V-V
 
@@ -546,7 +547,8 @@ C  COLLOC( X, XP, U, Q ) and, if DERIV is true, its derivative
 C  with respect to each parameter.
 C
 
-        INTEGER ISTART, ID, I, J , NE, NX, NU, NQ, NP
+C       INTEGER ISTART
+        INTEGER ID, I, J , NE, NX, NU, NQ, NP
         DOUBLE PRECISION X1, X2, X3, X4, X5, X6,
      *    XP1, XP2, XP3, XP4, XP5, XP6, U1, U2, U3, Q1
         DOUBLE PRECISION GX1, GX2, GX3, GX4, GX5, GX6,
@@ -574,15 +576,15 @@ C
         PARAMETER ( HALF   = 5.0D-1 , FOURTH = 2.5D-1 )
         PARAMETER ( EIGHTH = 1.25D-1, ONEPT5 = 1.5D+0 )
         LOGICAL DERIV
-        COMMON / STRTUP / ISTART
+C       COMMON / STRTUP / ISTART
         DOUBLE PRECISION MU, M0, RT, R0, VORB, QT, VG, TS
         INTRINSIC SQRT
-        SAVE RT, MU, R0, VORB, M0, QT, VG, TS, HM, HV, HG, HF
+C       SAVE RT, MU, R0, VORB, M0, QT, VG, TS, HM, HV, HG, HF
 C
 C  Initiialize constants.
 C
-        IF ( ISTART .NE. 123 ) THEN
-          ISTART = 123
+C       IF ( ISTART .NE. 123 ) THEN
+C         ISTART = 123
 C
 C....................Earth radius in KM
 C
@@ -623,7 +625,7 @@ C
           HV = TS * VORB / R0
           HG = TS * MU / ( VORB * R0 ** 2 )
           HF = TS * QT * VG / ( VORB * M0 )
-        END IF
+C       END IF
         PARAM( 1 ) = HM
         PARAM( 2 ) = HV
         PARAM( 3 ) = HG
@@ -752,11 +754,11 @@ C
         RETURN
         END
 
-        BLOCK DATA SETDIM
-        INTEGER ISTART 
-        COMMON / STRTUP / ISTART
-        DATA ISTART / 0 /
-        END
+C       BLOCK DATA SETDIM
+C       INTEGER ISTART 
+C       COMMON / STRTUP / ISTART
+C       DATA ISTART / 0 /
+C       END
 
 C ** Subroutines for user defined optimal control problem
 

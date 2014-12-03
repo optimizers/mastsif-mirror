@@ -30,6 +30,7 @@ NAME          SARO
 *   The structure of the optimization problem is described in SIF.
 *
 *   SIF input: Ruediger Franke, TU Ilmenau, January 1998
+*     SAVEs removed December 3rd 2014
 *
 
 *   classification LOR1-MN-4754-4015
@@ -366,22 +367,22 @@ C
       DOUBLE PRECISION X(NX), U(NU), F(NX), G(NG)
       DOUBLE PRECISION RKZBAK
 C      
-      SAVE
+C     SAVE
 C
-      DATA RKZBAK /-1.0D0/
+C     DATA RKZBAK /-1.0D0/
 C
-      IF ((RK .NE. RKZBAK) 
-     *     .OR. (X1 .NE. X(1))
-     *     .OR. (X2 .NE. X(2))
-     *     .OR. (X3 .NE. X(3))
-     *     .OR. (X4 .NE. X(4))
-     *     .OR. (X5 .NE. X(5))
-     *     .OR. (X6 .NE. X(6))
-     *     .OR. (X7 .NE. X(7))
-     *     .OR. (X8 .NE. X(8))
-     *     .OR. (X9 .NE. X(9))
-     *     .OR. (U1 .NE. U(1))
-     *     .OR. (U2 .NE. U(2))) THEN
+C     IF ((RK .NE. RKZBAK) 
+C    *     .OR. (X1 .NE. X(1))
+C    *     .OR. (X2 .NE. X(2))
+C    *     .OR. (X3 .NE. X(3))
+C    *     .OR. (X4 .NE. X(4))
+C    *     .OR. (X5 .NE. X(5))
+C    *     .OR. (X6 .NE. X(6))
+C    *     .OR. (X7 .NE. X(7))
+C    *     .OR. (X8 .NE. X(8))
+C    *     .OR. (X9 .NE. X(9))
+C    *     .OR. (U1 .NE. U(1))
+C    *     .OR. (U2 .NE. U(2))) THEN
 C
          X(1) = X1
          X(2) = X2 
@@ -397,10 +398,10 @@ C
          U(2) = U2
 C         
          K = RK
-         RKZBAK = RK
+C        RKZBAK = RK
 C
          CALL SRFG(K, X, U, F, G)
-      END IF
+C     END IF
 C      
       IDX = RIDX
       IF (SYSEQ) THEN
@@ -438,22 +439,22 @@ C
       DOUBLE PRECISION GZX(PMAX, NX), GZU(PMAX, NU)
       DOUBLE PRECISION RKZBAK
 C
-      SAVE
+C     SAVE
 C
-      DATA RKZBAK /-1.0D0/
+C     DATA RKZBAK /-1.0D0/
 C
-      IF ((RK .NE. RKZBAK) 
-     *     .OR. (X1 .NE. X(1))
-     *     .OR. (X2 .NE. X(2))
-     *     .OR. (X3 .NE. X(3))
-     *     .OR. (X4 .NE. X(4))
-     *     .OR. (X5 .NE. X(5))
-     *     .OR. (X6 .NE. X(6))
-     *     .OR. (X7 .NE. X(7))
-     *     .OR. (X8 .NE. X(8))
-     *     .OR. (X9 .NE. X(9))
-     *     .OR. (U1 .NE. U(1))
-     *     .OR. (U2 .NE. U(2))) THEN
+C     IF ((RK .NE. RKZBAK) 
+C    *     .OR. (X1 .NE. X(1))
+C    *     .OR. (X2 .NE. X(2))
+C    *     .OR. (X3 .NE. X(3))
+C    *     .OR. (X4 .NE. X(4))
+C    *     .OR. (X5 .NE. X(5))
+C    *     .OR. (X6 .NE. X(6))
+C    *     .OR. (X7 .NE. X(7))
+C    *     .OR. (X8 .NE. X(8))
+C    *     .OR. (X9 .NE. X(9))
+C    *     .OR. (U1 .NE. U(1))
+C    *     .OR. (U2 .NE. U(2))) THEN
 C
          X(1) = X1
          X(2) = X2 
@@ -469,7 +470,7 @@ C
          U(2) = U2
 C
          K = RK
-         RKZBAK = RK
+C        RKZBAK = RK
 C
          DO 120 I = 1, PMAX
             DO 100 J = 1, NX
@@ -488,7 +489,7 @@ C
          CALL GZSRFG(PMAX, K, X, GZX, PMAX, U, GZU, PMAX,
      *        F, GZF, PMAX, G, GZG, PMAX)
 C
-      END IF
+C     END IF
 C
       IDX = RIDX
 C
