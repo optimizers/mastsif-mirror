@@ -20,8 +20,8 @@ NAME          ROSEPETAL
 *IE N                   2              $-PARAMETER
 *IE N                   10             $-PARAMETER
 *IE N                   100            $-PARAMETER
-*IE N                   1000           $-PARAMETER
- IE N                   10000          $-PARAMETER
+ IE N                   1000           $-PARAMETER
+*IE N                   10000          $-PARAMETER
 *IE N                   100000         $-PARAMETER
 
 *  Constraint radius >= 1
